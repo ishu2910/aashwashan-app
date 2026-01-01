@@ -10,13 +10,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <div>
-            <img 
-              src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
-              alt="Aashwashan" 
-              className="h-12 w-auto mb-4 brightness-0 invert"
-            />
+            <div className="flex items-center space-x-3 mb-4">
+              <img 
+                src="https://customer-assets.emergentagant.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
+                alt="Aashwashan" 
+                className="h-12 w-auto"
+              />
+              <span className="text-xl font-bold">Aashwashan</span>
+            </div>
             <p className="text-gray-400 mb-6">
-              Your journey to mental wellness starts here. We provide compassionate care and professional support for individuals, couples, and families.
+              Your journey to mental wellness starts here. We provide compassionate care and professional support for adults seeking mental health treatment.
             </p>
             <div className="flex space-x-3">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
