@@ -122,9 +122,9 @@ const Homepage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">OUR SERVICES</p>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Comprehensive Mental Health Care</h2>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-6">Adult Mental Health Therapy</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              We offer a wide range of professional mental health services designed to support your unique journey toward wellness and emotional balance.
+              We offer specialized mental health services for adults dealing with mood swings, persistent worry, crisis situations, and low energy.
             </p>
           </div>
 
