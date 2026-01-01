@@ -201,9 +201,10 @@ const AppointmentPage = () => {
 
                 <button 
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 text-white py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
-                  Request Appointment
+                  {isSubmitting ? 'Submitting...' : 'Request Appointment'}
                 </button>
               </form>
             </div>
