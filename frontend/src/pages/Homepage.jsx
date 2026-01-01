@@ -17,10 +17,10 @@ const Homepage = () => {
             {/* Left Content */}
             <div className="space-y-8">
               <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm">FIND BALANCE, EMBRACE LIFE</p>
-              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+              <h3 className="text-5xl lg:text-7xl font-bold leading-tight">
                 Caring for Your <br />
                 <span className="text-blue-600">Inner Peace</span>
-              </h1>
+              </h3>
               <p className="text-gray-600 text-lg leading-relaxed">
                 Discover clarity, confidence, and emotional wellness through guided support that helps you manage stress, heal from within, and grow stronger in every aspect of your mental health journey.
               </p>
