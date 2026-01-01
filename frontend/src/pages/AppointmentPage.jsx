@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Calendar, Clock, User, Phone, Mail } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import { services } from '../data/mockData';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const AppointmentPage = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +17,7 @@ const AppointmentPage = () => {
     time: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,15 +26,29 @@ const AppointmentPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock form submission
-    console.log('Appointment booked:', formData);
-    toast({
-      title: "Appointment Requested!",
-      description: "We've received your appointment request. Our team will contact you within 24 hours to confirm.",
-    });
-    setFormData({ name: '', email: '', phone: '', service: '', date: '', time: '', message: '' });
+    setIsSubmitting(true);
+    
+    try {
+      const response = await axios.post(`${API}/appointments`, formData);
+      
+      toast({
+        title: "Appointment Requested!",
+        description: "We've received your appointment request. Our team will contact you within 24 hours to confirm. A confirmation email has been sent to your email address.",
+      });
+      
+      setFormData({ name: '', email: '', phone: '', service: '', date: '', time: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting appointment:', error);
+      toast({
+        title: "Error",
+        description: "There was an error submitting your appointment. Please try again or call us directly.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
