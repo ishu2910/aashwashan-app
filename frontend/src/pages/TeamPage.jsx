@@ -10,7 +10,7 @@ const TeamPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">OUR TEAM</p>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">Meet Our Expert Therapists</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Meet Our Expert Therapists</h3>
             <p className="text-xl text-gray-600">
               Our team of licensed mental health professionals is dedicated to helping you achieve lasting wellness and peace of mind.
             </p>
@@ -65,7 +65,7 @@ const TeamPage = () => {
                   />
                 </div>
                 <div className={index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}>
-                  <h2 className="text-4xl font-bold mb-4">{member.name}</h2>
+                  <h3 className="text-4xl font-bold mb-4">{member.name}</h3>
                   <p className="text-blue-600 font-semibold text-xl mb-4">{member.role}</p>
                   <p className="text-gray-600 mb-6 leading-relaxed">{member.bio}</p>
                   <div className="space-y-3">
@@ -92,7 +92,7 @@ const TeamPage = () => {
       {/* Join Our Team CTA */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Want to Join Our Team?</h2>
+          <h3 className="text-4xl font-bold mb-6">Want to Join Our Team?</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             We're always looking for passionate mental health professionals to join our mission of transforming lives.
           </p>

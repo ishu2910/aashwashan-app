@@ -11,7 +11,7 @@ const SingleService = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Service Not Found</h1>
+          <h3 className="text-4xl font-bold mb-4">Service Not Found</h3>
           <Link to="/services" className="text-blue-600 hover:underline">Back to Services</Link>
         </div>
       </div>
@@ -28,7 +28,7 @@ const SingleService = () => {
           </Link>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-5xl lg:text-6xl font-bold mb-6">{service.title}</h1>
+              <h3 className="text-5xl lg:text-6xl font-bold mb-6">{service.title}</h3>
               <p className="text-xl text-gray-600 mb-8">{service.description}</p>
               <Link to="/appointment" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
                 Book This Service
@@ -49,7 +49,7 @@ const SingleService = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6">About This Service</h2>
+            <h3 className="text-3xl font-bold mb-6">About This Service</h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-12">
               {service.fullDescription}
             </p>
@@ -97,7 +97,7 @@ const SingleService = () => {
       {/* Related Services */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">Other Services You Might Need</h2>
+          <h3 className="text-3xl font-bold mb-12 text-center">Other Services You Might Need</h3>
           <div className="grid md:grid-cols-3 gap-8">
             {services.filter(s => s.id !== service.id).slice(0, 3).map((relatedService) => (
               <Link 
@@ -117,7 +117,7 @@ const SingleService = () => {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Begin Your Journey?</h2>
+          <h3 className="text-4xl font-bold mb-6">Ready to Begin Your Journey?</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Book your {service.title.toLowerCase()} session today and take the first step toward better mental health.
           </p>

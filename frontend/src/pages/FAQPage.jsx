@@ -17,7 +17,7 @@ const FAQPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">FAQS</p>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">Frequently Asked Questions</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Frequently Asked Questions</h3>
             <p className="text-xl text-gray-600">
               Find answers to common questions about our mental health services, appointments, and what to expect.
             </p>
@@ -61,7 +61,7 @@ const FAQPage = () => {
       {/* Categories */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Browse by Category</h2>
+          <h3 className="text-3xl font-bold text-center mb-12">Browse by Category</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             <div className="bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-shadow cursor-pointer">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -99,7 +99,7 @@ const FAQPage = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-100 to-purple-100 rounded-3xl p-12 text-center">
-            <h2 className="text-3xl font-bold mb-4">Still Have Questions?</h2>
+            <h3 className="text-3xl font-bold mb-4">Still Have Questions?</h3>
             <p className="text-gray-600 text-lg mb-8">
               Can't find the answer you're looking for? Our friendly team is here to help.
             </p>

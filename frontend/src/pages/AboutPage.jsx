@@ -10,7 +10,7 @@ const AboutPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">ABOUT AASHWASHAN</p>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">Your Partner in Mental Wellness</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Your Partner in Mental Wellness</h3>
             <p className="text-xl text-gray-600">
               We are dedicated to providing compassionate, professional mental health care that empowers individuals, couples, and families to live healthier, happier lives.
             </p>
@@ -31,7 +31,7 @@ const AboutPage = () => {
             </div>
             <div className="space-y-6">
               <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm">OUR STORY</p>
-              <h2 className="text-4xl font-bold">Building a Foundation of Trust and Care</h2>
+              <h3 className="text-4xl font-bold">Building a Foundation of Trust and Care</h3>
               <p className="text-gray-600 leading-relaxed">
                 Aashwashan was founded with a simple yet powerful vision: to make quality mental health care accessible, compassionate, and effective for everyone. Our journey began over 15 years ago when a group of dedicated mental health professionals came together with a shared commitment to breaking down the stigma surrounding mental health.
               </p>
@@ -92,7 +92,7 @@ const AboutPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">OUR VALUES</p>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">What We Stand For</h2>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-6">What We Stand For</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Our core values guide everything we do and shape the compassionate care we provide.
             </p>
@@ -134,7 +134,7 @@ const AboutPage = () => {
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Why Choose Aashwashan?</h2>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-6">Why Choose Aashwashan?</h3>
             <p className="text-white/90 max-w-2xl mx-auto text-lg">
               We offer comprehensive mental health services backed by experience, expertise, and genuine care.
             </p>
@@ -165,7 +165,7 @@ const AboutPage = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-br from-blue-100 to-purple-100 rounded-3xl p-12 text-center">
-            <h2 className="text-4xl font-bold mb-6">Ready to Start Your Journey?</h2>
+            <h3 className="text-4xl font-bold mb-6">Ready to Start Your Journey?</h3>
             <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
               Take the first step toward better mental health. Our compassionate team is here to support you.
             </p>

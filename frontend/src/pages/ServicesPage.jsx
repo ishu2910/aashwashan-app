@@ -11,7 +11,7 @@ const ServicesPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">OUR SERVICES</p>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">Comprehensive Mental Health Services</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Comprehensive Mental Health Services</h3>
             <p className="text-xl text-gray-600">
               We offer a wide range of evidence-based mental health services tailored to meet your unique needs and goals.
             </p>
@@ -52,7 +52,7 @@ const ServicesPage = () => {
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Why Choose Our Services?</h2>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-6">Why Choose Our Services?</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
               We provide comprehensive, compassionate care that puts your mental wellness first.
             </p>
@@ -86,7 +86,7 @@ const ServicesPage = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6">Ready to Get Started?</h2>
+          <h3 className="text-4xl lg:text-5xl font-bold mb-6">Ready to Get Started?</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Take the first step toward better mental health. Book your appointment today.
           </p>

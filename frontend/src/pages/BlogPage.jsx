@@ -11,7 +11,7 @@ const BlogPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">OUR BLOG</p>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">Mental Health Insights</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Mental Health Insights</h3>
             <p className="text-xl text-gray-600">
               Expert advice, tips, and insights to help you on your mental wellness journey.
             </p>
@@ -36,7 +36,7 @@ const BlogPage = () => {
                   <span className="inline-block bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4 w-fit">
                     {blogPosts[0].category}
                   </span>
-                  <h2 className="text-4xl font-bold mb-4">{blogPosts[0].title}</h2>
+                  <h3 className="text-4xl font-bold mb-4">{blogPosts[0].title}</h3>
                   <p className="text-gray-600 mb-6">{blogPosts[0].excerpt}</p>
                   <div className="flex items-center space-x-6 text-sm text-gray-600 mb-6">
                     <div className="flex items-center space-x-2">
@@ -107,7 +107,7 @@ const BlogPage = () => {
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6">Subscribe to Our Newsletter</h2>
+            <h3 className="text-4xl font-bold mb-6">Subscribe to Our Newsletter</h3>
             <p className="text-xl mb-8">
               Get the latest mental health tips, insights, and resources delivered to your inbox.
             </p>

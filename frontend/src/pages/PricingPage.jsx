@@ -13,7 +13,7 @@ const PricingPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">PRICING PLANS</p>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">Affordable Mental Health Care</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Affordable Mental Health Care</h3>
             <p className="text-xl text-gray-600 mb-8">
               Choose a plan that fits your needs and budget. Quality mental health care shouldn't break the bank.
             </p>
@@ -78,7 +78,7 @@ const PricingPage = () => {
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">We Accept Most Insurance Plans</h2>
+            <h3 className="text-3xl font-bold text-center mb-12">We Accept Most Insurance Plans</h3>
             <div className="bg-white rounded-3xl p-8 shadow-lg">
               <p className="text-gray-600 mb-6 leading-relaxed">
                 We work with most major insurance providers to make mental health care accessible and affordable. Our team will help you understand your coverage and out-of-pocket costs before your first session.
@@ -114,7 +114,7 @@ const PricingPage = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">Pricing FAQs</h2>
+            <h3 className="text-3xl font-bold text-center mb-12">Pricing FAQs</h3>
             <div className="space-y-6">
               <div className="border-b border-gray-200 pb-6">
                 <h3 className="font-bold text-lg mb-2">Can I switch plans later?</h3>
@@ -136,7 +136,7 @@ const PricingPage = () => {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Get Started?</h2>
+          <h3 className="text-4xl font-bold mb-6">Ready to Get Started?</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Choose a plan and book your first appointment today. Your journey to better mental health starts here.
           </p>

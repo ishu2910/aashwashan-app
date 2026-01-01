@@ -7,8 +7,8 @@ const Error404 = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 flex items-center justify-center px-4">
       <div className="max-w-2xl mx-auto text-center">
         <div className="mb-8">
-          <h1 className="text-9xl font-bold text-blue-600 mb-4">404</h1>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Page Not Found</h2>
+          <h3 className="text-9xl font-bold text-blue-600 mb-4">404</h3>
+          <h3 className="text-4xl font-bold text-gray-900 mb-4">Page Not Found</h3>
           <p className="text-xl text-gray-600 mb-8">
             Oops! The page you're looking for doesn't exist. It might have been moved or deleted.
           </p>

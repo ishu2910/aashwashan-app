@@ -36,7 +36,7 @@ const ContactPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">CONTACT US</p>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">Get In Touch</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Get In Touch</h3>
             <p className="text-xl text-gray-600">
               Have questions? We're here to help. Reach out to us and we'll respond as soon as possible.
             </p>
@@ -50,7 +50,7 @@ const ContactPage = () => {
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-bold mb-8">Contact Information</h2>
+              <h3 className="text-3xl font-bold mb-8">Contact Information</h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -114,7 +114,7 @@ const ContactPage = () => {
             {/* Contact Form */}
             <div>
               <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8">
-                <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
+                <h3 className="text-3xl font-bold mb-6">Send Us a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold mb-2">Your Name *</label>
@@ -192,7 +192,7 @@ const ContactPage = () => {
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">Visit Our Office</h2>
+            <h3 className="text-3xl font-bold mb-8 text-center">Visit Our Office</h3>
             <div className="bg-gray-200 rounded-3xl overflow-hidden h-96">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.7351687634945!2d-118.37615468478806!3d34.06328258060326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b9372e1ce0df%3A0xc3b4a4f6f0d1d7e4!2sBeverly%20Hills%2C%20CA%2C%20USA!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
@@ -211,7 +211,7 @@ const ContactPage = () => {
       {/* Emergency Contact */}
       <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">In Case of Emergency</h2>
+          <h3 className="text-4xl font-bold mb-6">In Case of Emergency</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             If you're experiencing a mental health emergency, please call 911 or our 24/7 crisis hotline immediately.
           </p>

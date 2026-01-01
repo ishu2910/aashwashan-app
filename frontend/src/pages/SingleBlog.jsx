@@ -11,7 +11,7 @@ const SingleBlog = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Blog Post Not Found</h1>
+          <h3 className="text-4xl font-bold mb-4">Blog Post Not Found</h3>
           <Link to="/blog" className="text-blue-600 hover:underline">Back to Blog</Link>
         </div>
       </div>
@@ -32,7 +32,7 @@ const SingleBlog = () => {
             <span className="inline-block bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
               {post.category}
             </span>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6">{post.title}</h1>
+            <h3 className="text-5xl lg:text-6xl font-bold mb-6">{post.title}</h3>
             <div className="flex flex-wrap items-center gap-6 text-gray-700">
               <div className="flex items-center space-x-2">
                 <User className="w-5 h-5" />
@@ -73,17 +73,17 @@ const SingleBlog = () => {
                 {post.excerpt}
               </p>
               
-              <h2 className="text-3xl font-bold mt-12 mb-6">Understanding the Signs</h2>
+              <h3 className="text-3xl font-bold mt-12 mb-6">Understanding the Signs</h3>
               <p className="text-gray-600 leading-relaxed mb-6">
                 Mental health is just as important as physical health, yet it's often overlooked or stigmatized. Recognizing when you might benefit from professional support is the first step toward healing and growth. Many people wait until they're in crisis before seeking help, but therapy can be beneficial at any stage of your mental health journey.
               </p>
               
-              <h2 className="text-3xl font-bold mt-12 mb-6">Key Indicators</h2>
+              <h3 className="text-3xl font-bold mt-12 mb-6">Key Indicators</h3>
               <p className="text-gray-600 leading-relaxed mb-6">
                 There are several common signs that suggest it might be time to seek therapy. These include persistent feelings of sadness or anxiety, difficulty managing daily tasks, changes in sleep or appetite, strained relationships, and feeling overwhelmed by stress. If you're experiencing any of these symptoms for an extended period, therapy can provide the support and tools you need to navigate these challenges.
               </p>
 
-              <h2 className="text-3xl font-bold mt-12 mb-6">Taking the First Step</h2>
+              <h3 className="text-3xl font-bold mt-12 mb-6">Taking the First Step</h3>
               <p className="text-gray-600 leading-relaxed mb-6">
                 Starting therapy can feel daunting, but it's one of the most powerful investments you can make in yourself. The therapeutic relationship provides a safe, confidential space to explore your thoughts and feelings, develop coping strategies, and work toward your personal goals. Remember, seeking help is a sign of strength, not weakness.
               </p>
@@ -108,7 +108,7 @@ const SingleBlog = () => {
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Related Articles</h2>
+            <h3 className="text-3xl font-bold mb-12 text-center">Related Articles</h3>
             <div className="grid md:grid-cols-3 gap-8">
               {relatedPosts.map((relatedPost) => (
                 <Link 
@@ -140,7 +140,7 @@ const SingleBlog = () => {
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Take the Next Step?</h2>
+          <h3 className="text-4xl font-bold mb-6">Ready to Take the Next Step?</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             If you're experiencing any of the signs mentioned in this article, we're here to help.
           </p>
