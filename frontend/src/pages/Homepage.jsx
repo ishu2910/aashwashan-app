@@ -76,9 +76,9 @@ const Homepage = () => {
             {/* Right - Content */}
             <div className="space-y-6">
               <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm">ABOUT US</p>
-              <h2 className="text-4xl lg:text-5xl font-bold leading-tight">
+              <h3 className="text-4xl lg:text-5xl font-bold leading-tight">
                 Your Journey To Mental Wellness Starts Here
-              </h2>
+              </h3>
               <p className="text-gray-600 leading-relaxed">
                 Every small step toward better mental health is a significant achievement in our lives. With the right support, each individual can find the strength to face challenges, manage stress, and build positive habits. We believe that everyone deserves the opportunity to grow, thrive, and experience inner peace. Through an empathetic and professional approach, we are here to help you discover the best solutions for lasting mental and emotional well-being.
               </p>
