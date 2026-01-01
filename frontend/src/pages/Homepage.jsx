@@ -156,9 +156,9 @@ const Homepage = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-white space-y-6">
-              <h2 className="text-4xl lg:text-5xl font-bold leading-tight">
+              <h3 className="text-4xl lg:text-5xl font-bold leading-tight">
                 Start Your Healing Journey Today
-              </h2>
+              </h3>
               <p className="text-white/90 text-lg">
                 Take the first step toward better mental health. Our compassionate team is here to support you every step of the way.
               </p>
