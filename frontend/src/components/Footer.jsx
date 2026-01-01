@@ -54,12 +54,10 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-6">Our Services</h3>
             <ul className="space-y-3">
-              <li><Link to="/service/1" className="text-gray-400 hover:text-white transition-colors">Individual Therapy</Link></li>
-              <li><Link to="/service/2" className="text-gray-400 hover:text-white transition-colors">Couples Counseling</Link></li>
-              <li><Link to="/service/3" className="text-gray-400 hover:text-white transition-colors">Family Therapy</Link></li>
-              <li><Link to="/service/4" className="text-gray-400 hover:text-white transition-colors">Stress Management</Link></li>
-              <li><Link to="/service/5" className="text-gray-400 hover:text-white transition-colors">Anxiety Treatment</Link></li>
-              <li><Link to="/service/6" className="text-gray-400 hover:text-white transition-colors">Depression Support</Link></li>
+              <li><Link to="/service/1" className="text-gray-400 hover:text-white transition-colors">Mood Swings Therapy</Link></li>
+              <li><Link to="/service/2" className="text-gray-400 hover:text-white transition-colors">Persistent Worry Treatment</Link></li>
+              <li><Link to="/service/3" className="text-gray-400 hover:text-white transition-colors">Crisis Intervention</Link></li>
+              <li><Link to="/service/4" className="text-gray-400 hover:text-white transition-colors">Low Energy Therapy</Link></li>
             </ul>
           </div>
 
