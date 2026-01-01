@@ -36,13 +36,6 @@ const Homepage = () => {
 
             {/* Right Content - Hero Image */}
             <div className="relative">
-              <div className="absolute top-8 right-8 bg-blue-600 text-white px-6 py-3 rounded-full flex items-center space-x-2 shadow-lg z-20">
-                <Phone className="w-5 h-5" />
-                <div>
-                  <p className="text-xs opacity-90">Call us anytime</p>
-                  <p className="font-bold text-lg">(555) 123-4567</p>
-                </div>
-              </div>
               <div className="absolute bottom-12 left-12 bg-pink-400 text-white px-8 py-6 rounded-3xl shadow-2xl z-20">
                 <p className="text-4xl font-bold">2.5 /5</p>
                 <p className="text-sm opacity-90 mt-1">Review on Google</p>
