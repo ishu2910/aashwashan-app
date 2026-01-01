@@ -54,15 +54,21 @@ const Navbar = () => {
                 <button className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors">
                   Services <ChevronDown className="ml-1 w-4 h-4" />
                 </button>
-                <div className="absolute top-full left-0 mt-2 w-56 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                <div className="absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                   <Link to="/services" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
                     All Services
                   </Link>
                   <Link to="/service/1" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Individual Therapy
+                    Mood Swings Therapy
                   </Link>
                   <Link to="/service/2" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Couples Counseling
+                    Persistent Worry Treatment
+                  </Link>
+                  <Link to="/service/3" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
+                    Crisis Intervention
+                  </Link>
+                  <Link to="/service/4" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
+                    Low Energy Therapy
                   </Link>
                 </div>
               </div>
