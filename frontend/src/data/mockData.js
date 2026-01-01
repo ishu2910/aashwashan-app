@@ -3,57 +3,39 @@
 export const services = [
   {
     id: 1,
-    title: "Individual Therapy",
-    icon: "user",
-    description: "One-on-one sessions focused on your personal growth, mental wellness, and emotional healing.",
-    fullDescription: "Our individual therapy sessions provide a safe, confidential space where you can explore your thoughts, feelings, and behaviors. We work collaboratively to help you overcome challenges, develop coping strategies, and achieve your personal goals.",
-    benefits: ["Personalized treatment plans", "Flexible scheduling", "Evidence-based approaches", "Confidential environment"],
+    title: "Mood Swings Therapy",
+    icon: "activity",
+    description: "Professional support for adults experiencing emotional fluctuations and mood instability.",
+    fullDescription: "Our specialized therapy for mood swings helps adults understand and manage emotional fluctuations. Through evidence-based techniques, we work with you to identify triggers, develop coping strategies, and achieve emotional stability. We create a safe, non-judgmental environment where you can explore your feelings and learn to regulate your emotions effectively.",
+    benefits: ["Emotion regulation techniques", "Trigger identification", "Personalized coping strategies", "Long-term stability support"],
     image: "https://images.unsplash.com/photo-1573497491208-6b1acb260507"
   },
   {
     id: 2,
-    title: "Couples Counseling",
-    icon: "users",
-    description: "Strengthen your relationship through guided communication and understanding.",
-    fullDescription: "Couples counseling helps partners improve their relationship by enhancing communication, resolving conflicts, and rebuilding trust. Our therapists create a neutral space where both partners can express themselves openly.",
-    benefits: ["Improved communication", "Conflict resolution", "Trust building", "Relationship goals"],
+    title: "Persistent Worry Treatment",
+    icon: "alert-circle",
+    description: "Expert care for adults dealing with chronic worry, anxiety, and intrusive thoughts.",
+    fullDescription: "Persistent worry can be overwhelming and exhausting. Our specialized treatment helps adults break free from the cycle of constant worrying. Using cognitive-behavioral therapy and mindfulness techniques, we help you identify worry patterns, challenge anxious thoughts, and develop healthy mental habits that bring peace of mind.",
+    benefits: ["CBT for worry management", "Mindfulness techniques", "Thought reframing", "Anxiety reduction"],
     image: "https://images.unsplash.com/photo-1714976694525-71eb29a7c500"
   },
   {
     id: 3,
-    title: "Family Therapy",
-    icon: "home",
-    description: "Build stronger family bonds and resolve conflicts in a supportive environment.",
-    fullDescription: "Family therapy addresses issues affecting the psychological health of the family unit. We help families understand each other better and develop healthier patterns of interaction.",
-    benefits: ["Family harmony", "Better understanding", "Conflict management", "Support system building"],
+    title: "Crisis Intervention & Support",
+    icon: "heart",
+    description: "Immediate support for adults experiencing suicidal thoughts and mental health crises.",
+    fullDescription: "If you're experiencing suicidal thoughts, you're not alone, and help is available. Our crisis intervention services provide immediate, compassionate support for adults in distress. We offer a safe space to talk, assess your situation, develop safety plans, and connect you with ongoing care. Your life matters, and we're here to help you find hope and healing.",
+    benefits: ["Immediate crisis support", "Safety planning", "24/7 emergency access", "Compassionate care"],
     image: "https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg"
   },
   {
     id: 4,
-    title: "Stress Management",
-    icon: "activity",
-    description: "Learn effective techniques to manage stress and maintain emotional balance.",
-    fullDescription: "Our stress management programs teach practical skills to handle life's pressures. Learn mindfulness, relaxation techniques, and coping strategies to reduce stress and improve overall well-being.",
-    benefits: ["Stress reduction techniques", "Mindfulness training", "Work-life balance", "Emotional regulation"],
+    title: "Low Energy & Fatigue Therapy",
+    icon: "battery",
+    description: "Specialized treatment for adults experiencing persistent fatigue and low motivation.",
+    fullDescription: "Chronic low energy can significantly impact your quality of life. Our therapy addresses the psychological factors contributing to fatigue, including depression, stress, and burnout. We help you understand the root causes of your exhaustion and develop strategies to restore your energy, motivation, and zest for life.",
+    benefits: ["Energy restoration techniques", "Depression treatment", "Lifestyle modifications", "Motivation building"],
     image: "https://images.unsplash.com/photo-1579208575657-c595a05383b7"
-  },
-  {
-    id: 5,
-    title: "Anxiety Treatment",
-    icon: "alert-circle",
-    description: "Overcome anxiety with evidence-based therapeutic approaches.",
-    fullDescription: "Our anxiety treatment combines cognitive-behavioral therapy, mindfulness, and other proven methods to help you manage and reduce anxiety symptoms effectively.",
-    benefits: ["CBT techniques", "Panic attack management", "Coping strategies", "Long-term relief"],
-    image: "https://images.unsplash.com/photo-1592947945242-69312358628b"
-  },
-  {
-    id: 6,
-    title: "Depression Support",
-    icon: "heart",
-    description: "Compassionate care to help you navigate through depression.",
-    fullDescription: "We provide comprehensive support for individuals experiencing depression, using evidence-based treatments to help you regain joy and purpose in life.",
-    benefits: ["Personalized care", "Medication management support", "Behavioral activation", "Ongoing support"],
-    image: "https://images.pexels.com/photos/4098370/pexels-photo-4098370.jpeg"
   }
 ];
 
