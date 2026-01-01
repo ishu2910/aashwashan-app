@@ -108,6 +108,72 @@ async def get_status_checks():
     
     return status_checks
 
+@api_router.post("/appointments", response_model=Appointment)
+async def create_appointment(request: AppointmentRequest):
+    """
+    Create a new appointment request and send notification emails
+    """
+    try:
+        # Create appointment object
+        appointment = Appointment(**request.model_dump())
+        
+        # Convert to dict and serialize datetime to ISO string for MongoDB
+        doc = appointment.model_dump()
+        doc['created_at'] = doc['created_at'].isoformat()
+        
+        # Save to database
+        await db.appointments.insert_one(doc)
+        
+        # Send email notifications
+        email_sent = send_appointment_email(request.model_dump())
+        
+        logger.info(f"Appointment created for {request.name} - Email sent: {email_sent}")
+        
+        return appointment
+    except Exception as e:
+        logger.error(f"Error creating appointment: {str(e)}")
+        raise
+
+@api_router.get("/appointments", response_model=List[Appointment])
+async def get_appointments():
+    """
+    Get all appointments
+    """
+    appointments = await db.appointments.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    
+    # Convert ISO string timestamps back to datetime objects
+    for appointment in appointments:
+        if isinstance(appointment['created_at'], str):
+            appointment['created_at'] = datetime.fromisoformat(appointment['created_at'])
+    
+    return appointments
+
+@api_router.post("/contact")
+async def submit_contact(request: ContactRequest):
+    """
+    Submit contact form and send notification email
+    """
+    try:
+        # Create contact object
+        contact = Contact(**request.model_dump())
+        
+        # Convert to dict and serialize datetime to ISO string for MongoDB
+        doc = contact.model_dump()
+        doc['created_at'] = doc['created_at'].isoformat()
+        
+        # Save to database
+        await db.contacts.insert_one(doc)
+        
+        # Send email notification
+        email_sent = send_contact_email(request.model_dump())
+        
+        logger.info(f"Contact form submitted by {request.name} - Email sent: {email_sent}")
+        
+        return {"message": "Contact form submitted successfully", "id": contact.id}
+    except Exception as e:
+        logger.error(f"Error submitting contact form: {str(e)}")
+        raise
+
 # Include the router in the main app
 app.include_router(api_router)
 
