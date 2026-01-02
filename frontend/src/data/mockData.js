@@ -3,37 +3,37 @@
 export const services = [
   {
     id: 1,
-    title: "Mood Swings Therapy",
+    title: "Managing Mood Swings",
     icon: "activity",
-    description: "Professional support for adults experiencing emotional fluctuations and mood instability.",
-    fullDescription: "Our specialized therapy for mood swings helps adults understand and manage emotional fluctuations. Through evidence-based techniques, we work with you to identify triggers, develop coping strategies, and achieve emotional stability. We create a safe, non-judgmental environment where you can explore your feelings and learn to regulate your emotions effectively.",
+    description: "Are you experiencing unpredictable emotional ups and downs? We provide compassionate care to help you understand and stabilize your mood.",
+    fullDescription: "If you're struggling with persistent mood swings that affect your daily life, relationships, or work, professional support can help. Our specialized therapy helps adults understand the root causes of emotional fluctuations and develop effective strategies to achieve emotional stability. Through evidence-based techniques, we work with you to identify triggers, develop coping strategies, and build lasting emotional resilience.",
     benefits: ["Emotion regulation techniques", "Trigger identification", "Personalized coping strategies", "Long-term stability support"],
     image: "https://images.unsplash.com/photo-1573497491208-6b1acb260507"
   },
   {
     id: 2,
-    title: "Persistent Worry Treatment",
+    title: "Overcoming Persistent Worry",
     icon: "alert-circle",
-    description: "Expert care for adults dealing with chronic worry, anxiety, and intrusive thoughts.",
-    fullDescription: "Persistent worry can be overwhelming and exhausting. Our specialized treatment helps adults break free from the cycle of constant worrying. Using cognitive-behavioral therapy and mindfulness techniques, we help you identify worry patterns, challenge anxious thoughts, and develop healthy mental habits that bring peace of mind.",
+    description: "Constant worrying keeping you up at night? Learn to break free from the cycle of anxiety and find peace of mind.",
+    fullDescription: "If you find yourself constantly worrying about everything - from daily tasks to future uncertainties - you don't have to suffer alone. Persistent worry can be exhausting and overwhelming, affecting your sleep, concentration, and quality of life. Our specialized treatment helps adults break free from chronic worry patterns using cognitive-behavioral therapy and mindfulness techniques. We help you identify worry patterns, challenge anxious thoughts, and develop healthy mental habits that bring peace of mind.",
     benefits: ["CBT for worry management", "Mindfulness techniques", "Thought reframing", "Anxiety reduction"],
     image: "https://images.unsplash.com/photo-1714976694525-71eb29a7c500"
   },
   {
     id: 3,
-    title: "Crisis Intervention & Support",
+    title: "Crisis Support",
     icon: "heart",
-    description: "Immediate support for adults experiencing suicidal thoughts and mental health crises.",
-    fullDescription: "If you're experiencing suicidal thoughts, you're not alone, and help is available. Our crisis intervention services provide immediate, compassionate support for adults in distress. We offer a safe space to talk, assess your situation, develop safety plans, and connect you with ongoing care. Your life matters, and we're here to help you find hope and healing.",
+    description: "Experiencing suicidal thoughts or in mental health crisis? Immediate, compassionate support is available. You're not alone.",
+    fullDescription: "If you're experiencing suicidal thoughts or going through a severe mental health crisis, please know that help is available and your life matters. Our crisis intervention services provide immediate, compassionate support for adults in distress. We offer a safe, non-judgmental space to talk, assess your situation, develop safety plans, and connect you with ongoing care. Whether you're in crisis right now or worried about someone else, we're here to help you find hope and healing.",
     benefits: ["Immediate crisis support", "Safety planning", "24/7 emergency access", "Compassionate care"],
     image: "https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg"
   },
   {
     id: 4,
-    title: "Low Energy & Fatigue Therapy",
+    title: "Combating Low Energy & Fatigue",
     icon: "battery",
-    description: "Specialized treatment for adults experiencing persistent fatigue and low motivation.",
-    fullDescription: "Chronic low energy can significantly impact your quality of life. Our therapy addresses the psychological factors contributing to fatigue, including depression, stress, and burnout. We help you understand the root causes of your exhaustion and develop strategies to restore your energy, motivation, and zest for life.",
+    description: "Feeling constantly exhausted and unmotivated? Discover the underlying causes and regain your energy and zest for life.",
+    fullDescription: "If you're experiencing persistent fatigue, lack of motivation, or feeling emotionally drained despite adequate rest, there may be underlying psychological factors at play. Chronic low energy can significantly impact your quality of life, relationships, and productivity. Our therapy addresses the psychological and emotional factors contributing to fatigue, including depression, stress, and burnout. We help you understand the root causes of your exhaustion and develop comprehensive strategies to restore your energy, motivation, and zest for life.",
     benefits: ["Energy restoration techniques", "Depression treatment", "Lifestyle modifications", "Motivation building"],
     image: "https://images.unsplash.com/photo-1579208575657-c595a05383b7"
   }
