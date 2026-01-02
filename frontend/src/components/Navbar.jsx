@@ -104,7 +104,7 @@ const Navbar = () => {
           <div className="lg:hidden bg-white border-t">
             <div className="container mx-auto px-4 py-4 space-y-3">
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
-                Homepage
+                Home
               </Link>
               <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
                 About Us
@@ -116,7 +116,7 @@ const Navbar = () => {
                 Our Team
               </Link>
               <Link to="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
-                Pricing
+                Subscription Plans
               </Link>
               <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
                 FAQs
