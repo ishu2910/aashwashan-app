@@ -44,7 +44,7 @@ const PricingPage = () => {
                 </h3>
                 <div className="mb-6">
                   <span className={`text-5xl font-bold ${plan.recommended ? 'text-white' : 'text-blue-600'}`}>
-                    ${plan.price}
+                    ₹{plan.price}
                   </span>
                   <span className={`text-lg ${plan.recommended ? 'text-white/80' : 'text-gray-600'}`}>
                     /{plan.duration}
