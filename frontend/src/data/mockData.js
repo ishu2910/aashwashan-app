@@ -113,7 +113,7 @@ export const pricingPlans = [
   {
     id: 1,
     name: "Individual Session",
-    price: "120",
+    price: "3,500",
     duration: "per session",
     features: [
       "50-minute session",
@@ -127,7 +127,7 @@ export const pricingPlans = [
   {
     id: 2,
     name: "Monthly Package",
-    price: "400",
+    price: "12,000",
     duration: "per month",
     features: [
       "4 sessions per month",
@@ -135,21 +135,22 @@ export const pricingPlans = [
       "Unlimited email support",
       "Resource materials",
       "Crisis support line access",
-      "Save $80 per month"
+      "Save Rs. 2,000 per month"
     ],
     recommended: true
   },
   {
     id: 3,
-    name: "Couples Therapy",
-    price: "180",
-    duration: "per session",
+    name: "Quarterly Package",
+    price: "32,000",
+    duration: "3 months",
     features: [
-      "75-minute session",
-      "Relationship assessment",
-      "Homework assignments",
-      "Communication tools",
-      "Follow-up support"
+      "12 sessions (3 months)",
+      "Dedicated therapist",
+      "Priority support",
+      "Comprehensive assessment",
+      "Progress reports",
+      "Save Rs. 10,000"
     ],
     recommended: false
   }
