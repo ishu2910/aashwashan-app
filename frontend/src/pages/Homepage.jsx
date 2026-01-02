@@ -64,7 +64,7 @@ const Homepage = () => {
             {/* Right - Content */}
             <div className="space-y-6">
               <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm">ABOUT US</p>
-              <h3 className="text-4xl lg:text-5xl font-bold leading-tight">
+              <h3 className="text-5xl lg:text-6xl font-bold leading-tight">
                 Your Journey To Mental Wellness Starts Here
               </h3>
               <p className="text-gray-600 leading-relaxed">
@@ -90,12 +90,7 @@ const Homepage = () => {
                 </div>
               </div>
 
-              <p className="italic text-gray-700 border-l-4 border-blue-600 pl-4">
-                Healing doesn't mean the damage never existed; it means the strength to rise is greater than the pain
-              </p>
-
-              <div className="flex items-center space-x-6">
-                <img src="https://via.placeholder.com/120x60?text=Signature" alt="Signature" className="h-16" />
+              <div className="flex items-center space-x-6 pt-4">
                 <Link to="/about" className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
                   Read More
                 </Link>
