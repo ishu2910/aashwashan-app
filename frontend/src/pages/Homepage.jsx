@@ -21,13 +21,12 @@ const Homepage = () => {
         <div className="container mx-auto px-4 py-20 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
-            <div className="space-y-8">
-              <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm">FIND BALANCE, EMBRACE LIFE</p>
-              <h3 className="text-6xl lg:text-8xl font-bold leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-                "Start with one <br />
-                <span className="text-blue-600">honest conversation.</span>"
+            <div className="space-y-6">
+              <p className="text-blue-600 font-semibold uppercase tracking-wider text-base">FIND BALANCE, EMBRACE LIFE</p>
+              <h3 className="text-5xl lg:text-6xl font-bold leading-tight text-blue-600" style={{ fontFamily: "'Playfair Display', serif" }}>
+                "Start with one honest conversation."
               </h3>
-              <p className="text-gray-600 text-lg leading-relaxed">
+              <p className="text-gray-600 text-base leading-relaxed">
                 Discover clarity, confidence, and emotional wellness through guided support that helps you manage stress, heal from within, and grow stronger in every aspect of your mental health journey.
               </p>
             </div>
