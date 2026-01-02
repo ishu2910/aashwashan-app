@@ -17,29 +17,17 @@ const Homepage = () => {
             {/* Left Content */}
             <div className="space-y-8">
               <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm">FIND BALANCE, EMBRACE LIFE</p>
-              <h3 className="text-5xl lg:text-7xl font-bold leading-tight">
-                Caring for Your <br />
-                <span className="text-blue-600">Inner Peace</span>
+              <h3 className="text-6xl lg:text-8xl font-bold leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                "Start with one <br />
+                <span className="text-blue-600">honest conversation.</span>"
               </h3>
               <p className="text-gray-600 text-lg leading-relaxed">
                 Discover clarity, confidence, and emotional wellness through guided support that helps you manage stress, heal from within, and grow stronger in every aspect of your mental health journey.
               </p>
-              <div className="flex flex-wrap gap-4 items-center">
-                <Link to="/appointment" className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                  Start A Checkup Now
-                </Link>
-                <button className="w-16 h-16 bg-pink-400 hover:bg-pink-500 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110">
-                  <Play className="w-6 h-6 text-white ml-1" fill="white" />
-                </button>
-              </div>
             </div>
 
             {/* Right Content - Hero Image */}
             <div className="relative">
-              <div className="absolute bottom-12 left-12 bg-pink-400 text-white px-8 py-6 rounded-3xl shadow-2xl z-20">
-                <p className="text-4xl font-bold">2.5 /5</p>
-                <p className="text-sm opacity-90 mt-1">Review on Google</p>
-              </div>
               <img 
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800" 
                 alt="Mental Health Professional" 
