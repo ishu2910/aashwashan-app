@@ -192,35 +192,68 @@ export const faqs = [
 export const blogPosts = [
   {
     id: 1,
-    title: "5 Signs You Might Benefit from Therapy",
-    excerpt: "Discover the common indicators that suggest it might be time to seek professional mental health support.",
-    category: "Mental Health",
+    title: "Indian Government Launches National Mental Health Survey After 9 Years",
+    excerpt: "The Ministry of Health has announced a comprehensive nationwide mental health survey to assess the current state of mental health services and needs across India.",
+    category: "Mental Health News",
     author: "Dr. Sarah Mitchell",
-    date: "December 15, 2024",
-    readTime: "5 min read",
+    date: "December 20, 2024",
+    readTime: "4 min read",
     image: "https://images.pexels.com/photos/5119607/pexels-photo-5119607.jpeg",
-    content: "Full blog post content would go here..."
+    content: "Full article content about the mental health survey..."
   },
   {
     id: 2,
-    title: "Managing Anxiety in Uncertain Times",
-    excerpt: "Learn practical strategies to cope with anxiety and maintain your mental well-being during challenging periods.",
-    category: "Anxiety",
+    title: "WHO Recognizes Burnout as Occupational Phenomenon",
+    excerpt: "World Health Organization officially includes burnout in its International Classification of Diseases, highlighting growing workplace mental health concerns.",
+    category: "Global Mental Health",
     author: "Dr. Emily Rodriguez",
-    date: "December 10, 2024",
-    readTime: "7 min read",
+    date: "December 15, 2024",
+    readTime: "5 min read",
     image: "https://images.pexels.com/photos/5069423/pexels-photo-5069423.jpeg",
-    content: "Full blog post content would go here..."
+    content: "Full article content about burnout recognition..."
   },
   {
     id: 3,
-    title: "The Importance of Self-Care in Mental Health",
-    excerpt: "Explore why self-care is essential for maintaining good mental health and how to incorporate it into your daily routine.",
-    category: "Wellness",
+    title: "New Study Shows Impact of Social Media on Teen Mental Health",
+    excerpt: "Recent research reveals significant correlation between excessive social media use and increased anxiety and depression in adolescents.",
+    category: "Research & Studies",
     author: "Dr. Michael Chen",
-    date: "December 5, 2024",
+    date: "December 10, 2024",
     readTime: "6 min read",
     image: "https://images.pexels.com/photos/1181712/pexels-photo-1181712.jpeg",
-    content: "Full blog post content would go here..."
+    content: "Full article content about social media impact..."
+  },
+  {
+    id: 4,
+    title: "Teletherapy Becomes Mainstream: Mental Health Care Goes Digital",
+    excerpt: "The shift to online therapy accelerates, making mental health services more accessible to people in remote areas and those with mobility challenges.",
+    category: "Healthcare Innovation",
+    author: "Dr. Sarah Mitchell",
+    date: "December 5, 2024",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1573497491208-6b1acb260507",
+    content: "Full article content about teletherapy..."
+  },
+  {
+    id: 5,
+    title: "Mental Health First Aid Training Becomes Mandatory in Schools",
+    excerpt: "New education policy requires all teachers to undergo mental health first aid training to better support students' emotional wellbeing.",
+    category: "Education & Policy",
+    author: "Dr. James Wilson",
+    date: "November 28, 2024",
+    readTime: "4 min read",
+    image: "https://images.unsplash.com/photo-1714976694525-71eb29a7c500",
+    content: "Full article content about mental health training..."
+  },
+  {
+    id: 6,
+    title: "Workplace Mental Health Programs Show 300% ROI",
+    excerpt: "Companies investing in employee mental health programs report significant returns through reduced absenteeism and increased productivity.",
+    category: "Corporate Wellness",
+    author: "Dr. Emily Rodriguez",
+    date: "November 20, 2024",
+    readTime: "6 min read",
+    image: "https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg",
+    content: "Full article content about workplace programs..."
   }
 ];
