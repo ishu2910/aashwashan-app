@@ -12,7 +12,7 @@ const PricingPage = () => {
       <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-20">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">PRICING PLANS</p>
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">SUBSCRIPTION PLANS</p>
             <h3 className="text-5xl lg:text-6xl font-bold mb-6">Affordable Mental Health Care</h3>
             <p className="text-xl text-gray-600 mb-8">
               Choose a plan that fits your needs and budget. Quality mental health care shouldn't break the bank.
