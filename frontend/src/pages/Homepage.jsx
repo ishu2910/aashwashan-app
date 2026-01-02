@@ -139,7 +139,7 @@ const Homepage = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-white space-y-6">
-              <h3 className="text-4xl lg:text-5xl font-bold leading-tight">
+              <h3 className="text-5xl lg:text-6xl font-bold leading-tight">
                 Start Your Healing Journey Today
               </h3>
               <p className="text-white/90 text-lg">
@@ -155,6 +155,50 @@ const Homepage = () => {
                 alt="Support" 
                 className="rounded-3xl shadow-2xl"
               />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">WHY CHOOSE US</p>
+            <h3 className="text-5xl lg:text-7xl font-bold mb-6">Why Aashwashan?</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              We provide professional, compassionate care that makes a real difference in your mental health journey.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
+              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
+                15+
+              </div>
+              <h4 className="font-bold text-xl mb-3">Years Experience</h4>
+              <p className="text-gray-600">Proven track record in mental health care</p>
+            </div>
+            <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl">
+              <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
+                100%
+              </div>
+              <h4 className="font-bold text-xl mb-3">Confidential</h4>
+              <p className="text-gray-600">Your privacy and trust are our priority</p>
+            </div>
+            <div className="text-center p-8 bg-gradient-to-br from-pink-50 to-blue-50 rounded-3xl">
+              <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
+                24/7
+              </div>
+              <h4 className="font-bold text-xl mb-3">Crisis Support</h4>
+              <p className="text-gray-600">Emergency support available anytime</p>
+            </div>
+            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
+              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
+                50+
+              </div>
+              <h4 className="font-bold text-xl mb-3">Expert Therapists</h4>
+              <p className="text-gray-600">Qualified professionals who care</p>
             </div>
           </div>
         </div>
