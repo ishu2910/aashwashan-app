@@ -75,25 +75,9 @@ const Navbar = () => {
               </div>
 
               {/* Pages Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                  Pages <ChevronDown className="ml-1 w-4 h-4" />
-                </button>
-                <div className="absolute top-full left-0 mt-2 w-56 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                  <Link to="/team" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Our Team
-                  </Link>
-                  <Link to="/pricing" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Pricing
-                  </Link>
-                  <Link to="/faq" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    FAQs
-                  </Link>
-                  <Link to="/blog" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Blog
-                  </Link>
-                </div>
-              </div>
+              <Link to="/blog" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/blog') ? 'text-blue-600' : ''}`}>
+                Blog
+              </Link>
 
               <Link to="/contact" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/contact') ? 'text-blue-600' : ''}`}>
                 Contact Us
