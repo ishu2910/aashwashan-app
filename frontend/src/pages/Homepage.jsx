@@ -68,7 +68,7 @@ const Homepage = () => {
 
             {/* Right - Content */}
             <div className="space-y-6">
-              <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm">ABOUT US</p>
+              <p className="text-blue-600 font-semibold uppercase tracking-wider text-base">ABOUT US</p>
               <h3 className="text-5xl lg:text-6xl font-bold leading-tight">
                 Your Journey To Mental Wellness Starts Here
               </h3>
