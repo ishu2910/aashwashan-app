@@ -35,15 +35,16 @@ const Navbar = () => {
               <img 
                 src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
                 alt="Aashwashan" 
-                className="h-16 w-auto"
+                className="h-20 w-auto"
+                style={{ transform: 'scale(1.3)' }}
               />
-              <span className="text-2xl font-bold text-gray-900">Aashwashan</span>
+              <span className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
             </Link>
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center space-x-8">
               <Link to="/" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/') ? 'text-blue-600' : ''}`}>
-                Homepage
+                Home
               </Link>
               <Link to="/about" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/about') ? 'text-blue-600' : ''}`}>
                 About Us
