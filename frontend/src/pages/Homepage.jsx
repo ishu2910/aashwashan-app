@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Play, Users, Home as HomeIcon, Heart, Clock } from 'lucide-react';
-import { services, team, testimonials } from '../data/mockData';
+import { Phone, CheckCircle, Play, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp } from 'lucide-react';
+import { services, team, testimonials, faqs } from '../data/mockData';
 
 const Homepage = () => {
+  const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
+
+  const toggleFAQ = (index) => {
+    setOpenFaqIndex(openFaqIndex === index ? -1 : index);
+  };
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
