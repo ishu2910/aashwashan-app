@@ -245,9 +245,14 @@ const AppointmentPage = () => {
           <p className="text-lg mb-6 max-w-2xl mx-auto">
             If you're experiencing a mental health crisis, please don't wait for an appointment.
           </p>
-          <a href="tel:988" className="inline-block bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold text-lg">
-            Call 988 Now
-          </a>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a href="tel:08046110007" className="inline-block bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold text-lg">
+              Tele MANAS: 08046110007
+            </a>
+            <a href="tel:988" className="inline-block bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold text-lg">
+              Crisis Hotline: 988
+            </a>
+          </div>
         </div>
       </section>
     </div>
