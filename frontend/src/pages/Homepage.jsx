@@ -261,8 +261,8 @@ const Homepage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">TESTIMONIALS</p>
-            <h3 className="text-4xl lg:text-5xl font-bold mb-6">What Our Clients Say</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h3 className="text-5xl lg:text-7xl font-bold mb-6">What Our Clients Say</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Real stories from real people who found healing and hope through our mental health services.
             </p>
           </div>
