@@ -169,7 +169,7 @@ const Homepage = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">WHY CHOOSE US</p>
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">WHY CHOOSE US</p>
             <h3 className="text-5xl lg:text-7xl font-bold mb-6">Why Aashwashan?</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               We provide professional, compassionate care that makes a real difference in your mental health journey.
@@ -179,10 +179,10 @@ const Homepage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
               <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
-                15+
+                100%
               </div>
-              <h4 className="font-bold text-xl mb-3">Years Experience</h4>
-              <p className="text-gray-600">Proven track record in mental health care</p>
+              <h4 className="font-bold text-xl mb-3">Privacy-First Platform</h4>
+              <p className="text-gray-600">Anonymity and confidentiality come first</p>
             </div>
             <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl">
               <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
@@ -200,7 +200,7 @@ const Homepage = () => {
             </div>
             <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
               <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
-                50+
+                5+
               </div>
               <h4 className="font-bold text-xl mb-3">Expert Therapists</h4>
               <p className="text-gray-600">Qualified professionals who care</p>
