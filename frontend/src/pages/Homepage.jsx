@@ -318,6 +318,51 @@ const Homepage = () => {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">FAQS</p>
+            <h3 className="text-5xl lg:text-7xl font-bold mb-6">Frequently Asked Questions</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Find answers to common questions about our mental health services and what to expect.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-4">
+            {faqs.slice(0, 6).map((faq, index) => (
+              <div 
+                key={faq.id} 
+                className="bg-white border-2 border-gray-100 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"
+              >
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full px-8 py-6 flex justify-between items-center text-left"
+                >
+                  <h4 className="text-xl font-bold pr-8">{faq.question}</h4>
+                  {openFaqIndex === index ? (
+                    <ChevronUp className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+                  )}
+                </button>
+                {openFaqIndex === index && (
+                  <div className="px-8 pb-6">
+                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/faq" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
+              View All FAQs
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
