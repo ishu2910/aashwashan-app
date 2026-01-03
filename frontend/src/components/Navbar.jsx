@@ -38,7 +38,7 @@ const Navbar = () => {
                 className="h-20 w-auto"
                 style={{ transform: 'scale(1.3)' }}
               />
-              <span className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+              <span className="text-3xl font-bold text-blue-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
             </Link>
 
             {/* Desktop Menu */}
