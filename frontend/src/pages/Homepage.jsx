@@ -1,13 +1,86 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Play, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp } from 'lucide-react';
+import { Phone, CheckCircle, Play, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
+import axios from 'axios';
+import { toast } from '../hooks/use-toast';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const Homepage = () => {
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [selectedTherapist, setSelectedTherapist] = React.useState(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [formData, setFormData] = React.useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    date: '',
+    time: '',
+    message: ''
+  });
 
   const toggleFAQ = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? -1 : index);
+  };
+
+  const openBookingModal = (therapist) => {
+    setSelectedTherapist(therapist);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedTherapist(null);
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      service: '',
+      date: '',
+      time: '',
+      message: ''
+    });
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const appointmentData = {
+      ...formData,
+      message: `Requested therapist: ${selectedTherapist?.name}. ${formData.message}`
+    };
+    
+    try {
+      await axios.post(`${API}/appointments`, appointmentData);
+      
+      toast({
+        title: "Appointment Requested!",
+        description: `Your appointment request with ${selectedTherapist?.name} has been submitted. We'll contact you within 24 hours.`,
+      });
+      
+      closeModal();
+    } catch (error) {
+      console.error('Error submitting appointment:', error);
+      toast({
+        title: "Error",
+        description: "There was an error submitting your appointment. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
