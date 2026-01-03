@@ -154,11 +154,11 @@ const Homepage = () => {
                 Book Your Appointment
               </Link>
             </div>
-            <div className="relative">
+            <div className="relative flex justify-center">
               <img 
                 src="https://images.unsplash.com/photo-1604881991720-f91add269bed?w=600" 
                 alt="Support" 
-                className="rounded-3xl shadow-2xl"
+                className="rounded-3xl shadow-2xl w-3/4 lg:w-2/3"
               />
             </div>
           </div>
