@@ -24,7 +24,7 @@ const Homepage = () => {
             <div className="space-y-6">
               <p className="text-blue-600 font-semibold uppercase tracking-wider text-base">FIND BALANCE, EMBRACE LIFE</p>
               <h3 className="text-5xl lg:text-6xl font-bold leading-tight text-blue-600" style={{ fontFamily: "'Playfair Display', serif" }}>
-                "Start with one honest conversation."
+                "The Problem well stated is a problem half solved."
               </h3>
               <p className="text-gray-600 text-base leading-relaxed">
                 Discover clarity, confidence, and emotional wellness through guided support that helps you manage stress, heal from within, and grow stronger in every aspect of your mental health journey.
@@ -32,11 +32,11 @@ const Homepage = () => {
             </div>
 
             {/* Right Content - Hero Image */}
-            <div className="relative">
+            <div className="relative flex justify-center">
               <img 
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800" 
                 alt="Mental Health Professional" 
-                className="relative z-10 rounded-3xl shadow-2xl"
+                className="relative z-10 rounded-3xl shadow-2xl w-3/4 lg:w-2/3"
               />
             </div>
           </div>
