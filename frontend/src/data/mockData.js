@@ -164,28 +164,28 @@ export const faqs = [
   },
   {
     id: 2,
-    question: "Do you accept insurance?",
-    answer: "Yes, we accept most major insurance plans. Please contact our office with your insurance information, and we'll verify your coverage and explain any out-of-pocket costs."
-  },
-  {
-    id: 3,
     question: "What should I expect in my first session?",
     answer: "Your first session is about getting to know you. We'll discuss what brought you to therapy, your goals, and how we can help. It's a safe, judgment-free space where you can share openly."
   },
   {
-    id: 4,
+    id: 3,
     question: "How long does therapy typically last?",
     answer: "The duration of therapy varies for each individual. Some people benefit from short-term therapy (8-12 sessions), while others prefer ongoing support. We'll work together to determine what's best for you."
   },
   {
-    id: 5,
+    id: 4,
     question: "Is therapy confidential?",
     answer: "Yes, everything you share in therapy is confidential. We follow strict ethical guidelines and privacy laws to protect your information. There are rare exceptions required by law, which we'll discuss during your first session."
   },
   {
-    id: 6,
+    id: 5,
     question: "Can I do therapy online?",
     answer: "Absolutely! We offer secure video therapy sessions for your convenience. Online therapy is just as effective as in-person sessions and allows you to receive support from the comfort of your home."
+  },
+  {
+    id: 6,
+    question: "What if I need help urgently?",
+    answer: "If you're in crisis or experiencing suicidal thoughts, please call Tele MANAS at 14416 immediately. This is a free, 24/7 mental health helpline that provides immediate support in multiple Indian languages."
   }
 ];
 
