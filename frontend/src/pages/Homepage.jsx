@@ -178,14 +178,14 @@ const Homepage = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
-              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
+              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
                 100%
               </div>
               <h4 className="font-bold text-xl mb-3">Privacy-First Platform</h4>
               <p className="text-gray-600">Anonymity and confidentiality come first</p>
             </div>
             <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl">
-              <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
+              <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
                 100%
               </div>
               <h4 className="font-bold text-xl mb-3">Confidential</h4>
