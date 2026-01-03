@@ -431,6 +431,169 @@ const Homepage = () => {
           </div>
         </div>
       </section>
+
+      {/* Crisis Support Section */}
+      <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h3 className="text-5xl lg:text-6xl font-bold mb-6">In Crisis? We're Here 24/7</h3>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            If you're experiencing a mental health emergency or suicidal thoughts, immediate help is available. You're not alone.
+          </p>
+          <div className="flex flex-wrap justify-center gap-6">
+            <a href="tel:14416" className="inline-block bg-white text-red-600 px-10 py-5 rounded-full hover:bg-gray-100 transition-all duration-300 font-bold shadow-2xl text-2xl">
+              Tele MANAS: 14416
+            </a>
+          </div>
+          <p className="mt-8 text-lg opacity-90">
+            Free, confidential, 24/7 mental health support in your language
+          </p>
+        </div>
+      </section>
+
+      {/* Booking Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b px-8 py-6 flex justify-between items-center">
+              <div>
+                <h3 className="text-2xl font-bold">Book Session</h3>
+                {selectedTherapist && (
+                  <p className="text-gray-600">with {selectedTherapist.name}</p>
+                )}
+              </div>
+              <button
+                onClick={closeModal}
+                className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="p-8 space-y-6">
+              <div>
+                <label className="block text-sm font-semibold mb-2">
+                  <User className="inline w-4 h-4 mr-2" />Full Name *
+                </label>
+                <input 
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Mail className="inline w-4 h-4 mr-2" />Email *
+                  </label>
+                  <input 
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    placeholder="john@example.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Phone className="inline w-4 h-4 mr-2" />Phone *
+                  </label>
+                  <input 
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    placeholder="(555) 123-4567"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">Select Service *</label>
+                <select 
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                >
+                  <option value="">Choose a service...</option>
+                  {services.map(service => (
+                    <option key={service.id} value={service.title}>{service.title}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Calendar className="inline w-4 h-4 mr-2" />Preferred Date *
+                  </label>
+                  <input 
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Clock className="inline w-4 h-4 mr-2" />Preferred Time *
+                  </label>
+                  <select 
+                    name="time"
+                    value={formData.time}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  >
+                    <option value="">Select time...</option>
+                    <option value="09:00">09:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="13:00">01:00 PM</option>
+                    <option value="14:00">02:00 PM</option>
+                    <option value="15:00">03:00 PM</option>
+                    <option value="16:00">04:00 PM</option>
+                    <option value="17:00">05:00 PM</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">Additional Information</label>
+                <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows="3"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
+                  placeholder="Tell us more about what brings you here today (optional)..."
+                ></textarea>
+              </div>
+
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 text-white py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Submitting...' : 'Request Appointment'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
