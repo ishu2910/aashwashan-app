@@ -74,9 +74,12 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* Pages Dropdown */}
               <Link to="/blog" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/blog') ? 'text-blue-600' : ''}`}>
                 Blog
+              </Link>
+              
+              <Link to="/join-team" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/join-team') ? 'text-blue-600' : ''}`}>
+                Join Our Team
               </Link>
 
               <Link to="/contact" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/contact') ? 'text-blue-600' : ''}`}>
