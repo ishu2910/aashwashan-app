@@ -48,6 +48,7 @@ function App() {
           <Route path="/blog/:id" element={<SingleBlog />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/appointment" element={<AppointmentPage />} />
+          <Route path="/join-team" element={<JoinOurTeamPage />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
         <Footer />
