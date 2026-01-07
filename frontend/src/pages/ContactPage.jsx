@@ -14,11 +14,26 @@ const ContactPage = () => {
     subject: '',
     message: ''
   });
+  
+  const [feedbackData, setFeedbackData] = useState({
+    name: '',
+    email: '',
+    rating: '',
+    feedback: ''
+  });
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+  
+  const handleFeedbackChange = (e) => {
+    setFeedbackData({
+      ...feedbackData,
       [e.target.name]: e.target.value
     });
   };
@@ -45,6 +60,26 @@ const ContactPage = () => {
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+  
+  const handleFeedbackSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      toast({
+        title: "Feedback Submitted!",
+        description: "Thank you for your valuable feedback. We appreciate your input!",
+      });
+      
+      setFeedbackData({ name: '', email: '', rating: '', feedback: '' });
+    } catch (error) {
+      console.error('Error submitting feedback:', error);
+      toast({
+        title: "Error",
+        description: "There was an error submitting your feedback. Please try again.",
+        variant: "destructive"
+      });
     }
   };
 
