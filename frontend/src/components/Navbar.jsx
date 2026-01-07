@@ -53,7 +53,7 @@ const Navbar = () => {
               {/* Services Dropdown */}
               <div className="relative group">
                 <button className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                  Services <ChevronDown className="ml-1 w-4 h-4" />
+                  When You're Ready <ChevronDown className="ml-1 w-4 h-4" />
                 </button>
                 <div className="absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                   <Link to="/services" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
