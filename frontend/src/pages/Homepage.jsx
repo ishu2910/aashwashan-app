@@ -150,9 +150,9 @@ const Homepage = () => {
       {/* Services Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-aos="fade-up">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">HOW WE HELP</p>
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">We Solve These Problems</h3>
+            <h3 className="text-5xl lg:text-7xl font-bold mb-6">How We Support You</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Experiencing any of these symptoms? Book a therapy session and let us help you find relief and regain control of your life.
             </p>
