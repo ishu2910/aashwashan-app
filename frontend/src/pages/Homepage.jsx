@@ -94,7 +94,7 @@ const Homepage = () => {
     <div className="overflow-hidden">
       {/* About Section */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4"  data-aos="fade-up">
+        <div className="container mx-auto px-4" >
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left - Images */}
             <div className="relative">
@@ -157,7 +157,7 @@ const Homepage = () => {
       {/* Services Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16" data-aos="fade-up">
+          <div className="text-center mb-16">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">HOW WE HELP</p>
             <h3 className="text-5xl lg:text-7xl font-bold mb-6">How We Support You</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
@@ -171,7 +171,7 @@ const Homepage = () => {
                 key={service.id}
                 to={`/service/${service.id}`}
                 className="bg-white rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
-                data-aos="fade-up"
+               
                 data-aos-delay={index * 100}
               >
                 <div className="h-48 overflow-hidden">
@@ -193,7 +193,7 @@ const Homepage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden" data-aos="fade-up">
+      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -228,7 +228,7 @@ const Homepage = () => {
       {/* Team Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16" data-aos="fade-up">
+          <div className="text-center mb-16">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">OUR TEAM</p>
             <h3 className="text-5xl lg:text-7xl font-bold mb-6">Meet Our Expert Therapists</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
@@ -238,7 +238,7 @@ const Homepage = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((member, index) => (
-              <div key={member.id} className="group" data-aos="fade-up" data-aos-delay={index * 100}>
+              <div key={member.id} className="group" data-aos-delay={index * 100}>
                 <div className="relative overflow-hidden rounded-3xl mb-6">
                   <img 
                     src={member.image} 
@@ -270,7 +270,7 @@ const Homepage = () => {
       {/* How Life Feels Better Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16" data-aos="fade-up">
+          <div className="text-center mb-16">
             <h3 className="text-5xl lg:text-7xl font-bold mb-6">How Life Feels Better After Therapy</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Real improvements that make a difference in your daily life
@@ -278,22 +278,22 @@ const Homepage = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="text-6xl mb-4">😴</div>
               <h4 className="text-2xl font-bold mb-3">Sleep Better</h4>
               <p className="text-gray-600">Restful nights and peaceful mornings</p>
             </div>
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="text-6xl mb-4">🧠</div>
               <h4 className="text-2xl font-bold mb-3">Think Clearer</h4>
               <p className="text-gray-600">Better focus and decision making</p>
             </div>
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="text-6xl mb-4">🎈</div>
               <h4 className="text-2xl font-bold mb-3">Feel Lighter</h4>
               <p className="text-gray-600">Less emotional burden, more joy</p>
             </div>
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="text-6xl mb-4">✨</div>
               <h4 className="text-2xl font-bold mb-3">Become Yourself Again</h4>
               <p className="text-gray-600">Rediscover who you truly are</p>
@@ -314,28 +314,28 @@ const Homepage = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl" data-aos="fade-up" data-aos-delay="100">
+            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
               <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
                 <HomeIcon className="w-10 h-10" />
               </div>
               <h4 className="font-bold text-xl mb-3">From Your Comfort Zone</h4>
               <p className="text-gray-600">Therapy from anywhere you feel safe</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+            <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl">
               <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
                 <Users className="w-10 h-10" />
               </div>
               <h4 className="font-bold text-xl mb-3">Making You Self-Reliant</h4>
               <p className="text-gray-600">Building skills for lifelong wellness</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-pink-50 to-blue-50 rounded-3xl" data-aos="fade-up" data-aos-delay="300">
+            <div className="text-center p-8 bg-gradient-to-br from-pink-50 to-blue-50 rounded-3xl">
               <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
                 <Heart className="w-10 h-10" />
               </div>
               <h4 className="font-bold text-xl mb-3">Real People. Real Support.</h4>
               <p className="text-gray-600">Genuine care from qualified professionals</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl" data-aos="fade-up" data-aos-delay="400">
+            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
               <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
                 <User className="w-10 h-10" />
               </div>
@@ -386,7 +386,7 @@ const Homepage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-blue-600 text-white" data-aos="fade-up">
+      <section className="py-20 bg-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
