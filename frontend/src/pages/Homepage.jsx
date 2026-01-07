@@ -85,68 +85,6 @@ const Homepage = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* About Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4" >
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Images */}
-            <div className="relative">
-              <div className="relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1573495804664-b1c0849525af?w=600" 
-                  alt="Therapy Session" 
-                  className="rounded-3xl shadow-xl w-full"
-                />
-              </div>
-              <div className="absolute -top-8 -left-8 w-48 h-48 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full opacity-20 blur-2xl"></div>
-              <div className="absolute -bottom-8 -right-8 w-64 h-64 overflow-hidden rounded-full border-8 border-white shadow-xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1573497491208-6b1acb260507?w=300" 
-                  alt="Counseling" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Right - Content */}
-            <div className="space-y-6">
-              <p className="text-blue-600 font-semibold uppercase tracking-wider text-base">ABOUT US</p>
-              <h3 className="text-5xl lg:text-6xl font-bold leading-tight">
-                Your Journey To Mental Wellness Starts Here
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Every small step toward better mental health is a significant achievement in our lives. With the right support, each individual can find the strength to face challenges, manage stress, and build positive habits. We believe that everyone deserves the opportunity to grow, thrive, and experience inner peace. Through an empathetic and professional approach, we are here to help you discover the best solutions for lasting mental and emotional well-being.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                  <span className="font-semibold">Licensed Professionals</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                  <span className="font-semibold">Mental Satisfaction</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                  <span className="font-semibold">Emergency Service</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                  <span className="font-semibold">Evidence-Based Care</span>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-6 pt-4">
-                <Link to="/about" className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
-                  Read More
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Services Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4">
