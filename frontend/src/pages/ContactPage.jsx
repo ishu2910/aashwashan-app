@@ -231,18 +231,18 @@ const ContactPage = () => {
       {/* Emergency Contact */}
       <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-4xl font-bold mb-6">In Case of Emergency</h3>
+          <h3 className="text-5xl lg:text-6xl font-bold mb-6">In Crisis? We're Here 24/7</h3>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            If you're experiencing a mental health emergency, please call immediately.
+            If you're experiencing a mental health emergency or suicidal thoughts, immediate help is available.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a href="tel:08046110007" className="inline-block bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold shadow-lg text-xl">
-              Tele MANAS: 08046110007
-            </a>
-            <a href="tel:988" className="inline-block bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold shadow-lg text-xl">
-              Crisis Hotline: 988
+          <div className="flex flex-wrap justify-center gap-6">
+            <a href="tel:14416" className="inline-block bg-white text-red-600 px-10 py-5 rounded-full hover:bg-gray-100 transition-all duration-300 font-bold shadow-2xl text-2xl">
+              Tele MANAS: 14416
             </a>
           </div>
+          <p className="mt-8 text-lg opacity-90">
+            Free, confidential, 24/7 mental health support in your language
+          </p>
         </div>
       </section>
     </div>
