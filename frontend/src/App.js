@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import WhatsAppButton from "./components/WhatsAppButton";
 import Homepage from "./pages/Homepage";
 import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
