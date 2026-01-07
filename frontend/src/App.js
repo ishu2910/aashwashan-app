@@ -15,6 +15,7 @@ import BlogPage from "./pages/BlogPage";
 import SingleBlog from "./pages/SingleBlog";
 import ContactPage from "./pages/ContactPage";
 import AppointmentPage from "./pages/AppointmentPage";
+import JoinOurTeamPage from "./pages/JoinOurTeamPage";
 import Error404 from "./pages/Error404";
 import { Toaster } from "./components/ui/toaster";
 
