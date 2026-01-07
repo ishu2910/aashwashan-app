@@ -128,7 +128,7 @@ const Navbar = () => {
                 Contact Us
               </Link>
               <Link to="/appointment" onClick={() => setIsMobileMenuOpen(false)} className="block w-full bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all text-center">
-                Get Quotes
+                Talk to Someone
               </Link>
             </div>
           </div>
