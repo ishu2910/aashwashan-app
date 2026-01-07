@@ -92,7 +92,7 @@ const ContactPage = () => {
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">CONTACT US</p>
             <h3 className="text-5xl lg:text-6xl font-bold mb-6">Get In Touch</h3>
             <p className="text-xl text-gray-600">
-              Have questions? We're here to help. Reach out to us and we'll respond as soon as possible.
+              If you need any other help, contact us. We're here to answer your questions and provide support.
             </p>
           </div>
         </div>
