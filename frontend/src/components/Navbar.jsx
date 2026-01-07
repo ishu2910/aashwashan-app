@@ -127,6 +127,9 @@ const Navbar = () => {
               <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
                 Blog
               </Link>
+              <Link to="/join-team" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+                Join Our Team
+              </Link>
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
                 Contact Us
               </Link>
