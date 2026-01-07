@@ -121,7 +121,7 @@ const Homepage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                  <span className="font-semibold">Free Consultation</span>
+                  <span className="font-semibold">Licensed Professionals</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
@@ -133,7 +133,7 @@ const Homepage = () => {
                 </div>
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                  <span className="font-semibold">Psychologists Services</span>
+                  <span className="font-semibold">Evidence-Based Care</span>
                 </div>
               </div>
 
