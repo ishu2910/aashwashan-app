@@ -23,13 +23,6 @@ const Homepage = () => {
     message: ''
   });
 
-  React.useEffect(() => {
-    // Reinitialize AOS on component mount
-    if (window.AOS) {
-      window.AOS.refresh();
-    }
-  }, []);
-
   const toggleFAQ = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? -1 : index);
   };
