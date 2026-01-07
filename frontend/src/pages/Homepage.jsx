@@ -331,48 +331,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">OUR TEAM</p>
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">Meet Our Expert Therapists</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Our team of licensed professionals brings years of experience and compassionate care to help you achieve mental wellness.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member) => (
-              <div key={member.id} className="group">
-                <div className="relative overflow-hidden rounded-3xl mb-6">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                <p className="text-blue-600 font-medium">{member.role}</p>
-                <p className="text-gray-600 text-sm mt-1 mb-3">{member.specialization}</p>
-                <button
-                  onClick={() => openBookingModal(member)}
-                  className="w-full bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-sm"
-                >
-                  Book Session
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/team" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
-              View All Team Members
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Testimonials Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
