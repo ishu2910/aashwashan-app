@@ -263,6 +263,87 @@ const ContactPage = () => {
         </div>
       </section>
 
+      {/* Feedback Form Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <h3 className="text-4xl font-bold mb-4">Share Your Feedback</h3>
+              <p className="text-gray-600">Your suggestions help us improve our services</p>
+            </div>
+            
+            <div className="bg-white rounded-3xl p-8 shadow-lg">
+              <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">Your Name *</label>
+                    <input 
+                      type="text"
+                      name="name"
+                      value={feedbackData.name}
+                      onChange={handleFeedbackChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold mb-2">Email Address *</label>
+                    <input 
+                      type="email"
+                      name="email"
+                      value={feedbackData.email}
+                      onChange={handleFeedbackChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                      placeholder="john@example.com"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold mb-2">Rate Your Experience *</label>
+                  <select 
+                    name="rating"
+                    value={feedbackData.rating}
+                    onChange={handleFeedbackChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  >
+                    <option value="">Select rating...</option>
+                    <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                    <option value="4">⭐⭐⭐⭐ Very Good</option>
+                    <option value="3">⭐⭐⭐ Good</option>
+                    <option value="2">⭐⭐ Fair</option>
+                    <option value="1">⭐ Needs Improvement</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-semibold mb-2">Your Feedback *</label>
+                  <textarea 
+                    name="feedback"
+                    value={feedbackData.feedback}
+                    onChange={handleFeedbackChange}
+                    required
+                    rows="5"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
+                    placeholder="Share your thoughts, suggestions, or concerns..."
+                  ></textarea>
+                </div>
+                
+                <button 
+                  type="submit"
+                  className="w-full bg-blue-600 text-white py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+                >
+                  Submit Feedback
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Emergency Contact */}
       <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600 text-white">
         <div className="container mx-auto px-4 text-center">
