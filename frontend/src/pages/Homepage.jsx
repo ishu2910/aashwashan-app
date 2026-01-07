@@ -85,40 +85,9 @@ const Homepage = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 overflow-hidden">
-        {/* Decorative circles */}
-        <div className="absolute top-20 right-10 w-96 h-96 bg-pink-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
-        
-        <div className="container mx-auto px-4 py-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
-            <div className="space-y-6">
-              <p className="text-blue-600 font-semibold uppercase tracking-wider text-base">FIND BALANCE, EMBRACE LIFE</p>
-              <h3 className="text-5xl lg:text-6xl font-bold leading-tight text-blue-600" style={{ fontFamily: "'Playfair Display', serif" }}>
-                "The Problem well stated is a problem half solved."
-              </h3>
-              <p className="text-gray-600 text-base leading-relaxed">
-                Discover clarity, confidence, and emotional wellness through guided support that helps you manage stress, heal from within, and grow stronger in every aspect of your mental health journey.
-              </p>
-            </div>
-
-            {/* Right Content - Hero Image */}
-            <div className="relative flex justify-center">
-              <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800" 
-                alt="Mental Health Professional" 
-                className="relative z-10 rounded-3xl shadow-2xl w-3/4 lg:w-2/3"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* About Section */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4"  data-aos="fade-up">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left - Images */}
             <div className="relative">
