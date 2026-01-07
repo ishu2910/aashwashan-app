@@ -333,24 +333,20 @@ const Homepage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-blue-600 text-white">
+      <section className="py-20 bg-blue-600 text-white" data-aos="fade-up">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
-              <p className="text-5xl font-bold mb-2">15+</p>
+              <p className="text-5xl font-bold mb-2">1+</p>
               <p className="text-blue-100">Years Experience</p>
             </div>
             <div>
-              <p className="text-5xl font-bold mb-2">2500+</p>
+              <p className="text-5xl font-bold mb-2">100+</p>
               <p className="text-blue-100">Happy Clients</p>
             </div>
             <div>
-              <p className="text-5xl font-bold mb-2">50+</p>
+              <p className="text-5xl font-bold mb-2">5+</p>
               <p className="text-blue-100">Expert Therapists</p>
-            </div>
-            <div>
-              <p className="text-5xl font-bold mb-2">98%</p>
-              <p className="text-blue-100">Success Rate</p>
             </div>
           </div>
         </div>
