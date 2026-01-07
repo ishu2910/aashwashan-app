@@ -219,33 +219,33 @@ const Homepage = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
-              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                100%
+            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl" data-aos="fade-up" data-aos-delay="100">
+              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
+                <HomeIcon className="w-10 h-10" />
               </div>
-              <h4 className="font-bold text-xl mb-3">Privacy-First Platform</h4>
-              <p className="text-gray-600">Anonymity and confidentiality come first</p>
+              <h4 className="font-bold text-xl mb-3">From Your Comfort Zone</h4>
+              <p className="text-gray-600">Therapy from anywhere you feel safe</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl">
-              <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                100%
+            <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+              <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
+                <Users className="w-10 h-10" />
               </div>
-              <h4 className="font-bold text-xl mb-3">Confidential</h4>
-              <p className="text-gray-600">Your privacy and trust are our priority</p>
+              <h4 className="font-bold text-xl mb-3">Making You Self-Reliant</h4>
+              <p className="text-gray-600">Building skills for lifelong wellness</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-pink-50 to-blue-50 rounded-3xl">
-              <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
-                24/7
+            <div className="text-center p-8 bg-gradient-to-br from-pink-50 to-blue-50 rounded-3xl" data-aos="fade-up" data-aos-delay="300">
+              <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
+                <Heart className="w-10 h-10" />
               </div>
-              <h4 className="font-bold text-xl mb-3">Crisis Support</h4>
-              <p className="text-gray-600">Emergency support available anytime</p>
+              <h4 className="font-bold text-xl mb-3">Real People. Real Support.</h4>
+              <p className="text-gray-600">Genuine care from qualified professionals</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
-              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">
-                5+
+            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl" data-aos="fade-up" data-aos-delay="400">
+              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
+                <User className="w-10 h-10" />
               </div>
-              <h4 className="font-bold text-xl mb-3">Expert Therapists</h4>
-              <p className="text-gray-600">Qualified professionals who care</p>
+              <h4 className="font-bold text-xl mb-3">Be Yourself Here</h4>
+              <p className="text-gray-600">No judgment, just understanding</p>
             </div>
           </div>
         </div>
