@@ -50,6 +50,7 @@ function App() {
           <Route path="*" element={<Error404 />} />
         </Routes>
         <Footer />
+        <WhatsAppButton />
         <Toaster />
       </BrowserRouter>
     </div>
