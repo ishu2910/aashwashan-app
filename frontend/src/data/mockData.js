@@ -83,7 +83,9 @@ export const team = [
     name: "Dr. Sarah Mitchell",
     role: "Clinical Psychologist",
     specialization: "Anxiety & Depression",
+    expertise: ["Mood Disorder", "Excessive and Persistent Anxiety"],
     experience: "15+ years",
+    price: "1500",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
     bio: "Dr. Mitchell specializes in cognitive behavioral therapy and has helped hundreds of clients overcome anxiety and depression.",
     education: "Ph.D. in Clinical Psychology, Harvard University"
@@ -92,30 +94,36 @@ export const team = [
     id: 2,
     name: "Dr. Michael Chen",
     role: "Licensed Therapist",
-    specialization: "Family & Couples Therapy",
+    specialization: "Behavioral Therapy",
+    expertise: ["Impulsive Behaviour", "Mood Disorder"],
     experience: "12+ years",
+    price: "1500",
     image: "https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg",
-    bio: "Dr. Chen is passionate about helping families and couples build stronger, healthier relationships.",
-    education: "Ph.D. in Marriage and Family Therapy, UCLA"
+    bio: "Dr. Chen is passionate about helping adults manage behavioral challenges and build healthier life patterns.",
+    education: "Ph.D. in Clinical Psychology, UCLA"
   },
   {
     id: 3,
     name: "Dr. Emily Rodriguez",
-    role: "Child Psychologist",
-    specialization: "Child & Adolescent Therapy",
+    role: "Counseling Psychologist",
+    specialization: "Depression & Fatigue",
+    expertise: ["Combating Low Energy & Fatigue", "Mood Disorder"],
     experience: "10+ years",
+    price: "1500",
     image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd",
-    bio: "Dr. Rodriguez specializes in working with children and teenagers, providing a safe space for young minds to heal and grow.",
-    education: "Ph.D. in Child Psychology, Stanford University"
+    bio: "Dr. Rodriguez specializes in helping adults overcome chronic fatigue and depression, providing compassionate support.",
+    education: "Ph.D. in Counseling Psychology, Stanford University"
   },
   {
     id: 4,
     name: "Dr. James Wilson",
     role: "Psychiatrist",
-    specialization: "Medication Management",
+    specialization: "Anxiety & Stress Management",
+    expertise: ["Excessive and Persistent Anxiety", "Impulsive Behaviour"],
     experience: "20+ years",
+    price: "1500",
     image: "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg",
-    bio: "Dr. Wilson provides comprehensive psychiatric care, specializing in medication management for mental health conditions.",
+    bio: "Dr. Wilson provides comprehensive care for anxiety disorders and stress-related conditions with evidence-based approaches.",
     education: "M.D. Psychiatry, Johns Hopkins University"
   }
 ];
