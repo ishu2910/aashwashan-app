@@ -11,6 +11,8 @@ const API = `${BACKEND_URL}/api`;
 const Homepage = () => {
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isSymptomModalOpen, setIsSymptomModalOpen] = React.useState(false);
+  const [selectedService, setSelectedService] = React.useState(null);
   const [selectedTherapist, setSelectedTherapist] = React.useState(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [formData, setFormData] = React.useState({
@@ -31,6 +33,11 @@ const Homepage = () => {
     setSelectedTherapist(therapist);
     setIsModalOpen(true);
   };
+  
+  const openSymptomModal = (service) => {
+    setSelectedService(service);
+    setIsSymptomModalOpen(true);
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -44,6 +51,11 @@ const Homepage = () => {
       time: '',
       message: ''
     });
+  };
+  
+  const closeSymptomModal = () => {
+    setIsSymptomModalOpen(false);
+    setSelectedService(null);
   };
 
   const handleChange = (e) => {
