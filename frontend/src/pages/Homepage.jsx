@@ -85,6 +85,36 @@ const Homepage = () => {
 
   return (
     <div className="overflow-hidden">
+      {/* Booking Header Section */}
+      <section className="py-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-4">Booking a Therapist is now just one step away</h2>
+            <div className="inline-block bg-white/20 backdrop-blur-sm px-8 py-3 rounded-full">
+              <p className="text-2xl font-semibold">✓ It is Anonymous</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ignoring Signs Section */}
+      <section className="py-16 bg-gradient-to-br from-red-50 to-orange-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="text-3xl lg:text-4xl font-bold mb-6 text-red-700">
+              Ignoring the signs of mental illness is one of the worst things you can do.
+            </h3>
+            <div className="bg-white rounded-3xl p-8 shadow-lg">
+              <h4 className="text-2xl font-bold mb-4 text-gray-800">Start by noticing, not judging, your emotions</h4>
+              <p className="text-gray-700 text-lg leading-relaxed">
+                One of the simplest and most powerful practices to begin is turning inward and observing your thoughts and feelings. 
+                Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4">
