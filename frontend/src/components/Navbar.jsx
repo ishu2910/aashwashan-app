@@ -132,8 +132,8 @@ const Navbar = () => {
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
                 Contact Us
               </Link>
-              <Link to="/appointment" onClick={() => setIsMobileMenuOpen(false)} className="block w-full bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all text-center">
-                Talk to Someone
+              <Link to="/team" onClick={() => setIsMobileMenuOpen(false)} className="block w-full bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all text-center">
+                Get Counselling
               </Link>
             </div>
           </div>
