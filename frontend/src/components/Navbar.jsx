@@ -87,8 +87,8 @@ const Navbar = () => {
             </div>
 
             {/* CTA Button */}
-            <Link to="/appointment" className="hidden lg:block bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all duration-300 font-medium">
-              Talk to Someone
+            <Link to="/team" className="hidden lg:block bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all duration-300 font-medium">
+              Get Counselling
             </Link>
 
             {/* Mobile Menu Button */}
