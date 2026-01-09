@@ -3,29 +3,50 @@
 export const services = [
   {
     id: 1,
-    title: "Managing Mood Swings",
+    title: "Mood Disorder",
     icon: "activity",
     description: "Are you experiencing unpredictable emotional ups and downs? We provide compassionate care to help you understand and stabilize your mood.",
-    fullDescription: "If you're struggling with persistent mood swings that affect your daily life, relationships, or work, professional support can help. Our specialized therapy helps adults understand the root causes of emotional fluctuations and develop effective strategies to achieve emotional stability. Through evidence-based techniques, we work with you to identify triggers, develop coping strategies, and build lasting emotional resilience.",
+    symptoms: [
+      "Extreme mood swings between highs and lows",
+      "Persistent feelings of sadness or emptiness",
+      "Sudden bursts of irritability or anger",
+      "Loss of interest in activities you once enjoyed",
+      "Changes in sleep patterns or energy levels"
+    ],
+    fullDescription: "If you're struggling with persistent mood changes that affect your daily life, relationships, or work, professional support can help.",
     benefits: ["Emotion regulation techniques", "Trigger identification", "Personalized coping strategies", "Long-term stability support"],
     image: "https://images.unsplash.com/photo-1573497491208-6b1acb260507"
   },
   {
     id: 2,
-    title: "Overcoming Persistent Worry",
+    title: "Excessive and Persistent Anxiety (Anxiety Disorder)",
     icon: "alert-circle",
     description: "Constant worrying keeping you up at night? Learn to break free from the cycle of anxiety and find peace of mind.",
-    fullDescription: "If you find yourself constantly worrying about everything - from daily tasks to future uncertainties - you don't have to suffer alone. Persistent worry can be exhausting and overwhelming, affecting your sleep, concentration, and quality of life. Our specialized treatment helps adults break free from chronic worry patterns using cognitive-behavioral therapy and mindfulness techniques. We help you identify worry patterns, challenge anxious thoughts, and develop healthy mental habits that bring peace of mind.",
+    symptoms: [
+      "Constant, uncontrollable worrying about multiple things",
+      "Physical symptoms like rapid heartbeat or sweating",
+      "Difficulty concentrating or mind going blank",
+      "Restlessness or feeling on edge",
+      "Sleep disturbances or fatigue"
+    ],
+    fullDescription: "If you find yourself constantly worrying about everything - from daily tasks to future uncertainties - you don't have to suffer alone.",
     benefits: ["CBT for worry management", "Mindfulness techniques", "Thought reframing", "Anxiety reduction"],
     image: "https://images.unsplash.com/photo-1714976694525-71eb29a7c500"
   },
   {
     id: 3,
-    title: "Crisis Support",
+    title: "Impulsive Behaviour",
     icon: "heart",
-    description: "Experiencing suicidal thoughts or in mental health crisis? Immediate, compassionate support is available. You're not alone.",
-    fullDescription: "If you're experiencing suicidal thoughts or going through a severe mental health crisis, please know that help is available and your life matters. Our crisis intervention services provide immediate, compassionate support for adults in distress. We offer a safe, non-judgmental space to talk, assess your situation, develop safety plans, and connect you with ongoing care. Whether you're in crisis right now or worried about someone else, we're here to help you find hope and healing.",
-    benefits: ["Immediate crisis support", "Safety planning", "24/7 emergency access", "Compassionate care"],
+    description: "Acting on impulse without thinking? Learn to understand triggers and develop better self-control.",
+    symptoms: [
+      "Making hasty decisions without considering consequences",
+      "Difficulty controlling immediate reactions",
+      "Engaging in risky behaviors",
+      "Interrupting others or difficulty waiting your turn",
+      "Mood-driven actions you later regret"
+    ],
+    fullDescription: "Impulsive behavior can strain relationships and lead to regrettable decisions. Our therapy helps you develop awareness and control.",
+    benefits: ["Impulse control strategies", "Self-awareness building", "Coping mechanisms", "Behavioral modification"],
     image: "https://images.pexels.com/photos/4101143/pexels-photo-4101143.jpeg"
   },
   {
@@ -33,9 +54,26 @@ export const services = [
     title: "Combating Low Energy & Fatigue",
     icon: "battery",
     description: "Feeling constantly exhausted and unmotivated? Discover the underlying causes and regain your energy and zest for life.",
-    fullDescription: "If you're experiencing persistent fatigue, lack of motivation, or feeling emotionally drained despite adequate rest, there may be underlying psychological factors at play. Chronic low energy can significantly impact your quality of life, relationships, and productivity. Our therapy addresses the psychological and emotional factors contributing to fatigue, including depression, stress, and burnout. We help you understand the root causes of your exhaustion and develop comprehensive strategies to restore your energy, motivation, and zest for life.",
+    symptoms: [
+      "Persistent tiredness despite adequate rest",
+      "Lack of motivation or interest in daily activities",
+      "Difficulty concentrating or mental fog",
+      "Feeling emotionally drained",
+      "Sleep problems or sleeping too much"
+    ],
+    fullDescription: "If you're experiencing persistent fatigue, lack of motivation, or feeling emotionally drained despite adequate rest, there may be underlying psychological factors at play.",
     benefits: ["Energy restoration techniques", "Depression treatment", "Lifestyle modifications", "Motivation building"],
     image: "https://images.unsplash.com/photo-1579208575657-c595a05383b7"
+  },
+  {
+    id: 5,
+    title: "24/7 Messaging Support",
+    icon: "message-circle",
+    description: "Stay connected with your therapist anytime. Message your therapist through our secure platform and get responses when they're available.",
+    symptoms: [],
+    fullDescription: "After booking a therapist, you get access to our secure messaging platform where you can reach out to your therapist anytime. Your therapist will respond at their earliest convenience or scheduled time.",
+    benefits: ["Continuous support", "Secure messaging", "Flexible communication", "No appointment needed for quick questions"],
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692"
   }
 ];
 
