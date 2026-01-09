@@ -92,38 +92,15 @@ const JoinOurTeamPage = () => {
         </div>
       </section>
 
-      {/* Open Positions */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-4xl font-bold text-center mb-12">Current Openings</h3>
-            <div className="space-y-6">
-              <div className="bg-white rounded-2xl p-6 hover:shadow-lg transition-shadow">
-                <h4 className="text-2xl font-bold mb-2">Clinical Psychologist</h4>
-                <p className="text-gray-600 mb-4">Full-time • Bangalore • 3-5 years experience</p>
-                <p className="text-gray-700">Looking for licensed clinical psychologists to join our growing team...</p>
-              </div>
-              <div className="bg-white rounded-2xl p-6 hover:shadow-lg transition-shadow">
-                <h4 className="text-2xl font-bold mb-2">Counseling Psychologist</h4>
-                <p className="text-gray-600 mb-4">Full-time • Delhi NCR • 2-4 years experience</p>
-                <p className="text-gray-700">Seeking counseling psychologists with experience in adult therapy...</p>
-              </div>
-              <div className="bg-white rounded-2xl p-6 hover:shadow-lg transition-shadow">
-                <h4 className="text-2xl font-bold mb-2">Psychiatric Social Worker</h4>
-                <p className="text-gray-600 mb-4">Full-time • Mumbai • 1-3 years experience</p>
-                <p className="text-gray-700">Join our team to provide comprehensive mental health support...</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Application Form */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-8">
+              <h3 className="text-4xl font-bold mb-4">Apply to Join Our Team</h3>
+              <p className="text-gray-600 text-lg">Fill out the form below and we'll contact you within 24 hours</p>
+            </div>
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 md:p-12">
-              <h3 className="text-3xl font-bold mb-8 text-center">Apply Now</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label className="block text-sm font-semibold mb-2">
