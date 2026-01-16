@@ -1311,15 +1311,6 @@ const Homepage = () => {
           </div>
         </div>
       )}
-                  className="bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors font-medium"
-                >
-                  Close
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Gratitude Journal Modal */}
       {isGratitudeModalOpen && (
