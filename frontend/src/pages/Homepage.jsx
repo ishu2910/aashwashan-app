@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity } from 'lucide-react';
+import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
@@ -14,12 +14,25 @@ const Homepage = () => {
   const [isSymptomModalOpen, setIsSymptomModalOpen] = React.useState(false);
   const [isBreathingModalOpen, setIsBreathingModalOpen] = React.useState(false);
   const [isGratitudeModalOpen, setIsGratitudeModalOpen] = React.useState(false);
+  const [isHelpMeModalOpen, setIsHelpMeModalOpen] = React.useState(false);
+  const [isMessageModalOpen, setIsMessageModalOpen] = React.useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = React.useState(false);
+  const [bookingComplete, setBookingComplete] = React.useState(false);
+  const [bookedTherapist, setBookedTherapist] = React.useState(null);
   const [selectedService, setSelectedService] = React.useState(null);
   const [selectedTherapist, setSelectedTherapist] = React.useState(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [breathingPhase, setBreathingPhase] = React.useState('ready');
   const [breathingCount, setBreathingCount] = React.useState(4);
   const [gratitudeEntries, setGratitudeEntries] = React.useState(['', '', '']);
+  const [messageText, setMessageText] = React.useState('');
+  const [helpMeStep, setHelpMeStep] = React.useState(1);
+  const [helpMeAnswers, setHelpMeAnswers] = React.useState({
+    concern: '',
+    duration: '',
+    preference: ''
+  });
+  const [recommendedTherapist, setRecommendedTherapist] = React.useState(null);
   const [formData, setFormData] = React.useState({
     name: '',
     email: '',
@@ -70,6 +83,14 @@ const Homepage = () => {
     });
   };
 
+  // Filter message input - no numbers or sequential characters allowed
+  const handleMessageChange = (e) => {
+    const value = e.target.value;
+    // Remove any digits and sequential patterns
+    const filtered = value.replace(/[0-9]/g, '').replace(/(.)\1{2,}/g, '$1$1');
+    setMessageText(filtered);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -82,12 +103,11 @@ const Homepage = () => {
     try {
       await axios.post(`${API}/appointments`, appointmentData);
       
-      toast({
-        title: "Appointment Requested!",
-        description: `Your appointment request with ${selectedTherapist?.name} has been submitted. We'll contact you within 24 hours.`,
-      });
-      
+      // Show payment modal after successful booking
+      setBookedTherapist(selectedTherapist);
       closeModal();
+      setIsPaymentModalOpen(true);
+      
     } catch (error) {
       console.error('Error submitting appointment:', error);
       toast({
@@ -98,6 +118,66 @@ const Homepage = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handlePaymentComplete = () => {
+    setIsPaymentModalOpen(false);
+    setBookingComplete(true);
+    toast({
+      title: "Booking Confirmed!",
+      description: `Your session with ${bookedTherapist?.name} is confirmed. You can now message them.`,
+    });
+  };
+
+  const sendMessage = () => {
+    if (messageText.trim()) {
+      toast({
+        title: "Message Sent!",
+        description: "Your therapist will respond when they're available.",
+      });
+      setMessageText('');
+      setIsMessageModalOpen(false);
+    }
+  };
+
+  // Algorithm to match therapist based on answers
+  const runMatchingAlgorithm = () => {
+    let bestMatch = team[0];
+    let highestScore = 0;
+
+    team.forEach(therapist => {
+      let score = 0;
+      
+      // Match based on concern
+      if (helpMeAnswers.concern === 'anxiety' && therapist.skills.some(s => s.toLowerCase().includes('anxiety'))) {
+        score += 3;
+      }
+      if (helpMeAnswers.concern === 'depression' && therapist.skills.some(s => s.toLowerCase().includes('depress'))) {
+        score += 3;
+      }
+      if (helpMeAnswers.concern === 'stress' && therapist.skills.some(s => s.toLowerCase().includes('stress'))) {
+        score += 3;
+      }
+      if (helpMeAnswers.concern === 'relationship' && therapist.skills.some(s => s.toLowerCase().includes('relationship'))) {
+        score += 3;
+      }
+      if (helpMeAnswers.concern === 'grief' && therapist.skills.some(s => s.toLowerCase().includes('grief'))) {
+        score += 3;
+      }
+
+      // Match based on duration preference
+      if (helpMeAnswers.duration === 'long' && parseInt(therapist.experience) >= 6) {
+        score += 2;
+      }
+
+      if (score > highestScore) {
+        highestScore = score;
+        bestMatch = therapist;
+      }
+    });
+
+    setRecommendedTherapist(bestMatch);
+    setHelpMeStep(4);
   };
 
   // Breathing exercise logic
@@ -129,7 +209,7 @@ const Homepage = () => {
     setTimeout(() => {
       clearInterval(interval);
       setBreathingPhase('complete');
-    }, 36000); // 3 full cycles
+    }, 36000);
   };
 
   const getTestimonialIcon = (iconType) => {
@@ -183,7 +263,7 @@ const Homepage = () => {
             </div>
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200" alt="Become Yourself" className="w-20 h-20 object-cover rounded-full" />
+                <img src="https://images.unsplash.com/photo-1757351122506-3c6a394e9cd8?w=200" alt="Become Yourself" className="w-20 h-20 object-cover rounded-full" />
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-800">Become Yourself</h4>
               <p className="text-gray-600 text-sm">Rediscover who you truly are</p>
@@ -215,6 +295,23 @@ const Homepage = () => {
             </p>
           </div>
 
+          {/* Help Me Find Popup Trigger */}
+          <div className="text-center mb-10">
+            <button
+              onClick={() => {
+                setIsHelpMeModalOpen(true);
+                setHelpMeStep(1);
+                setHelpMeAnswers({ concern: '', duration: '', preference: '' });
+                setRecommendedTherapist(null);
+              }}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full hover:shadow-lg transition-all duration-300 font-semibold inline-flex items-center space-x-2"
+              data-testid="help-me-find-btn"
+            >
+              <HelpCircle className="w-5 h-5" />
+              <span>Don't know whom to book? Let us help you!</span>
+            </button>
+          </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {team.map((member) => (
               <div key={member.id} className="group bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
@@ -231,11 +328,11 @@ const Homepage = () => {
                 </div>
                 <div className="p-5">
                   <div className="flex flex-wrap gap-2 mb-3">
-                    {member.expertise && member.expertise.map((exp, idx) => (
-                      <span key={idx} className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">{exp}</span>
+                    {member.skills && member.skills.map((skill, idx) => (
+                      <span key={idx} className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">{skill}</span>
                     ))}
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">{member.specialization}</p>
+                  <p className="text-gray-600 text-sm mb-3">{member.experience} experience</p>
                   <div className="flex items-center justify-between">
                     <span className="text-green-600 font-bold">Rs {member.price} only</span>
                     <button
@@ -250,6 +347,24 @@ const Homepage = () => {
               </div>
             ))}
           </div>
+
+          {/* Message Your Therapist - Shows after booking */}
+          {bookingComplete && bookedTherapist && (
+            <div className="mt-10 text-center">
+              <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-6 max-w-md mx-auto">
+                <MessageCircle className="w-10 h-10 text-green-600 mx-auto mb-3" />
+                <h4 className="text-lg font-bold text-green-800 mb-2">Session Booked with {bookedTherapist.name}!</h4>
+                <p className="text-green-700 text-sm mb-4">You can now message your therapist. They will respond when available.</p>
+                <button
+                  onClick={() => setIsMessageModalOpen(true)}
+                  className="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition-colors font-medium"
+                  data-testid="message-therapist-btn"
+                >
+                  Message {bookedTherapist.name}
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className="text-center mt-10">
             <Link to="/team" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
@@ -406,7 +521,6 @@ const Homepage = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* 4-4-4 Breathing */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Wind className="w-10 h-10 text-teal-600" />
@@ -424,7 +538,6 @@ const Homepage = () => {
               </button>
             </div>
 
-            {/* Gratitude Journal */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <BookHeart className="w-10 h-10 text-purple-600" />
@@ -442,7 +555,6 @@ const Homepage = () => {
               </button>
             </div>
 
-            {/* Physical Exercise Tip */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Activity className="w-10 h-10 text-orange-600" />
@@ -694,9 +806,244 @@ const Homepage = () => {
                 className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 data-testid="submit-booking-btn"
               >
-                {isSubmitting ? 'Submitting...' : 'Request Appointment'}
+                {isSubmitting ? 'Submitting...' : 'Proceed to Payment'}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* UPI Payment Modal */}
+      {isPaymentModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-8">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CreditCard className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2">Pay via UPI</h3>
+              <p className="text-gray-600">Safe & Secure Payment</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6 mb-6">
+              <div className="text-center mb-4">
+                <p className="text-sm text-gray-600 mb-1">Amount to Pay</p>
+                <p className="text-3xl font-bold text-green-600">Rs {bookedTherapist?.price || '1500'}</p>
+              </div>
+              
+              <div className="bg-white rounded-lg p-4 mb-4">
+                <p className="text-sm text-gray-500 mb-2">UPI ID</p>
+                <p className="font-mono font-semibold text-lg">aashwashan@upi</p>
+              </div>
+
+              <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
+                <span className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Secure
+                </span>
+                <span className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Instant
+                </span>
+                <span className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Easy
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={handlePaymentComplete}
+                className="w-full bg-green-600 text-white py-3 rounded-full hover:bg-green-700 transition-colors font-semibold"
+                data-testid="confirm-payment-btn"
+              >
+                I've Completed Payment
+              </button>
+              <button
+                onClick={() => setIsPaymentModalOpen(false)}
+                className="w-full bg-gray-100 text-gray-700 py-3 rounded-full hover:bg-gray-200 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500 text-center mt-4">
+              UPI is the safest and most secure way to pay in India
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Message Therapist Modal */}
+      {isMessageModalOpen && bookedTherapist && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6">
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center space-x-3">
+                <img src={bookedTherapist.image} alt={bookedTherapist.name} className="w-12 h-12 rounded-full object-cover" />
+                <div>
+                  <h3 className="font-bold">{bookedTherapist.name}</h3>
+                  <p className="text-sm text-green-600">● Online</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsMessageModalOpen(false)}
+                className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="bg-gray-50 rounded-xl p-4 mb-4 min-h-[200px]">
+              <div className="bg-blue-100 rounded-lg p-3 max-w-[80%] mb-3">
+                <p className="text-sm text-blue-800">Hi! I'm here to help. Feel free to share what's on your mind.</p>
+                <p className="text-xs text-blue-600 mt-1">{bookedTherapist.name}</p>
+              </div>
+              <p className="text-xs text-gray-500 text-center">Your therapist will respond when available</p>
+            </div>
+
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                value={messageText}
+                onChange={handleMessageChange}
+                placeholder="Type your message... (no numbers allowed)"
+                className="flex-1 px-4 py-3 rounded-full border-2 border-gray-200 focus:border-blue-600 focus:outline-none"
+                data-testid="message-input"
+              />
+              <button
+                onClick={sendMessage}
+                disabled={!messageText.trim()}
+                className="w-12 h-12 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center disabled:bg-gray-300"
+                data-testid="send-message-btn"
+              >
+                <Send className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-2">Numbers are not allowed in messages for your privacy</p>
+          </div>
+        </div>
+      )}
+
+      {/* Help Me Find Modal */}
+      {isHelpMeModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-8">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold">Find Your Perfect Match</h3>
+              <button
+                onClick={() => setIsHelpMeModalOpen(false)}
+                className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Progress bar */}
+            <div className="flex space-x-2 mb-8">
+              {[1, 2, 3, 4].map((step) => (
+                <div 
+                  key={step}
+                  className={`h-2 flex-1 rounded-full ${helpMeStep >= step ? 'bg-purple-600' : 'bg-gray-200'}`}
+                />
+              ))}
+            </div>
+
+            {helpMeStep === 1 && (
+              <div>
+                <p className="text-gray-600 mb-6">What's your primary concern?</p>
+                <div className="space-y-3">
+                  {['anxiety', 'depression', 'stress', 'relationship', 'grief', 'other'].map((concern) => (
+                    <button
+                      key={concern}
+                      onClick={() => {
+                        setHelpMeAnswers({...helpMeAnswers, concern});
+                        setHelpMeStep(2);
+                      }}
+                      className={`w-full p-4 rounded-xl border-2 text-left capitalize hover:border-purple-600 hover:bg-purple-50 transition-colors ${helpMeAnswers.concern === concern ? 'border-purple-600 bg-purple-50' : 'border-gray-200'}`}
+                    >
+                      {concern === 'other' ? 'Something else' : concern}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {helpMeStep === 2 && (
+              <div>
+                <p className="text-gray-600 mb-6">How long have you been experiencing this?</p>
+                <div className="space-y-3">
+                  {[
+                    { value: 'recent', label: 'Recently (less than a month)' },
+                    { value: 'moderate', label: 'A few months' },
+                    { value: 'long', label: 'More than 6 months' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => {
+                        setHelpMeAnswers({...helpMeAnswers, duration: option.value});
+                        setHelpMeStep(3);
+                      }}
+                      className="w-full p-4 rounded-xl border-2 border-gray-200 text-left hover:border-purple-600 hover:bg-purple-50 transition-colors"
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {helpMeStep === 3 && (
+              <div>
+                <p className="text-gray-600 mb-6">What's most important to you in a therapist?</p>
+                <div className="space-y-3">
+                  {[
+                    { value: 'experience', label: 'Years of experience' },
+                    { value: 'specialty', label: 'Specialized expertise' },
+                    { value: 'approach', label: 'Warm and empathetic approach' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => {
+                        setHelpMeAnswers({...helpMeAnswers, preference: option.value});
+                        runMatchingAlgorithm();
+                      }}
+                      className="w-full p-4 rounded-xl border-2 border-gray-200 text-left hover:border-purple-600 hover:bg-purple-50 transition-colors"
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {helpMeStep === 4 && recommendedTherapist && (
+              <div className="text-center">
+                <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-6 mb-6">
+                  <p className="text-sm text-purple-600 font-medium mb-3">🎯 Our Algorithm Recommends</p>
+                  <img 
+                    src={recommendedTherapist.image} 
+                    alt={recommendedTherapist.name}
+                    className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-white shadow-lg"
+                  />
+                  <h4 className="text-xl font-bold mb-1">{recommendedTherapist.name}</h4>
+                  <p className="text-gray-600 text-sm mb-3">{recommendedTherapist.role}</p>
+                  <div className="flex flex-wrap justify-center gap-2 mb-4">
+                    {recommendedTherapist.skills.map((skill, idx) => (
+                      <span key={idx} className="bg-white text-purple-700 text-xs px-3 py-1 rounded-full">{skill}</span>
+                    ))}
+                  </div>
+                  <p className="text-green-600 font-bold">Rs {recommendedTherapist.price} per session</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setIsHelpMeModalOpen(false);
+                    openBookingModal(recommendedTherapist);
+                  }}
+                  className="w-full bg-purple-600 text-white py-3 rounded-full hover:bg-purple-700 transition-colors font-semibold"
+                >
+                  Book with {recommendedTherapist.name}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -769,7 +1116,7 @@ const Homepage = () => {
       {/* Breathing Exercise Modal */}
       {isBreathingModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center">
+          <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center relative">
             <button
               onClick={() => {
                 setIsBreathingModalOpen(false);
