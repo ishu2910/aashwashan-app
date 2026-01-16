@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, Upload, User, Briefcase } from 'lucide-react';
+import { Mail, Phone, Upload, User } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 
 const JoinOurTeamPage = () => {
@@ -7,7 +7,6 @@ const JoinOurTeamPage = () => {
     name: '',
     email: '',
     phone: '',
-    position: '',
     experience: '',
     message: '',
     resume: null
@@ -38,7 +37,6 @@ const JoinOurTeamPage = () => {
       name: '',
       email: '',
       phone: '',
-      position: '',
       experience: '',
       message: '',
       resume: null
@@ -149,25 +147,6 @@ const JoinOurTeamPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    <Briefcase className="inline w-4 h-4 mr-2" />Position Applying For *
-                  </label>
-                  <select
-                    name="position"
-                    value={formData.position}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                  >
-                    <option value="">Select position...</option>
-                    <option value="Clinical Psychologist">Clinical Psychologist</option>
-                    <option value="Counseling Psychologist">Counseling Psychologist</option>
-                    <option value="Psychiatric Social Worker">Psychiatric Social Worker</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-
-                <div>
                   <label className="block text-sm font-semibold mb-2">Years of Experience *</label>
                   <input
                     type="text"
@@ -196,7 +175,7 @@ const JoinOurTeamPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold mb-2">Cover Letter / Additional Information</label>
+                  <label className="block text-sm font-semibold mb-2">Tell Us About Yourself</label>
                   <textarea
                     name="message"
                     value={formData.message}
