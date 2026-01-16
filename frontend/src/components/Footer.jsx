@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -16,7 +16,10 @@ const Footer = () => {
                 alt="Aashwashan" 
                 className="h-12 w-auto"
               />
-              <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+                <span className="text-xs text-gray-400">Mental Health for All</span>
+              </div>
             </div>
             <p className="text-gray-400 mb-6">
               Your journey to mental wellness starts here. We provide compassionate care and professional support for adults seeking mental health treatment.
@@ -54,10 +57,11 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-6">Our Services</h3>
             <ul className="space-y-3">
-              <li><Link to="/service/1" className="text-gray-400 hover:text-white transition-colors">Mood Swings Therapy</Link></li>
-              <li><Link to="/service/2" className="text-gray-400 hover:text-white transition-colors">Persistent Worry Treatment</Link></li>
-              <li><Link to="/service/3" className="text-gray-400 hover:text-white transition-colors">Crisis Intervention</Link></li>
-              <li><Link to="/service/4" className="text-gray-400 hover:text-white transition-colors">Low Energy Therapy</Link></li>
+              <li><Link to="/service/1" className="text-gray-400 hover:text-white transition-colors">Mood Disorder</Link></li>
+              <li><Link to="/service/2" className="text-gray-400 hover:text-white transition-colors">Anxiety Disorder</Link></li>
+              <li><Link to="/service/3" className="text-gray-400 hover:text-white transition-colors">Impulsive Behaviour</Link></li>
+              <li><Link to="/service/4" className="text-gray-400 hover:text-white transition-colors">Low Energy & Fatigue</Link></li>
+              <li><Link to="/service/5" className="text-gray-400 hover:text-white transition-colors">24/7 Messaging Support</Link></li>
             </ul>
           </div>
 
@@ -67,21 +71,35 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
-                <span className="text-gray-400">123 Serenity Lane, Blissfield, CA 90210</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                <a href="tel:5551234567" className="text-gray-400 hover:text-white transition-colors">(555) 123-4567</a>
+                <a 
+                  href="https://maps.app.goo.gl/bLPXRW4qLnUtq5U37" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  1289/6 Near Market Committee, Ambala City
+                </a>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                <a href="mailto:info@aashwashan.com" className="text-gray-400 hover:text-white transition-colors">info@aashwashan.com</a>
-              </li>
-              <li className="flex items-start space-x-3">
-                <Clock className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
-                <span className="text-gray-400">Mon - Fri: 8:00 AM - 6:30 PM<br />Sat: 9:00 AM - 2:00 PM</span>
+                <a href="mailto:care@aashwashan.com" className="text-gray-400 hover:text-white transition-colors">care@aashwashan.com</a>
               </li>
             </ul>
+
+            {/* Map Embed */}
+            <div className="mt-6">
+              <a 
+                href="https://maps.app.goo.gl/bLPXRW4qLnUtq5U37" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block bg-white/10 hover:bg-white/20 rounded-lg p-4 transition-colors"
+              >
+                <div className="flex items-center space-x-2 text-blue-400">
+                  <MapPin className="w-5 h-5" />
+                  <span className="text-sm font-medium">View on Google Maps</span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
