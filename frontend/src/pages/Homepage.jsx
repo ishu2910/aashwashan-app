@@ -1225,9 +1225,8 @@ const Homepage = () => {
           <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center relative">
             <button
               onClick={() => {
+                stopBreathingExercise();
                 setIsBreathingModalOpen(false);
-                setBreathingPhase('ready');
-                setBreathingCount(4);
               }}
               className="absolute top-4 right-4 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
             >
@@ -1238,9 +1237,19 @@ const Homepage = () => {
             
             {breathingPhase === 'ready' && (
               <div>
-                <p className="text-gray-600 mb-6">
-                  This technique helps calm your nervous system. Breathe in for 4 seconds, hold for 4 seconds, and exhale for 4 seconds.
-                </p>
+                <div className="bg-teal-50 rounded-xl p-4 mb-6">
+                  <p className="text-gray-700 mb-2">
+                    This technique helps calm your nervous system.
+                  </p>
+                  <p className="text-teal-700 font-medium text-sm">
+                    🔊 Voice guidance & sounds enabled
+                  </p>
+                </div>
+                <div className="flex items-center justify-center space-x-4 mb-6 text-sm text-gray-600">
+                  <span className="flex items-center"><span className="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>Inhale 4s</span>
+                  <span className="flex items-center"><span className="w-3 h-3 bg-purple-500 rounded-full mr-2"></span>Hold 4s</span>
+                  <span className="flex items-center"><span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>Exhale 4s</span>
+                </div>
                 <button
                   onClick={startBreathingExercise}
                   className="bg-teal-600 text-white px-8 py-3 rounded-full hover:bg-teal-700 transition-colors font-semibold"
@@ -1252,17 +1261,22 @@ const Homepage = () => {
 
             {breathingPhase !== 'ready' && breathingPhase !== 'complete' && (
               <div>
-                <div className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center mb-6 transition-all duration-1000 ${
-                  breathingPhase === 'inhale' ? 'bg-blue-500 scale-125' : 
-                  breathingPhase === 'hold' ? 'bg-purple-500 scale-125' : 
-                  'bg-green-500 scale-100'
+                <div className={`w-36 h-36 mx-auto rounded-full flex items-center justify-center mb-6 transition-all duration-1000 shadow-lg ${
+                  breathingPhase === 'inhale' ? 'bg-gradient-to-br from-blue-400 to-blue-600 scale-125' : 
+                  breathingPhase === 'hold' ? 'bg-gradient-to-br from-purple-400 to-purple-600 scale-125' : 
+                  'bg-gradient-to-br from-green-400 to-green-600 scale-100'
                 }`}>
-                  <span className="text-white text-4xl font-bold">{breathingCount}</span>
+                  <span className="text-white text-5xl font-bold">{breathingCount}</span>
                 </div>
-                <p className="text-2xl font-semibold capitalize text-gray-800">
-                  {breathingPhase === 'inhale' && 'Breathe In...'}
-                  {breathingPhase === 'hold' && 'Hold...'}
-                  {breathingPhase === 'exhale' && 'Breathe Out...'}
+                <p className="text-2xl font-semibold capitalize text-gray-800 mb-2">
+                  {breathingPhase === 'inhale' && '🌬️ Breathe In...'}
+                  {breathingPhase === 'hold' && '⏸️ Hold...'}
+                  {breathingPhase === 'exhale' && '💨 Breathe Out...'}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {breathingPhase === 'inhale' && 'Fill your lungs slowly'}
+                  {breathingPhase === 'hold' && 'Keep the air in'}
+                  {breathingPhase === 'exhale' && 'Release slowly'}
                 </p>
               </div>
             )}
@@ -1272,11 +1286,12 @@ const Homepage = () => {
                 <div className="w-32 h-32 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-6">
                   <CheckCircle className="w-16 h-16 text-green-600" />
                 </div>
-                <p className="text-xl font-semibold text-gray-800 mb-4">Great job! How do you feel?</p>
+                <p className="text-xl font-semibold text-gray-800 mb-2">Great job!</p>
+                <p className="text-gray-600 mb-4">You completed 3 breathing cycles</p>
                 <button
                   onClick={() => {
-                    setBreathingPhase('ready');
-                    setBreathingCount(4);
+                    stopBreathingExercise();
+                    startBreathingExercise();
                   }}
                   className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors font-medium mr-2"
                 >
@@ -1284,10 +1299,18 @@ const Homepage = () => {
                 </button>
                 <button
                   onClick={() => {
+                    stopBreathingExercise();
                     setIsBreathingModalOpen(false);
-                    setBreathingPhase('ready');
-                    setBreathingCount(4);
                   }}
+                  className="bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors font-medium"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
                   className="bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors font-medium"
                 >
                   Close
