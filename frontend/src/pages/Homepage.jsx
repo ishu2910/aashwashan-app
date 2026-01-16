@@ -252,26 +252,73 @@ const Homepage = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
             <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-6xl mb-4">😴</div>
+              <div className="mb-4 h-32 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=200" alt="Sleep Better" className="w-24 h-24 object-cover rounded-full" />
+              </div>
               <h4 className="text-2xl font-bold mb-3">Sleep Better</h4>
               <p className="text-gray-600">Restful nights and peaceful mornings</p>
             </div>
             <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-6xl mb-4">🧠</div>
+              <div className="mb-4 h-32 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=200" alt="Think Clearer" className="w-24 h-24 object-cover rounded-full" />
+              </div>
               <h4 className="text-2xl font-bold mb-3">Think Clearer</h4>
               <p className="text-gray-600">Better focus and decision making</p>
             </div>
             <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-6xl mb-4">🎈</div>
+              <div className="mb-4 h-32 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?w=200" alt="Feel Lighter" className="w-24 h-24 object-cover rounded-full" />
+              </div>
               <h4 className="text-2xl font-bold mb-3">Feel Lighter</h4>
               <p className="text-gray-600">Less emotional burden, more joy</p>
             </div>
             <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="text-6xl mb-4">✨</div>
+              <div className="mb-4 h-32 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=200" alt="Build Resilience" className="w-24 h-24 object-cover rounded-full" />
+              </div>
+              <h4 className="text-2xl font-bold mb-3">Build Resilience</h4>
+              <p className="text-gray-600">Bounce back stronger from challenges</p>
+            </div>
+            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="mb-4 h-32 flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200" alt="Become Yourself" className="w-24 h-24 object-cover rounded-full" />
+              </div>
               <h4 className="text-2xl font-bold mb-3">Become Yourself Again</h4>
               <p className="text-gray-600">Rediscover who you truly are</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h3 className="text-5xl lg:text-7xl font-bold mb-6">How It Works</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Simple steps to start your mental wellness journey
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">1</div>
+                <h4 className="text-2xl font-bold mb-4">Fill the Form</h4>
+                <p className="text-gray-600">Share your concerns and preferences anonymously. Your privacy is our priority.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">2</div>
+                <h4 className="text-2xl font-bold mb-4">We Connect With You</h4>
+                <p className="text-gray-600">Our team reviews your needs and matches you with the most suitable psychologist.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">3</div>
+                <h4 className="text-2xl font-bold mb-4">Personalized Roadmap</h4>
+                <p className="text-gray-600">Together, we create a tailored plan to help you achieve better mental health and live life fully.</p>
+              </div>
             </div>
           </div>
         </div>
