@@ -587,6 +587,69 @@ const Homepage = () => {
           </div>
         </div>
       )}
+
+      {/* Symptom Modal */}
+      {isSymptomModalOpen && selectedService && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b px-8 py-6 flex justify-between items-center">
+              <div>
+                <h3 className="text-2xl font-bold">{selectedService.title}</h3>
+                <p className="text-gray-600">Signs and Symptoms</p>
+              </div>
+              <button
+                onClick={closeSymptomModal}
+                className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="p-8">
+              <div className="mb-6">
+                <img 
+                  src={selectedService.image} 
+                  alt={selectedService.title} 
+                  className="w-full h-48 object-cover rounded-2xl mb-4"
+                />
+                <p className="text-gray-700 text-lg leading-relaxed mb-6">
+                  {selectedService.description}
+                </p>
+              </div>
+
+              {selectedService.symptoms && (
+                <div className="mb-8">
+                  <h4 className="text-xl font-bold mb-4 text-gray-800">Common Signs & Symptoms:</h4>
+                  <div className="grid gap-3">
+                    {selectedService.symptoms.map((symptom, index) => (
+                      <div key={index} className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
+                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-700">{symptom}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 text-center">
+                <h4 className="text-xl font-bold mb-3 text-gray-800">Ready to Get Help?</h4>
+                <p className="text-gray-600 mb-4">
+                  If you're experiencing these symptoms, our professional therapists are here to support you.
+                </p>
+                <button
+                  onClick={() => {
+                    closeSymptomModal();
+                    openBookingModal(null);
+                  }}
+                  className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+                >
+                  Book a Session
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
