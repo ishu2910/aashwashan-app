@@ -80,78 +80,66 @@ export const services = [
 export const team = [
   {
     id: 1,
-    name: "Dr. Sarah Mitchell",
+    name: "Prakhar Tiwari",
     role: "Clinical Psychologist",
     specialization: "Anxiety & Depression",
     expertise: ["Mood Disorder", "Excessive and Persistent Anxiety"],
-    experience: "15+ years",
+    experience: "8+ years",
     price: "1500",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
-    bio: "Dr. Mitchell specializes in cognitive behavioral therapy and has helped hundreds of clients overcome anxiety and depression.",
-    education: "Ph.D. in Clinical Psychology, Harvard University"
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+    bio: "Prakhar specializes in cognitive behavioral therapy and has helped hundreds of clients overcome anxiety and depression.",
+    education: "M.Phil in Clinical Psychology"
   },
   {
     id: 2,
-    name: "Dr. Michael Chen",
+    name: "Sonali Mishra",
     role: "Licensed Therapist",
     specialization: "Behavioral Therapy",
     expertise: ["Impulsive Behaviour", "Mood Disorder"],
-    experience: "12+ years",
+    experience: "6+ years",
     price: "1500",
-    image: "https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg",
-    bio: "Dr. Chen is passionate about helping adults manage behavioral challenges and build healthier life patterns.",
-    education: "Ph.D. in Clinical Psychology, UCLA"
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
+    bio: "Sonali is passionate about helping adults manage behavioral challenges and build healthier life patterns.",
+    education: "M.A. in Clinical Psychology"
   },
   {
     id: 3,
-    name: "Dr. Emily Rodriguez",
+    name: "Shweta Bramhankar",
     role: "Counseling Psychologist",
     specialization: "Depression & Fatigue",
     expertise: ["Combating Low Energy & Fatigue", "Mood Disorder"],
-    experience: "10+ years",
+    experience: "5+ years",
     price: "1500",
-    image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd",
-    bio: "Dr. Rodriguez specializes in helping adults overcome chronic fatigue and depression, providing compassionate support.",
-    education: "Ph.D. in Counseling Psychology, Stanford University"
-  },
-  {
-    id: 4,
-    name: "Dr. James Wilson",
-    role: "Psychiatrist",
-    specialization: "Anxiety & Stress Management",
-    expertise: ["Excessive and Persistent Anxiety", "Impulsive Behaviour"],
-    experience: "20+ years",
-    price: "1500",
-    image: "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg",
-    bio: "Dr. Wilson provides comprehensive care for anxiety disorders and stress-related conditions with evidence-based approaches.",
-    education: "M.D. Psychiatry, Johns Hopkins University"
+    image: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=400",
+    bio: "Shweta specializes in helping adults overcome chronic fatigue and depression, providing compassionate support.",
+    education: "M.Phil in Counseling Psychology"
   }
 ];
 
 export const testimonials = [
   {
     id: 1,
-    name: "Jennifer Thompson",
+    name: "Priya Sharma",
     role: "Individual Therapy Client",
     rating: 5,
     text: "Aashwashan has truly changed my life. The therapists here are compassionate, professional, and genuinely care about their clients' well-being. I've made tremendous progress in managing my anxiety.",
-    image: "https://images.unsplash.com/photo-1573495804664-b1c0849525af"
+    icon: "user"
   },
   {
     id: 2,
-    name: "Mark & Lisa Davis",
+    name: "Rahul & Neha Gupta",
     role: "Couples Counseling",
     rating: 5,
     text: "Our marriage was on the brink of collapse, but the couples therapy we received here helped us rebuild our relationship. We learned to communicate better and understand each other's needs.",
-    image: "https://images.unsplash.com/photo-1604881991720-f91add269bed"
+    icon: "users"
   },
   {
     id: 3,
-    name: "Robert Martinez",
+    name: "Amit Verma",
     role: "Depression Support Client",
     rating: 5,
     text: "After years of struggling with depression, I finally found hope at Aashwashan. The support and guidance I received helped me reclaim my life and find joy again.",
-    image: "https://images.unsplash.com/photo-1551847677-dc82d764e1eb"
+    icon: "heart"
   }
 ];
 

@@ -31,14 +31,16 @@ const Navbar = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-4">
             {/* Logo with Name */}
-            <Link to="/" className="flex items-center space-x-4">
+            <Link to="/" className="flex items-center space-x-3">
               <img 
                 src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
                 alt="Aashwashan" 
-                className="h-20 w-auto"
-                style={{ transform: 'scale(1.3)' }}
+                className="h-16 w-auto"
               />
-              <span className="text-3xl font-bold text-blue-600 ml-2" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold text-blue-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+                <span className="text-xs text-gray-500 tracking-wide">Mental Health for All</span>
+              </div>
             </Link>
 
             {/* Desktop Menu */}
