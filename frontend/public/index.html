@@ -3,41 +3,102 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta name="description" content="A product of emergent.sh" />
-        <!--
-        manifest.json provides metadata used when your web app is installed on a
-        user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-        -->
-        <!--
-        Notice the use of %PUBLIC_URL% in the tags above.
-        It will be replaced with the URL of the `public` folder during the build.
-        Only files inside the `public` folder can be referenced from the HTML.
-
-        Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-        work correctly both with client-side routing and a non-root public URL.
-        Learn how to configure a non-root public URL by running `npm run build`.
-        -->
-        <title>Aashwashan | Mental Health Care</title>
+        <meta name="theme-color" content="#2563eb" />
+        
+        <!-- SEO Meta Tags -->
+        <title>Aashwashan | Mental Health for All - Professional Therapy & Counseling in India</title>
+        <meta name="description" content="Aashwashan provides high-quality, affordable mental health care in India. Book anonymous therapy sessions with licensed psychologists. Rs 1500 per session. Anxiety, depression, stress management & more." />
+        <meta name="keywords" content="mental health India, therapy India, psychologist Ambala, counseling services, anxiety treatment, depression help, online therapy, affordable therapy India, mental health care, Aashwashan" />
+        <meta name="author" content="Aashwashan Mental Health Services" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://aashwashan.com" />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aashwashan.com/" />
+        <meta property="og:title" content="Aashwashan | Mental Health for All" />
+        <meta property="og:description" content="High-quality mental health care is not a luxury — it is your right. Book anonymous therapy sessions with licensed psychologists in India." />
+        <meta property="og:image" content="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" />
+        <meta property="og:site_name" content="Aashwashan" />
+        <meta property="og:locale" content="en_IN" />
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://aashwashan.com/" />
+        <meta property="twitter:title" content="Aashwashan | Mental Health for All" />
+        <meta property="twitter:description" content="High-quality mental health care is not a luxury — it is your right. Book anonymous therapy sessions with licensed psychologists in India." />
+        <meta property="twitter:image" content="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" />
+        
+        <!-- Additional SEO -->
+        <meta name="geo.region" content="IN-HR" />
+        <meta name="geo.placename" content="Ambala" />
+        <meta name="geo.position" content="30.3782;76.7767" />
+        <meta name="ICBM" content="30.3782, 76.7767" />
+        
+        <!-- Structured Data / Schema.org -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "MedicalBusiness",
+            "name": "Aashwashan Mental Health Services",
+            "description": "Professional mental health care and therapy services in India",
+            "url": "https://aashwashan.com",
+            "logo": "https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif",
+            "image": "https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif",
+            "email": "care@aashwashan.com",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1289/6 Near Market Committee",
+                "addressLocality": "Ambala City",
+                "addressRegion": "Haryana",
+                "addressCountry": "IN"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": "30.3782",
+                "longitude": "76.7767"
+            },
+            "priceRange": "₹₹",
+            "openingHours": "Mo-Su 09:00-18:00",
+            "sameAs": [],
+            "medicalSpecialty": ["Psychiatry", "Psychology"],
+            "availableService": [
+                {
+                    "@type": "MedicalTherapy",
+                    "name": "Anxiety Treatment",
+                    "description": "Professional therapy for anxiety disorders"
+                },
+                {
+                    "@type": "MedicalTherapy", 
+                    "name": "Depression Treatment",
+                    "description": "Compassionate care for depression and mood disorders"
+                },
+                {
+                    "@type": "MedicalTherapy",
+                    "name": "Stress Management",
+                    "description": "Therapy for stress and burnout"
+                }
+            ]
+        }
+        </script>
+        
+        <!-- Google Fonts for better typography -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        
         <script src="https://assets.emergent.sh/scripts/emergent-main.js"></script>
-        <!--
-        These two scripts have been added for the Visual Edits, please do not edit or remove them
-        -->
         <script>
-            // Only load visual edit scripts when inside an iframe
             if (window.self !== window.top) {
-                // Load debug monitor script
                 var debugMonitorScript = document.createElement('script');
                 debugMonitorScript.src = 'https://assets.emergent.sh/scripts/debug-monitor.js';
                 document.head.appendChild(debugMonitorScript);
 
-                // Configure Tailwind
                 window.tailwind = window.tailwind || {};
                 tailwind.config = {
                     corePlugins: { preflight: false },
                 };
 
-                // Load Tailwind CDN
                 var tailwindScript = document.createElement('script');
                 tailwindScript.src = 'https://cdn.tailwindcss.com';
                 document.head.appendChild(tailwindScript);
@@ -47,17 +108,6 @@
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
-        <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-        </script>
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
         <a
             id="emergent-badge"
             target="_blank"
@@ -169,7 +219,7 @@
             })(document, window.posthog || []);
             posthog.init("phc_yJW1VjHGGwmCbbrtczfqqNxgBDbhlhOWcdzcIJEOTFE", {
                 api_host: "https://us.i.posthog.com",
-                person_profiles: "identified_only", // or 'always' to create profiles for anonymous users as well
+                person_profiles: "identified_only",
             });
         </script>
     </body>
