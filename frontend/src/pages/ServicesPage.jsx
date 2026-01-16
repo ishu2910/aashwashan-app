@@ -200,24 +200,57 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-16 bg-white">
+      {/* Why Choose Us - Same as Homepage */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h3 className="text-3xl lg:text-4xl font-bold mb-4">Why Choose Aashwashan?</h3>
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">WHY CHOOSE US</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Why Aashwashan?</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+              We provide professional, compassionate care that makes a real difference in your mental health journey.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">100%</div>
-              <h4 className="font-bold mb-1">Anonymous</h4>
-              <p className="text-gray-600 text-sm">Your privacy is sacred</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+              </div>
+              <h4 className="font-bold text-lg mb-2">From Your Comfort Zone</h4>
+              <p className="text-gray-600 text-sm">Therapy from anywhere you feel safe</p>
             </div>
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">24h</div>
-              <h4 className="font-bold mb-1">Quick Response</h4>
-              <p className="text-gray-600 text-sm">We connect within a day</p>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <h4 className="font-bold text-lg mb-2">Making You Self-Reliant</h4>
+              <p className="text-gray-600 text-sm">Building skills for lifelong wellness</p>
             </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <h4 className="font-bold text-lg mb-2">Real People. Real Support.</h4>
+              <p className="text-gray-600 text-sm">Genuine care from qualified professionals</p>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <h4 className="font-bold text-lg mb-2">Be Yourself Here</h4>
+              <p className="text-gray-600 text-sm">No judgment, just understanding</p>
+            </div>
+          </div>
+        </div>
+      </section>
             <div className="bg-gradient-to-br from-pink-50 to-blue-50 rounded-2xl p-6 text-center">
               <div className="text-4xl font-bold text-pink-600 mb-2">₹1500</div>
               <h4 className="font-bold mb-1">Affordable</h4>
