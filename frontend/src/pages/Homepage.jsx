@@ -139,13 +139,10 @@ const Homepage = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <Link 
+            {services.slice(0, 4).map((service, index) => (
+              <div
                 key={service.id}
-                to={`/service/${service.id}`}
-                className="bg-white rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
-               
-                data-aos-delay={index * 100}
+                className="bg-white rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer"
               >
                 <div className="h-48 overflow-hidden">
                   <img 
@@ -157,9 +154,14 @@ const Homepage = () => {
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors">{service.title}</h3>
                   <p className="text-gray-600 mb-4 text-sm">{service.description}</p>
-                  <span className="text-blue-600 font-semibold group-hover:underline">Learn More →</span>
+                  <button
+                    onClick={() => openSymptomModal(service)}
+                    className="text-blue-600 font-semibold hover:underline"
+                  >
+                    How do I know I am going through this?
+                  </button>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
