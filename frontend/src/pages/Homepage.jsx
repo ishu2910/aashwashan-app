@@ -235,35 +235,35 @@ const Homepage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=200" alt="Sleep Better" className="w-20 h-20 object-cover rounded-full" />
+                <img src="https://images.unsplash.com/photo-1758273239288-9b60777397c5?w=200" alt="Sleep Better" className="w-20 h-20 object-cover rounded-full" />
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-800">Sleep Better</h4>
               <p className="text-gray-600 text-sm">Restful nights and peaceful mornings</p>
             </div>
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=200" alt="Think Clearer" className="w-20 h-20 object-cover rounded-full" />
+                <img src="https://images.unsplash.com/photo-1763723341417-a4ea5ba6f675?w=200" alt="Think Clearer" className="w-20 h-20 object-cover rounded-full" />
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-800">Think Clearer</h4>
               <p className="text-gray-600 text-sm">Better focus and decision making</p>
             </div>
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?w=200" alt="Feel Lighter" className="w-20 h-20 object-cover rounded-full" />
+                <img src="https://images.unsplash.com/photo-1559551538-d4d5a9e85124?w=200" alt="Feel Lighter" className="w-20 h-20 object-cover rounded-full" />
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-800">Feel Lighter</h4>
               <p className="text-gray-600 text-sm">Less emotional burden, more joy</p>
             </div>
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=200" alt="Build Resilience" className="w-20 h-20 object-cover rounded-full" />
+                <img src="https://images.unsplash.com/photo-1738084737196-031b26793ed0?w=200" alt="Build Resilience" className="w-20 h-20 object-cover rounded-full" />
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-800">Build Resilience</h4>
               <p className="text-gray-600 text-sm">Bounce back stronger from challenges</p>
             </div>
             <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1757351122506-3c6a394e9cd8?w=200" alt="Become Yourself" className="w-20 h-20 object-cover rounded-full" />
+                <img src="https://images.unsplash.com/photo-1592598015799-35c84b09394c?w=200" alt="Become Yourself" className="w-20 h-20 object-cover rounded-full" />
               </div>
               <h4 className="text-xl font-bold mb-2 text-gray-800">Become Yourself</h4>
               <p className="text-gray-600 text-sm">Rediscover who you truly are</p>
