@@ -1,46 +1,157 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { services } from '../data/mockData';
+import { CheckCircle, X, User, Mail, Phone, Calendar, Clock, CreditCard } from 'lucide-react';
+import { services, team } from '../data/mockData';
+import axios from 'axios';
+import { toast } from '../hooks/use-toast';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
 
 const ServicesPage = () => {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    helpWith: '',
+    therapist: '',
+    date: '',
+    time: '',
+    message: ''
+  });
+
+  const openBookingModal = (service) => {
+    setSelectedService(service);
+    setFormData(prev => ({
+      ...prev,
+      helpWith: service?.title || ''
+    }));
+    setIsBookingModalOpen(true);
+  };
+
+  const closeBookingModal = () => {
+    setIsBookingModalOpen(false);
+    setSelectedService(null);
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      helpWith: '',
+      therapist: '',
+      date: '',
+      time: '',
+      message: ''
+    });
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const appointmentData = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      date: formData.date,
+      message: `Help with: ${formData.helpWith}. Preferred therapist: ${formData.therapist || 'Any'}. Time: ${formData.time}. ${formData.message}`
+    };
+    
+    try {
+      await axios.post(`${API}/appointments`, appointmentData);
+      closeBookingModal();
+      setIsPaymentModalOpen(true);
+    } catch (error) {
+      console.error('Error submitting appointment:', error);
+      toast({
+        title: "Error",
+        description: "There was an error. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handlePaymentComplete = () => {
+    setIsPaymentModalOpen(false);
+    toast({
+      title: "Session Booked Successfully!",
+      description: "We'll contact you within 24 hours to confirm your appointment.",
+    });
+  };
+
   return (
     <div>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-20">
+      {/* Hero Section - Do You Know What? */}
+      <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 py-20 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">OUR SERVICES</p>
-            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Adult Mental Health Services</h3>
-            <p className="text-xl text-gray-600">
-              We offer specialized therapy for adults dealing with mood swings, persistent worry, crisis situations, and low energy.
-            </p>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">Do You Know What?</h2>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
+              <p className="text-xl lg:text-2xl leading-relaxed">
+                At Aashwashan, We believe that <span className="font-bold text-yellow-300">high-quality mental health care</span> is not a luxury — <span className="font-bold text-yellow-300">it is your right.</span>
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-20 bg-white">
+      {/* What We Help With */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="text-center mb-12">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">WHEN YOU'RE READY</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">What We Can Help You With</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Whatever you're going through, our expert therapists are here to support you on your journey to better mental health.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {services.map((service) => (
-              <div key={service.id} className="bg-white border-2 border-gray-100 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 group">
-                <div className="h-64 overflow-hidden">
+              <div key={service.id} className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="h-48 overflow-hidden">
                   <img 
                     src={service.image} 
                     alt={service.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold mb-4 group-hover:text-blue-600 transition-colors">{service.title}</h3>
-                  <p className="text-gray-600 mb-6">{service.description}</p>
-                  <Link 
-                    to={`/service/${service.id}`}
-                    className="inline-flex items-center text-blue-600 font-semibold hover:underline"
+                <div className="p-6">
+                  <h4 className="text-2xl font-bold mb-3 text-gray-800">{service.title}</h4>
+                  <p className="text-gray-600 mb-4">{service.description}</p>
+                  
+                  {service.symptoms && service.symptoms.length > 0 && (
+                    <div className="mb-4">
+                      <p className="text-sm font-semibold text-gray-700 mb-2">Common signs:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {service.symptoms.slice(0, 3).map((symptom, idx) => (
+                          <span key={idx} className="bg-white text-gray-600 text-xs px-3 py-1 rounded-full border">
+                            {symptom}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <button
+                    onClick={() => openBookingModal(service)}
+                    className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-colors font-semibold"
+                    data-testid={`book-service-${service.id}`}
                   >
-                    Learn More <ArrowRight className="ml-2 w-5 h-5" />
-                  </Link>
+                    Get Help With This
+                  </button>
                 </div>
               </div>
             ))}
@@ -48,53 +159,317 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Why Choose Our Services */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* Meet Our Experts Section */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h3 className="text-4xl lg:text-5xl font-bold mb-6">Why Choose Our Services?</h3>
+          <div className="text-center mb-12">
+            <h3 className="text-3xl lg:text-4xl font-bold mb-4">Our Expert Therapists</h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              We provide comprehensive, compassionate care that puts your mental wellness first.
+              Connect with qualified professionals who specialize in the areas you need help with.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-2xl p-8 text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-4">100%</div>
-              <h4 className="font-bold text-lg mb-2">Confidential</h4>
-              <p className="text-gray-600 text-sm">Your privacy is our top priority</p>
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {team.map((member) => (
+              <div key={member.id} className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+                <img 
+                  src={member.image} 
+                  alt={member.name} 
+                  className="w-24 h-24 rounded-full object-cover mx-auto mb-4"
+                />
+                <h4 className="font-bold text-lg mb-1">{member.name}</h4>
+                <p className="text-gray-500 text-sm mb-3">{member.role}</p>
+                <div className="flex flex-wrap justify-center gap-1 mb-4">
+                  {member.skills && member.skills.map((skill, idx) => (
+                    <span key={idx} className="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full">{skill}</span>
+                  ))}
+                </div>
+                <p className="text-green-600 font-semibold">Rs {member.price}/session</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link 
+              to="/team" 
+              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-colors font-semibold"
+            >
+              View All Therapists
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl lg:text-4xl font-bold mb-4">Why Choose Aashwashan?</h3>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 text-center">
+              <div className="text-4xl font-bold text-blue-600 mb-2">100%</div>
+              <h4 className="font-bold mb-1">Anonymous</h4>
+              <p className="text-gray-600 text-sm">Your privacy is sacred</p>
             </div>
-            <div className="bg-white rounded-2xl p-8 text-center">
-              <div className="text-5xl font-bold text-purple-600 mb-4">24/7</div>
-              <h4 className="font-bold text-lg mb-2">Support Available</h4>
-              <p className="text-gray-600 text-sm">Crisis support when you need it</p>
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 text-center">
+              <div className="text-4xl font-bold text-purple-600 mb-2">24h</div>
+              <h4 className="font-bold mb-1">Quick Response</h4>
+              <p className="text-gray-600 text-sm">We connect within a day</p>
             </div>
-            <div className="bg-white rounded-2xl p-8 text-center">
-              <div className="text-5xl font-bold text-pink-600 mb-4">15+</div>
-              <h4 className="font-bold text-lg mb-2">Years Experience</h4>
-              <p className="text-gray-600 text-sm">Proven track record of success</p>
+            <div className="bg-gradient-to-br from-pink-50 to-blue-50 rounded-2xl p-6 text-center">
+              <div className="text-4xl font-bold text-pink-600 mb-2">₹1500</div>
+              <h4 className="font-bold mb-1">Affordable</h4>
+              <p className="text-gray-600 text-sm">Quality care for all</p>
             </div>
-            <div className="bg-white rounded-2xl p-8 text-center">
-              <div className="text-5xl font-bold text-blue-600 mb-4">98%</div>
-              <h4 className="font-bold text-lg mb-2">Success Rate</h4>
-              <p className="text-gray-600 text-sm">Clients report positive outcomes</p>
+            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-6 text-center">
+              <div className="text-4xl font-bold text-green-600 mb-2">UPI</div>
+              <h4 className="font-bold mb-1">Secure Payment</h4>
+              <p className="text-gray-600 text-sm">Safe & easy</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-4xl lg:text-5xl font-bold mb-6">Ready to Get Started?</h3>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Take the first step toward better mental health. Book your appointment today.
+          <h3 className="text-3xl lg:text-4xl font-bold mb-4">Ready to Take the First Step?</h3>
+          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            It's okay to ask for help. Your mental health matters.
           </p>
-          <Link to="/appointment" className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold shadow-lg">
-            Book an Appointment
-          </Link>
+          <button 
+            onClick={() => openBookingModal(null)}
+            className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold shadow-lg"
+            data-testid="book-session-cta"
+          >
+            Book Your Session
+          </button>
         </div>
       </section>
+
+      {/* Booking Modal */}
+      {isBookingModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
+              <div>
+                <p className="text-sm text-green-600 font-medium mb-1">✓ It is Anonymous</p>
+                <h3 className="text-xl font-bold">Book What You Need Help With</h3>
+              </div>
+              <button
+                onClick={closeBookingModal}
+                className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+              <div className="bg-blue-50 rounded-xl p-4 mb-4">
+                <p className="text-blue-700 text-sm">
+                  💙 You're taking a brave step. We're here to support you.
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">
+                  <User className="inline w-4 h-4 mr-2" />Your Name *
+                </label>
+                <input 
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  placeholder="Your Name"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Mail className="inline w-4 h-4 mr-2" />Email *
+                  </label>
+                  <input 
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    placeholder="your@email.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Phone className="inline w-4 h-4 mr-2" />Phone *
+                  </label>
+                  <input 
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">What would you like help with? *</label>
+                <select 
+                  name="helpWith"
+                  value={formData.helpWith}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                >
+                  <option value="">Select what you need help with...</option>
+                  {services.map(service => (
+                    <option key={service.id} value={service.title}>{service.title}</option>
+                  ))}
+                  <option value="Other">Something else</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">Preferred Therapist (Optional)</label>
+                <select 
+                  name="therapist"
+                  value={formData.therapist}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                >
+                  <option value="">Let us match you with the best fit</option>
+                  {team.map(member => (
+                    <option key={member.id} value={member.name}>{member.name} - {member.skills?.join(', ')}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Calendar className="inline w-4 h-4 mr-2" />Preferred Date *
+                  </label>
+                  <input 
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    required
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2">
+                    <Clock className="inline w-4 h-4 mr-2" />Preferred Time *
+                  </label>
+                  <select 
+                    name="time"
+                    value={formData.time}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  >
+                    <option value="">Select time...</option>
+                    <option value="09:00">09:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="14:00">02:00 PM</option>
+                    <option value="15:00">03:00 PM</option>
+                    <option value="16:00">04:00 PM</option>
+                    <option value="17:00">05:00 PM</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold mb-2">Anything else you'd like us to know?</label>
+                <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows="3"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
+                  placeholder="Feel free to share anything that might help us serve you better (optional)..."
+                ></textarea>
+              </div>
+
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Submitting...' : 'Continue to Payment'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* UPI Payment Modal */}
+      {isPaymentModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-8">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CreditCard className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2">Pay via UPI</h3>
+              <p className="text-gray-600">Safe & Secure Payment</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6 mb-6">
+              <div className="text-center mb-4">
+                <p className="text-sm text-gray-600 mb-1">Amount to Pay</p>
+                <p className="text-3xl font-bold text-green-600">Rs 1500</p>
+              </div>
+              
+              <div className="bg-white rounded-lg p-4 mb-4">
+                <p className="text-sm text-gray-500 mb-2">UPI ID</p>
+                <p className="font-mono font-semibold text-lg">aashwashan@upi</p>
+              </div>
+
+              <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
+                <span className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Secure
+                </span>
+                <span className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Instant
+                </span>
+                <span className="flex items-center">
+                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Easy
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={handlePaymentComplete}
+                className="w-full bg-green-600 text-white py-3 rounded-full hover:bg-green-700 transition-colors font-semibold"
+              >
+                I've Completed Payment
+              </button>
+              <button
+                onClick={() => setIsPaymentModalOpen(false)}
+                className="w-full bg-gray-100 text-gray-700 py-3 rounded-full hover:bg-gray-200 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500 text-center mt-4">
+              UPI is the safest and most secure way to pay in India
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
