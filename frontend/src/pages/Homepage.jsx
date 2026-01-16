@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Play, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail } from 'lucide-react';
+import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
@@ -12,9 +12,14 @@ const Homepage = () => {
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isSymptomModalOpen, setIsSymptomModalOpen] = React.useState(false);
+  const [isBreathingModalOpen, setIsBreathingModalOpen] = React.useState(false);
+  const [isGratitudeModalOpen, setIsGratitudeModalOpen] = React.useState(false);
   const [selectedService, setSelectedService] = React.useState(null);
   const [selectedTherapist, setSelectedTherapist] = React.useState(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [breathingPhase, setBreathingPhase] = React.useState('ready');
+  const [breathingCount, setBreathingCount] = React.useState(4);
+  const [gratitudeEntries, setGratitudeEntries] = React.useState(['', '', '']);
   const [formData, setFormData] = React.useState({
     name: '',
     email: '',
@@ -95,28 +100,173 @@ const Homepage = () => {
     }
   };
 
+  // Breathing exercise logic
+  const startBreathingExercise = () => {
+    setBreathingPhase('inhale');
+    let phase = 'inhale';
+    let count = 4;
+    
+    const interval = setInterval(() => {
+      count--;
+      setBreathingCount(count);
+      
+      if (count === 0) {
+        if (phase === 'inhale') {
+          phase = 'hold';
+          count = 4;
+        } else if (phase === 'hold') {
+          phase = 'exhale';
+          count = 4;
+        } else if (phase === 'exhale') {
+          phase = 'inhale';
+          count = 4;
+        }
+        setBreathingPhase(phase);
+        setBreathingCount(count);
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(interval);
+      setBreathingPhase('complete');
+    }, 36000); // 3 full cycles
+  };
+
+  const getTestimonialIcon = (iconType) => {
+    switch(iconType) {
+      case 'users': return <Users className="w-8 h-8 text-blue-600" />;
+      case 'heart': return <Heart className="w-8 h-8 text-pink-600" />;
+      default: return <User className="w-8 h-8 text-purple-600" />;
+    }
+  };
+
   return (
     <div className="overflow-hidden">
-      {/* Booking Header Section */}
-      <section className="py-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      {/* SECTION 1: How Life Feels Better After Therapy */}
+      <section className="py-16 bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4">Booking a Therapist is now just one step away</h2>
-            <div className="inline-block bg-white/20 backdrop-blur-sm px-8 py-3 rounded-full">
-              <p className="text-2xl font-semibold">✓ It is Anonymous</p>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-800">How Life Feels Better After Therapy</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+              Real improvements that make a difference in your daily life
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="mb-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-3xl">😴</span>
+              </div>
+              <h4 className="text-xl font-bold mb-2 text-gray-800">Sleep Better</h4>
+              <p className="text-gray-600 text-sm">Restful nights and peaceful mornings</p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="mb-4 w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-3xl">🧠</span>
+              </div>
+              <h4 className="text-xl font-bold mb-2 text-gray-800">Think Clearer</h4>
+              <p className="text-gray-600 text-sm">Better focus and decision making</p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="mb-4 w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-3xl">🌸</span>
+              </div>
+              <h4 className="text-xl font-bold mb-2 text-gray-800">Feel Lighter</h4>
+              <p className="text-gray-600 text-sm">Less emotional burden, more joy</p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="mb-4 w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-3xl">💪</span>
+              </div>
+              <h4 className="text-xl font-bold mb-2 text-gray-800">Build Resilience</h4>
+              <p className="text-gray-600 text-sm">Bounce back stronger from challenges</p>
+            </div>
+            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="mb-4 w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-3xl">✨</span>
+              </div>
+              <h4 className="text-xl font-bold mb-2 text-gray-800">Become Yourself</h4>
+              <p className="text-gray-600 text-sm">Rediscover who you truly are</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Ignoring Signs Section */}
+      {/* SECTION 2: Booking Header Section */}
+      <section className="py-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Booking a Therapist is now just one step away</h2>
+            <div className="inline-block bg-white/20 backdrop-blur-sm px-8 py-3 rounded-full">
+              <p className="text-xl font-semibold">✓ It is Anonymous</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: Meet Our Experts */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">OUR TEAM</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Meet Our Expert Therapists</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+              Our team of licensed professionals brings years of experience and compassionate care to help you achieve mental wellness.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {team.map((member) => (
+              <div key={member.id} className="group bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="relative overflow-hidden">
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                    <p className="text-white font-bold text-lg">{member.name}</p>
+                    <p className="text-blue-200 text-sm">{member.role}</p>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {member.expertise && member.expertise.map((exp, idx) => (
+                      <span key={idx} className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">{exp}</span>
+                    ))}
+                  </div>
+                  <p className="text-gray-600 text-sm mb-3">{member.specialization}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-green-600 font-bold">Rs {member.price} only</span>
+                    <button
+                      onClick={() => openBookingModal(member)}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 font-medium text-sm"
+                      data-testid={`book-session-${member.id}`}
+                    >
+                      Book Session
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link to="/team" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
+              View All Team Members
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: Ignoring Signs Section */}
       <section className="py-16 bg-gradient-to-br from-red-50 to-orange-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h3 className="text-3xl lg:text-4xl font-bold mb-6 text-red-700">
               Ignoring the signs of mental illness is one of the worst things you can do.
             </h3>
-            <div className="bg-white rounded-3xl p-8 shadow-lg">
+            <div className="bg-white rounded-2xl p-8 shadow-lg">
               <h4 className="text-2xl font-bold mb-4 text-gray-800">Start by noticing, not judging, your emotions</h4>
               <p className="text-gray-700 text-lg leading-relaxed">
                 One of the simplest and most powerful practices to begin is turning inward and observing your thoughts and feelings. 
@@ -127,36 +277,37 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      {/* SECTION 5: How We Support You */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">HOW WE HELP</p>
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">How We Support You</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <div className="text-center mb-12">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">HOW WE HELP</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">How We Support You</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
               Experiencing any of these symptoms? Book a therapy session and let us help you find relief and regain control of your life.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.slice(0, 4).map((service, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.slice(0, 4).map((service) => (
               <div
                 key={service.id}
-                className="bg-white rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group cursor-pointer"
+                className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer"
               >
-                <div className="h-48 overflow-hidden">
+                <div className="h-40 overflow-hidden">
                   <img 
                     src={service.image} 
                     alt={service.title} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors">{service.title}</h3>
-                  <p className="text-gray-600 mb-4 text-sm">{service.description}</p>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold mb-2 group-hover:text-blue-600 transition-colors">{service.title}</h3>
+                  <p className="text-gray-600 mb-3 text-sm line-clamp-2">{service.description}</p>
                   <button
                     onClick={() => openSymptomModal(service)}
-                    className="text-blue-600 font-semibold hover:underline"
+                    className="text-blue-600 font-medium hover:underline text-sm"
+                    data-testid={`symptoms-${service.id}`}
                   >
                     How do I know I am going through this?
                   </button>
@@ -167,137 +318,12 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-white space-y-6">
-              <h3 className="text-5xl lg:text-6xl font-bold leading-tight">
-                Start Your Healing Journey Today
-              </h3>
-              <p className="text-white/90 text-lg">
-                Take the first step toward better mental health. Our compassionate team is here to support you every step of the way.
-              </p>
-              <button
-                onClick={() => openBookingModal(null)}
-                className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold shadow-lg"
-              >
-                Book Your Appointment
-              </button>
-            </div>
-            <div className="relative flex justify-center">
-              <img 
-                src="https://images.unsplash.com/photo-1604881991720-f91add269bed?w=600" 
-                alt="Support" 
-                className="rounded-3xl shadow-2xl w-3/4 lg:w-2/3"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 bg-white">
+      {/* SECTION 6: How It Works */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">OUR TEAM</p>
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">Meet Our Expert Therapists</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Our team of licensed professionals brings years of experience and compassionate care to help you achieve mental wellness.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <div key={member.id} className="group" data-aos-delay={index * 100}>
-                <div className="relative overflow-hidden rounded-3xl mb-6">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                <p className="text-blue-600 font-medium">{member.role}</p>
-                <p className="text-gray-600 text-sm mt-1 mb-3">{member.specialization}</p>
-                <button
-                  onClick={() => openBookingModal(member)}
-                  className="w-full bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-sm"
-                >
-                  Book Session
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/team" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
-              View All Team Members
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* How Life Feels Better Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">How Life Feels Better After Therapy</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Real improvements that make a difference in your daily life
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="mb-4 h-32 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=200" alt="Sleep Better" className="w-24 h-24 object-cover rounded-full" />
-              </div>
-              <h4 className="text-2xl font-bold mb-3">Sleep Better</h4>
-              <p className="text-gray-600">Restful nights and peaceful mornings</p>
-            </div>
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="mb-4 h-32 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1499728603263-13726abce5fd?w=200" alt="Think Clearer" className="w-24 h-24 object-cover rounded-full" />
-              </div>
-              <h4 className="text-2xl font-bold mb-3">Think Clearer</h4>
-              <p className="text-gray-600">Better focus and decision making</p>
-            </div>
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="mb-4 h-32 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1517677129300-07b130802f46?w=200" alt="Feel Lighter" className="w-24 h-24 object-cover rounded-full" />
-              </div>
-              <h4 className="text-2xl font-bold mb-3">Feel Lighter</h4>
-              <p className="text-gray-600">Less emotional burden, more joy</p>
-            </div>
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="mb-4 h-32 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=200" alt="Build Resilience" className="w-24 h-24 object-cover rounded-full" />
-              </div>
-              <h4 className="text-2xl font-bold mb-3">Build Resilience</h4>
-              <p className="text-gray-600">Bounce back stronger from challenges</p>
-            </div>
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="mb-4 h-32 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200" alt="Become Yourself" className="w-24 h-24 object-cover rounded-full" />
-              </div>
-              <h4 className="text-2xl font-bold mb-3">Become Yourself Again</h4>
-              <p className="text-gray-600">Rediscover who you truly are</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">How It Works</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <div className="text-center mb-12">
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">How It Works</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
               Simple steps to start your mental wellness journey
             </p>
           </div>
@@ -306,17 +332,17 @@ const Homepage = () => {
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
                 <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">1</div>
-                <h4 className="text-2xl font-bold mb-4">Fill the Form</h4>
+                <h4 className="text-xl font-bold mb-3">Fill the Form</h4>
                 <p className="text-gray-600">Share your concerns and preferences anonymously. Your privacy is our priority.</p>
               </div>
               <div className="text-center">
                 <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">2</div>
-                <h4 className="text-2xl font-bold mb-4">We Connect With You</h4>
+                <h4 className="text-xl font-bold mb-3">We Connect With You</h4>
                 <p className="text-gray-600">Our team reviews your needs and matches you with the most suitable psychologist.</p>
               </div>
               <div className="text-center">
                 <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">3</div>
-                <h4 className="text-2xl font-bold mb-4">Personalized Roadmap</h4>
+                <h4 className="text-xl font-bold mb-3">Personalized Roadmap</h4>
                 <p className="text-gray-600">Together, we create a tailored plan to help you achieve better mental health and live life fully.</p>
               </div>
             </div>
@@ -324,72 +350,137 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className="py-20 bg-white">
+      {/* SECTION 7: Why Aashwashan */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">WHY CHOOSE US</p>
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">Why Aashwashan?</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <div className="text-center mb-12">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">WHY CHOOSE US</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Why Aashwashan?</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
               We provide professional, compassionate care that makes a real difference in your mental health journey.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
-              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
-                <HomeIcon className="w-10 h-10" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <HomeIcon className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-xl mb-3">From Your Comfort Zone</h4>
-              <p className="text-gray-600">Therapy from anywhere you feel safe</p>
+              <h4 className="font-bold text-lg mb-2">From Your Comfort Zone</h4>
+              <p className="text-gray-600 text-sm">Therapy from anywhere you feel safe</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl">
-              <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="w-10 h-10" />
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-xl mb-3">Making You Self-Reliant</h4>
-              <p className="text-gray-600">Building skills for lifelong wellness</p>
+              <h4 className="font-bold text-lg mb-2">Making You Self-Reliant</h4>
+              <p className="text-gray-600 text-sm">Building skills for lifelong wellness</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-pink-50 to-blue-50 rounded-3xl">
-              <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
-                <Heart className="w-10 h-10" />
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-xl mb-3">Real People. Real Support.</h4>
-              <p className="text-gray-600">Genuine care from qualified professionals</p>
+              <h4 className="font-bold text-lg mb-2">Real People. Real Support.</h4>
+              <p className="text-gray-600 text-sm">Genuine care from qualified professionals</p>
             </div>
-            <div className="text-center p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl">
-              <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6">
-                <User className="w-10 h-10" />
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
+              <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-xl mb-3">Be Yourself Here</h4>
-              <p className="text-gray-600">No judgment, just understanding</p>
+              <h4 className="font-bold text-lg mb-2">Be Yourself Here</h4>
+              <p className="text-gray-600 text-sm">No judgment, just understanding</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* SECTION 8: Self-Help Tools */}
+      <section className="py-16 bg-gradient-to-br from-teal-50 to-cyan-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">TESTIMONIALS</p>
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">What Our Clients Say</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <div className="text-center mb-12">
+            <p className="text-teal-600 font-semibold uppercase tracking-wider text-sm mb-3">SELF-HELP TOOLS</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Take Care of Yourself</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+              Simple tools you can use right now to feel better
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* 4-4-4 Breathing */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+              <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Wind className="w-10 h-10 text-teal-600" />
+              </div>
+              <h4 className="text-xl font-bold mb-3">4-4-4 Breathing</h4>
+              <p className="text-gray-600 mb-4 text-sm">
+                A simple technique to calm your nervous system and reduce anxiety instantly.
+              </p>
+              <button
+                onClick={() => setIsBreathingModalOpen(true)}
+                className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors font-medium"
+                data-testid="breathing-exercise-btn"
+              >
+                Try Now
+              </button>
+            </div>
+
+            {/* Gratitude Journal */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+              <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <BookHeart className="w-10 h-10 text-purple-600" />
+              </div>
+              <h4 className="text-xl font-bold mb-3">Gratitude Journal</h4>
+              <p className="text-gray-600 mb-4 text-sm">
+                Write down 3 things you're grateful for. It shifts your focus to positivity.
+              </p>
+              <button
+                onClick={() => setIsGratitudeModalOpen(true)}
+                className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors font-medium"
+                data-testid="gratitude-journal-btn"
+              >
+                Start Writing
+              </button>
+            </div>
+
+            {/* Physical Exercise Tip */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+              <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Activity className="w-10 h-10 text-orange-600" />
+              </div>
+              <h4 className="text-xl font-bold mb-3">Move Your Body</h4>
+              <p className="text-gray-600 mb-4 text-sm">
+                Feeling anxious? Go for a run, walk, or any physical exercise. Movement releases endorphins.
+              </p>
+              <div className="bg-orange-50 rounded-lg p-3">
+                <p className="text-orange-700 text-sm font-medium">
+                  "Even 10 minutes of movement can reduce anxiety by 20%"
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 9: What Our Clients Say */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">TESTIMONIALS</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">What Our Clients Say</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
               Real stories from real people who found healing and hope through our mental health services.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div key={testimonial.id} className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <div className="flex items-center space-x-4 mb-6">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.name} 
-                    className="w-16 h-16 rounded-full object-cover"
-                  />
+                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md">
+                    {getTestimonialIcon(testimonial.icon)}
+                  </div>
                   <div>
-                    <h4 className="font-bold">{testimonial.name}</h4>
+                    <h4 className="font-bold text-gray-800">{testimonial.name}</h4>
                     <p className="text-sm text-gray-600">{testimonial.role}</p>
                   </div>
                 </div>
@@ -407,33 +498,13 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-blue-600 text-white">
+      {/* SECTION 10: FAQ Section */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div>
-              <p className="text-5xl font-bold mb-2">1+</p>
-              <p className="text-blue-100">Years Experience</p>
-            </div>
-            <div>
-              <p className="text-5xl font-bold mb-2">100+</p>
-              <p className="text-blue-100">Happy Clients</p>
-            </div>
-            <div>
-              <p className="text-5xl font-bold mb-2">5+</p>
-              <p className="text-blue-100">Expert Therapists</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-base mb-4">FAQS</p>
-            <h3 className="text-5xl lg:text-7xl font-bold mb-6">Frequently Asked Questions</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <div className="text-center mb-12">
+            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">FAQS</p>
+            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Frequently Asked Questions</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base">
               Find answers to common questions about our mental health services and what to expect.
             </p>
           </div>
@@ -442,50 +513,35 @@ const Homepage = () => {
             {faqs.slice(0, 6).map((faq, index) => (
               <div 
                 key={faq.id} 
-                className="bg-white border-2 border-gray-100 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"
+                className="bg-white border-2 border-gray-100 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-8 py-6 flex justify-between items-center text-left"
+                  className="w-full px-6 py-5 flex justify-between items-center text-left"
                 >
-                  <h4 className="text-xl font-bold pr-8">{faq.question}</h4>
+                  <h4 className="text-lg font-bold pr-8">{faq.question}</h4>
                   {openFaqIndex === index ? (
-                    <ChevronUp className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-blue-600 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-6 h-6 text-gray-400 flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
                   )}
                 </button>
                 {openFaqIndex === index && (
-                  <div className="px-8 pb-6">
+                  <div className="px-6 pb-5">
                     <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
                   </div>
                 )}
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-12">
-            <Link to="/faq" className="inline-block bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
-              View All FAQs
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Crisis Support Section */}
-      <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600 text-white">
+      {/* SECTION 11: ROI Line */}
+      <section className="py-8 bg-gradient-to-r from-green-600 to-teal-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-5xl lg:text-6xl font-bold mb-6">In Crisis? We're Here 24/7</h3>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            If you're experiencing a mental health emergency or suicidal thoughts, immediate help is available. You're not alone.
-          </p>
-          <div className="flex flex-wrap justify-center gap-6">
-            <a href="tel:14416" className="inline-block bg-white text-red-600 px-10 py-5 rounded-full hover:bg-gray-100 transition-all duration-300 font-bold shadow-2xl text-2xl">
-              Tele MANAS: 14416
-            </a>
-          </div>
-          <p className="mt-8 text-lg opacity-90">
-            Free, confidential, 24/7 mental health support in your language
+          <p className="text-xl lg:text-2xl font-semibold">
+            💡 Spending Rs 1 on mental health can give 4x return
           </p>
         </div>
       </section>
@@ -493,23 +549,25 @@ const Homepage = () => {
       {/* Booking Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b px-8 py-6 flex justify-between items-center">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
               <div>
-                <h3 className="text-2xl font-bold">Book Session</h3>
+                <p className="text-sm text-green-600 font-medium mb-1">✓ It is Anonymous</p>
+                <h3 className="text-xl font-bold">Book Session</h3>
                 {selectedTherapist && (
-                  <p className="text-gray-600">with {selectedTherapist.name}</p>
+                  <p className="text-gray-600 text-sm">with {selectedTherapist.name}</p>
                 )}
               </div>
               <button
                 onClick={closeModal}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                data-testid="close-booking-modal"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-8 space-y-6">
+            <form onSubmit={handleSubmit} className="p-6 space-y-5">
               <div>
                 <label className="block text-sm font-semibold mb-2">
                   <User className="inline w-4 h-4 mr-2" />Full Name *
@@ -521,11 +579,12 @@ const Homepage = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                  placeholder="John Doe"
+                  placeholder="Your Name"
+                  data-testid="booking-name-input"
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-semibold mb-2">
                     <Mail className="inline w-4 h-4 mr-2" />Email *
@@ -537,7 +596,8 @@ const Homepage = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                    placeholder="john@example.com"
+                    placeholder="your@email.com"
+                    data-testid="booking-email-input"
                   />
                 </div>
                 <div>
@@ -551,7 +611,8 @@ const Homepage = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                    placeholder="(555) 123-4567"
+                    placeholder="+91 98765 43210"
+                    data-testid="booking-phone-input"
                   />
                 </div>
               </div>
@@ -564,6 +625,7 @@ const Homepage = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  data-testid="booking-service-select"
                 >
                   <option value="">Choose a service...</option>
                   {services.map(service => (
@@ -572,7 +634,7 @@ const Homepage = () => {
                 </select>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-semibold mb-2">
                     <Calendar className="inline w-4 h-4 mr-2" />Preferred Date *
@@ -585,6 +647,7 @@ const Homepage = () => {
                     required
                     min={new Date().toISOString().split('T')[0]}
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    data-testid="booking-date-input"
                   />
                 </div>
                 <div>
@@ -597,6 +660,7 @@ const Homepage = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    data-testid="booking-time-select"
                   >
                     <option value="">Select time...</option>
                     <option value="09:00">09:00 AM</option>
@@ -620,13 +684,15 @@ const Homepage = () => {
                   rows="3"
                   className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
                   placeholder="Tell us more about what brings you here today (optional)..."
+                  data-testid="booking-message-textarea"
                 ></textarea>
               </div>
 
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                data-testid="submit-booking-btn"
               >
                 {isSubmitting ? 'Submitting...' : 'Request Appointment'}
               </button>
@@ -638,35 +704,36 @@ const Homepage = () => {
       {/* Symptom Modal */}
       {isSymptomModalOpen && selectedService && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b px-8 py-6 flex justify-between items-center">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
               <div>
-                <h3 className="text-2xl font-bold">{selectedService.title}</h3>
-                <p className="text-gray-600">Signs and Symptoms</p>
+                <h3 className="text-xl font-bold">{selectedService.title}</h3>
+                <p className="text-gray-600 text-sm">Signs and Symptoms</p>
               </div>
               <button
                 onClick={closeSymptomModal}
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+                data-testid="close-symptom-modal"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-8">
+            <div className="p-6">
               <div className="mb-6">
                 <img 
                   src={selectedService.image} 
                   alt={selectedService.title} 
-                  className="w-full h-48 object-cover rounded-2xl mb-4"
+                  className="w-full h-40 object-cover rounded-xl mb-4"
                 />
-                <p className="text-gray-700 text-lg leading-relaxed mb-6">
+                <p className="text-gray-700 leading-relaxed mb-6">
                   {selectedService.description}
                 </p>
               </div>
 
-              {selectedService.symptoms && (
-                <div className="mb-8">
-                  <h4 className="text-xl font-bold mb-4 text-gray-800">Common Signs & Symptoms:</h4>
+              {selectedService.symptoms && selectedService.symptoms.length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-bold mb-4 text-gray-800">Common Signs & Symptoms:</h4>
                   <div className="grid gap-3">
                     {selectedService.symptoms.map((symptom, index) => (
                       <div key={index} className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
@@ -678,9 +745,9 @@ const Homepage = () => {
                 </div>
               )}
 
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 text-center">
-                <h4 className="text-xl font-bold mb-3 text-gray-800">Ready to Get Help?</h4>
-                <p className="text-gray-600 mb-4">
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 text-center">
+                <h4 className="text-lg font-bold mb-2 text-gray-800">Ready to Get Help?</h4>
+                <p className="text-gray-600 mb-4 text-sm">
                   If you're experiencing these symptoms, our professional therapists are here to support you.
                 </p>
                 <button
@@ -688,12 +755,148 @@ const Homepage = () => {
                     closeSymptomModal();
                     openBookingModal(null);
                   }}
-                  className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+                  className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+                  data-testid="book-from-symptom-modal"
                 >
                   Book a Session
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Breathing Exercise Modal */}
+      {isBreathingModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-8 text-center">
+            <button
+              onClick={() => {
+                setIsBreathingModalOpen(false);
+                setBreathingPhase('ready');
+                setBreathingCount(4);
+              }}
+              className="absolute top-4 right-4 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-2xl font-bold mb-4">4-4-4 Breathing Exercise</h3>
+            
+            {breathingPhase === 'ready' && (
+              <div>
+                <p className="text-gray-600 mb-6">
+                  This technique helps calm your nervous system. Breathe in for 4 seconds, hold for 4 seconds, and exhale for 4 seconds.
+                </p>
+                <button
+                  onClick={startBreathingExercise}
+                  className="bg-teal-600 text-white px-8 py-3 rounded-full hover:bg-teal-700 transition-colors font-semibold"
+                >
+                  Start Exercise
+                </button>
+              </div>
+            )}
+
+            {breathingPhase !== 'ready' && breathingPhase !== 'complete' && (
+              <div>
+                <div className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center mb-6 transition-all duration-1000 ${
+                  breathingPhase === 'inhale' ? 'bg-blue-500 scale-125' : 
+                  breathingPhase === 'hold' ? 'bg-purple-500 scale-125' : 
+                  'bg-green-500 scale-100'
+                }`}>
+                  <span className="text-white text-4xl font-bold">{breathingCount}</span>
+                </div>
+                <p className="text-2xl font-semibold capitalize text-gray-800">
+                  {breathingPhase === 'inhale' && 'Breathe In...'}
+                  {breathingPhase === 'hold' && 'Hold...'}
+                  {breathingPhase === 'exhale' && 'Breathe Out...'}
+                </p>
+              </div>
+            )}
+
+            {breathingPhase === 'complete' && (
+              <div>
+                <div className="w-32 h-32 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-6">
+                  <CheckCircle className="w-16 h-16 text-green-600" />
+                </div>
+                <p className="text-xl font-semibold text-gray-800 mb-4">Great job! How do you feel?</p>
+                <button
+                  onClick={() => {
+                    setBreathingPhase('ready');
+                    setBreathingCount(4);
+                  }}
+                  className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors font-medium mr-2"
+                >
+                  Do Again
+                </button>
+                <button
+                  onClick={() => {
+                    setIsBreathingModalOpen(false);
+                    setBreathingPhase('ready');
+                    setBreathingCount(4);
+                  }}
+                  className="bg-gray-200 text-gray-700 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors font-medium"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Gratitude Journal Modal */}
+      {isGratitudeModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-8">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold">Gratitude Journal</h3>
+              <button
+                onClick={() => setIsGratitudeModalOpen(false)}
+                className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">
+              Write down 3 things you're grateful for today. It can be big or small!
+            </p>
+
+            <div className="space-y-4">
+              {[0, 1, 2].map((index) => (
+                <div key={index} className="flex items-start space-x-3">
+                  <span className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold flex-shrink-0">
+                    {index + 1}
+                  </span>
+                  <input
+                    type="text"
+                    value={gratitudeEntries[index]}
+                    onChange={(e) => {
+                      const newEntries = [...gratitudeEntries];
+                      newEntries[index] = e.target.value;
+                      setGratitudeEntries(newEntries);
+                    }}
+                    className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-600 focus:outline-none transition-colors"
+                    placeholder={`I'm grateful for...`}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                toast({
+                  title: "Gratitude Saved!",
+                  description: "Remember, gratitude shifts your focus to positivity. Keep it up!",
+                });
+                setGratitudeEntries(['', '', '']);
+                setIsGratitudeModalOpen(false);
+              }}
+              className="w-full mt-6 bg-purple-600 text-white py-3 rounded-full hover:bg-purple-700 transition-colors font-semibold"
+            >
+              Save & Feel Good
+            </button>
           </div>
         </div>
       )}
