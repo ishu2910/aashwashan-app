@@ -180,36 +180,142 @@ const Homepage = () => {
     setHelpMeStep(4);
   };
 
-  // Breathing exercise logic
+  // Audio context for breathing sounds
+  const audioContextRef = React.useRef(null);
+  const breathingIntervalRef = React.useRef(null);
+
+  // Play a tick/beep sound
+  const playTickSound = () => {
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      const ctx = audioContextRef.current;
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+      gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+      
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 0.1);
+    } catch (e) {
+      console.log('Audio not supported');
+    }
+  };
+
+  // Play phase change sound (inhale/exhale)
+  const playPhaseSound = (phase) => {
+    try {
+      if (!audioContextRef.current) {
+        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      const ctx = audioContextRef.current;
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      if (phase === 'inhale') {
+        // Rising tone for inhale
+        oscillator.frequency.setValueAtTime(300, ctx.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(600, ctx.currentTime + 0.5);
+      } else if (phase === 'exhale') {
+        // Falling tone for exhale
+        oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(300, ctx.currentTime + 0.5);
+      } else {
+        // Steady tone for hold
+        oscillator.frequency.value = 450;
+      }
+      
+      oscillator.type = 'sine';
+      gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+      
+      oscillator.start(ctx.currentTime);
+      oscillator.stop(ctx.currentTime + 0.5);
+    } catch (e) {
+      console.log('Audio not supported');
+    }
+  };
+
+  // Speak the phase instruction
+  const speakInstruction = (text) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.volume = 0.8;
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  // Breathing exercise logic with sounds
   const startBreathingExercise = () => {
     setBreathingPhase('inhale');
+    speakInstruction('Breathe in');
+    playPhaseSound('inhale');
+    
     let phase = 'inhale';
     let count = 4;
+    let cycles = 0;
     
-    const interval = setInterval(() => {
+    breathingIntervalRef.current = setInterval(() => {
       count--;
       setBreathingCount(count);
+      
+      if (count > 0) {
+        playTickSound();
+      }
       
       if (count === 0) {
         if (phase === 'inhale') {
           phase = 'hold';
           count = 4;
+          speakInstruction('Hold');
+          playPhaseSound('hold');
         } else if (phase === 'hold') {
           phase = 'exhale';
           count = 4;
+          speakInstruction('Breathe out');
+          playPhaseSound('exhale');
         } else if (phase === 'exhale') {
+          cycles++;
+          if (cycles >= 3) {
+            clearInterval(breathingIntervalRef.current);
+            setBreathingPhase('complete');
+            speakInstruction('Great job! You did it.');
+            return;
+          }
           phase = 'inhale';
           count = 4;
+          speakInstruction('Breathe in');
+          playPhaseSound('inhale');
         }
         setBreathingPhase(phase);
         setBreathingCount(count);
       }
     }, 1000);
+  };
 
-    setTimeout(() => {
-      clearInterval(interval);
-      setBreathingPhase('complete');
-    }, 36000);
+  // Stop breathing exercise
+  const stopBreathingExercise = () => {
+    if (breathingIntervalRef.current) {
+      clearInterval(breathingIntervalRef.current);
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    setBreathingPhase('ready');
+    setBreathingCount(4);
   };
 
   const getTestimonialIcon = (iconType) => {
