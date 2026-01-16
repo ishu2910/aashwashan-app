@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Mail } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import axios from 'axios';
 
@@ -43,7 +43,7 @@ const ContactPage = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await axios.post(`${API}/contact`, formData);
+      await axios.post(`${API}/contact`, formData);
       
       toast({
         title: "Message Sent!",
@@ -55,7 +55,7 @@ const ContactPage = () => {
       console.error('Error submitting contact form:', error);
       toast({
         title: "Error",
-        description: "There was an error sending your message. Please try again or call us directly.",
+        description: "There was an error sending your message. Please try again or email us directly.",
         variant: "destructive"
       });
     } finally {
@@ -86,71 +86,79 @@ const ContactPage = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-20">
+      <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-16">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">CONTACT US</p>
-            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Get In Touch</h3>
-            <p className="text-xl text-gray-600">
-              If you need any other help, contact us. We're here to answer your questions and provide support.
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6">Get In Touch</h1>
+            <p className="text-lg text-gray-600">
+              If you need any help, contact us. We're here to answer your questions and provide support.
             </p>
           </div>
         </div>
       </section>
 
       {/* Contact Info & Form */}
-      <section className="py-20 bg-white">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Information */}
             <div>
-              <h3 className="text-3xl font-bold mb-8">Contact Information</h3>
+              <h3 className="text-2xl font-bold mb-8">Contact Information</h3>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-1">Our Location</h3>
-                    <p className="text-gray-600">123 Serenity Lane, Blissfield, CA 90210</p>
+                    <h4 className="font-bold text-lg mb-1">Our Location</h4>
+                    <a 
+                      href="https://maps.app.goo.gl/bLPXRW4qLnUtq5U37"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-blue-600 transition-colors"
+                    >
+                      1289/6 Near Market Committee, Ambala City
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-1">Phone Number</h3>
-                    <p className="text-gray-600">(555) 123-4567</p>
-                    <p className="text-sm text-gray-500 mt-1">Available 24/7 for emergencies</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-14 h-14 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
                     <Mail className="w-6 h-6 text-pink-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-1">Email Address</h3>
-                    <p className="text-gray-600">info@aashwashan.com</p>
+                    <h4 className="font-bold text-lg mb-1">Email Address</h4>
+                    <a href="mailto:care@aashwashan.com" className="text-gray-600 hover:text-blue-600 transition-colors">
+                      care@aashwashan.com
+                    </a>
                     <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-1">Office Hours</h3>
-                    <p className="text-gray-600">Monday - Friday: 8:00 AM - 6:30 PM</p>
-                    <p className="text-gray-600">Saturday: 9:00 AM - 2:00 PM</p>
-                    <p className="text-gray-600">Sunday: Closed</p>
                   </div>
                 </div>
               </div>
 
+              {/* Map Link */}
+              <div className="mt-8">
+                <a 
+                  href="https://maps.app.goo.gl/bLPXRW4qLnUtq5U37"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
+                      <MapPin className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg text-gray-800">View on Google Maps</h4>
+                      <p className="text-gray-600">Get directions to our office</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
               {/* Social Links */}
               <div className="mt-8">
-                <h3 className="font-bold text-lg mb-4">Follow Us</h3>
+                <h4 className="font-bold text-lg mb-4">Follow Us</h4>
                 <div className="flex space-x-3">
                   <a href="#" className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -167,8 +175,11 @@ const ContactPage = () => {
 
             {/* Contact Form */}
             <div>
-              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8">
-                <h3 className="text-3xl font-bold mb-6">Send Us a Message</h3>
+              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
+                <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full inline-block mb-4 text-sm font-medium">
+                  ✓ It is Anonymous
+                </div>
+                <h3 className="text-2xl font-bold mb-6">Send Us a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold mb-2">Your Name *</label>
@@ -179,7 +190,8 @@ const ContactPage = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                      placeholder="John Doe"
+                      placeholder="Your Name"
+                      data-testid="contact-name-input"
                     />
                   </div>
                   <div>
@@ -191,7 +203,8 @@ const ContactPage = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                      placeholder="john@example.com"
+                      placeholder="your@email.com"
+                      data-testid="contact-email-input"
                     />
                   </div>
                   <div>
@@ -202,7 +215,8 @@ const ContactPage = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                      placeholder="(555) 123-4567"
+                      placeholder="+91 98765 43210"
+                      data-testid="contact-phone-input"
                     />
                   </div>
                   <div>
@@ -215,6 +229,7 @@ const ContactPage = () => {
                       required
                       className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
                       placeholder="How can we help?"
+                      data-testid="contact-subject-input"
                     />
                   </div>
                   <div>
@@ -224,15 +239,17 @@ const ContactPage = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      rows="5"
+                      rows="4"
                       className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
                       placeholder="Tell us more about what you need..."
+                      data-testid="contact-message-textarea"
                     ></textarea>
                   </div>
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-blue-600 text-white py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    data-testid="contact-submit-btn"
                   >
                     {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
@@ -243,38 +260,21 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h3 className="text-3xl font-bold mb-8 text-center">Visit Our Office</h3>
-            <div className="bg-gray-200 rounded-3xl overflow-hidden h-96">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.7351687634945!2d-118.37615468478806!3d34.06328258060326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b9372e1ce0df%3A0xc3b4a4f6f0d1d7e4!2sBeverly%20Hills%2C%20CA%2C%20USA!5e0!3m2!1sen!2s!4v1635789012345!5m2!1sen!2s"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                title="Office Location"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Feedback Form Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h3 className="text-4xl font-bold mb-4">Share Your Feedback</h3>
+            <div className="text-center mb-10">
+              <h3 className="text-3xl font-bold mb-4">Share Your Feedback</h3>
               <p className="text-gray-600">Your suggestions help us improve our services</p>
             </div>
             
-            <div className="bg-white rounded-3xl p-8 shadow-lg">
-              <form onSubmit={handleFeedbackSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-2xl p-8 shadow-lg">
+              <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full inline-block mb-4 text-sm font-medium">
+                ✓ It is Anonymous
+              </div>
+              <form onSubmit={handleFeedbackSubmit} className="space-y-5">
+                <div className="grid md:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-semibold mb-2">Your Name *</label>
                     <input 
@@ -284,7 +284,8 @@ const ContactPage = () => {
                       onChange={handleFeedbackChange}
                       required
                       className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                      placeholder="John Doe"
+                      placeholder="Your Name"
+                      data-testid="feedback-name-input"
                     />
                   </div>
                   <div>
@@ -296,7 +297,8 @@ const ContactPage = () => {
                       onChange={handleFeedbackChange}
                       required
                       className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                      placeholder="john@example.com"
+                      placeholder="your@email.com"
+                      data-testid="feedback-email-input"
                     />
                   </div>
                 </div>
@@ -309,6 +311,7 @@ const ContactPage = () => {
                     onChange={handleFeedbackChange}
                     required
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    data-testid="feedback-rating-select"
                   >
                     <option value="">Select rating...</option>
                     <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
@@ -326,15 +329,17 @@ const ContactPage = () => {
                     value={feedbackData.feedback}
                     onChange={handleFeedbackChange}
                     required
-                    rows="5"
+                    rows="4"
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
                     placeholder="Share your thoughts, suggestions, or concerns..."
+                    data-testid="feedback-textarea"
                   ></textarea>
                 </div>
                 
                 <button 
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+                  className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+                  data-testid="feedback-submit-btn"
                 >
                   Submit Feedback
                 </button>
@@ -345,18 +350,18 @@ const ContactPage = () => {
       </section>
 
       {/* Emergency Contact */}
-      <section className="py-20 bg-gradient-to-r from-red-600 to-pink-600 text-white">
+      <section className="py-16 bg-gradient-to-r from-red-600 to-pink-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-5xl lg:text-6xl font-bold mb-6">In Crisis? We're Here 24/7</h3>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <h3 className="text-4xl lg:text-5xl font-bold mb-6">In Crisis? We're Here 24/7</h3>
+          <p className="text-lg mb-8 max-w-2xl mx-auto">
             If you're experiencing a mental health emergency or suicidal thoughts, immediate help is available.
           </p>
           <div className="flex flex-wrap justify-center gap-6">
-            <a href="tel:14416" className="inline-block bg-white text-red-600 px-10 py-5 rounded-full hover:bg-gray-100 transition-all duration-300 font-bold shadow-2xl text-2xl">
+            <a href="tel:14416" className="inline-block bg-white text-red-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-bold shadow-2xl text-xl">
               Tele MANAS: 14416
             </a>
           </div>
-          <p className="mt-8 text-lg opacity-90">
+          <p className="mt-6 text-base opacity-90">
             Free, confidential, 24/7 mental health support in your language
           </p>
         </div>
