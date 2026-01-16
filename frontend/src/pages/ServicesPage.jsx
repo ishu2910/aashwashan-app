@@ -251,19 +251,6 @@ const ServicesPage = () => {
           </div>
         </div>
       </section>
-            <div className="bg-gradient-to-br from-pink-50 to-blue-50 rounded-2xl p-6 text-center">
-              <div className="text-4xl font-bold text-pink-600 mb-2">₹1500</div>
-              <h4 className="font-bold mb-1">Affordable</h4>
-              <p className="text-gray-600 text-sm">Quality care for all</p>
-            </div>
-            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-6 text-center">
-              <div className="text-4xl font-bold text-green-600 mb-2">UPI</div>
-              <h4 className="font-bold mb-1">Secure Payment</h4>
-              <p className="text-gray-600 text-sm">Safe & easy</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
