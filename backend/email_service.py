@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-ADMIN_EMAIL = "ishangoel001@gmail.com"
+ADMIN_EMAIL = "care@aashwashan.com"
 
 def send_appointment_email(appointment_data: Dict) -> bool:
     """
@@ -64,8 +64,7 @@ def send_appointment_email(appointment_data: Dict) -> bool:
             
             <p>If you have any questions or need to make changes to your request, please contact us at:</p>
             <ul>
-                <li><strong>Email:</strong> info@aashwashan.com</li>
-                <li><strong>Phone:</strong> (555) 123-4567</li>
+                <li><strong>Email:</strong> care@aashwashan.com</li>
             </ul>
             
             <p><strong>Important:</strong> If you're experiencing a mental health emergency, please call 988 (Crisis Hotline) or 911 immediately.</p>
@@ -73,7 +72,7 @@ def send_appointment_email(appointment_data: Dict) -> bool:
             <p style="margin-top: 30px;">
                 Best regards,<br>
                 <strong>Aashwashan Mental Health Services</strong><br>
-                123 Serenity Lane, Blissfield, CA 90210
+                1289/6 Near Market Committee, Ambala City
             </p>
             
             <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ccc; color: #666; font-size: 12px;">
