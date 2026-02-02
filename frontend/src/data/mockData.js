@@ -3,7 +3,7 @@
 export const services = [
   {
     id: 1,
-    title: "Mood Disorder",
+    title: "Mood Swings",
     icon: "activity",
     description: "Are you experiencing unpredictable emotional ups and downs? We provide compassionate care to help you understand and stabilize your mood.",
     symptoms: [
