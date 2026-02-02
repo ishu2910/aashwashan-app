@@ -561,32 +561,38 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 6: How It Works */}
+      {/* SECTION 6: How It Works - Updated Cycle */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-4xl lg:text-5xl font-bold mb-4">How It Works</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-base">
-              Simple steps to start your mental wellness journey
+              Your journey from struggle to strength
             </p>
           </div>
 
           <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">1</div>
-                <h4 className="text-xl font-bold mb-3">Fill the Form</h4>
-                <p className="text-gray-600">Share your concerns and preferences anonymously. Your privacy is our priority.</p>
+            {/* Visual Cycle */}
+            <div className="grid md:grid-cols-4 gap-4 relative">
+              <div className="text-center bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6">
+                <div className="w-16 h-16 bg-red-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                <h4 className="font-bold mb-2 text-red-700">You're Struggling</h4>
+                <p className="text-gray-600 text-sm">Feeling overwhelmed, anxious, or lost</p>
               </div>
-              <div className="text-center">
-                <div className="w-20 h-20 bg-purple-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">2</div>
-                <h4 className="text-xl font-bold mb-3">We Connect With You</h4>
-                <p className="text-gray-600">Our team reviews your needs and matches you with the most suitable psychologist.</p>
+              <div className="text-center bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-6">
+                <div className="w-16 h-16 bg-yellow-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                <h4 className="font-bold mb-2 text-yellow-700">You Reach Out</h4>
+                <p className="text-gray-600 text-sm">Share your concerns with us confidentially</p>
               </div>
-              <div className="text-center">
-                <div className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-6">3</div>
-                <h4 className="text-xl font-bold mb-3">Personalized Roadmap</h4>
-                <p className="text-gray-600">Together, we create a tailored plan to help you achieve better mental health and live life fully.</p>
+              <div className="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6">
+                <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                <h4 className="font-bold mb-2 text-blue-700">Aashwashan Connects</h4>
+                <p className="text-gray-600 text-sm">We match you with the right therapist</p>
+              </div>
+              <div className="text-center bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6">
+                <div className="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+                <h4 className="font-bold mb-2 text-green-700">You Heal & Grow</h4>
+                <p className="text-gray-600 text-sm">Together, we create your path to wellness</p>
               </div>
             </div>
           </div>
@@ -628,17 +634,17 @@ const Homepage = () => {
             </div>
             <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <User className="w-8 h-8" />
+                <CheckCircle className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-lg mb-2">Be Yourself Here</h4>
-              <p className="text-gray-600 text-sm">No judgment, just understanding</p>
+              <h4 className="font-bold text-lg mb-2">Guided, Not Generic</h4>
+              <p className="text-gray-600 text-sm">Personalized care tailored to you</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* SECTION 8: Self-Help Tools */}
-      <section className="py-16 bg-gradient-to-br from-teal-50 to-cyan-50">
+      <section id="self-help-tools" className="py-16 bg-gradient-to-br from-teal-50 to-cyan-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-teal-600 font-semibold uppercase tracking-wider text-sm mb-3">SELF-HELP TOOLS</p>
