@@ -35,7 +35,7 @@ export const services = [
   },
   {
     id: 3,
-    title: "Impulsive Behaviour",
+    title: "Psychological Distress",
     icon: "heart",
     description: "Acting on impulse without thinking? Learn to understand triggers and develop better self-control.",
     symptoms: [
