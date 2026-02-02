@@ -328,7 +328,21 @@ const Homepage = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* SECTION 1: How Life Feels Better After Therapy */}
+      {/* SECTION 1: Ignoring Signs Section - NOW AT TOP */}
+      <section className="py-12 bg-gradient-to-br from-red-50 to-orange-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-red-700">
+              Ignoring the signs of mental illness is one of the worst things you can do.
+            </h2>
+            <p className="text-gray-700 text-lg">
+              Start by noticing, not judging, your emotions. Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2: How Life Feels Better After Therapy */}
       <section className="py-16 bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -378,19 +392,27 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 2: Booking Header Section */}
+      {/* SECTION 3: Booking Header Section - UPDATED */}
       <section className="py-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">Booking a Therapist is now just one step away</h2>
-            <div className="inline-block bg-white/20 backdrop-blur-sm px-8 py-3 rounded-full">
-              <p className="text-xl font-semibold">✓ It is Anonymous</p>
+            <div className="inline-flex items-center space-x-4">
+              <span className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full text-lg font-semibold">
+                ✓ 100% Confidential
+              </span>
+              <Link 
+                to="/team"
+                className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Meet Our Therapists →
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 3: Meet Our Experts */}
+      {/* SECTION 4: Meet Our Experts */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
