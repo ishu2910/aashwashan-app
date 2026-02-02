@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -11,11 +11,9 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <img 
-                src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
-                alt="Aashwashan" 
-                className="h-12 w-auto"
-              />
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                <span className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>A</span>
+              </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
                 <span className="text-xs text-gray-400">Mental Health for All</span>
@@ -49,23 +47,23 @@ const Footer = () => {
             <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
             <ul className="space-y-3">
               <li><Link to="/about" className="text-gray-400 hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/services" className="text-gray-400 hover:text-white transition-colors">Our Services</Link></li>
+              <li><Link to="/resources" className="text-gray-400 hover:text-white transition-colors">Resources</Link></li>
               <li><Link to="/team" className="text-gray-400 hover:text-white transition-colors">Meet Our Team</Link></li>
-              <li><Link to="/pricing" className="text-gray-400 hover:text-white transition-colors">Pricing Plans</Link></li>
+              <li><Link to="/community" className="text-gray-400 hover:text-white transition-colors">Community</Link></li>
               <li><Link to="/blog" className="text-gray-400 hover:text-white transition-colors">Blog</Link></li>
-              <li><Link to="/faq" className="text-gray-400 hover:text-white transition-colors">FAQs</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
-          {/* Services */}
+          {/* What We Help With */}
           <div>
-            <h3 className="text-xl font-semibold mb-6">Our Services</h3>
+            <h3 className="text-xl font-semibold mb-6">What We Help With</h3>
             <ul className="space-y-3">
-              <li><Link to="/service/1" className="text-gray-400 hover:text-white transition-colors">Mood Disorder</Link></li>
-              <li><Link to="/service/2" className="text-gray-400 hover:text-white transition-colors">Anxiety Disorder</Link></li>
-              <li><Link to="/service/3" className="text-gray-400 hover:text-white transition-colors">Impulsive Behaviour</Link></li>
-              <li><Link to="/service/4" className="text-gray-400 hover:text-white transition-colors">Low Energy & Fatigue</Link></li>
-              <li><Link to="/service/5" className="text-gray-400 hover:text-white transition-colors">24/7 Messaging Support</Link></li>
+              <li><Link to="/resources" className="text-gray-400 hover:text-white transition-colors">Mood Swings</Link></li>
+              <li><Link to="/resources" className="text-gray-400 hover:text-white transition-colors">Anxiety & Stress</Link></li>
+              <li><Link to="/resources" className="text-gray-400 hover:text-white transition-colors">Psychological Distress</Link></li>
+              <li><Link to="/resources" className="text-gray-400 hover:text-white transition-colors">Sleep Disturbances</Link></li>
+              <li><Link to="/resources" className="text-gray-400 hover:text-white transition-colors">Self-Help Tools</Link></li>
             </ul>
           </div>
 
@@ -90,7 +88,7 @@ const Footer = () => {
               </li>
             </ul>
 
-            {/* Map Embed */}
+            {/* Map Link */}
             <div className="mt-6">
               <a 
                 href="https://maps.app.goo.gl/bLPXRW4qLnUtq5U37" 
@@ -113,7 +111,7 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 Aashwashan. All rights reserved.
+              © 2025 Aashwashan. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <Link to="/privacy" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</Link>
