@@ -51,7 +51,7 @@ export const services = [
   },
   {
     id: 4,
-    title: "Combating Low Energy & Fatigue",
+    title: "Sleep Disturbances",
     icon: "battery",
     description: "Feeling constantly exhausted and unmotivated? Discover the underlying causes and regain your energy and zest for life.",
     symptoms: [
