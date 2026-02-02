@@ -7,6 +7,8 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import Homepage from "./pages/Homepage";
 import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
+import ResourcesPage from "./pages/ResourcesPage";
+import CommunityPage from "./pages/CommunityPage";
 import SingleService from "./pages/SingleService";
 import TeamPage from "./pages/TeamPage";
 import PricingPage from "./pages/PricingPage";
@@ -40,6 +42,8 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/community" element={<CommunityPage />} />
           <Route path="/service/:id" element={<SingleService />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/pricing" element={<PricingPage />} />
