@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -16,16 +15,37 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleDropdownToggle = (dropdown) => {
-    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
-  };
-
   const isActive = (path) => {
     return location.pathname === path;
   };
 
+  const scrollToSelfHelp = () => {
+    if (location.pathname === '/') {
+      const element = document.getElementById('self-help-tools');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.location.href = '/#self-help-tools';
+    }
+  };
+
   return (
     <>
+      {/* Top Banner - Free Self Help Tools */}
+      <div className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-2">
+        <div className="container mx-auto px-4">
+          <button 
+            onClick={scrollToSelfHelp}
+            className="w-full flex items-center justify-center space-x-2 text-sm font-medium hover:opacity-90 transition-opacity"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>Hey! Wanna try our FREE Self-Help Tools?</span>
+            <span className="underline">Try Now →</span>
+          </button>
+        </div>
+      </div>
+
       {/* Main Navigation */}
       <nav className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-white'}`}>
         <div className="container mx-auto px-4">
@@ -52,28 +72,13 @@ const Navbar = () => {
                 About Us
               </Link>
               
-              <div className="relative group">
-                <button className="flex items-center text-gray-700 hover:text-blue-600 font-medium transition-colors">
-                  When You're Ready <ChevronDown className="ml-1 w-4 h-4" />
-                </button>
-                <div className="absolute top-full left-0 mt-2 w-80 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                  <Link to="/services" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    All Services
-                  </Link>
-                  <Link to="/service/1" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Mood Disorder
-                  </Link>
-                  <Link to="/service/2" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Excessive and Persistent Anxiety
-                  </Link>
-                  <Link to="/service/3" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Impulsive Behaviour
-                  </Link>
-                  <Link to="/service/4" className="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-blue-600 transition-colors">
-                    Combating Low Energy & Fatigue
-                  </Link>
-                </div>
-              </div>
+              <Link to="/resources" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/resources') || isActive('/services') ? 'text-blue-600' : ''}`}>
+                Resources
+              </Link>
+
+              <Link to="/community" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/community') ? 'text-blue-600' : ''}`}>
+                Community
+              </Link>
 
               <Link to="/blog" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/blog') ? 'text-blue-600' : ''}`}>
                 Blog
@@ -113,17 +118,14 @@ const Navbar = () => {
               <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
                 About Us
               </Link>
-              <Link to="/services" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
-                Services
+              <Link to="/resources" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+                Resources
+              </Link>
+              <Link to="/community" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+                Community
               </Link>
               <Link to="/team" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
-                Our Team
-              </Link>
-              <Link to="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
-                Subscription Plans
-              </Link>
-              <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
-                FAQs
+                Our Therapists
               </Link>
               <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
                 Blog
