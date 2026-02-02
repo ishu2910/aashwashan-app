@@ -123,9 +123,9 @@ const AboutPage = () => {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold mb-3">Excellence</h3>
+              <h3 className="text-xl font-bold mb-3">Always Improving</h3>
               <p className="text-gray-600 text-sm">
-                We maintain the highest standards through continuous learning.
+                We continuously learn and evolve to serve you better.
               </p>
             </div>
             <div className="text-center p-6 bg-gradient-to-br from-pink-50 to-blue-50 rounded-2xl">
