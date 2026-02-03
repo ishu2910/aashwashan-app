@@ -11,9 +11,11 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>A</span>
-              </div>
+              <img 
+                src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
+                alt="Aashwashan Logo" 
+                className="h-12 w-auto"
+              />
               <div className="flex flex-col">
                 <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
                 <span className="text-xs text-gray-400">Mental Health for All</span>
