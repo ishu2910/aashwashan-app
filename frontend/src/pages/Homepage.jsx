@@ -158,6 +158,9 @@ const Homepage = () => {
     try {
       await axios.post(`${API}/appointments`, appointmentData);
       
+      // Store the final price before closing modal
+      setFinalPrice(calculatePrice());
+      
       // Show payment modal after successful booking
       setBookedTherapist(selectedTherapist);
       closeModal();
