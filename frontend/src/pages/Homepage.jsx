@@ -685,38 +685,46 @@ const Homepage = () => {
             <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">WHY CHOOSE US</p>
             <h3 className="text-4xl lg:text-5xl font-bold mb-4">Why Aashwashan?</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-base">
-              We provide professional, compassionate care that makes a real difference in your mental health journey.
+              We don't just provide therapy — we provide after-therapy services for emotional healing and lasting change.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <HomeIcon className="w-8 h-8" />
+                <Calendar className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-lg mb-2">From Your Comfort Zone</h4>
-              <p className="text-gray-600 text-sm">Therapy from anywhere you feel safe</p>
+              <h4 className="font-bold text-lg mb-2">Weekly Schedule Planning</h4>
+              <p className="text-gray-600 text-sm">We help structure your weekday schedule for better mental wellness</p>
             </div>
             <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8" />
+                <Activity className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-lg mb-2">Making You Self-Reliant</h4>
-              <p className="text-gray-600 text-sm">Building skills for lifelong wellness</p>
+              <h4 className="font-bold text-lg mb-2">Find Your Triggers</h4>
+              <p className="text-gray-600 text-sm">Identify your main trigger points and learn to manage them</p>
             </div>
             <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-8 h-8" />
+                <CheckCircle className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-lg mb-2">Real People. Real Support.</h4>
-              <p className="text-gray-600 text-sm">Genuine care from qualified professionals</p>
+              <h4 className="font-bold text-lg mb-2">Execution Plan</h4>
+              <p className="text-gray-600 text-sm">We create a personalized execution plan just for you</p>
             </div>
             <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8" />
+                <Heart className="w-8 h-8" />
               </div>
-              <h4 className="font-bold text-lg mb-2">Guided, Not Generic</h4>
-              <p className="text-gray-600 text-sm">Personalized care tailored to you</p>
+              <h4 className="font-bold text-lg mb-2">Emotional Healing</h4>
+              <p className="text-gray-600 text-sm">Not professional services — real emotional healing and support</p>
+            </div>
+          </div>
+
+          <div className="mt-10 text-center">
+            <div className="inline-block bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 max-w-2xl">
+              <p className="text-gray-700 italic text-lg">
+                "We pledge to change the conversation — from clinical to compassionate, from professional to personal."
+              </p>
             </div>
           </div>
         </div>
