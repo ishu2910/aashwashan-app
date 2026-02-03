@@ -858,12 +858,17 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 11: ROI Line */}
-      <section className="py-8 bg-gradient-to-r from-green-600 to-teal-600 text-white">
+      {/* SECTION 11: ROI Line - Moved Up after Self-Help Tools */}
+      <section className="py-10 bg-gradient-to-r from-green-600 to-teal-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-xl lg:text-2xl font-semibold">
-            💡 Spending Rs 1 on mental health can give 4x return
-          </p>
+          <div className="max-w-3xl mx-auto">
+            <p className="text-2xl lg:text-3xl font-bold mb-2">
+              💡 Spending ₹1000 on mental health can give you a 4x return of ₹4000
+            </p>
+            <p className="text-green-100 text-sm">
+              Invest in your mental wellness today - the returns are priceless
+            </p>
+          </div>
         </div>
       </section>
 
