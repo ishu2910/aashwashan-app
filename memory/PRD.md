@@ -12,122 +12,138 @@ Create a pixel-perfect clone of the "Nuro Psychology" website from Envato market
 - People experiencing anxiety, depression, mood disorders, or fatigue
 
 ## Tech Stack
-- **Frontend**: React, TailwindCSS, shadcn/ui, React Router
-- **Backend**: FastAPI (Python), Motor (async MongoDB)
+- **Frontend**: React, TailwindCSS, shadcn/ui, React Router, react-razorpay
+- **Backend**: FastAPI (Python), Motor (async MongoDB), Razorpay SDK
 - **Database**: MongoDB
+- **Video Conferencing**: Jitsi Meet (free, no API keys)
 
-## What's Been Implemented (as of Jan 16, 2026)
+## What's Been Implemented (as of Feb 3, 2026)
+
+### ✅ COMPLETED - Session Duration Pricing (P0)
+- Booking modal shows 30 min (₹999), 45 min (₹1400), 60 min (₹1600) instead of service dropdown
+- Works on both Homepage and TeamPage
+- Dynamic price calculation
+
+### ✅ COMPLETED - Coupon Code System (P0)
+- First-time user coupon: `Aashwashan20` for 20% discount
+- Real-time price recalculation
+- Visual feedback on coupon application
+
+### ✅ COMPLETED - Payment Integration (P1)
+- Razorpay backend endpoints implemented (`/api/create-order`, `/api/verify-payment`)
+- **MOCKED** - Returns mock orders since no real Razorpay API keys configured
+- Ready for production with real keys
+
+### ✅ COMPLETED - Video Meeting Links (P1)
+- Jitsi Meet integration
+- Automatic link generation after payment verification
+- Format: `https://meet.jit.si/aashwashan-session-{id}`
+
+### ✅ COMPLETED - Community Page Backend (P2)
+- `POST /api/community-posts` - Create anonymous posts
+- `GET /api/community-posts` - Fetch posts
+- Frontend connected and working
+
+### ✅ COMPLETED - UI/UX Updates
+- "Ignoring the signs" section restructured with numbered signs list and CTA button
+- "Why Aashwashan" section updated with after-therapy services:
+  - Weekly Schedule Planning
+  - Find Your Triggers
+  - Execution Plan
+  - Emotional Healing
+- "Spending ₹1000 on mental health can give you a 4x return of ₹4000" text
+- Footer with PNG logo image (transparent)
+- Email changed to: care@aashwashan.com
 
 ### Homepage Sections (in order)
-1. ✅ "How Life Feels Better After Therapy" - 5 benefits cards
-2. ✅ "Booking a Therapist is now just one step away" - with "It is Anonymous" badge
-3. ✅ "Meet Our Expert Therapists" - 3 therapists with expertise tags
-4. ✅ "Ignoring the signs of mental illness..." warning section
+1. ✅ "Ignoring the signs of mental illness..." - Structured with signs list
+2. ✅ "How Life Feels Better After Therapy" - 5 benefits cards
+3. ✅ "Booking a Therapist is now just one step away" - with "It is Anonymous" badge
+4. ✅ "Meet Our Expert Therapists" - 3 therapists with expertise tags
 5. ✅ "How We Support You" - 4 service cards with symptom modals
-6. ✅ "How It Works" - 3-step process
-7. ✅ "Why Aashwashan?" - 4 value propositions
+6. ✅ "How It Works" - 4-step cycle process
+7. ✅ "Why Aashwashan?" - After-therapy services
 8. ✅ "Self-Help Tools" - Breathing exercise, Gratitude Journal, Exercise tip
-9. ✅ "What Our Clients Say" - Testimonials with icons (no images)
+9. ✅ "What Our Clients Say" - Testimonials with icons
 10. ✅ FAQ section
-11. ✅ "Spending Rs 1 on mental health can give 4x return" line
+11. ✅ "Spending ₹1000 on mental health can give 4x return of ₹4000"
 
-### Header/Navigation
-- ✅ Logo with "Aashwashan" and "Mental Health for All" tagline
-- ✅ Navigation: Home, About Us, When You're Ready, Blog, Join Our Team, Contact Us
-- ✅ "Get Counselling" CTA button linking to Team page
+### Backend API Endpoints
+- `GET /api/` - Health check
+- `POST /api/appointments` - Create appointment with session duration
+- `GET /api/appointments` - List appointments
+- `POST /api/contact` - Submit contact form
+- `POST /api/create-order` - Create Razorpay order (MOCKED)
+- `POST /api/verify-payment` - Verify payment and get meeting link (MOCKED)
+- `POST /api/community-posts` - Create anonymous post
+- `GET /api/community-posts` - Fetch community posts
 
-### Therapists
-- ✅ Prakhar Tiwari - Clinical Psychologist
-- ✅ Sonali Mishra - Licensed Therapist  
-- ✅ Shweta Bramhankar - Counseling Psychologist
-- All priced at Rs 1500
-
-### Testimonials (Indian names, icons only)
-- ✅ Priya Sharma
-- ✅ Rahul & Neha Gupta
-- ✅ Amit Verma
-
-### Contact Information
-- ✅ Address: 1289/6 Near Market Committee, Ambala City
-- ✅ Email: care@aashwashan.com
-- ✅ Google Maps link integration
-- ✅ No office hours displayed
-
-### Self-Help Tools
-- ✅ 4-4-4 Breathing Exercise (interactive modal)
-- ✅ Gratitude Journal (3 entries modal)
-- ✅ Physical Exercise tip for anxiety
-
-### About Page
-- ✅ Pledge to provide high-quality mental health treatment
-- ✅ "Change the way India sees mental health"
-- ✅ Goal: Decrease suicide rates in India
-- ✅ Human touch messaging
-
-### Forms (all with "It is Anonymous" badge)
-- ✅ Booking/Appointment modal
-- ✅ Contact form
-- ✅ Feedback form
-
-### Other Features
-- ✅ WhatsApp floating button
-- ✅ Scroll to top on navigation
-- ✅ Mobile responsive design
-- ✅ Footer with services list (not crisis intervention)
-
-## Backend API Endpoints
-- `POST /api/appointments` - Submit booking requests
-- `POST /api/contact` - Submit contact inquiries
-- `POST /api/feedback` - Submit feedback
-
-## Database Collections
-- `appointments`: {name, email, phone, date, message}
+### Database Collections
+- `appointments`: {name, email, phone, sessionDuration, price, date, time, message, meeting_link, payment_status}
 - `contacts`: {name, email, subject, message}
-- `feedback`: {name, email, feedback}
+- `community_posts`: {id, category, content, created_at}
+- `payment_orders`: {order_id, appointment_id, amount, status}
 
-## Known Limitations / MOCKED
-- ⚠️ All content is MOCKED in `/app/frontend/src/data/mockData.js`
-- ⚠️ Email notifications not configured (backend saves to DB only)
-- ⚠️ WhatsApp number is placeholder
+## Known Limitations / MOCKED Features
+- ⚠️ **Razorpay Payments** - Returns mock orders (no real API keys configured)
+- ⚠️ **Email notifications** - Logs only, no actual SMTP configured
+- ⚠️ **UPI payment** - Manual confirmation flow, no actual payment processing
+
+## To Make Payments Live
+1. Get Razorpay API keys from https://dashboard.razorpay.com/
+2. Add to `/app/backend/.env`:
+   ```
+   RAZORPAY_KEY_ID=rzp_live_xxxxx
+   RAZORPAY_KEY_SECRET=your_secret
+   ```
+3. Add to `/app/frontend/.env`:
+   ```
+   REACT_APP_RAZORPAY_KEY_ID=rzp_live_xxxxx
+   ```
+4. Restart backend
 
 ## Pending / Future Tasks
 
 ### P2 - Medium Priority
-- Create "What is therapy?" carousel modal
-- Update blog post images to be more relevant
-- Add admin panel for managing appointments
+- Email notifications via SendGrid
+- Therapist calendar/availability system
+- Admin panel for managing appointments
 
 ### P3 - Lower Priority
-- AI Chatbot with voice integration for therapist matching
-- 24/7 Messaging platform feature
-- Configure email service (SendGrid/Mailgun)
+- AI Chatbot with voice integration
+- Real-time messaging between client and therapist
+- Session recording/notes feature
 
 ### Refactoring Needed
 - Break down Homepage.jsx into smaller components
-- Create reusable Modal component
-- Move mockData.js content to MongoDB
+- Create reusable Booking Modal component
+- Move content from mockData.js to MongoDB
 
 ## File Structure
 ```
 /app
 ├── backend
-│   ├── server.py (FastAPI endpoints)
-│   ├── email_service.py (not configured)
-│   └── requirements.txt
+│   ├── server.py (FastAPI endpoints with Razorpay, Jitsi)
+│   ├── email_service.py
+│   ├── requirements.txt
+│   └── tests/test_aashwashan_features.py
 └── frontend
     └── src
         ├── components/
         │   ├── Navbar.jsx
-        │   ├── Footer.jsx
-        │   ├── WhatsAppButton.jsx
+        │   ├── Footer.jsx (with logo PNG)
         │   └── ui/ (shadcn)
         ├── data/
         │   └── mockData.js
         └── pages/
-            ├── Homepage.jsx
-            ├── AboutPage.jsx
-            ├── ContactPage.jsx
-            ├── TeamPage.jsx
-            ├── BlogPage.jsx
+            ├── Homepage.jsx (session pricing, coupon code)
+            ├── TeamPage.jsx (session pricing, coupon code)
+            ├── CommunityPage.jsx (backend connected)
+            ├── ResourcesPage.jsx
             └── ...
 ```
+
+## Test Reports
+- `/app/test_reports/iteration_1.json`
+- `/app/test_reports/iteration_2.json`
+- `/app/test_reports/iteration_3.json` (Latest - All tests passed)
