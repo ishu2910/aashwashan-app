@@ -135,11 +135,23 @@ const Homepage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!selectedSessionDuration) {
+      toast({
+        title: "Please select a session duration",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
     const appointmentData = {
       ...formData,
-      message: `Requested therapist: ${selectedTherapist?.name}. ${formData.message}`
+      sessionDuration: SESSION_PRICING[selectedSessionDuration].duration,
+      price: calculatePrice(),
+      couponApplied: couponApplied,
+      message: `Requested therapist: ${selectedTherapist?.name || 'Any'}. Session: ${SESSION_PRICING[selectedSessionDuration].duration}. ${formData.message}`
     };
     
     try {
