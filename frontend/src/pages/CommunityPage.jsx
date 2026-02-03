@@ -7,46 +7,79 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const CommunityPage = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      content: "I've been feeling overwhelmed lately with work stress. Taking small breaks throughout the day has helped me manage my anxiety better. Remember, it's okay to pause.",
-      likes: 24,
-      comments: 5,
-      timestamp: "2 hours ago",
-      category: "Anxiety"
-    },
-    {
-      id: 2,
-      content: "Today I finally talked to a therapist for the first time. I was so nervous but they made me feel completely comfortable. If you're hesitant, just take that first step. It's worth it.",
-      likes: 45,
-      comments: 12,
-      timestamp: "5 hours ago",
-      category: "First Steps"
-    },
-    {
-      id: 3,
-      content: "Struggling with sleep lately. What helps you all fall asleep? I've tried meditation but looking for more suggestions.",
-      likes: 18,
-      comments: 23,
-      timestamp: "Yesterday",
-      category: "Sleep"
-    },
-    {
-      id: 4,
-      content: "Just want to remind everyone that healing isn't linear. Some days will be harder than others, and that's completely normal. Be gentle with yourself.",
-      likes: 67,
-      comments: 8,
-      timestamp: "2 days ago",
-      category: "Support"
-    }
-  ]);
-
+  const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('General');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const categories = ['General', 'Anxiety', 'Depression', 'Sleep', 'Stress', 'Support', 'First Steps', 'Recovery'];
+
+  // Fetch posts from backend on load
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`${API}/community-posts`);
+        if (response.data.posts && response.data.posts.length > 0) {
+          setPosts(response.data.posts.map(post => ({
+            ...post,
+            likes: Math.floor(Math.random() * 50), // Mock likes for now
+            comments: Math.floor(Math.random() * 15),
+            timestamp: formatTimestamp(post.created_at)
+          })));
+        } else {
+          // Set default posts if none exist
+          setPosts([
+            {
+              id: 1,
+              content: "I've been feeling overwhelmed lately with work stress. Taking small breaks throughout the day has helped me manage my anxiety better. Remember, it's okay to pause.",
+              likes: 24,
+              comments: 5,
+              timestamp: "2 hours ago",
+              category: "Anxiety"
+            },
+            {
+              id: 2,
+              content: "Today I finally talked to a therapist for the first time. I was so nervous but they made me feel completely comfortable. If you're hesitant, just take that first step. It's worth it.",
+              likes: 45,
+              comments: 12,
+              timestamp: "5 hours ago",
+              category: "First Steps"
+            }
+          ]);
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        // Set default posts on error
+        setPosts([
+          {
+            id: 1,
+            content: "Welcome to the Aashwashan Community! Share your thoughts anonymously and support each other.",
+            likes: 10,
+            comments: 2,
+            timestamp: "Just now",
+            category: "Support"
+          }
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const formatTimestamp = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    
+    if (diffHours < 1) return 'Just now';
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    if (diffHours < 48) return 'Yesterday';
+    return `${Math.floor(diffHours / 24)} days ago`;
+  };
 
   const handleLike = (postId) => {
     setPosts(posts.map(post => 
@@ -60,26 +93,39 @@ const CommunityPage = () => {
 
     setIsSubmitting(true);
     
-    // Simulate posting
-    const newPostObj = {
-      id: Date.now(),
-      content: newPost,
-      likes: 0,
-      comments: 0,
-      timestamp: "Just now",
-      category: selectedCategory
-    };
+    try {
+      const response = await axios.post(`${API}/community-posts`, {
+        category: selectedCategory,
+        content: newPost
+      });
 
-    setPosts([newPostObj, ...posts]);
-    setNewPost('');
-    setSelectedCategory('General');
-    
-    toast({
-      title: "Posted Successfully!",
-      description: "Your anonymous post has been shared with the community.",
-    });
+      const newPostObj = {
+        id: response.data.id || Date.now(),
+        content: newPost,
+        likes: 0,
+        comments: 0,
+        timestamp: "Just now",
+        category: selectedCategory
+      };
 
-    setIsSubmitting(false);
+      setPosts([newPostObj, ...posts]);
+      setNewPost('');
+      setSelectedCategory('General');
+      
+      toast({
+        title: "Posted Successfully!",
+        description: "Your anonymous post has been shared with the community.",
+      });
+    } catch (error) {
+      console.error('Error posting:', error);
+      toast({
+        title: "Error",
+        description: "Failed to post. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
