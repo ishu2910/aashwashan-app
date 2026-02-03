@@ -1109,7 +1109,7 @@ const Homepage = () => {
             <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6 mb-6">
               <div className="text-center mb-4">
                 <p className="text-sm text-gray-600 mb-1">Amount to Pay</p>
-                <p className="text-3xl font-bold text-green-600">Rs {bookedTherapist?.price || '1500'}</p>
+                <p className="text-3xl font-bold text-green-600" data-testid="payment-amount">₹{finalPrice || 999}</p>
               </div>
               
               <div className="bg-white rounded-lg p-4 mb-4">
