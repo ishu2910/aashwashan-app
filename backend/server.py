@@ -219,6 +219,195 @@ async def submit_contact(request: ContactRequest):
         logger.error(f"Error submitting contact form: {str(e)}")
         raise
 
+# ==================== PAYMENT ENDPOINTS ====================
+
+@api_router.post("/create-order")
+async def create_razorpay_order(request: CreateOrderRequest):
+    """
+    Create a Razorpay order for payment
+    """
+    try:
+        if not razorpay_client:
+            # If Razorpay is not configured, return mock order for testing
+            logger.warning("Razorpay not configured - returning mock order")
+            mock_order_id = f"order_mock_{uuid.uuid4().hex[:16]}"
+            return {
+                "order_id": mock_order_id,
+                "amount": request.amount,
+                "currency": "INR",
+                "key_id": "rzp_test_mock",
+                "mock": True,
+                "message": "Razorpay not configured. Using mock payment for testing."
+            }
+        
+        # Create Razorpay order
+        order_data = {
+            "amount": request.amount,  # Amount in paise
+            "currency": "INR",
+            "receipt": f"receipt_{request.appointment_id}",
+            "notes": {
+                "appointment_id": request.appointment_id,
+                "customer_name": request.customer_name,
+                "customer_email": request.customer_email
+            }
+        }
+        
+        order = razorpay_client.order.create(data=order_data)
+        
+        # Save order to database
+        order_doc = {
+            "order_id": order["id"],
+            "appointment_id": request.appointment_id,
+            "amount": request.amount,
+            "currency": "INR",
+            "status": "created",
+            "customer_name": request.customer_name,
+            "customer_email": request.customer_email,
+            "customer_phone": request.customer_phone,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.payment_orders.insert_one(order_doc)
+        
+        logger.info(f"Razorpay order created: {order['id']}")
+        
+        return {
+            "order_id": order["id"],
+            "amount": order["amount"],
+            "currency": order["currency"],
+            "key_id": RAZORPAY_KEY_ID,
+            "mock": False
+        }
+        
+    except Exception as e:
+        logger.error(f"Error creating Razorpay order: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/verify-payment")
+async def verify_razorpay_payment(request: VerifyPaymentRequest):
+    """
+    Verify Razorpay payment signature and update appointment status
+    """
+    try:
+        if not razorpay_client:
+            # Mock verification for testing
+            logger.warning("Razorpay not configured - mock payment verification")
+            
+            # Generate Jitsi meeting link
+            meeting_link = generate_jitsi_meeting_link(request.appointment_id)
+            
+            # Update appointment with meeting link
+            await db.appointments.update_one(
+                {"id": request.appointment_id},
+                {
+                    "$set": {
+                        "status": "confirmed",
+                        "payment_status": "mock_paid",
+                        "meeting_link": meeting_link,
+                        "payment_verified_at": datetime.now(timezone.utc).isoformat()
+                    }
+                }
+            )
+            
+            return {
+                "success": True,
+                "message": "Mock payment verified successfully",
+                "meeting_link": meeting_link,
+                "mock": True
+            }
+        
+        # Verify signature
+        params_dict = {
+            'razorpay_order_id': request.razorpay_order_id,
+            'razorpay_payment_id': request.razorpay_payment_id,
+            'razorpay_signature': request.razorpay_signature
+        }
+        
+        try:
+            razorpay_client.utility.verify_payment_signature(params_dict)
+        except Exception as sig_error:
+            logger.error(f"Payment signature verification failed: {str(sig_error)}")
+            raise HTTPException(status_code=400, detail="Payment verification failed")
+        
+        # Generate Jitsi meeting link
+        meeting_link = generate_jitsi_meeting_link(request.appointment_id)
+        
+        # Update payment order status
+        await db.payment_orders.update_one(
+            {"order_id": request.razorpay_order_id},
+            {
+                "$set": {
+                    "status": "paid",
+                    "payment_id": request.razorpay_payment_id,
+                    "verified_at": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        # Update appointment with payment info and meeting link
+        await db.appointments.update_one(
+            {"id": request.appointment_id},
+            {
+                "$set": {
+                    "status": "confirmed",
+                    "payment_status": "paid",
+                    "payment_id": request.razorpay_payment_id,
+                    "order_id": request.razorpay_order_id,
+                    "meeting_link": meeting_link,
+                    "payment_verified_at": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        logger.info(f"Payment verified for appointment: {request.appointment_id}")
+        
+        return {
+            "success": True,
+            "message": "Payment verified successfully",
+            "meeting_link": meeting_link,
+            "mock": False
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error verifying payment: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==================== COMMUNITY ENDPOINTS ====================
+
+@api_router.post("/community-posts")
+async def create_community_post(request: CommunityPostRequest):
+    """
+    Create a new anonymous community post
+    """
+    try:
+        post = CommunityPost(**request.model_dump())
+        
+        doc = post.model_dump()
+        doc['created_at'] = doc['created_at'].isoformat()
+        
+        await db.community_posts.insert_one(doc)
+        
+        logger.info(f"Community post created: {post.id}")
+        
+        return {"message": "Post created successfully", "id": post.id}
+    except Exception as e:
+        logger.error(f"Error creating community post: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community-posts")
+async def get_community_posts(limit: int = 50, skip: int = 0):
+    """
+    Get community posts (most recent first)
+    """
+    try:
+        posts = await db.community_posts.find({}, {"_id": 0}).sort("created_at", -1).skip(skip).limit(limit).to_list(limit)
+        
+        return {"posts": posts, "count": len(posts)}
+    except Exception as e:
+        logger.error(f"Error fetching community posts: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
