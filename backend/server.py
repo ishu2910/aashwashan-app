@@ -91,6 +91,39 @@ class Contact(BaseModel):
     message: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+# Payment Models
+class CreateOrderRequest(BaseModel):
+    amount: int  # Amount in paise (e.g., 99900 for Rs 999)
+    appointment_id: str
+    customer_name: str
+    customer_email: EmailStr
+    customer_phone: str
+
+class VerifyPaymentRequest(BaseModel):
+    razorpay_order_id: str
+    razorpay_payment_id: str
+    razorpay_signature: str
+    appointment_id: str
+
+# Community Post Models
+class CommunityPostRequest(BaseModel):
+    category: str
+    content: str
+
+class CommunityPost(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    category: str
+    content: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+# Helper function to generate Jitsi Meet link
+def generate_jitsi_meeting_link(appointment_id: str) -> str:
+    """Generate a unique Jitsi Meet link for a session"""
+    room_name = f"aashwashan-session-{appointment_id[:8]}-{uuid.uuid4().hex[:8]}"
+    return f"https://meet.jit.si/{room_name}"
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
