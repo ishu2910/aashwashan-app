@@ -77,15 +77,40 @@ const Homepage = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedTherapist(null);
+    setSelectedSessionDuration('');
+    setCouponCode('');
+    setCouponApplied(false);
+    setCouponError('');
     setFormData({
       name: '',
       email: '',
       phone: '',
-      service: '',
+      sessionDuration: '',
       date: '',
       time: '',
       message: ''
     });
+  };
+
+  // Calculate final price based on session duration and coupon
+  const calculatePrice = () => {
+    if (!selectedSessionDuration) return 0;
+    const basePrice = SESSION_PRICING[selectedSessionDuration].price;
+    if (couponApplied) {
+      return Math.round(basePrice * (1 - COUPON_DISCOUNT));
+    }
+    return basePrice;
+  };
+
+  // Apply coupon code
+  const applyCoupon = () => {
+    if (couponCode.toUpperCase() === COUPON_CODE.toUpperCase()) {
+      setCouponApplied(true);
+      setCouponError('');
+    } else {
+      setCouponError('Invalid coupon code');
+      setCouponApplied(false);
+    }
   };
   
   const closeSymptomModal = () => {
