@@ -944,21 +944,84 @@ const Homepage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Select Service *</label>
-                <select 
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                  data-testid="booking-service-select"
-                >
-                  <option value="">Choose a service...</option>
-                  {services.map(service => (
-                    <option key={service.id} value={service.title}>{service.title}</option>
+                <label className="block text-sm font-semibold mb-2">Select Session Duration *</label>
+                <div className="grid grid-cols-3 gap-3" data-testid="session-duration-selector">
+                  {Object.entries(SESSION_PRICING).map(([key, value]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setSelectedSessionDuration(key)}
+                      className={`p-4 rounded-xl border-2 text-center transition-all duration-200 ${
+                        selectedSessionDuration === key 
+                          ? 'border-blue-600 bg-blue-50 ring-2 ring-blue-200' 
+                          : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                      }`}
+                      data-testid={`session-${key}-btn`}
+                    >
+                      <p className="font-bold text-lg text-gray-800">{key} min</p>
+                      <p className={`text-sm font-semibold ${selectedSessionDuration === key ? 'text-blue-600' : 'text-green-600'}`}>
+                        ₹{value.price}
+                      </p>
+                    </button>
                   ))}
-                </select>
+                </div>
               </div>
+
+              {/* Coupon Code Section */}
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4">
+                <label className="block text-sm font-semibold mb-2">Have a coupon code?</label>
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => {
+                      setCouponCode(e.target.value);
+                      setCouponError('');
+                      setCouponApplied(false);
+                    }}
+                    placeholder="Enter coupon code"
+                    className="flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-600 focus:outline-none transition-colors"
+                    data-testid="coupon-input"
+                  />
+                  <button
+                    type="button"
+                    onClick={applyCoupon}
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
+                    data-testid="apply-coupon-btn"
+                  >
+                    Apply
+                  </button>
+                </div>
+                {couponApplied && (
+                  <p className="text-green-600 text-sm mt-2 font-medium" data-testid="coupon-success">
+                    ✓ Coupon applied! 20% discount added
+                  </p>
+                )}
+                {couponError && (
+                  <p className="text-red-600 text-sm mt-2" data-testid="coupon-error">{couponError}</p>
+                )}
+                <p className="text-xs text-gray-500 mt-2">First time user? Try code: <span className="font-mono font-semibold">Aashwashan20</span></p>
+              </div>
+
+              {/* Price Summary */}
+              {selectedSessionDuration && (
+                <div className="bg-gray-50 rounded-xl p-4" data-testid="price-summary">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Session Duration:</span>
+                    <span className="font-semibold">{SESSION_PRICING[selectedSessionDuration].duration}</span>
+                  </div>
+                  {couponApplied && (
+                    <div className="flex justify-between items-center text-sm text-gray-500 mt-1">
+                      <span>Original Price:</span>
+                      <span className="line-through">₹{SESSION_PRICING[selectedSessionDuration].price}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-200">
+                    <span className="font-semibold text-lg">Total:</span>
+                    <span className="font-bold text-xl text-green-600">₹{calculatePrice()}</span>
+                  </div>
+                </div>
+              )}
 
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
