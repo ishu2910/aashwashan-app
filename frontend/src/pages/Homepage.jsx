@@ -49,6 +49,7 @@ const Homepage = () => {
   const [couponCode, setCouponCode] = React.useState('');
   const [couponApplied, setCouponApplied] = React.useState(false);
   const [couponError, setCouponError] = React.useState('');
+  const [finalPrice, setFinalPrice] = React.useState(0);
   
   const [formData, setFormData] = React.useState({
     name: '',
