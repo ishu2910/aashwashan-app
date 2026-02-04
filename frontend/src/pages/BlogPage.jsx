@@ -81,7 +81,7 @@ const BlogPage = () => {
       <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
+            {displayedPosts.map((post) => (
               <Link 
                 key={post.id}
                 to={`/blog/${post.id}`}
@@ -110,11 +110,16 @@ const BlogPage = () => {
           </div>
 
           {/* Load More */}
-          <div className="text-center mt-12">
-            <button className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
-              Load More Articles
-            </button>
-          </div>
+          {!showAll && (
+            <div className="text-center mt-12">
+              <button 
+                onClick={handleLoadMore}
+                className="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+              >
+                Load More Articles
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
