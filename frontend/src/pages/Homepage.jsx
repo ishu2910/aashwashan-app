@@ -756,89 +756,81 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 6: How It Works - Updated Cycle */}
-      <section className="py-16 bg-white">
+      {/* SECTION: How It Works - Elegant Design */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h3 className="text-4xl lg:text-5xl font-bold mb-4">How It Works</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+          <div className="text-center mb-16">
+            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">The Process</p>
+            <h3 
+              className="text-4xl lg:text-5xl mb-4 text-gray-800"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              How it works
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
               Your journey from struggle to strength
             </p>
           </div>
 
           <div className="max-w-5xl mx-auto">
             {/* Visual Cycle */}
-            <div className="grid md:grid-cols-4 gap-4 relative">
-              <div className="text-center bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6">
-                <div className="w-16 h-16 bg-red-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
-                <h4 className="font-bold mb-2 text-red-700">You're Struggling</h4>
-                <p className="text-gray-600 text-sm">Feeling overwhelmed, anxious, or lost</p>
-              </div>
-              <div className="text-center bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-6">
-                <div className="w-16 h-16 bg-yellow-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
-                <h4 className="font-bold mb-2 text-yellow-700">You Reach Out</h4>
-                <p className="text-gray-600 text-sm">Share your concerns with us confidentially</p>
-              </div>
-              <div className="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6">
-                <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
-                <h4 className="font-bold mb-2 text-blue-700">Aashwashan Connects</h4>
-                <p className="text-gray-600 text-sm">We match you with the right therapist</p>
-              </div>
-              <div className="text-center bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6">
-                <div className="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
-                <h4 className="font-bold mb-2 text-green-700">You Heal & Grow</h4>
-                <p className="text-gray-600 text-sm">Together, we create your path to wellness</p>
-              </div>
+            <div className="grid md:grid-cols-4 gap-6 relative">
+              {[
+                { num: '1', title: "You're Struggling", desc: 'Feeling overwhelmed, anxious, or lost' },
+                { num: '2', title: 'You Reach Out', desc: 'Share your concerns with us confidentially' },
+                { num: '3', title: 'Aashwashan Connects', desc: 'We match you with the right therapist' },
+                { num: '4', title: 'You Heal & Grow', desc: 'Together, we create your path to wellness' }
+              ].map((step, idx) => (
+                <div key={idx} className="text-center bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 border border-teal-100 hover:shadow-lg transition-shadow">
+                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-full flex items-center justify-center text-xl font-semibold mx-auto mb-4">{step.num}</div>
+                  <h4 className="font-semibold mb-2 text-teal-800">{step.title}</h4>
+                  <p className="text-gray-600 text-sm">{step.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 7: Why Aashwashan */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* SECTION: Why Aashwashan - Elegant Design */}
+      <section className="py-20 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">WHY CHOOSE US</p>
-            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Why Aashwashan?</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+          <div className="text-center mb-16">
+            <p className="text-teal-200 font-medium uppercase tracking-widest text-sm mb-4">Why Choose Us</p>
+            <h3 
+              className="text-4xl lg:text-5xl mb-4"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              Why Aashwashan?
+            </h3>
+            <p className="text-white/80 max-w-2xl mx-auto font-light text-lg">
               We don't just provide therapy — we provide after-therapy services for emotional healing and lasting change.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
-              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-8 h-8" />
+            {[
+              { icon: Calendar, title: 'Weekly Schedule Planning', desc: 'We help structure your weekday schedule for better mental wellness' },
+              { icon: Activity, title: 'Find Your Triggers', desc: 'Identify your main trigger points and learn to manage them' },
+              { icon: CheckCircle, title: 'Execution Plan', desc: 'We create a personalized execution plan just for you' },
+              { icon: Heart, title: 'Emotional Healing', desc: 'Not professional services — real emotional healing and support' }
+            ].map((item, idx) => (
+              <div key={idx} className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/20 transition-colors">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <item.icon className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="font-semibold text-lg mb-2">{item.title}</h4>
+                <p className="text-white/80 text-sm">{item.desc}</p>
               </div>
-              <h4 className="font-bold text-lg mb-2">Weekly Schedule Planning</h4>
-              <p className="text-gray-600 text-sm">We help structure your weekday schedule for better mental wellness</p>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
-              <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Activity className="w-8 h-8" />
-              </div>
-              <h4 className="font-bold text-lg mb-2">Find Your Triggers</h4>
-              <p className="text-gray-600 text-sm">Identify your main trigger points and learn to manage them</p>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
-              <div className="w-16 h-16 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8" />
-              </div>
-              <h4 className="font-bold text-lg mb-2">Execution Plan</h4>
-              <p className="text-gray-600 text-sm">We create a personalized execution plan just for you</p>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-lg">
-              <div className="w-16 h-16 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Heart className="w-8 h-8" />
-              </div>
-              <h4 className="font-bold text-lg mb-2">Emotional Healing</h4>
-              <p className="text-gray-600 text-sm">Not professional services — real emotional healing and support</p>
-            </div>
+            ))}
           </div>
 
-          <div className="mt-10 text-center">
-            <div className="inline-block bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 max-w-2xl">
-              <p className="text-gray-700 italic text-lg">
+          <div className="mt-12 text-center">
+            <div className="inline-block bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-2xl border border-white/20">
+              <p 
+                className="text-white text-lg"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+              >
                 "We pledge to change the conversation — from clinical to compassionate, from professional to personal."
               </p>
             </div>
@@ -846,8 +838,8 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 8: Self-Help Tools */}
-      <section id="self-help-tools" className="py-16 bg-gradient-to-br from-teal-50 to-cyan-50">
+      {/* SECTION: Self-Help Tools - Elegant Design */}
+      <section id="self-help-tools" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-teal-600 font-semibold uppercase tracking-wider text-sm mb-3">SELF-HELP TOOLS</p>
