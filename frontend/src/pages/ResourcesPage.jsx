@@ -203,7 +203,7 @@ const ResourcesPage = () => {
               Choose the session duration that works best for you
             </p>
             <div className="mt-4 inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium">
-              🎉 First time? Use code AASHWASHAN20 for 20% off!
+              🎉 Coupon AASHWASHAN20 is auto-applied to all sessions!
             </div>
           </div>
 
