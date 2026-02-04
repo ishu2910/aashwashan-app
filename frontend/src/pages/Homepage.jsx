@@ -622,76 +622,85 @@ const Homepage = () => {
             </div>
           )}
 
-          <div className="text-center mt-10">
-            <Link to="/team" className="inline-block bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold">
+          <div className="text-center mt-12">
+            <Link to="/team" className="inline-block bg-white text-teal-700 border-2 border-teal-600 px-8 py-3 rounded-lg hover:bg-teal-50 transition-all duration-300 font-medium">
               View All Team Members
             </Link>
           </div>
         </div>
       </section>
 
-      {/* NEW SECTION: We Are Human Just Like You - AFTER MEET OUR EXPERTS */}
-      <section className="py-16 bg-gradient-to-br from-yellow-50 to-orange-50">
+      {/* SECTION: We Are Human Just Like You - Elegant Design */}
+      <section className="py-20 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-800">We're Human, Just Like You</h3>
-            <p className="text-gray-600 text-lg leading-relaxed mb-8">
+            <h3 
+              className="text-4xl lg:text-5xl mb-8"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              We're human, just like you
+            </h3>
+            <p className="text-white/90 text-lg leading-relaxed mb-10 font-light max-w-3xl mx-auto">
               At Aashwashan, we understand that reaching out for help takes courage. Our therapists aren't just professionals — they're compassionate human beings who genuinely care about your well-being. When you visit us, you're not just a client — you're a person with a story that deserves to be heard.
             </p>
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <p className="text-xl text-gray-700 italic">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <p 
+                className="text-xl text-white leading-relaxed"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+              >
                 "Every person who walks through our doors is treated with the dignity, respect, and warmth they deserve. We believe in the power of human connection to heal."
               </p>
-              <p className="mt-4 text-blue-600 font-semibold">— The Aashwashan Team</p>
+              <p className="mt-6 text-teal-200 font-medium">— The Aashwashan Team</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION: Why You Can't Ignore Mental Health Symptoms - MOVED AFTER WE ARE HUMAN */}
-      <section className="py-16 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50">
+      {/* SECTION: Why You Can't Ignore Mental Health Symptoms - Elegant Design */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-16 items-center">
               {/* Left side - Main message */}
               <div>
-                <div className="inline-block bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-                  ⚠️ Important Reminder
-                </div>
-                <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-800 leading-tight">
-                  Why You Can't Ignore Mental Health Symptoms Anymore?
+                <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Important</p>
+                <h2 
+                  className="text-3xl lg:text-4xl mb-6 text-gray-800 leading-tight"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+                >
+                  Why you can't ignore mental health symptoms anymore
                 </h2>
-                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                  Start by <span className="font-semibold text-gray-800">noticing</span>, not judging, your emotions. Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
+                <p className="text-gray-600 text-lg mb-8 leading-relaxed font-light">
+                  Start by noticing, not judging, your emotions. Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
                 </p>
                 <Link 
                   to="/team"
-                  className="inline-flex items-center bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+                  className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
                   data-testid="choose-therapist-btn"
                 >
                   <Heart className="w-5 h-5 mr-2" />
-                  Therapy Can Help You - Choose a Therapist
+                  Therapy can help — Choose a therapist
                 </Link>
               </div>
               
               {/* Right side - Structured points */}
-              <div className="bg-white rounded-2xl p-8 shadow-xl">
-                <h3 className="text-xl font-bold mb-6 text-gray-800">Signs You Shouldn't Ignore:</h3>
+              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 border border-teal-100">
+                <h3 className="text-xl font-semibold mb-6 text-teal-800">Signs you shouldn't ignore:</h3>
                 <div className="space-y-4">
-                  <div className="flex items-start space-x-4 p-3 bg-red-50 rounded-lg">
-                    <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">1</div>
+                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">1</div>
                     <p className="text-gray-700">Persistent feelings of sadness or hopelessness</p>
                   </div>
-                  <div className="flex items-start space-x-4 p-3 bg-orange-50 rounded-lg">
-                    <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">2</div>
+                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">2</div>
                     <p className="text-gray-700">Excessive worry or anxiety that won't go away</p>
                   </div>
-                  <div className="flex items-start space-x-4 p-3 bg-yellow-50 rounded-lg">
-                    <div className="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">3</div>
+                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">3</div>
                     <p className="text-gray-700">Difficulty sleeping or changes in appetite</p>
                   </div>
-                  <div className="flex items-start space-x-4 p-3 bg-blue-50 rounded-lg">
-                    <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">4</div>
+                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
+                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">4</div>
                     <p className="text-gray-700">Withdrawing from friends and activities you enjoy</p>
                   </div>
                 </div>
@@ -701,13 +710,18 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 5: How We Support You */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      {/* SECTION: How We Support You - Elegant Design */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">HOW WE HELP</p>
-            <h3 className="text-4xl lg:text-5xl font-bold mb-4">How We Support You</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+          <div className="text-center mb-16">
+            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">How We Help</p>
+            <h3 
+              className="text-4xl lg:text-5xl mb-4 text-gray-800"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              How we support you
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
               Experiencing any of these symptoms? Book a therapy session and let us help you find relief and regain control of your life.
             </p>
           </div>
@@ -716,7 +730,7 @@ const Homepage = () => {
             {services.slice(0, 4).map((service) => (
               <div
                 key={service.id}
-                className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer"
+                className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer border border-gray-100"
               >
                 <div className="h-40 overflow-hidden">
                   <img 
