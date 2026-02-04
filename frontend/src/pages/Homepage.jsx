@@ -563,8 +563,18 @@ const Homepage = () => {
                     ))}
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{member.experience} experience</p>
+                  
+                  {/* Session Pricing Display */}
+                  <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-xl p-3 mb-4">
+                    <p className="text-xs text-gray-500 mb-2">Session Pricing:</p>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-700">30 min - <strong className="text-green-600">₹999</strong></span>
+                      <span className="text-gray-700">60 min - <strong className="text-green-600">₹1600</strong></span>
+                    </div>
+                  </div>
+                  
                   <div className="flex items-center justify-between">
-                    <span className="text-green-600 font-bold">Rs {member.price} only</span>
+                    <span className="text-xs text-purple-600 font-medium">Coupon auto-applied!</span>
                     <button
                       onClick={() => openBookingModal(member)}
                       className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 font-medium text-sm"
