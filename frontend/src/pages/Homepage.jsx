@@ -445,84 +445,82 @@ const Homepage = () => {
       </section>
 
       {/* SECTION 2: How Life Feels Better After Therapy */}
-      <section className="py-16 bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-800">How Life Feels Better After Therapy</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <div className="text-center mb-16">
+            <h2 
+              className="text-4xl lg:text-5xl mb-4 text-gray-800"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              How life feels after therapy
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg font-light">
               Real improvements that make a difference in your daily life
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
-            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1758273239288-9b60777397c5?w=200" alt="Sleep Better" className="w-20 h-20 object-cover rounded-full" />
+            {[
+              { title: 'Sleep Better', desc: 'Restful nights and peaceful mornings', img: 'https://images.unsplash.com/photo-1758273239288-9b60777397c5?w=200' },
+              { title: 'Think Clearer', desc: 'Better focus and decision making', img: 'https://images.unsplash.com/photo-1763723341417-a4ea5ba6f675?w=200' },
+              { title: 'Feel Lighter', desc: 'Less emotional burden, more joy', img: 'https://images.unsplash.com/photo-1559551538-d4d5a9e85124?w=200' },
+              { title: 'Build Resilience', desc: 'Bounce back stronger from challenges', img: 'https://images.unsplash.com/photo-1738084737196-031b26793ed0?w=200' },
+              { title: 'Become Yourself', desc: 'Rediscover who you truly are', img: 'https://images.unsplash.com/photo-1592598015799-35c84b09394c?w=200' }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-teal-100">
+                <div className="mb-4 h-24 flex items-center justify-center">
+                  <img src={item.img} alt={item.title} className="w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg" />
+                </div>
+                <h4 className="text-xl font-semibold mb-2 text-teal-800">{item.title}</h4>
+                <p className="text-gray-600 text-sm">{item.desc}</p>
               </div>
-              <h4 className="text-xl font-bold mb-2 text-gray-800">Sleep Better</h4>
-              <p className="text-gray-600 text-sm">Restful nights and peaceful mornings</p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1763723341417-a4ea5ba6f675?w=200" alt="Think Clearer" className="w-20 h-20 object-cover rounded-full" />
-              </div>
-              <h4 className="text-xl font-bold mb-2 text-gray-800">Think Clearer</h4>
-              <p className="text-gray-600 text-sm">Better focus and decision making</p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1559551538-d4d5a9e85124?w=200" alt="Feel Lighter" className="w-20 h-20 object-cover rounded-full" />
-              </div>
-              <h4 className="text-xl font-bold mb-2 text-gray-800">Feel Lighter</h4>
-              <p className="text-gray-600 text-sm">Less emotional burden, more joy</p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1738084737196-031b26793ed0?w=200" alt="Build Resilience" className="w-20 h-20 object-cover rounded-full" />
-              </div>
-              <h4 className="text-xl font-bold mb-2 text-gray-800">Build Resilience</h4>
-              <p className="text-gray-600 text-sm">Bounce back stronger from challenges</p>
-            </div>
-            <div className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-              <div className="mb-4 h-24 flex items-center justify-center">
-                <img src="https://images.unsplash.com/photo-1592598015799-35c84b09394c?w=200" alt="Become Yourself" className="w-20 h-20 object-cover rounded-full" />
-              </div>
-              <h4 className="text-xl font-bold mb-2 text-gray-800">Become Yourself</h4>
-              <p className="text-gray-600 text-sm">Rediscover who you truly are</p>
-            </div>
+            ))}
           </div>
 
           {/* CTA: Do you want to feel like this? */}
-          <div className="text-center mt-12">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-8 max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold mb-4">Do you want to feel like this?</h3>
-              <p className="text-white/90 mb-6">Start your journey to a better life today</p>
-              <Link 
-                to="/team"
-                className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-                data-testid="book-therapist-cta-btn"
-              >
-                Book a Therapist Now
-              </Link>
+          <div className="text-center mt-16">
+            <div className="relative overflow-hidden rounded-2xl max-w-3xl mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600"></div>
+              <div className="relative p-10 text-white">
+                <h3 
+                  className="text-3xl mb-4"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+                >
+                  Do you want to feel like this?
+                </h3>
+                <p className="text-white/90 mb-8 font-light text-lg">Start your journey to a better life today</p>
+                <Link 
+                  to="/team"
+                  className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl"
+                  data-testid="book-therapist-cta-btn"
+                >
+                  Book a Therapist Now
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 3: Booking Header Section - UPDATED */}
-      <section className="py-12 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      {/* SECTION 3: Booking Header Section - Elegant Design */}
+      <section className="py-16 bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Booking a Therapist is now just one step away</h2>
-            <div className="inline-flex items-center space-x-4">
-              <span className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full text-lg font-semibold">
-                ✓ 100% Confidential
+            <h2 
+              className="text-3xl lg:text-4xl mb-6"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              Booking a therapist is now just one step away
+            </h2>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <span className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-lg text-lg font-medium border border-white/30">
+                100% Confidential
               </span>
               <Link 
                 to="/team"
-                className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+                className="bg-white text-teal-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-lg"
               >
-                Meet Our Therapists →
+                Meet Our Therapists
               </Link>
             </div>
           </div>
@@ -530,18 +528,23 @@ const Homepage = () => {
       </section>
 
       {/* SECTION 4: Meet Our Experts */}
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">OUR TEAM</p>
-            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Meet Our Expert Therapists</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+          <div className="text-center mb-16">
+            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Our Team</p>
+            <h3 
+              className="text-4xl lg:text-5xl mb-4 text-gray-800"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              Meet our expert therapists
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
               Our team of licensed professionals brings years of experience and compassionate care to help you achieve mental wellness.
             </p>
           </div>
 
           {/* Help Me Find Popup Trigger */}
-          <div className="text-center mb-10">
+          <div className="text-center mb-12">
             <button
               onClick={() => {
                 setIsHelpMeModalOpen(true);
@@ -549,11 +552,11 @@ const Homepage = () => {
                 setHelpMeAnswers({ concern: '', duration: '', preference: '' });
                 setRecommendedTherapist(null);
               }}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full hover:shadow-lg transition-all duration-300 font-semibold inline-flex items-center space-x-2"
+              className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-lg hover:shadow-lg transition-all duration-300 font-medium inline-flex items-center space-x-2"
               data-testid="help-me-find-btn"
             >
               <HelpCircle className="w-5 h-5" />
-              <span>Don't know whom to book? Let us help you!</span>
+              <span>Not sure who to book? Let us help you find the right match</span>
             </button>
           </div>
 
