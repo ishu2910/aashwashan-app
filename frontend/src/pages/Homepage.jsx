@@ -386,47 +386,62 @@ const Homepage = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* NEW SECTION: How are you Feeling Today? - RIGHT AFTER HEADER */}
-      <section className="py-16 bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-800">How are you Feeling Today?</h2>
-            <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
-              Take a moment to check in with yourself. Whatever you're feeling, you're not alone, and it's okay to ask for help.
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              <button 
-                onClick={() => openBookingModal(team[0])}
-                className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
-              >
-                <div className="text-4xl mb-3">😔</div>
-                <p className="font-semibold text-gray-700 group-hover:text-blue-600">Sad</p>
-              </button>
-              <button 
-                onClick={() => openBookingModal(team[0])}
-                className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
-              >
-                <div className="text-4xl mb-3">😰</div>
-                <p className="font-semibold text-gray-700 group-hover:text-blue-600">Anxious</p>
-              </button>
-              <button 
-                onClick={() => openBookingModal(team[0])}
-                className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
-              >
-                <div className="text-4xl mb-3">😤</div>
-                <p className="font-semibold text-gray-700 group-hover:text-blue-600">Stressed</p>
-              </button>
-              <button 
-                onClick={() => openBookingModal(team[0])}
-                className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
-              >
-                <div className="text-4xl mb-3">😶</div>
-                <p className="font-semibold text-gray-700 group-hover:text-blue-600">Lost</p>
-              </button>
-            </div>
-            <p className="text-gray-500 mt-6 text-sm">Click on any feeling to talk to a therapist</p>
+      {/* HERO SECTION: How are you Feeling Today? - Beautiful & Engaging */}
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
+        {/* Beautiful Gradient Background */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-teal-400 via-cyan-500 to-blue-600"
+          style={{
+            backgroundImage: `
+              linear-gradient(135deg, rgba(20, 184, 166, 0.9) 0%, rgba(6, 182, 212, 0.85) 50%, rgba(59, 130, 246, 0.9) 100%),
+              url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1920&q=80')
+            `,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
+          {/* Subtle overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-teal-600/30 to-transparent"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+          <h1 
+            className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+          >
+            How are you feeling<br />today?
+          </h1>
+          
+          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+            Take control of your mental wellness journey with professional support, personalized guidance, and a caring community.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => {
+                setIsHelpMeModalOpen(true);
+                setHelpMeStep(1);
+                setHelpMeAnswers({ concern: '', duration: '', preference: '' });
+                setRecommendedTherapist(null);
+              }}
+              className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg hover:bg-white/30 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[220px]"
+              data-testid="take-assessment-btn"
+            >
+              Take a Free Assessment
+            </button>
+            <Link
+              to="/team"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-xl min-w-[220px]"
+              data-testid="book-session-hero-btn"
+            >
+              Book a Session
+            </Link>
           </div>
         </div>
+
+        {/* Decorative elements */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
       </section>
 
       {/* SECTION 2: How Life Feels Better After Therapy */}
