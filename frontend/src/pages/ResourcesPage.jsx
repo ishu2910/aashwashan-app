@@ -219,10 +219,12 @@ const ResourcesPage = () => {
                   </div>
                 )}
                 <h4 className="text-2xl font-bold mb-2">{session.duration}</h4>
-                <div className="mb-4">
+                <div className="mb-2">
                   <span className="text-4xl font-bold text-blue-600">₹{session.price}</span>
-                  <span className="text-gray-400 line-through ml-2">₹{session.originalPrice}</span>
                 </div>
+                <p className="text-green-600 text-sm mb-4 font-medium">
+                  ✓ Coupon AASHWASHAN20 auto-applied!
+                </p>
                 <ul className="text-gray-600 text-sm space-y-2 mb-6">
                   <li>✓ One-on-one video session</li>
                   <li>✓ Session recording available</li>
