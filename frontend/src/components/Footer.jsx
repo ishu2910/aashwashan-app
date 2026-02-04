@@ -12,9 +12,9 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <img 
-                src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
+                src="https://customer-assets.emergentagent.com/job_0ea42f9a-ec24-4349-8b7e-7c4b2ee7febf/artifacts/utz6qiri_Untitled%20design.png" 
                 alt="Aashwashan Logo" 
-                className="h-12 w-auto"
+                className="h-14 w-auto"
               />
               <div className="flex flex-col">
                 <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
