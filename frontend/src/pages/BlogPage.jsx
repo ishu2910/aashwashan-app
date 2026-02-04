@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, User, Clock } from 'lucide-react';
 import { blogPosts } from '../data/mockData';
+import { toast } from '../hooks/use-toast';
 
 const BlogPage = () => {
+  const [showAll, setShowAll] = useState(false);
+  const displayedPosts = showAll ? blogPosts : blogPosts.slice(0, 6);
+
+  const handleLoadMore = () => {
+    if (blogPosts.length <= 6) {
+      toast({
+        title: "That's all for now!",
+        description: "We're working on more articles. Check back soon!",
+      });
+    } else {
+      setShowAll(true);
+    }
+  };
+
   return (
     <div>
       {/* Hero Section */}
