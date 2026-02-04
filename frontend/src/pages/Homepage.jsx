@@ -604,6 +604,77 @@ const Homepage = () => {
         </div>
       </section>
 
+      {/* NEW SECTION: We Are Human Just Like You - AFTER MEET OUR EXPERTS */}
+      <section className="py-16 bg-gradient-to-br from-yellow-50 to-orange-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-800">We're Human, Just Like You</h3>
+            <p className="text-gray-600 text-lg leading-relaxed mb-8">
+              At Aashwashan, we understand that reaching out for help takes courage. Our therapists aren't just professionals — they're compassionate human beings who genuinely care about your well-being. When you visit us, you're not just a client — you're a person with a story that deserves to be heard.
+            </p>
+            <div className="bg-white rounded-2xl p-8 shadow-lg">
+              <p className="text-xl text-gray-700 italic">
+                "Every person who walks through our doors is treated with the dignity, respect, and warmth they deserve. We believe in the power of human connection to heal."
+              </p>
+              <p className="mt-4 text-blue-600 font-semibold">— The Aashwashan Team</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION: Why You Can't Ignore Mental Health Symptoms - MOVED AFTER WE ARE HUMAN */}
+      <section className="py-16 bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Left side - Main message */}
+              <div>
+                <div className="inline-block bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                  ⚠️ Important Reminder
+                </div>
+                <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-800 leading-tight">
+                  Why You Can't Ignore Mental Health Symptoms Anymore?
+                </h2>
+                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+                  Start by <span className="font-semibold text-gray-800">noticing</span>, not judging, your emotions. Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
+                </p>
+                <Link 
+                  to="/team"
+                  className="inline-flex items-center bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+                  data-testid="choose-therapist-btn"
+                >
+                  <Heart className="w-5 h-5 mr-2" />
+                  Therapy Can Help You - Choose a Therapist
+                </Link>
+              </div>
+              
+              {/* Right side - Structured points */}
+              <div className="bg-white rounded-2xl p-8 shadow-xl">
+                <h3 className="text-xl font-bold mb-6 text-gray-800">Signs You Shouldn't Ignore:</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-4 p-3 bg-red-50 rounded-lg">
+                    <div className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">1</div>
+                    <p className="text-gray-700">Persistent feelings of sadness or hopelessness</p>
+                  </div>
+                  <div className="flex items-start space-x-4 p-3 bg-orange-50 rounded-lg">
+                    <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">2</div>
+                    <p className="text-gray-700">Excessive worry or anxiety that won't go away</p>
+                  </div>
+                  <div className="flex items-start space-x-4 p-3 bg-yellow-50 rounded-lg">
+                    <div className="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">3</div>
+                    <p className="text-gray-700">Difficulty sleeping or changes in appetite</p>
+                  </div>
+                  <div className="flex items-start space-x-4 p-3 bg-blue-50 rounded-lg">
+                    <div className="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">4</div>
+                    <p className="text-gray-700">Withdrawing from friends and activities you enjoy</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SECTION 5: How We Support You */}
       <section className="py-16 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         <div className="container mx-auto px-4">
