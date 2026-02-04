@@ -13,8 +13,8 @@ const ResourcesPage = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [couponCode, setCouponCode] = useState('');
-  const [couponApplied, setCouponApplied] = useState(false);
+  const [couponCode, setCouponCode] = useState('AASHWASHAN20');
+  const [couponApplied, setCouponApplied] = useState(true); // Auto-apply coupon
   const [finalPrice, setFinalPrice] = useState(0);
   
   const [formData, setFormData] = useState({
@@ -28,6 +28,7 @@ const ResourcesPage = () => {
     message: ''
   });
 
+  // Prices shown are AFTER 20% discount (original prices are 25% higher)
   const sessionPricing = [
     { duration: '30 minutes', price: 999, originalPrice: 1249 },
     { duration: '45 minutes', price: 1400, originalPrice: 1750 },
@@ -40,9 +41,10 @@ const ResourcesPage = () => {
       ...prev,
       duration: duration?.duration || ''
     }));
+    // Auto-apply coupon code
     setFinalPrice(duration?.price || 0);
-    setCouponApplied(false);
-    setCouponCode('');
+    setCouponApplied(true);
+    setCouponCode('AASHWASHAN20');
     setIsBookingModalOpen(true);
   };
 
