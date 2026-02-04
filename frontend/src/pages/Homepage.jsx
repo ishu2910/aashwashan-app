@@ -841,59 +841,64 @@ const Homepage = () => {
       {/* SECTION: Self-Help Tools - Elegant Design */}
       <section id="self-help-tools" className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-teal-600 font-semibold uppercase tracking-wider text-sm mb-3">SELF-HELP TOOLS</p>
-            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Take Care of Yourself</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base">
-              Simple tools you can use right now to feel better. Start Writing for Clarity.
+          <div className="text-center mb-16">
+            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Self Care</p>
+            <h3 
+              className="text-4xl lg:text-5xl mb-4 text-gray-800"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              Take care of yourself
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+              Simple tools you can use right now to feel better. Start writing for clarity.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-              <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Wind className="w-10 h-10 text-teal-600" />
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
+              <div className="w-20 h-20 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Wind className="w-10 h-10 text-white" />
               </div>
-              <h4 className="text-xl font-bold mb-3">4-4-4 Breathing</h4>
+              <h4 className="text-xl font-semibold mb-3 text-teal-800">4-4-4 Breathing</h4>
               <p className="text-gray-600 mb-4 text-sm">
                 A simple technique to calm your nervous system and reduce anxiety instantly.
               </p>
               <button
                 onClick={() => setIsBreathingModalOpen(true)}
-                className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors font-medium"
+                className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
                 data-testid="breathing-exercise-btn"
               >
                 Try Now
               </button>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-              <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <BookHeart className="w-10 h-10 text-purple-600" />
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
+              <div className="w-20 h-20 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <BookHeart className="w-10 h-10 text-white" />
               </div>
-              <h4 className="text-xl font-bold mb-3">Gratitude Journal</h4>
+              <h4 className="text-xl font-semibold mb-3 text-teal-800">Gratitude Journal</h4>
               <p className="text-gray-600 mb-4 text-sm">
                 Write down 3 things you're grateful for. It shifts your focus to positivity.
               </p>
               <button
                 onClick={() => setIsGratitudeModalOpen(true)}
-                className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors font-medium"
+                className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
                 data-testid="gratitude-journal-btn"
               >
                 Start Writing
               </button>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
-              <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Activity className="w-10 h-10 text-orange-600" />
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
+              <div className="w-20 h-20 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Activity className="w-10 h-10 text-white" />
               </div>
-              <h4 className="text-xl font-bold mb-3">Move Your Body</h4>
+              <h4 className="text-xl font-semibold mb-3 text-teal-800">Move Your Body</h4>
               <p className="text-gray-600 mb-4 text-sm">
                 Feeling anxious? Go for a run, walk, or any physical exercise. Movement releases endorphins.
               </p>
-              <div className="bg-orange-50 rounded-lg p-3">
-                <p className="text-orange-700 text-sm font-medium">
+              <div className="bg-white/80 rounded-lg p-3 border border-teal-100">
+                <p className="text-teal-700 text-sm font-medium">
                   "Even 10 minutes of movement can reduce anxiety by 20%"
                 </p>
               </div>
@@ -901,25 +906,30 @@ const Homepage = () => {
           </div>
 
           {/* Professional Worksheets Section */}
-          <div className="mt-12 max-w-5xl mx-auto">
+          <div className="mt-16 max-w-5xl mx-auto">
             <div className="text-center mb-8">
-              <h4 className="text-2xl font-bold text-gray-800 mb-2">Professional Worksheets</h4>
-              <p className="text-gray-600">Download and use these therapy worksheets for deeper self-work</p>
+              <h4 
+                className="text-2xl mb-2 text-gray-800"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+              >
+                Professional worksheets
+              </h4>
+              <p className="text-gray-600 font-light">Download and use these therapy worksheets for deeper self-work</p>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               <a 
                 href="https://customer-assets.emergentagent.com/job_0ea42f9a-ec24-4349-8b7e-7c4b2ee7febf/artifacts/3n3ef6hu_Exposure-Tracking-Form.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group"
+                className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group border border-teal-100"
               >
-                <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-200 transition-colors">
-                  <CheckCircle className="w-8 h-8 text-blue-600" />
+                <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h5 className="font-bold text-lg text-gray-800 group-hover:text-blue-600 transition-colors">Exposure Tracking Form</h5>
+                  <h5 className="font-semibold text-lg text-gray-800 group-hover:text-teal-600 transition-colors">Exposure Tracking Form</h5>
                   <p className="text-gray-600 text-sm">Track your exposure therapy progress with SUDS scale</p>
-                  <span className="text-blue-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
+                  <span className="text-teal-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
                 </div>
               </a>
               
@@ -927,25 +937,28 @@ const Homepage = () => {
                 href="https://customer-assets.emergentagent.com/job_0ea42f9a-ec24-4349-8b7e-7c4b2ee7febf/artifacts/romg4s32_Exposure-Tracking-Form-Hourly-Exposure.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group"
+                className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group border border-teal-100"
               >
-                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-200 transition-colors">
-                  <Clock className="w-8 h-8 text-green-600" />
+                <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Clock className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h5 className="font-bold text-lg text-gray-800 group-hover:text-green-600 transition-colors">Hourly Exposure Tracking</h5>
+                  <h5 className="font-semibold text-lg text-gray-800 group-hover:text-teal-600 transition-colors">Hourly Exposure Tracking</h5>
                   <p className="text-gray-600 text-sm">Track anxiety levels hour by hour throughout the day</p>
-                  <span className="text-green-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
+                  <span className="text-teal-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
                 </div>
               </a>
             </div>
           </div>
 
           {/* Remember: Therapy takes time message */}
-          <div className="mt-12 text-center">
-            <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 max-w-2xl mx-auto">
-              <p className="text-gray-700 font-medium text-lg">
-                💡 <strong>Remember:</strong> Therapy is not a one-time thing. It typically takes 3-4 sessions to start seeing improvement in symptoms. Be patient with yourself.
+          <div className="mt-16 text-center">
+            <div className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-6 max-w-2xl text-white">
+              <p 
+                className="text-lg"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+              >
+                Remember: Therapy is not a one-time thing. It typically takes 3-4 sessions to start seeing improvement in symptoms. Be patient with yourself.
               </p>
             </div>
           </div>
