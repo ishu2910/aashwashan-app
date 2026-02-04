@@ -965,50 +965,65 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 9: What Our Clients Say */}
-      <section className="py-16 bg-white">
+      {/* SECTION: What Our Clients Say - Elegant Design */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">TESTIMONIALS</p>
-            <h3 className="text-4xl lg:text-5xl font-bold mb-4">What Our Clients Say</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+          <div className="text-center mb-16">
+            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Testimonials</p>
+            <h3 
+              className="text-4xl lg:text-5xl mb-4 text-gray-800"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              What our clients say
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
               Real stories from real people who found healing and hope through our mental health services.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div key={testimonial.id} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md">
+                  <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center">
                     {getTestimonialIcon(testimonial.icon)}
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                    <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-500">{testimonial.role}</p>
                   </div>
                 </div>
                 <div className="flex space-x-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg key={i} className="w-5 h-5 text-teal-500" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-600 italic">"{testimonial.text}"</p>
+                <p 
+                  className="text-gray-600"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+                >
+                  "{testimonial.text}"
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 10: FAQ Section */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* SECTION: FAQ - Elegant Design */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-3">FAQS</p>
-            <h3 className="text-4xl lg:text-5xl font-bold mb-4">Frequently Asked Questions</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base">
+          <div className="text-center mb-16">
+            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">FAQs</p>
+            <h3 
+              className="text-4xl lg:text-5xl mb-4 text-gray-800"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              Frequently asked questions
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
               Find answers to common questions about our mental health services and what to expect.
             </p>
           </div>
@@ -1017,15 +1032,15 @@ const Homepage = () => {
             {faqs.slice(0, 6).map((faq, index) => (
               <div 
                 key={faq.id} 
-                className="bg-white border-2 border-gray-100 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg"
+                className="bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-100 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
                   className="w-full px-6 py-5 flex justify-between items-center text-left"
                 >
-                  <h4 className="text-lg font-bold pr-8">{faq.question}</h4>
+                  <h4 className="text-lg font-semibold pr-8 text-gray-800">{faq.question}</h4>
                   {openFaqIndex === index ? (
-                    <ChevronUp className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-teal-600 flex-shrink-0" />
                   ) : (
                     <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
                   )}
@@ -1041,12 +1056,15 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 11: ROI Line - Green text on White background */}
-      <section className="py-10 bg-white border-y-2 border-green-100">
+      {/* SECTION: ROI Line - Elegant Design */}
+      <section className="py-12 bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <p className="text-2xl lg:text-3xl font-bold mb-2 text-green-600">
-              💡 Spending ₹1000 on mental health can give you a 4x return of ₹4000
+            <p 
+              className="text-2xl lg:text-3xl mb-2"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            >
+              Spending ₹1000 on mental health can give you a 4x return of ₹4000
             </p>
             <p className="text-gray-600 text-sm">
               Invest in your mental wellness today - the returns are priceless
