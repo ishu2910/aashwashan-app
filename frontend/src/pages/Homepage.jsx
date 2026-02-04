@@ -1066,8 +1066,8 @@ const Homepage = () => {
             >
               Spending ₹1000 on mental health can give you a 4x return of ₹4000
             </p>
-            <p className="text-gray-600 text-sm">
-              Invest in your mental wellness today - the returns are priceless
+            <p className="text-white/80 text-sm font-light">
+              Invest in your mental wellness today — the returns are priceless
             </p>
           </div>
         </div>
