@@ -95,7 +95,7 @@ const Navbar = () => {
 
             {/* CTA Button */}
             <Link to="/team" className="hidden lg:block bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all duration-300 font-medium">
-              Get Counselling
+              Book a Therapist
             </Link>
 
             {/* Mobile Menu Button */}
@@ -137,7 +137,7 @@ const Navbar = () => {
                 Contact Us
               </Link>
               <Link to="/team" onClick={() => setIsMobileMenuOpen(false)} className="block w-full bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all text-center">
-                Get Counselling
+                Book a Therapist
               </Link>
             </div>
           </div>
