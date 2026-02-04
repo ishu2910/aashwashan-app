@@ -562,45 +562,43 @@ const Homepage = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {team.map((member) => (
-              <div key={member.id} className="group bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <div key={member.id} className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
                 <div className="relative overflow-hidden">
                   <img 
                     src={member.image} 
                     alt={member.name} 
                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <p className="text-white font-bold text-lg">{member.name}</p>
-                    <p className="text-blue-200 text-sm">{member.role}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-teal-900/80 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="text-white font-semibold text-lg">{member.name}</p>
+                    <p className="text-teal-200 text-sm">{member.role}</p>
                   </div>
                 </div>
-                <div className="p-5">
-                  <div className="flex flex-wrap gap-2 mb-3">
+                <div className="p-6">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {member.skills && member.skills.map((skill, idx) => (
-                      <span key={idx} className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">{skill}</span>
+                      <span key={idx} className="bg-teal-50 text-teal-700 text-xs px-3 py-1 rounded-full font-medium">{skill}</span>
                     ))}
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">{member.experience} experience</p>
+                  <p className="text-gray-500 text-sm mb-4">{member.experience} experience</p>
                   
                   {/* Session Pricing Display */}
-                  <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-xl p-3 mb-4">
-                    <p className="text-xs text-gray-500 mb-2">Session Pricing:</p>
+                  <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-4 mb-4 border border-teal-100">
+                    <p className="text-xs text-gray-500 mb-2 font-medium">Session Pricing</p>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-700">30 min - <strong className="text-green-600">₹999</strong></span>
-                      <span className="text-gray-700">60 min - <strong className="text-green-600">₹1600</strong></span>
+                      <span className="text-gray-700">30 min — <strong className="text-teal-600">₹999</strong></span>
+                      <span className="text-gray-700">60 min — <strong className="text-teal-600">₹1600</strong></span>
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-purple-600 font-medium">Coupon auto-applied!</span>
-                    <button
-                      onClick={() => openBookingModal(member)}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 font-medium text-sm"
-                      data-testid={`book-session-${member.id}`}
-                    >
-                      Book Session
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => openBookingModal(member)}
+                    className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
+                    data-testid={`book-session-${member.id}`}
+                  >
+                    Book Session
+                  </button>
                 </div>
               </div>
             ))}
