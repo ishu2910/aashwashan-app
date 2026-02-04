@@ -823,11 +823,11 @@ const Homepage = () => {
             <p className="text-teal-600 font-semibold uppercase tracking-wider text-sm mb-3">SELF-HELP TOOLS</p>
             <h3 className="text-4xl lg:text-5xl font-bold mb-4">Take Care of Yourself</h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-base">
-              Simple tools you can use right now to feel better
+              Simple tools you can use right now to feel better. Start Writing for Clarity.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-center">
               <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Wind className="w-10 h-10 text-teal-600" />
@@ -875,6 +875,56 @@ const Homepage = () => {
                   "Even 10 minutes of movement can reduce anxiety by 20%"
                 </p>
               </div>
+            </div>
+          </div>
+
+          {/* Professional Worksheets Section */}
+          <div className="mt-12 max-w-5xl mx-auto">
+            <div className="text-center mb-8">
+              <h4 className="text-2xl font-bold text-gray-800 mb-2">Professional Worksheets</h4>
+              <p className="text-gray-600">Download and use these therapy worksheets for deeper self-work</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <a 
+                href="https://customer-assets.emergentagent.com/job_0ea42f9a-ec24-4349-8b7e-7c4b2ee7febf/artifacts/3n3ef6hu_Exposure-Tracking-Form.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group"
+              >
+                <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-200 transition-colors">
+                  <CheckCircle className="w-8 h-8 text-blue-600" />
+                </div>
+                <div>
+                  <h5 className="font-bold text-lg text-gray-800 group-hover:text-blue-600 transition-colors">Exposure Tracking Form</h5>
+                  <p className="text-gray-600 text-sm">Track your exposure therapy progress with SUDS scale</p>
+                  <span className="text-blue-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
+                </div>
+              </a>
+              
+              <a 
+                href="https://customer-assets.emergentagent.com/job_0ea42f9a-ec24-4349-8b7e-7c4b2ee7febf/artifacts/romg4s32_Exposure-Tracking-Form-Hourly-Exposure.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group"
+              >
+                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-green-200 transition-colors">
+                  <Clock className="w-8 h-8 text-green-600" />
+                </div>
+                <div>
+                  <h5 className="font-bold text-lg text-gray-800 group-hover:text-green-600 transition-colors">Hourly Exposure Tracking</h5>
+                  <p className="text-gray-600 text-sm">Track anxiety levels hour by hour throughout the day</p>
+                  <span className="text-green-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {/* Remember: Therapy takes time message */}
+          <div className="mt-12 text-center">
+            <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 max-w-2xl mx-auto">
+              <p className="text-gray-700 font-medium text-lg">
+                💡 <strong>Remember:</strong> Therapy is not a one-time thing. It typically takes 3-4 sessions to start seeing improvement in symptoms. Be patient with yourself.
+              </p>
             </div>
           </div>
         </div>
