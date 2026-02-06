@@ -48,10 +48,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 
-              className="text-xl mb-6 text-teal-400"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
+            <h3 className="text-lg font-semibold mb-6 text-teal-400">
               Quick Links
             </h3>
             <ul className="space-y-3">
