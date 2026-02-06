@@ -618,24 +618,18 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: We Are Human Just Like You - Elegant Design */}
+      {/* SECTION: We Are Human Just Like You */}
       <section className="py-20 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 
-              className="text-4xl lg:text-5xl mb-8"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              We're human, just like you
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-8">
+              We're Human, Just Like You
             </h3>
-            <p className="text-white/90 text-lg leading-relaxed mb-10 font-light max-w-3xl mx-auto">
+            <p className="text-white/90 text-lg leading-relaxed mb-10 max-w-3xl mx-auto">
               At Aashwashan, we understand that reaching out for help takes courage. Our therapists aren't just professionals — they're compassionate human beings who genuinely care about your well-being. When you visit us, you're not just a client — you're a person with a story that deserves to be heard.
             </p>
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <p 
-                className="text-xl text-white leading-relaxed"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-              >
+              <p className="text-xl text-white leading-relaxed italic">
                 "Every person who walks through our doors is treated with the dignity, respect, and warmth they deserve. We believe in the power of human connection to heal."
               </p>
               <p className="mt-6 text-teal-200 font-medium">— The Aashwashan Team</p>
@@ -644,7 +638,7 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: Why You Can't Ignore Mental Health Symptoms - Elegant Design */}
+      {/* SECTION: Why You Can't Ignore Mental Health Symptoms */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
@@ -652,13 +646,10 @@ const Homepage = () => {
               {/* Left side - Main message */}
               <div>
                 <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Important</p>
-                <h2 
-                  className="text-3xl lg:text-4xl mb-6 text-gray-800 leading-tight"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-                >
-                  Why you can't ignore mental health symptoms anymore
+                <h2 className="text-3xl lg:text-4xl font-semibold mb-6 text-gray-800 leading-tight">
+                  Why You Can't Ignore Mental Health Symptoms Anymore
                 </h2>
-                <p className="text-gray-600 text-lg mb-8 leading-relaxed font-light">
+                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
                   Start by noticing, not judging, your emotions. Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
                 </p>
                 <Link 
@@ -667,13 +658,13 @@ const Homepage = () => {
                   data-testid="choose-therapist-btn"
                 >
                   <Heart className="w-5 h-5 mr-2" />
-                  Therapy can help — Choose a therapist
+                  Therapy Can Help — Choose a Therapist
                 </Link>
               </div>
               
               {/* Right side - Structured points */}
               <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 border border-teal-100">
-                <h3 className="text-xl font-semibold mb-6 text-teal-800">Signs you shouldn't ignore:</h3>
+                <h3 className="text-xl font-semibold mb-6 text-teal-800">Signs You Shouldn't Ignore:</h3>
                 <div className="space-y-4">
                   <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
                     <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">1</div>
@@ -698,18 +689,15 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: How We Support You - Elegant Design */}
+      {/* SECTION: How We Support You */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">How We Help</p>
-            <h3 
-              className="text-4xl lg:text-5xl mb-4 text-gray-800"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              How we support you
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+              How We Support You
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Experiencing any of these symptoms? Book a therapy session and let us help you find relief and regain control of your life.
             </p>
           </div>
