@@ -7,27 +7,19 @@ import { toast } from '../hooks/use-toast';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-// Session duration pricing
+// Session duration pricing - FINAL PRICES (no coupon)
 const SESSION_PRICING = {
   '30': { duration: '30 minutes', price: 999 },
   '45': { duration: '45 minutes', price: 1400 },
   '60': { duration: '60 minutes', price: 1600 }
 };
 
-const COUPON_CODE = 'Aashwashan20';
-const COUPON_DISCOUNT = 0.20;
-
 const TeamPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTherapist, setSelectedTherapist] = useState(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Session booking state
   const [selectedSessionDuration, setSelectedSessionDuration] = useState('');
-  const [couponCode, setCouponCode] = useState('');
-  const [couponApplied, setCouponApplied] = useState(false);
-  const [couponError, setCouponError] = useState('');
   const [finalPrice, setFinalPrice] = useState(0);
   
   const [formData, setFormData] = useState({
@@ -48,9 +40,6 @@ const TeamPage = () => {
     setIsModalOpen(false);
     setSelectedTherapist(null);
     setSelectedSessionDuration('');
-    setCouponCode('');
-    setCouponApplied(false);
-    setCouponError('');
     setFormData({
       name: '',
       email: '',
@@ -59,25 +48,6 @@ const TeamPage = () => {
       time: '',
       message: ''
     });
-  };
-
-  const calculatePrice = () => {
-    if (!selectedSessionDuration) return 0;
-    const basePrice = SESSION_PRICING[selectedSessionDuration].price;
-    if (couponApplied) {
-      return Math.round(basePrice * (1 - COUPON_DISCOUNT));
-    }
-    return basePrice;
-  };
-
-  const applyCoupon = () => {
-    if (couponCode.toUpperCase() === COUPON_CODE.toUpperCase()) {
-      setCouponApplied(true);
-      setCouponError('');
-    } else {
-      setCouponError('Invalid coupon code');
-      setCouponApplied(false);
-    }
   };
 
   const handleChange = (e) => {
@@ -99,19 +69,19 @@ const TeamPage = () => {
     }
     
     setIsSubmitting(true);
+    const price = SESSION_PRICING[selectedSessionDuration].price;
     
     const appointmentData = {
       ...formData,
       sessionDuration: SESSION_PRICING[selectedSessionDuration].duration,
-      price: calculatePrice(),
-      couponApplied: couponApplied,
+      price: price,
       service: SESSION_PRICING[selectedSessionDuration].duration,
       message: `Requested therapist: ${selectedTherapist?.name || 'Any'}. Session: ${SESSION_PRICING[selectedSessionDuration].duration}. ${formData.message}`
     };
     
     try {
       await axios.post(`${API}/appointments`, appointmentData);
-      setFinalPrice(calculatePrice());
+      setFinalPrice(price);
       closeModal();
       setIsPaymentModalOpen(true);
     } catch (error) {
@@ -136,47 +106,48 @@ const TeamPage = () => {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-20">
+      {/* Hero Section - TEAL THEME */}
+      <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-20 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <p className="text-blue-600 font-semibold uppercase tracking-wider text-sm mb-4">OUR TEAM</p>
-            <h3 className="text-5xl lg:text-6xl font-bold mb-6">Meet Our Expert Therapists</h3>
-            <p className="text-xl text-gray-600">
+            <p className="text-teal-100 font-medium uppercase tracking-widest text-sm mb-4">OUR TEAM</p>
+            <h3 className="text-4xl lg:text-5xl font-semibold mb-6">Meet Our Expert Therapists</h3>
+            <p className="text-xl text-white/90">
               Our team of licensed mental health professionals is dedicated to helping you achieve lasting wellness and peace of mind.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Team Grid */}
+      {/* Team Grid - TEAL THEME */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {team.map((member) => (
-              <div key={member.id} className="group bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+              <div key={member.id} className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
                 <div className="relative overflow-hidden">
                   <img 
                     src={member.image} 
                     alt={member.name} 
                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                    <p className="text-white font-bold text-lg">{member.name}</p>
-                    <p className="text-blue-200 text-sm">{member.role}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-teal-900/80 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <p className="text-white font-semibold text-lg">{member.name}</p>
+                    <p className="text-teal-200 text-sm">{member.role}</p>
                   </div>
                 </div>
                 <div className="p-5">
                   <div className="flex flex-wrap gap-2 mb-3">
                     {member.skills && member.skills.map((skill, idx) => (
-                      <span key={idx} className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">{skill}</span>
+                      <span key={idx} className="bg-teal-50 text-teal-700 text-xs px-2 py-1 rounded-full">{skill}</span>
                     ))}
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{member.experience} experience</p>
                   <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
                   <button
                     onClick={() => openBookingModal(member)}
-                    className="w-full bg-blue-600 text-white px-4 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-medium"
+                    className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-4 py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
                     data-testid={`book-session-${member.id}`}
                   >
                     Book Session
@@ -188,51 +159,46 @@ const TeamPage = () => {
         </div>
       </section>
 
-      {/* Session Pricing Info */}
-      <section className="py-16 bg-gradient-to-br from-green-50 to-teal-50">
+      {/* Session Pricing Info - TEAL THEME */}
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <h3 className="text-3xl font-bold mb-4">Session Pricing</h3>
+            <h3 className="text-3xl font-semibold mb-4 text-gray-800">Session Pricing</h3>
             <p className="text-gray-600">Choose a session duration that works for you</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {Object.entries(SESSION_PRICING).map(([key, value]) => (
-              <div key={key} className="bg-white rounded-2xl p-6 text-center shadow-lg">
-                <h4 className="text-2xl font-bold text-gray-800 mb-2">{key} min</h4>
-                <p className="text-3xl font-bold text-green-600 mb-2">₹{value.price}</p>
+              <div key={key} className="bg-white rounded-2xl p-6 text-center shadow-lg border border-teal-100">
+                <h4 className="text-2xl font-semibold text-gray-800 mb-2">{key} min</h4>
+                <p className="text-3xl font-bold text-teal-600 mb-2">₹{value.price}</p>
                 <p className="text-gray-500 text-sm">per session</p>
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
-            <p className="text-purple-600 font-medium">
-              First time user? Use code <span className="font-mono bg-purple-100 px-2 py-1 rounded">Aashwashan20</span> for 20% off!
-            </p>
-          </div>
         </div>
       </section>
 
-      {/* Join Our Team CTA */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      {/* Join Our Team CTA - TEAL THEME */}
+      <section className="py-20 bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-4xl font-bold mb-6">Want to Join Our Team?</h3>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+          <h3 className="text-3xl font-semibold mb-6">Want to Join Our Team?</h3>
+          <p className="text-xl mb-8 max-w-2xl mx-auto text-white/90">
             We're always looking for passionate mental health professionals to join our mission of transforming lives.
           </p>
-          <a href="mailto:care@aashwashan.com" className="inline-block bg-white text-blue-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 font-semibold shadow-lg">
+          <a href="mailto:care@aashwashan.com" className="inline-block bg-white text-teal-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-all duration-300 font-medium shadow-lg">
             View Open Positions
           </a>
         </div>
       </section>
 
-      {/* Booking Modal */}
+      {/* Booking Modal - TEAL THEME */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
               <div>
-                <p className="text-sm text-green-600 font-medium mb-1">✓ It is Anonymous</p>
-                <h3 className="text-xl font-bold">Book Session</h3>
+                <p className="text-sm text-teal-600 font-medium mb-1">✓ 100% Confidential</p>
+                <h3 className="text-xl font-semibold">Book Session</h3>
                 {selectedTherapist && (
                   <p className="text-gray-600 text-sm">with {selectedTherapist.name}</p>
                 )}
@@ -248,7 +214,7 @@ const TeamPage = () => {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-5">
               <div>
-                <label className="block text-sm font-semibold mb-2">
+                <label className="block text-sm font-medium mb-2">
                   <User className="inline w-4 h-4 mr-2" />Full Name *
                 </label>
                 <input 
@@ -257,7 +223,7 @@ const TeamPage = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                   placeholder="Your Name"
                   data-testid="booking-name-input"
                 />
@@ -265,7 +231,7 @@ const TeamPage = () => {
 
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-medium mb-2">
                     <Mail className="inline w-4 h-4 mr-2" />Email *
                   </label>
                   <input 
@@ -274,13 +240,13 @@ const TeamPage = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     placeholder="your@email.com"
                     data-testid="booking-email-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-medium mb-2">
                     <Phone className="inline w-4 h-4 mr-2" />Phone *
                   </label>
                   <input 
@@ -289,7 +255,7 @@ const TeamPage = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     placeholder="+91 98765 43210"
                     data-testid="booking-phone-input"
                   />
@@ -297,7 +263,7 @@ const TeamPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Select Session Duration *</label>
+                <label className="block text-sm font-medium mb-2">Select Session Duration *</label>
                 <div className="grid grid-cols-3 gap-3" data-testid="session-duration-selector">
                   {Object.entries(SESSION_PRICING).map(([key, value]) => (
                     <button
@@ -306,13 +272,13 @@ const TeamPage = () => {
                       onClick={() => setSelectedSessionDuration(key)}
                       className={`p-4 rounded-xl border-2 text-center transition-all duration-200 ${
                         selectedSessionDuration === key 
-                          ? 'border-blue-600 bg-blue-50 ring-2 ring-blue-200' 
-                          : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                          ? 'border-teal-500 bg-teal-50 ring-2 ring-teal-200' 
+                          : 'border-gray-200 hover:border-teal-300 hover:bg-gray-50'
                       }`}
                       data-testid={`session-${key}-btn`}
                     >
-                      <p className="font-bold text-lg text-gray-800">{key} min</p>
-                      <p className={`text-sm font-semibold ${selectedSessionDuration === key ? 'text-blue-600' : 'text-green-600'}`}>
+                      <p className="font-semibold text-lg text-gray-800">{key} min</p>
+                      <p className={`text-sm font-semibold ${selectedSessionDuration === key ? 'text-teal-600' : 'text-teal-600'}`}>
                         ₹{value.price}
                       </p>
                     </button>
@@ -320,65 +286,23 @@ const TeamPage = () => {
                 </div>
               </div>
 
-              {/* Coupon Code Section */}
-              <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4">
-                <label className="block text-sm font-semibold mb-2">Have a coupon code?</label>
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => {
-                      setCouponCode(e.target.value);
-                      setCouponError('');
-                      setCouponApplied(false);
-                    }}
-                    placeholder="Enter coupon code"
-                    className="flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-600 focus:outline-none transition-colors"
-                    data-testid="coupon-input"
-                  />
-                  <button
-                    type="button"
-                    onClick={applyCoupon}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
-                    data-testid="apply-coupon-btn"
-                  >
-                    Apply
-                  </button>
-                </div>
-                {couponApplied && (
-                  <p className="text-green-600 text-sm mt-2 font-medium" data-testid="coupon-success">
-                    ✓ Coupon applied! 20% discount added
-                  </p>
-                )}
-                {couponError && (
-                  <p className="text-red-600 text-sm mt-2" data-testid="coupon-error">{couponError}</p>
-                )}
-                <p className="text-xs text-gray-500 mt-2">First time user? Try code: <span className="font-mono font-semibold">Aashwashan20</span></p>
-              </div>
-
               {/* Price Summary */}
               {selectedSessionDuration && (
-                <div className="bg-gray-50 rounded-xl p-4" data-testid="price-summary">
+                <div className="bg-teal-50 rounded-xl p-4 border border-teal-100" data-testid="price-summary">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Session Duration:</span>
-                    <span className="font-semibold">{SESSION_PRICING[selectedSessionDuration].duration}</span>
+                    <span className="font-medium">{SESSION_PRICING[selectedSessionDuration].duration}</span>
                   </div>
-                  {couponApplied && (
-                    <div className="flex justify-between items-center text-sm text-gray-500 mt-1">
-                      <span>Original Price:</span>
-                      <span className="line-through">₹{SESSION_PRICING[selectedSessionDuration].price}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-200">
-                    <span className="font-semibold text-lg">Total:</span>
-                    <span className="font-bold text-xl text-green-600">₹{calculatePrice()}</span>
+                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-teal-200">
+                    <span className="font-medium text-lg">Total:</span>
+                    <span className="font-bold text-xl text-teal-600">₹{SESSION_PRICING[selectedSessionDuration].price}</span>
                   </div>
                 </div>
               )}
 
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-medium mb-2">
                     <Calendar className="inline w-4 h-4 mr-2" />Preferred Date *
                   </label>
                   <input 
@@ -388,12 +312,12 @@ const TeamPage = () => {
                     onChange={handleChange}
                     required
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     data-testid="booking-date-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
+                  <label className="block text-sm font-medium mb-2">
                     <Clock className="inline w-4 h-4 mr-2" />Preferred Time *
                   </label>
                   <select 
@@ -401,7 +325,7 @@ const TeamPage = () => {
                     value={formData.time}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     data-testid="booking-time-select"
                   >
                     <option value="">Select time...</option>
@@ -418,13 +342,13 @@ const TeamPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Additional Information</label>
+                <label className="block text-sm font-medium mb-2">Additional Information</label>
                 <textarea 
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors resize-none"
                   placeholder="Tell us more about what brings you here today (optional)..."
                   data-testid="booking-message-textarea"
                 ></textarea>
@@ -433,7 +357,7 @@ const TeamPage = () => {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 data-testid="submit-booking-btn"
               >
                 {isSubmitting ? 'Submitting...' : 'Proceed to Payment'}
@@ -443,22 +367,22 @@ const TeamPage = () => {
         </div>
       )}
 
-      {/* UPI Payment Modal */}
+      {/* UPI Payment Modal - TEAL THEME */}
       {isPaymentModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-8">
             <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CreditCard className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CreditCard className="w-8 h-8 text-teal-600" />
               </div>
-              <h3 className="text-2xl font-bold mb-2">Pay via UPI</h3>
+              <h3 className="text-2xl font-semibold mb-2">Pay via UPI</h3>
               <p className="text-gray-600">Safe & Secure Payment</p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6 mb-6">
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 mb-6 border border-teal-100">
               <div className="text-center mb-4">
                 <p className="text-sm text-gray-600 mb-1">Amount to Pay</p>
-                <p className="text-3xl font-bold text-green-600" data-testid="payment-amount">₹{finalPrice || 999}</p>
+                <p className="text-3xl font-bold text-teal-600" data-testid="payment-amount">₹{finalPrice || 999}</p>
               </div>
               
               <div className="bg-white rounded-lg p-4 mb-4">
@@ -468,13 +392,13 @@ const TeamPage = () => {
 
               <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
                 <span className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Secure
+                  <CheckCircle className="w-4 h-4 text-teal-500 mr-1" /> Secure
                 </span>
                 <span className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Instant
+                  <CheckCircle className="w-4 h-4 text-teal-500 mr-1" /> Instant
                 </span>
                 <span className="flex items-center">
-                  <CheckCircle className="w-4 h-4 text-green-500 mr-1" /> Easy
+                  <CheckCircle className="w-4 h-4 text-teal-500 mr-1" /> Easy
                 </span>
               </div>
             </div>
@@ -482,14 +406,14 @@ const TeamPage = () => {
             <div className="space-y-3">
               <button
                 onClick={handlePaymentComplete}
-                className="w-full bg-green-600 text-white py-3 rounded-full hover:bg-green-700 transition-colors font-semibold"
+                className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg hover:shadow-lg transition-colors font-medium"
                 data-testid="confirm-payment-btn"
               >
                 I've Completed Payment
               </button>
               <button
                 onClick={() => setIsPaymentModalOpen(false)}
-                className="w-full bg-gray-100 text-gray-700 py-3 rounded-full hover:bg-gray-200 transition-colors font-medium"
+                className="w-full bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium"
               >
                 Cancel
               </button>

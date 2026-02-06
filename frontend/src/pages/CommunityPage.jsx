@@ -15,7 +15,6 @@ const CommunityPage = () => {
 
   const categories = ['General', 'Anxiety', 'Depression', 'Sleep', 'Stress', 'Support', 'First Steps', 'Recovery'];
 
-  // Fetch posts from backend on load
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -23,12 +22,11 @@ const CommunityPage = () => {
         if (response.data.posts && response.data.posts.length > 0) {
           setPosts(response.data.posts.map(post => ({
             ...post,
-            likes: Math.floor(Math.random() * 50), // Mock likes for now
+            likes: Math.floor(Math.random() * 50),
             comments: Math.floor(Math.random() * 15),
             timestamp: formatTimestamp(post.created_at)
           })));
         } else {
-          // Set default posts if none exist
           setPosts([
             {
               id: 1,
@@ -50,7 +48,6 @@ const CommunityPage = () => {
         }
       } catch (error) {
         console.error('Error fetching posts:', error);
-        // Set default posts on error
         setPosts([
           {
             id: 1,
@@ -129,139 +126,136 @@ const CommunityPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-purple-600 to-pink-600 py-16 text-white">
+    <div>
+      {/* Hero Section - TEAL THEME */}
+      <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-20 text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-full mb-6">
-              <Shield className="w-5 h-5" />
-              <span className="text-sm font-medium">100% Anonymous • Safe Space</span>
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">Aashwashan Community</h1>
-            <p className="text-xl opacity-90">
-              A judgment-free space where you can share your thoughts, support others, and find understanding. Your identity stays protected.
+          <div className="text-center max-w-4xl mx-auto">
+            <p className="text-teal-100 font-medium uppercase tracking-widest text-sm mb-4">ANONYMOUS SUPPORT</p>
+            <h1 className="text-4xl lg:text-5xl font-semibold mb-6">Community Support</h1>
+            <p className="text-xl text-white/90">
+              A safe space to share your thoughts, experiences, and support others on their mental health journey. Everything here is anonymous.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-12">
-        <div className="container mx-auto px-4 max-w-3xl">
-          {/* Post Form */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
-                <User className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <p className="font-semibold text-gray-800">Anonymous</p>
-                <p className="text-xs text-gray-500">Your identity is protected</p>
-              </div>
-            </div>
-            
-            <form onSubmit={handleSubmitPost}>
-              <textarea
-                value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
-                placeholder="Share what's on your mind... Your identity stays anonymous."
-                className="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none resize-none min-h-[120px] mb-4"
-                data-testid="community-post-input"
-              />
-              
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-600">Category:</span>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-3 py-2 border border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none text-sm"
-                  >
-                    {categories.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <button
-                  type="submit"
-                  disabled={!newPost.trim() || isSubmitting}
-                  className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition-colors font-medium disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center space-x-2"
-                  data-testid="submit-community-post"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{isSubmitting ? 'Posting...' : 'Share Anonymously'}</span>
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Community Guidelines */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-8 border border-blue-100">
-            <h3 className="font-semibold text-gray-800 mb-2">Community Guidelines</h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Be respectful and supportive of others</li>
-              <li>• No personal information or contact details allowed</li>
-              <li>• If you're in crisis, please reach out to Tele MANAS: 14416</li>
-            </ul>
-          </div>
-
-          {/* Posts Feed */}
-          <div className="space-y-6">
-            {posts.map((post) => (
-              <div key={post.id} className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
-                      <User className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-800">Anonymous</p>
-                      <div className="flex items-center space-x-2 text-xs text-gray-500">
-                        <Clock className="w-3 h-3" />
-                        <span>{post.timestamp}</span>
-                        <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">{post.category}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <p className="text-gray-700 leading-relaxed mb-4">{post.content}</p>
-                
-                <div className="flex items-center space-x-6 pt-4 border-t border-gray-100">
-                  <button 
-                    onClick={() => handleLike(post.id)}
-                    className="flex items-center space-x-2 text-gray-500 hover:text-pink-500 transition-colors"
-                  >
-                    <Heart className="w-5 h-5" />
-                    <span className="text-sm">{post.likes} Support</span>
-                  </button>
-                  <button className="flex items-center space-x-2 text-gray-500 hover:text-blue-500 transition-colors">
-                    <MessageCircle className="w-5 h-5" />
-                    <span className="text-sm">{post.comments} Replies</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Load More */}
-          <div className="text-center mt-8">
-            <button className="bg-white text-purple-600 px-8 py-3 rounded-full border-2 border-purple-600 hover:bg-purple-50 transition-colors font-medium">
-              Load More Posts
-            </button>
+      {/* Safety Notice */}
+      <section className="py-6 bg-teal-50 border-b border-teal-100">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-center space-x-3 text-teal-700">
+            <Shield className="w-5 h-5" />
+            <p className="text-sm font-medium">All posts are 100% anonymous. Your identity is protected.</p>
           </div>
         </div>
       </section>
 
-      {/* Support Banner */}
-      <section className="py-12 bg-gradient-to-r from-red-500 to-pink-500 text-white">
+      {/* Main Content */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            {/* Create Post */}
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 mb-8 border border-teal-100">
+              <h3 className="text-lg font-semibold mb-4 text-gray-800">Share Your Thoughts</h3>
+              <form onSubmit={handleSubmitPost}>
+                <textarea
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                  placeholder="What's on your mind? Share anonymously..."
+                  rows="4"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors resize-none mb-4 bg-white"
+                />
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center space-x-2">
+                    <label className="text-sm text-gray-600">Category:</label>
+                    <select
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="px-3 py-2 rounded-lg border border-gray-200 focus:border-teal-500 focus:outline-none text-sm bg-white"
+                    >
+                      {categories.map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !newPost.trim()}
+                    className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 disabled:opacity-50 flex items-center space-x-2"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>{isSubmitting ? 'Posting...' : 'Post Anonymously'}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Posts Feed */}
+            <div className="space-y-6">
+              {isLoading ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-500">Loading posts...</p>
+                </div>
+              ) : posts.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-500">No posts yet. Be the first to share!</p>
+                </div>
+              ) : (
+                posts.map(post => (
+                  <div key={post.id} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center">
+                          <User className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-800">Anonymous</p>
+                          <div className="flex items-center space-x-2 text-xs text-gray-500">
+                            <Clock className="w-3 h-3" />
+                            <span>{post.timestamp}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <span className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-xs font-medium">
+                        {post.category}
+                      </span>
+                    </div>
+                    
+                    <p className="text-gray-700 mb-4 leading-relaxed">{post.content}</p>
+                    
+                    <div className="flex items-center space-x-6 pt-4 border-t border-gray-100">
+                      <button 
+                        onClick={() => handleLike(post.id)}
+                        className="flex items-center space-x-2 text-gray-500 hover:text-teal-600 transition-colors"
+                      >
+                        <Heart className="w-5 h-5" />
+                        <span className="text-sm">{post.likes}</span>
+                      </button>
+                      <button className="flex items-center space-x-2 text-gray-500 hover:text-teal-600 transition-colors">
+                        <MessageCircle className="w-5 h-5" />
+                        <span className="text-sm">{post.comments}</span>
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Support CTA - TEAL THEME */}
+      <section className="py-16 bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h3 className="text-2xl font-bold mb-2">Need Immediate Support?</h3>
-          <p className="mb-4 opacity-90">If you're in crisis, please reach out for help</p>
-          <a href="tel:14416" className="inline-block bg-white text-red-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors">
-            Call Tele MANAS: 14416
+          <h3 className="text-3xl font-semibold mb-4">Need More Support?</h3>
+          <p className="text-white/90 mb-8 max-w-2xl mx-auto">
+            Sometimes we need more than peer support. Our professional therapists are here to help you through difficult times.
+          </p>
+          <a 
+            href="/team" 
+            className="inline-block bg-white text-teal-600 px-8 py-4 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-lg"
+          >
+            Book a Session
           </a>
         </div>
       </section>
