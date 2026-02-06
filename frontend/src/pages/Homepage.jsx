@@ -448,13 +448,10 @@ const Homepage = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 
-              className="text-4xl lg:text-5xl mb-4 text-gray-800"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              How life feels after therapy
+            <h2 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+              How Life Feels Better After Therapy
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg font-light">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Real improvements that make a difference in your daily life
             </p>
           </div>
@@ -482,13 +479,10 @@ const Homepage = () => {
             <div className="relative overflow-hidden rounded-2xl max-w-3xl mx-auto">
               <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600"></div>
               <div className="relative p-10 text-white">
-                <h3 
-                  className="text-3xl mb-4"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-                >
+                <h3 className="text-2xl font-semibold mb-4">
                   Do you want to feel like this?
                 </h3>
-                <p className="text-white/90 mb-8 font-light text-lg">Start your journey to a better life today</p>
+                <p className="text-white/90 mb-8 text-lg">Start your journey to a better life today</p>
                 <Link 
                   to="/team"
                   className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -502,14 +496,11 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 3: Booking Header Section - Elegant Design */}
+      {/* SECTION 3: Booking Header Section */}
       <section className="py-16 bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h2 
-              className="text-3xl lg:text-4xl mb-6"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
+            <h2 className="text-3xl lg:text-4xl font-semibold mb-6">
               Booking a therapist is now just one step away
             </h2>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -532,13 +523,10 @@ const Homepage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Our Team</p>
-            <h3 
-              className="text-4xl lg:text-5xl mb-4 text-gray-800"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              Meet our expert therapists
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+              Meet Our Expert Therapists
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Our team of licensed professionals brings years of experience and compassionate care to help you achieve mental wellness.
             </p>
           </div>
