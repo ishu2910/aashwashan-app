@@ -810,13 +810,10 @@ const Homepage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Self Care</p>
-            <h3 
-              className="text-4xl lg:text-5xl mb-4 text-gray-800"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              Take care of yourself
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+              Take Care of Yourself
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Simple tools you can use right now to feel better. Start writing for clarity.
             </p>
           </div>
@@ -875,13 +872,10 @@ const Homepage = () => {
           {/* Professional Worksheets Section */}
           <div className="mt-16 max-w-5xl mx-auto">
             <div className="text-center mb-8">
-              <h4 
-                className="text-2xl mb-2 text-gray-800"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-              >
-                Professional worksheets
+              <h4 className="text-2xl font-semibold mb-2 text-gray-800">
+                Professional Worksheets
               </h4>
-              <p className="text-gray-600 font-light">Download and use these therapy worksheets for deeper self-work</p>
+              <p className="text-gray-600">Download and use these therapy worksheets for deeper self-work</p>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
               <a 
@@ -921,11 +915,8 @@ const Homepage = () => {
           {/* Remember: Therapy takes time message */}
           <div className="mt-16 text-center">
             <div className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-6 max-w-2xl text-white">
-              <p 
-                className="text-lg"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-              >
-                Remember: Therapy is not a one-time thing. It typically takes 3-4 sessions to start seeing improvement in symptoms. Be patient with yourself.
+              <p className="text-lg">
+                <strong>Remember:</strong> Therapy is not a one-time thing. It typically takes 3-4 sessions to start seeing improvement in symptoms. Be patient with yourself.
               </p>
             </div>
           </div>
