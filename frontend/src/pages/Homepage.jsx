@@ -923,18 +923,15 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: What Our Clients Say - Elegant Design */}
+      {/* SECTION: What Our Clients Say */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Testimonials</p>
-            <h3 
-              className="text-4xl lg:text-5xl mb-4 text-gray-800"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              What our clients say
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+              What Our Clients Say
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Real stories from real people who found healing and hope through our mental health services.
             </p>
           </div>
@@ -958,10 +955,7 @@ const Homepage = () => {
                     </svg>
                   ))}
                 </div>
-                <p 
-                  className="text-gray-600"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-                >
+                <p className="text-gray-600 italic">
                   "{testimonial.text}"
                 </p>
               </div>
@@ -970,18 +964,15 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: FAQ - Elegant Design */}
+      {/* SECTION: FAQ */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">FAQs</p>
-            <h3 
-              className="text-4xl lg:text-5xl mb-4 text-gray-800"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              Frequently asked questions
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+              Frequently Asked Questions
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Find answers to common questions about our mental health services and what to expect.
             </p>
           </div>
@@ -1014,14 +1005,11 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: ROI Line - Elegant Design */}
+      {/* SECTION: ROI Line */}
       <section className="py-12 bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <p 
-              className="text-2xl lg:text-3xl mb-2"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
+            <p className="text-2xl lg:text-3xl font-semibold mb-2">
               Spending ₹1000 on mental health can give you a 4x return of ₹4000
             </p>
             <p className="text-white/80 text-sm font-light">
