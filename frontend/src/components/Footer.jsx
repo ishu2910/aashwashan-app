@@ -17,10 +17,7 @@ const Footer = () => {
                 className="h-14 w-auto"
               />
               <div className="flex flex-col">
-                <span 
-                  className="text-xl font-semibold" 
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-                >
+                <span className="text-xl font-semibold">
                   Aashwashan
                 </span>
                 <span className="text-xs text-teal-400">Mental Health for All</span>
