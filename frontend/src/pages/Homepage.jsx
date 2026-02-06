@@ -732,18 +732,15 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: How It Works - Elegant Design */}
+      {/* SECTION: How It Works */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">The Process</p>
-            <h3 
-              className="text-4xl lg:text-5xl mb-4 text-gray-800"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
-              How it works
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+              How It Works
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto font-light text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
               Your journey from struggle to strength
             </p>
           </div>
@@ -768,18 +765,15 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: Why Aashwashan - Elegant Design */}
+      {/* SECTION: Why Aashwashan */}
       <section className="py-20 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-200 font-medium uppercase tracking-widest text-sm mb-4">Why Choose Us</p>
-            <h3 
-              className="text-4xl lg:text-5xl mb-4"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-            >
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4">
               Why Aashwashan?
             </h3>
-            <p className="text-white/80 max-w-2xl mx-auto font-light text-lg">
+            <p className="text-white/80 max-w-2xl mx-auto text-lg">
               We don't just provide therapy — we provide after-therapy services for emotional healing and lasting change.
             </p>
           </div>
@@ -803,10 +797,7 @@ const Homepage = () => {
 
           <div className="mt-12 text-center">
             <div className="inline-block bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-2xl border border-white/20">
-              <p 
-                className="text-white text-lg"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
-              >
+              <p className="text-white text-lg italic">
                 "We pledge to change the conversation — from clinical to compassionate, from professional to personal."
               </p>
             </div>
@@ -814,7 +805,7 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: Self-Help Tools - Elegant Design */}
+      {/* SECTION: Self-Help Tools */}
       <section id="self-help-tools" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
