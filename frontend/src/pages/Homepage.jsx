@@ -386,7 +386,7 @@ const Homepage = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* HERO SECTION: How are you Feeling Today? - Beautiful & Engaging */}
+      {/* HERO SECTION: How are you Feeling Today? - Professional & Welcoming */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         {/* Beautiful Gradient Background */}
         <div 
@@ -414,10 +414,17 @@ const Homepage = () => {
           </h1>
           
           <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-            Take control of your mental wellness journey with professional support, personalized guidance, and a caring community.
+            You don't have to face this alone. Our compassionate therapists are here to listen, understand, and guide you towards a healthier mind.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/team"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-10 py-4 rounded-lg transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-xl min-w-[220px]"
+              data-testid="book-session-hero-btn"
+            >
+              Book a Session
+            </Link>
             <button
               onClick={() => {
                 setIsHelpMeModalOpen(true);
@@ -425,18 +432,11 @@ const Homepage = () => {
                 setHelpMeAnswers({ concern: '', duration: '', preference: '' });
                 setRecommendedTherapist(null);
               }}
-              className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg hover:bg-white/30 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[220px]"
-              data-testid="take-assessment-btn"
+              className="bg-white/20 backdrop-blur-sm text-white px-10 py-4 rounded-lg hover:bg-white/30 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[220px]"
+              data-testid="help-me-find-btn-hero"
             >
-              Take a Free Assessment
+              Help Me Find a Therapist
             </button>
-            <Link
-              to="/team"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-xl min-w-[220px]"
-              data-testid="book-session-hero-btn"
-            >
-              Book a Session
-            </Link>
           </div>
         </div>
 
