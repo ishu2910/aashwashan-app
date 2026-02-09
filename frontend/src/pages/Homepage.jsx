@@ -1465,8 +1465,8 @@ const Homepage = () => {
                   <h4 className="text-lg font-bold mb-4 text-gray-800">Common Signs & Symptoms:</h4>
                   <div className="grid gap-3">
                     {selectedService.symptoms.map((symptom, index) => (
-                      <div key={index} className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
-                        <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                      <div key={index} className="flex items-start space-x-3 p-3 bg-teal-50 rounded-lg">
+                        <CheckCircle className="w-5 h-5 text-teal-600 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700">{symptom}</span>
                       </div>
                     ))}
@@ -1474,7 +1474,7 @@ const Homepage = () => {
                 </div>
               )}
 
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 text-center">
+              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-6 text-center border border-teal-100">
                 <h4 className="text-lg font-bold mb-2 text-gray-800">Ready to Get Help?</h4>
                 <p className="text-gray-600 mb-4 text-sm">
                   If you're experiencing these symptoms, our professional therapists are here to support you.
@@ -1484,7 +1484,7 @@ const Homepage = () => {
                     closeSymptomModal();
                     openBookingModal(null);
                   }}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold"
+                  className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
                   data-testid="book-from-symptom-modal"
                 >
                   Book a Session
