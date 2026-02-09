@@ -58,43 +58,43 @@ const Navbar = () => {
                 className="h-14 w-auto"
               />
               <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+                <span className="text-2xl font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
                 <span className="text-[10px] text-gray-500 tracking-wider uppercase -mt-1">Mental Health for All</span>
               </div>
             </Link>
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center space-x-8">
-              <Link to="/" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/') ? 'text-blue-600' : ''}`}>
+              <Link to="/" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors ${isActive('/') ? 'text-teal-600' : ''}`}>
                 Home
               </Link>
-              <Link to="/about" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/about') ? 'text-blue-600' : ''}`}>
+              <Link to="/about" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors ${isActive('/about') ? 'text-teal-600' : ''}`}>
                 About Us
               </Link>
               
-              <Link to="/resources" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/resources') || isActive('/services') ? 'text-blue-600' : ''}`}>
+              <Link to="/resources" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors ${isActive('/resources') || isActive('/services') ? 'text-teal-600' : ''}`}>
                 Resources
               </Link>
 
-              <Link to="/community" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/community') ? 'text-blue-600' : ''}`}>
+              <Link to="/community" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors ${isActive('/community') ? 'text-teal-600' : ''}`}>
                 Community
               </Link>
 
-              <Link to="/blog" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/blog') ? 'text-blue-600' : ''}`}>
+              <Link to="/blog" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors ${isActive('/blog') ? 'text-teal-600' : ''}`}>
                 Blog
               </Link>
               
-              <Link to="/join-team" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/join-team') ? 'text-blue-600' : ''}`}>
+              <Link to="/join-team" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors ${isActive('/join-team') ? 'text-teal-600' : ''}`}>
                 Join Our Team
               </Link>
 
-              <Link to="/contact" className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/contact') ? 'text-blue-600' : ''}`}>
+              <Link to="/contact" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors ${isActive('/contact') ? 'text-teal-600' : ''}`}>
                 Contact Us
               </Link>
             </div>
 
             {/* CTA Button */}
-            <Link to="/team" className="hidden lg:block bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all duration-300 font-medium">
+            <Link to="/team" className="hidden lg:block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium">
               Book a Therapist
             </Link>
 
@@ -112,31 +112,31 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-white border-t">
             <div className="container mx-auto px-4 py-4 space-y-3">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Home
               </Link>
-              <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 About Us
               </Link>
-              <Link to="/resources" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/resources" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Resources
               </Link>
-              <Link to="/community" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/community" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Community
               </Link>
-              <Link to="/team" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/team" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Our Therapists
               </Link>
-              <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Blog
               </Link>
-              <Link to="/join-team" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/join-team" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Join Our Team
               </Link>
-              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Contact Us
               </Link>
-              <Link to="/team" onClick={() => setIsMobileMenuOpen(false)} className="block w-full bg-gray-900 text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-all text-center">
+              <Link to="/team" onClick={() => setIsMobileMenuOpen(false)} className="block w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all text-center">
                 Book a Therapist
               </Link>
             </div>
