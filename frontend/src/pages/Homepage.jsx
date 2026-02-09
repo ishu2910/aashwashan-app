@@ -378,7 +378,7 @@ const Homepage = () => {
 
   const getTestimonialIcon = (iconType) => {
     switch(iconType) {
-      case 'users': return <Users className="w-8 h-8 text-blue-600" />;
+      case 'users': return <Users className="w-8 h-8 text-teal-600" />;
       case 'heart': return <Heart className="w-8 h-8 text-pink-600" />;
       default: return <User className="w-8 h-8 text-purple-600" />;
     }
@@ -716,11 +716,11 @@ const Homepage = () => {
                   />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-lg font-bold mb-2 group-hover:text-blue-600 transition-colors">{service.title}</h3>
+                  <h3 className="text-lg font-bold mb-2 group-hover:text-teal-600 transition-colors">{service.title}</h3>
                   <p className="text-gray-600 mb-3 text-sm line-clamp-2">{service.description}</p>
                   <button
                     onClick={() => openSymptomModal(service)}
-                    className="text-blue-600 font-medium hover:underline text-sm"
+                    className="text-teal-600 font-medium hover:underline text-sm"
                     data-testid={`symptoms-${service.id}`}
                   >
                     How do I know I am going through this?
