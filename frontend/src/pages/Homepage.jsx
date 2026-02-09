@@ -1140,7 +1140,7 @@ const Homepage = () => {
                     onChange={handleChange}
                     required
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     data-testid="booking-date-input"
                   />
                 </div>
@@ -1153,7 +1153,7 @@ const Homepage = () => {
                     value={formData.time}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     data-testid="booking-time-select"
                   >
                     <option value="">Select time...</option>
