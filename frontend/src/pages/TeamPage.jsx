@@ -342,7 +342,7 @@ const TeamPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2">Additional Information</label>
+                <label className="block text-sm font-medium mb-2">Do you want to tell more?</label>
                 <textarea 
                   name="message"
                   value={formData.message}

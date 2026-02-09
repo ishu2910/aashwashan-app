@@ -111,8 +111,8 @@ const ContactPage = () => {
                       <Clock className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-1">Working Hours</h4>
-                      <p className="text-gray-600">Mon - Sat: 9:00 AM - 6:00 PM</p>
+                      <h4 className="font-semibold text-gray-800 mb-1">We're Here For You</h4>
+                      <p className="text-gray-600">Reach out anytime - we'll respond as soon as possible</p>
                     </div>
                   </div>
                 </div>
