@@ -1114,58 +1114,16 @@ const Homepage = () => {
                 </div>
               </div>
 
-              {/* Coupon Code Section */}
-              <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4">
-                <label className="block text-sm font-semibold mb-2">Have a coupon code?</label>
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={couponCode}
-                    onChange={(e) => {
-                      setCouponCode(e.target.value);
-                      setCouponError('');
-                      setCouponApplied(false);
-                    }}
-                    placeholder="Enter coupon code"
-                    className="flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-purple-600 focus:outline-none transition-colors"
-                    data-testid="coupon-input"
-                  />
-                  <button
-                    type="button"
-                    onClick={applyCoupon}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
-                    data-testid="apply-coupon-btn"
-                  >
-                    Apply
-                  </button>
-                </div>
-                {couponApplied && (
-                  <p className="text-green-600 text-sm mt-2 font-medium" data-testid="coupon-success">
-                    ✓ Coupon applied! 20% discount added
-                  </p>
-                )}
-                {couponError && (
-                  <p className="text-red-600 text-sm mt-2" data-testid="coupon-error">{couponError}</p>
-                )}
-                <p className="text-xs text-gray-500 mt-2">First time user? Try code: <span className="font-mono font-semibold">Aashwashan20</span></p>
-              </div>
-
               {/* Price Summary */}
               {selectedSessionDuration && (
-                <div className="bg-gray-50 rounded-xl p-4" data-testid="price-summary">
+                <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-4 border border-teal-100" data-testid="price-summary">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Session Duration:</span>
                     <span className="font-semibold">{SESSION_PRICING[selectedSessionDuration].duration}</span>
                   </div>
-                  {couponApplied && (
-                    <div className="flex justify-between items-center text-sm text-gray-500 mt-1">
-                      <span>Original Price:</span>
-                      <span className="line-through">₹{SESSION_PRICING[selectedSessionDuration].price}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-gray-200">
+                  <div className="flex justify-between items-center mt-2 pt-2 border-t border-teal-200">
                     <span className="font-semibold text-lg">Total:</span>
-                    <span className="font-bold text-xl text-green-600">₹{calculatePrice()}</span>
+                    <span className="font-bold text-xl text-teal-600">₹{SESSION_PRICING[selectedSessionDuration].price}</span>
                   </div>
                 </div>
               )}
@@ -1212,13 +1170,13 @@ const Homepage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Additional Information</label>
+                <label className="block text-sm font-semibold mb-2">Do you want to tell more?</label>
                 <textarea 
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors resize-none"
                   placeholder="Tell us more about what brings you here today (optional)..."
                   data-testid="booking-message-textarea"
                 ></textarea>
@@ -1227,7 +1185,7 @@ const Homepage = () => {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-3 rounded-full hover:bg-blue-700 transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 data-testid="submit-booking-btn"
               >
                 {isSubmitting ? 'Submitting...' : 'Proceed to Payment'}
