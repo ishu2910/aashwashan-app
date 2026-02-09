@@ -1051,7 +1051,7 @@ const Homepage = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                   placeholder="Your Name"
                   data-testid="booking-name-input"
                 />
@@ -1068,7 +1068,7 @@ const Homepage = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     placeholder="your@email.com"
                     data-testid="booking-email-input"
                   />
@@ -1083,7 +1083,7 @@ const Homepage = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
                     placeholder="+91 98765 43210"
                     data-testid="booking-phone-input"
                   />
@@ -1100,13 +1100,13 @@ const Homepage = () => {
                       onClick={() => setSelectedSessionDuration(key)}
                       className={`p-4 rounded-xl border-2 text-center transition-all duration-200 ${
                         selectedSessionDuration === key 
-                          ? 'border-blue-600 bg-blue-50 ring-2 ring-blue-200' 
-                          : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                          ? 'border-teal-500 bg-teal-50 ring-2 ring-teal-200' 
+                          : 'border-gray-200 hover:border-teal-300 hover:bg-gray-50'
                       }`}
                       data-testid={`session-${key}-btn`}
                     >
                       <p className="font-bold text-lg text-gray-800">{key} min</p>
-                      <p className={`text-sm font-semibold ${selectedSessionDuration === key ? 'text-blue-600' : 'text-green-600'}`}>
+                      <p className={`text-sm font-semibold ${selectedSessionDuration === key ? 'text-teal-600' : 'text-teal-600'}`}>
                         ₹{value.price}
                       </p>
                     </button>
