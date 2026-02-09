@@ -15,9 +15,6 @@ const SESSION_PRICING = {
   '60': { duration: '60 minutes', price: 1600 }
 };
 
-const COUPON_CODE = 'Aashwashan20';
-const COUPON_DISCOUNT = 0.20; // 20% discount
-
 const Homepage = () => {
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -46,9 +43,6 @@ const Homepage = () => {
   
   // Session booking state
   const [selectedSessionDuration, setSelectedSessionDuration] = React.useState('');
-  const [couponCode, setCouponCode] = React.useState('');
-  const [couponApplied, setCouponApplied] = React.useState(false);
-  const [couponError, setCouponError] = React.useState('');
   const [finalPrice, setFinalPrice] = React.useState(0);
   
   const [formData, setFormData] = React.useState({
