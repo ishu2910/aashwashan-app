@@ -20,6 +20,8 @@ import AppointmentPage from "./pages/AppointmentPage";
 import JoinOurTeamPage from "./pages/JoinOurTeamPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import TherapistLoginPage from "./pages/TherapistLoginPage";
+import TherapistDashboardPage from "./pages/TherapistDashboardPage";
 import UserAuthPage from "./pages/UserAuthPage";
 import Error404 from "./pages/Error404";
 import { Toaster } from "./components/ui/toaster";
@@ -84,6 +86,11 @@ function AppRoutes() {
         <Route path="/admin/login" element={<AdminLayout><AdminLoginPage /></AdminLayout>} />
         <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboardPage /></AdminLayout>} />
         <Route path="/admin" element={<AdminLayout><AdminLoginPage /></AdminLayout>} />
+        
+        {/* Therapist Routes */}
+        <Route path="/therapist/login" element={<AdminLayout><TherapistLoginPage /></AdminLayout>} />
+        <Route path="/therapist/dashboard" element={<AdminLayout><TherapistDashboardPage /></AdminLayout>} />
+        <Route path="/therapist" element={<AdminLayout><TherapistLoginPage /></AdminLayout>} />
         
         {/* 404 */}
         <Route path="*" element={<PublicLayout><Error404 /></PublicLayout>} />
