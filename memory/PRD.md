@@ -1,81 +1,149 @@
 # Aashwashan - Mental Health Website
 
 ## Original Problem Statement
-Create a professional mental health website "Aashwashan" with a welcoming, human-touch design inspired by mindfulcare.figma.site.
+A mental health website clone of "Nuro Psychology", rebranded as "Aashwashan" with professional teal/cyan theme, time-based booking system, community forum with user authentication, admin panel for content management, and therapist calendar system.
 
-## Design Philosophy
-- **Professional & Welcoming**: Clean design that makes people feel comfortable seeking help
-- **Teal/Cyan Color Scheme**: Consistent gradient throughout (teal-500 to cyan-600)
-- **Minimal Cursive**: Only used for the main hero headline, not everywhere
-- **No Negative Emojis**: Removed sad/anxious emojis that create negative impact
-- **Human Touch**: Focus on compassion and emotional healing
+## User Personas
+1. **Patients/Users**: Individuals seeking mental health support - can book sessions, join community, access resources
+2. **Therapists**: Mental health professionals - can manage availability, view bookings
+3. **Administrators**: Site owners - can manage content, blogs, therapists, view statistics
 
-## Tech Stack
-- **Frontend**: React, TailwindCSS, shadcn/ui
-- **Backend**: FastAPI, Motor (MongoDB)
-- **Video**: Jitsi Meet (free)
-- **Payments**: Razorpay (MOCKED - needs real keys)
+## Core Requirements
 
----
+### ✅ Completed Requirements
 
-## What's Been Implemented
+#### P0 - Critical (Completed)
+1. **Time-Based Booking System**
+   - 30 min session: ₹999
+   - 45 min session: ₹1400
+   - 60 min session: ₹1600
+   - No coupon codes (removed)
 
-### ✅ HERO SECTION
-- Elegant italic headline: "How are you feeling today?"
-- Subtext: "You don't have to face this alone. Our compassionate therapists are here to listen, understand, and guide you towards a healthier mind."
-- Two CTAs: "Book a Session" (orange) + "Help Me Find a Therapist" (glass)
+2. **Consistent Teal/Cyan Theme**
+   - Applied across all pages (Homepage, About, Resources, Team, Community, Blog, Contact, Join Team)
+   - Teal gradient hero sections
+   - Teal CTA buttons
+   - Fixed footer logo (no white background)
 
-### ✅ HOMEPAGE SECTIONS (Professional Design)
-1. "How Life Feels Better After Therapy" + "Do you want to feel like this?" CTA
-2. "Booking a therapist is now just one step away"
-3. "Meet Our Expert Therapists" with session pricing (30 min ₹999, 60 min ₹1600)
-4. "We're Human, Just Like You"
-5. "Why You Can't Ignore Mental Health Symptoms Anymore"
-6. "How We Support You"
-7. "How It Works"
-8. "Why Aashwashan?" (After-therapy services)
-9. "Take Care of Yourself" (Self-Help Tools + Worksheets)
-10. "What Our Clients Say"
-11. "Frequently Asked Questions"
-12. "Spending ₹1000 on mental health can give you a 4x return of ₹4000"
+3. **Admin Panel with Supabase Auth**
+   - Admin login: `/admin/login`
+   - Admin dashboard: `/admin/dashboard`
+   - Blog management (CRUD)
+   - User management view
+   - Statistics dashboard
+   - **Credentials**: admin@aashwashan.com / Admin123!
 
-### ✅ BOOKING SYSTEM
-- Session duration: 30 min (₹999), 45 min (₹1400), 60 min (₹1600)
-- Coupon code "AASHWASHAN20" auto-applied for 20% discount
-- Works on Homepage, TeamPage, ResourcesPage
+4. **User Authentication for Community**
+   - User signup/login: `/auth`
+   - JWT-based authentication
+   - Community posts require login
+   - Anonymous posting option available
 
-### ✅ PROFESSIONAL WORKSHEETS
-- Exposure Tracking Form (PDF)
-- Hourly Exposure Tracking (PDF)
+5. **UI/UX Fixes**
+   - "Additional Information" → "Do you want to tell more?"
+   - "Working Hours" → "We're Here For You"
+   - Removed all coupon code UI
+   - Fixed footer logo
+   - Consistent teal theme
 
-### ⚠️ MOCKED FEATURES
-- Razorpay Payments (returns mock orders)
-- Email notifications (logs only)
+### 🔄 In Progress / Upcoming
 
----
+#### P1 - High Priority
+1. **Therapist Calendar System**
+   - Therapist login portal
+   - Availability slot management
+   - Real-time slot display on booking
 
-## File Structure
+2. **Razorpay Payment Integration** (Waiting for user to go live)
+   - UPI payments
+   - Order creation
+   - Payment verification
+
+3. **Google Analytics Integration**
+
+#### P2 - Medium Priority
+1. **Patient-Therapist Messaging System**
+2. **Interactive Self-Help Tools** (convert PDFs to web forms)
+3. **Jitsi Meet Video Call Generation**
+
+#### P3 - Low Priority / Future
+1. **AI Session Transcription/Summarization**
+2. **Email Notifications Setup**
+3. **Advanced Blog Features** (comments, likes)
+
+## Technical Architecture
+
+### Backend (FastAPI)
+- **Database**: 
+  - Supabase PostgreSQL (users, therapists, blogs, community posts, bookings)
+  - MongoDB (legacy appointments, contacts, status checks)
+- **Authentication**: JWT with bcrypt password hashing
+- **Key Files**:
+  - `/app/backend/server.py` - Main API routes
+  - `/app/backend/auth.py` - JWT authentication
+  - `/app/backend/models.py` - SQLAlchemy models
+  - `/app/backend/database.py` - Supabase connection
+
+### Frontend (React)
+- **Styling**: TailwindCSS with teal/cyan theme
+- **State Management**: React Context (AuthContext)
+- **Routing**: React Router v6
+- **Key Pages**:
+  - `/app/frontend/src/pages/Homepage.jsx`
+  - `/app/frontend/src/pages/AdminLoginPage.jsx`
+  - `/app/frontend/src/pages/AdminDashboardPage.jsx`
+  - `/app/frontend/src/pages/UserAuthPage.jsx`
+  - `/app/frontend/src/pages/CommunityPage.jsx`
+
+### Database Schema (Supabase)
+```sql
+users (id, email, password_hash, name, role, is_active, created_at)
+therapist_profiles (id, user_id, specialization, bio, experience_years, skills, image_url)
+availability_slots (id, therapist_id, date, start_time, end_time, is_booked)
+bookings (id, therapist_id, user_id, client_name, client_email, date, time_slot, duration, price, status)
+community_posts (id, author_id, title, content, category, is_anonymous, likes_count, comments_count)
+blogs (id, author_id, title, slug, content, excerpt, featured_image, category, tags, is_published, views_count)
 ```
-/app
-├── backend/server.py
-└── frontend/src
-    ├── components/
-    │   ├── Navbar.jsx
-    │   └── Footer.jsx
-    └── pages/
-        ├── Homepage.jsx
-        ├── TeamPage.jsx
-        ├── ResourcesPage.jsx
-        ├── CommunityPage.jsx
-        └── ...
+
+### API Endpoints
+
+#### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user
+
+#### Admin
+- `GET /api/admin/stats` - Dashboard statistics
+- `GET /api/admin/users` - All users
+- `GET /api/admin/blogs` - All blogs
+- `POST /api/admin/blogs` - Create blog
+- `PUT /api/admin/blogs/:id` - Update blog
+- `DELETE /api/admin/blogs/:id` - Delete blog
+
+#### Community
+- `GET /api/community/posts` - Get posts
+- `POST /api/community/posts` - Create post (auth required)
+
+#### Legacy (MongoDB)
+- `POST /api/appointments` - Book appointment
+- `POST /api/contact` - Submit contact form
+
+## Environment Variables
+```
+# Backend (.env)
+MONGO_URL=mongodb://localhost:27017
+DB_NAME=test_database
+DATABASE_URL=postgresql://... (Supabase)
+JWT_SECRET_KEY=...
+
+# Frontend (.env)
+REACT_APP_BACKEND_URL=https://...
 ```
 
-## To Make Payments Live
-Add to backend/.env:
-```
-RAZORPAY_KEY_ID=rzp_live_xxxxx
-RAZORPAY_KEY_SECRET=your_secret
-```
+## Testing Results
+- Backend: 100% (35/35 tests passed)
+- Frontend: 100% (16/16 features verified)
+- Test report: `/app/test_reports/iteration_5.json`
 
-## Email
-All emails: care@aashwashan.com
+## Last Updated
+February 9, 2025
