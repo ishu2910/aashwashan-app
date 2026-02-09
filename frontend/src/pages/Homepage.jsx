@@ -1275,9 +1275,9 @@ const Homepage = () => {
             </div>
 
             <div className="bg-gray-50 rounded-xl p-4 mb-4 min-h-[200px]">
-              <div className="bg-blue-100 rounded-lg p-3 max-w-[80%] mb-3">
-                <p className="text-sm text-blue-800">Hi! I'm here to help. Feel free to share what's on your mind.</p>
-                <p className="text-xs text-blue-600 mt-1">{bookedTherapist.name}</p>
+              <div className="bg-teal-100 rounded-lg p-3 max-w-[80%] mb-3">
+                <p className="text-sm text-teal-800">Hi! I'm here to help. Feel free to share what's on your mind.</p>
+                <p className="text-xs text-teal-600 mt-1">{bookedTherapist.name}</p>
               </div>
               <p className="text-xs text-gray-500 text-center">Your therapist will respond when available</p>
             </div>
@@ -1288,13 +1288,13 @@ const Homepage = () => {
                 value={messageText}
                 onChange={handleMessageChange}
                 placeholder="Type your message... (no numbers allowed)"
-                className="flex-1 px-4 py-3 rounded-full border-2 border-gray-200 focus:border-blue-600 focus:outline-none"
+                className="flex-1 px-4 py-3 rounded-full border-2 border-gray-200 focus:border-teal-500 focus:outline-none"
                 data-testid="message-input"
               />
               <button
                 onClick={sendMessage}
                 disabled={!messageText.trim()}
-                className="w-12 h-12 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center disabled:bg-gray-300"
+                className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-full hover:shadow-lg transition-all flex items-center justify-center disabled:bg-gray-300"
                 data-testid="send-message-btn"
               >
                 <Send className="w-5 h-5" />
