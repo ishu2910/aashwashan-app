@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Homepage from "./pages/Homepage";
 import AboutPage from "./pages/AboutPage";
-import ServicesPage from "./pages/ServicesPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import CommunityPage from "./pages/CommunityPage";
 import SingleService from "./pages/SingleService";
@@ -18,6 +18,9 @@ import SingleBlog from "./pages/SingleBlog";
 import ContactPage from "./pages/ContactPage";
 import AppointmentPage from "./pages/AppointmentPage";
 import JoinOurTeamPage from "./pages/JoinOurTeamPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import UserAuthPage from "./pages/UserAuthPage";
 import Error404 from "./pages/Error404";
 import { Toaster } from "./components/ui/toaster";
 
@@ -32,33 +35,72 @@ function ScrollToTop() {
   return null;
 }
 
+// Layout component for public pages (with Navbar and Footer)
+function PublicLayout({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+      <WhatsAppButton />
+    </>
+  );
+}
+
+// Layout for admin pages (no Navbar/Footer)
+function AdminLayout({ children }) {
+  return <>{children}</>;
+}
+
+function AppRoutes() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAuthRoute = location.pathname === '/auth';
+
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<PublicLayout><Homepage /></PublicLayout>} />
+        <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
+        <Route path="/services" element={<PublicLayout><ResourcesPage /></PublicLayout>} />
+        <Route path="/resources" element={<PublicLayout><ResourcesPage /></PublicLayout>} />
+        <Route path="/community" element={<PublicLayout><CommunityPage /></PublicLayout>} />
+        <Route path="/service/:id" element={<PublicLayout><SingleService /></PublicLayout>} />
+        <Route path="/team" element={<PublicLayout><TeamPage /></PublicLayout>} />
+        <Route path="/pricing" element={<PublicLayout><PricingPage /></PublicLayout>} />
+        <Route path="/faq" element={<PublicLayout><FAQPage /></PublicLayout>} />
+        <Route path="/blog" element={<PublicLayout><BlogPage /></PublicLayout>} />
+        <Route path="/blog/:slug" element={<PublicLayout><SingleBlog /></PublicLayout>} />
+        <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
+        <Route path="/appointment" element={<PublicLayout><AppointmentPage /></PublicLayout>} />
+        <Route path="/join-team" element={<PublicLayout><JoinOurTeamPage /></PublicLayout>} />
+        
+        {/* Auth Routes */}
+        <Route path="/auth" element={<UserAuthPage />} />
+        
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLayout><AdminLoginPage /></AdminLayout>} />
+        <Route path="/admin/dashboard" element={<AdminLayout><AdminDashboardPage /></AdminLayout>} />
+        <Route path="/admin" element={<AdminLayout><AdminLoginPage /></AdminLayout>} />
+        
+        {/* 404 */}
+        <Route path="*" element={<PublicLayout><Error404 /></PublicLayout>} />
+      </Routes>
+      <Toaster />
+    </>
+  );
+}
+
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <ScrollToTop />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ResourcesPage />} />
-          <Route path="/resources" element={<ResourcesPage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/service/:id" element={<SingleService />} />
-          <Route path="/team" element={<TeamPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:id" element={<SingleBlog />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/appointment" element={<AppointmentPage />} />
-          <Route path="/join-team" element={<JoinOurTeamPage />} />
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-        <Footer />
-        <WhatsAppButton />
-        <Toaster />
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }
