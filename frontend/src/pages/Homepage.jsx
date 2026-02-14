@@ -695,26 +695,27 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: Why You Can't Ignore Mental Health Symptoms */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               {/* Left side - Main message */}
               <div>
-                <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Important</p>
-                <h2 className="text-3xl lg:text-4xl font-semibold mb-6 text-gray-800 leading-tight">
+                <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Important</p>
+                <h2 className="text-3xl lg:text-4xl font-semibold mb-6 text-gray-800 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
                   Why You Can't Ignore Mental Health Symptoms Anymore
                 </h2>
-                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+                <p className="text-gray-600 text-lg mb-8 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
                   Start by noticing, not judging, your emotions. Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
                 </p>
                 <Link 
                   to="/team"
-                  className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
+                  className="group inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 font-medium hover:scale-105"
                   data-testid="choose-therapist-btn"
                 >
                   <Heart className="w-5 h-5 mr-2" />
                   Therapy Can Help — Choose a Therapist
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
               
