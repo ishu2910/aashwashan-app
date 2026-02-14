@@ -382,44 +382,58 @@ const Homepage = () => {
 
   return (
     <div className="overflow-hidden">
-      {/* HERO SECTION: How are you Feeling Today? - Professional & Welcoming */}
-      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Beautiful Gradient Background */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-teal-400 via-cyan-500 to-blue-600"
-          style={{
-            backgroundImage: `
-              linear-gradient(135deg, rgba(20, 184, 166, 0.9) 0%, rgba(6, 182, 212, 0.85) 50%, rgba(59, 130, 246, 0.9) 100%),
-              url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1920&q=80')
-            `,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          {/* Subtle overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-teal-600/30 to-transparent"></div>
+      {/* HERO SECTION: How are you Feeling Today? - With Rotating Background Images */}
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+        {/* Rotating Background Images */}
+        <div className="absolute inset-0">
+          {HERO_IMAGES.map((img, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${
+                currentHeroImage === index ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                backgroundImage: `url('${img}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+          ))}
+          {/* Gradient Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-700/80 via-cyan-700/70 to-blue-800/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-teal-900/50 via-transparent to-transparent"></div>
         </div>
 
+        {/* Animated floating elements for visual interest */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-teal-400/20 rounded-full blur-3xl animate-pulse-soft"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl animate-pulse-soft delay-500"></div>
+
         {/* Content */}
-        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto animate-fade-in-up">
+          <p className="text-teal-200 font-medium uppercase tracking-[0.3em] text-sm mb-6 animate-fade-in delay-100">
+            Your Journey to Wellness Starts Here
+          </p>
+          
           <h1 
-            className="text-5xl md:text-6xl lg:text-7xl font-light mb-6 leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic' }}
+            className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-8 leading-tight animate-fade-in delay-200"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
-            How are you feeling<br />today?
+            How are you feeling<br />
+            <span className="italic font-normal text-teal-200">today?</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in delay-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             You don't have to face this alone. Our compassionate therapists are here to listen, understand, and guide you towards a healthier mind.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
             <Link
               to="/team"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-10 py-4 rounded-lg transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-xl min-w-[220px]"
+              className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-4 rounded-full transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-2xl hover:scale-105 min-w-[220px] flex items-center justify-center gap-2"
               data-testid="book-session-hero-btn"
             >
-              Book a Session
+              <span>Book a Session</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <button
               onClick={() => {
@@ -428,16 +442,49 @@ const Homepage = () => {
                 setHelpMeAnswers({ concern: '', duration: '', preference: '' });
                 setRecommendedTherapist(null);
               }}
-              className="bg-white/20 backdrop-blur-sm text-white px-10 py-4 rounded-lg hover:bg-white/30 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[220px]"
+              className="bg-white/15 backdrop-blur-md text-white px-10 py-4 rounded-full hover:bg-white/25 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[220px] hover:scale-105"
               data-testid="help-me-find-btn-hero"
             >
               Help Me Find a Therapist
             </button>
           </div>
+
+          {/* Trust indicators */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/70 text-sm animate-fade-in delay-500">
+            <span className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-teal-300" /> 100% Confidential
+            </span>
+            <span className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-teal-300" /> Licensed Therapists
+            </span>
+            <span className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-teal-300" /> Safe & Secure
+            </span>
+          </div>
         </div>
 
-        {/* Decorative elements */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
+        {/* Hero image indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+          {HERO_IMAGES.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentHeroImage(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                currentHeroImage === index 
+                  ? 'bg-white w-8' 
+                  : 'bg-white/40 hover:bg-white/60'
+              }`}
+              aria-label={`Go to image ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Decorative wave */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            <path d="M0 120L48 110C96 100 192 80 288 70C384 60 480 60 576 65C672 70 768 80 864 85C960 90 1056 90 1152 85C1248 80 1344 70 1392 65L1440 60V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0Z" fill="white"/>
+          </svg>
+        </div>
       </section>
 
       {/* SECTION 2: How Life Feels Better After Therapy */}
