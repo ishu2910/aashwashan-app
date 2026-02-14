@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { team } from '../data/mockData';
-import { Mail, Phone, X, User, Calendar, Clock, CheckCircle, CreditCard } from 'lucide-react';
+import { Mail, Phone, X, User, Calendar, Clock, CheckCircle, CreditCard, Video, Copy, ExternalLink } from 'lucide-react';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
 
