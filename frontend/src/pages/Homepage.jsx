@@ -147,7 +147,6 @@ const Homepage = () => {
       ...formData,
       sessionDuration: SESSION_PRICING[selectedSessionDuration].duration,
       price: calculatePrice(),
-      couponApplied: couponApplied,
       message: `Requested therapist: ${selectedTherapist?.name || 'Any'}. Session: ${SESSION_PRICING[selectedSessionDuration].duration}. ${formData.message}`
     };
     
