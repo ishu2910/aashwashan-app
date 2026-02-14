@@ -1066,14 +1066,14 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: What Our Clients Say */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">Testimonials</p>
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Testimonials</p>
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               What Our Clients Say
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Real stories from real people who found healing and hope through our mental health services.
             </p>
           </div>
