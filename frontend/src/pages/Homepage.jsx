@@ -1107,14 +1107,14 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: FAQ */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">FAQs</p>
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">FAQs</p>
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               Frequently Asked Questions
             </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Find answers to common questions about our mental health services and what to expect.
             </p>
           </div>
