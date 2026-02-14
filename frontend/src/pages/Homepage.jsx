@@ -665,45 +665,152 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: How We Support You */}
+      {/* SECTION: How We Support You - REDESIGNED */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-widest text-sm mb-4">How We Help</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
-              How We Support You
+              Find the Right Support for You
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-              Experiencing any of these symptoms? Book a therapy session and let us help you find relief and regain control of your life.
+              Not sure where to start? Explore common concerns below to see how we can help.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.slice(0, 4).map((service) => (
-              <div
-                key={service.id}
-                className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer border border-gray-100"
-              >
-                <div className="h-40 overflow-hidden">
-                  <img 
-                    src={service.image} 
-                    alt={service.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+          {/* Main Categories */}
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              {/* Emotional Challenges */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center">
+                    <Heart className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800">Emotional Challenges</h4>
+                    <p className="text-gray-500 text-sm">When feelings become overwhelming</p>
+                  </div>
                 </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-bold mb-2 group-hover:text-teal-600 transition-colors">{service.title}</h3>
-                  <p className="text-gray-600 mb-3 text-sm line-clamp-2">{service.description}</p>
-                  <button
-                    onClick={() => openSymptomModal(service)}
-                    className="text-teal-600 font-medium hover:underline text-sm"
-                    data-testid={`symptoms-${service.id}`}
-                  >
-                    How do I know I am going through this?
-                  </button>
-                </div>
+                <ul className="space-y-3">
+                  {['Persistent sadness or hopelessness', 'Mood swings that affect daily life', 'Grief and loss', 'Low self-esteem', 'Feeling empty or numb'].map((item, i) => (
+                    <li key={i} className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => openSymptomModal(services[0])}
+                  className="mt-6 w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
+                >
+                  Learn More & Get Help
+                </button>
               </div>
-            ))}
+
+              {/* Anxiety & Worry */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                    <Activity className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800">Worry & Anxiety</h4>
+                    <p className="text-gray-500 text-sm">When worry takes over your mind</p>
+                  </div>
+                </div>
+                <ul className="space-y-3">
+                  {['Constant worry about everything', 'Panic attacks or racing heart', 'Fear of social situations', 'Overthinking and rumination', 'Physical tension and restlessness'].map((item, i) => (
+                    <li key={i} className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => openSymptomModal(services[1])}
+                  className="mt-6 w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
+                >
+                  Learn More & Get Help
+                </button>
+              </div>
+
+              {/* Sleep & Energy */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-14 h-14 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <Moon className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800">Sleep & Energy Issues</h4>
+                    <p className="text-gray-500 text-sm">When rest doesn't come easy</p>
+                  </div>
+                </div>
+                <ul className="space-y-3">
+                  {['Trouble falling or staying asleep', 'Waking up feeling exhausted', 'Sleeping too much or too little', 'Constant fatigue during the day', 'Racing thoughts at night'].map((item, i) => (
+                    <li key={i} className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-indigo-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => openSymptomModal(services[2])}
+                  className="mt-6 w-full bg-gradient-to-r from-indigo-500 to-blue-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
+                >
+                  Learn More & Get Help
+                </button>
+              </div>
+
+              {/* Life & Relationship */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
+                    <Users className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-800">Life & Relationships</h4>
+                    <p className="text-gray-500 text-sm">When life feels difficult</p>
+                  </div>
+                </div>
+                <ul className="space-y-3">
+                  {['Relationship conflicts', 'Work stress and burnout', 'Major life transitions', 'Feeling disconnected from others', 'Struggling with purpose or direction'].map((item, i) => (
+                    <li key={i} className="flex items-start space-x-3">
+                      <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => openSymptomModal(services[3])}
+                  className="mt-6 w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
+                >
+                  Learn More & Get Help
+                </button>
+              </div>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-8 text-white text-center">
+              <h4 className="text-2xl font-semibold mb-4">Not sure which category fits you?</h4>
+              <p className="text-white/90 mb-6 max-w-2xl mx-auto">
+                That's completely okay! Book a session and our therapists will help you explore what you're experiencing together.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link 
+                  to="/self-assessment"
+                  className="inline-block bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-medium hover:bg-white/30 transition-all border border-white/30"
+                >
+                  Take Self-Assessment First
+                </Link>
+                <Link 
+                  to="/team"
+                  className="inline-block bg-white text-teal-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all"
+                >
+                  Book a Session Now
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
