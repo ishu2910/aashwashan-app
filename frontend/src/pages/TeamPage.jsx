@@ -442,6 +442,103 @@ const TeamPage = () => {
           </div>
         </div>
       )}
+
+      {/* Success Modal with Jitsi Link */}
+      {isSuccessModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" data-testid="success-modal">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-8">
+            <div className="text-center mb-6">
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-10 h-10 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-2">Booking Confirmed!</h3>
+              <p className="text-gray-600">Your therapy session has been successfully booked</p>
+            </div>
+
+            {/* Session Details */}
+            <div className="bg-gray-50 rounded-xl p-4 mb-6">
+              <h4 className="font-semibold text-gray-800 mb-3">Session Details</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Therapist:</span>
+                  <span className="font-medium text-gray-800">{selectedTherapist?.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Date:</span>
+                  <span className="font-medium text-gray-800">{bookedDate}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Time:</span>
+                  <span className="font-medium text-gray-800">{bookedTime}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Duration:</span>
+                  <span className="font-medium text-gray-800">{SESSION_PRICING[selectedSessionDuration]?.duration}</span>
+                </div>
+                <div className="flex justify-between border-t pt-2 mt-2">
+                  <span className="text-gray-600">Amount Paid:</span>
+                  <span className="font-bold text-teal-600">₹{finalPrice}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Jitsi Meeting Link */}
+            <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-4 mb-6 border border-teal-200">
+              <div className="flex items-center space-x-2 mb-3">
+                <Video className="w-5 h-5 text-teal-600" />
+                <h4 className="font-semibold text-teal-800">Your Video Meeting Link</h4>
+              </div>
+              <div className="bg-white rounded-lg p-3 mb-3">
+                <p className="text-sm text-gray-600 mb-1">Join your session at:</p>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="text"
+                    value={meetingLink}
+                    readOnly
+                    className="flex-1 text-sm font-mono text-teal-700 bg-transparent border-none focus:outline-none"
+                  />
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(meetingLink);
+                      toast({ title: "Link copied!" });
+                    }}
+                    className="p-2 hover:bg-gray-100 rounded-lg"
+                    title="Copy link"
+                  >
+                    <Copy className="w-4 h-4 text-gray-600" />
+                  </button>
+                </div>
+              </div>
+              <p className="text-xs text-teal-700">
+                Save this link! You'll use it to join the video session on your scheduled date and time.
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href={meetingLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg hover:shadow-lg transition-all font-medium"
+              >
+                <ExternalLink className="w-5 h-5" />
+                <span>Open Meeting Room</span>
+              </a>
+              <button
+                onClick={closeSuccessModal}
+                className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+              >
+                Done
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500 text-center mt-4">
+              A confirmation email has been sent to your email address
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
