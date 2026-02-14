@@ -18,6 +18,7 @@ import SingleBlog from "./pages/SingleBlog";
 import ContactPage from "./pages/ContactPage";
 import AppointmentPage from "./pages/AppointmentPage";
 import JoinOurTeamPage from "./pages/JoinOurTeamPage";
+import SelfAssessmentPage from "./pages/SelfAssessmentPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import TherapistLoginPage from "./pages/TherapistLoginPage";
@@ -78,6 +79,7 @@ function AppRoutes() {
         <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
         <Route path="/appointment" element={<PublicLayout><AppointmentPage /></PublicLayout>} />
         <Route path="/join-team" element={<PublicLayout><JoinOurTeamPage /></PublicLayout>} />
+        <Route path="/self-assessment" element={<PublicLayout><SelfAssessmentPage /></PublicLayout>} />
         
         {/* Auth Routes */}
         <Route path="/auth" element={<UserAuthPage />} />
