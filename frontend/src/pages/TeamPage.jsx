@@ -103,11 +103,22 @@ const TeamPage = () => {
   };
 
   const handlePaymentComplete = () => {
+    // Generate Jitsi meeting link
+    const roomName = `aashwashan-${selectedTherapist?.name?.replace(/\s+/g, '-').toLowerCase() || 'session'}-${Date.now().toString(36)}`;
+    const jitsiLink = `https://meet.jit.si/${roomName}`;
+    setMeetingLink(jitsiLink);
     setIsPaymentModalOpen(false);
+    setIsSuccessModalOpen(true);
     toast({
       title: "Booking Confirmed!",
-      description: `Your session with ${selectedTherapist?.name} is confirmed. We'll contact you shortly.`,
+      description: `Your session with ${selectedTherapist?.name} is confirmed.`,
     });
+  };
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+    setMeetingLink('');
+    setSelectedTherapist(null);
   };
 
   return (
