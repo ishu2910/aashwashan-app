@@ -488,30 +488,39 @@ const Homepage = () => {
       </section>
 
       {/* SECTION 2: How Life Feels Better After Therapy */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">
+            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">The Benefits</p>
+            <h2 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               How Life Feels Better After Therapy
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               Real improvements that make a difference in your daily life
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
             {[
-              { title: 'Sleep Better', desc: 'Restful nights and peaceful mornings', img: 'https://images.unsplash.com/photo-1758273239288-9b60777397c5?w=200' },
-              { title: 'Think Clearer', desc: 'Better focus and decision making', img: 'https://images.unsplash.com/photo-1763723341417-a4ea5ba6f675?w=200' },
-              { title: 'Feel Lighter', desc: 'Less emotional burden, more joy', img: 'https://images.unsplash.com/photo-1559551538-d4d5a9e85124?w=200' },
-              { title: 'Build Resilience', desc: 'Bounce back stronger from challenges', img: 'https://images.unsplash.com/photo-1738084737196-031b26793ed0?w=200' },
-              { title: 'Become Yourself', desc: 'Rediscover who you truly are', img: 'https://images.unsplash.com/photo-1592598015799-35c84b09394c?w=200' }
+              { title: 'Sleep Better', desc: 'Restful nights and peaceful mornings', img: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=200' },
+              { title: 'Think Clearer', desc: 'Better focus and decision making', img: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=200' },
+              { title: 'Feel Lighter', desc: 'Less emotional burden, more joy', img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=200' },
+              { title: 'Build Resilience', desc: 'Bounce back stronger from challenges', img: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200' },
+              { title: 'Become Yourself', desc: 'Rediscover who you truly are', img: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=200' }
             ].map((item, idx) => (
-              <div key={idx} className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-teal-100">
+              <div 
+                key={idx} 
+                className="group bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-teal-100"
+                style={{ animationDelay: `${idx * 100}ms` }}
+              >
                 <div className="mb-4 h-24 flex items-center justify-center">
-                  <img src={item.img} alt={item.title} className="w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg" />
+                  <img 
+                    src={item.img} 
+                    alt={item.title} 
+                    className="w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg group-hover:scale-110 transition-transform duration-500" 
+                  />
                 </div>
-                <h4 className="text-xl font-semibold mb-2 text-teal-800">{item.title}</h4>
+                <h4 className="text-xl font-semibold mb-2 text-teal-800" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</h4>
                 <p className="text-gray-600 text-sm">{item.desc}</p>
               </div>
             ))}
