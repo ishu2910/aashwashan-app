@@ -18,9 +18,13 @@ const TeamPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTherapist, setSelectedTherapist] = useState(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [meetingLink, setMeetingLink] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSessionDuration, setSelectedSessionDuration] = useState('');
   const [finalPrice, setFinalPrice] = useState(0);
+  const [bookedDate, setBookedDate] = useState('');
+  const [bookedTime, setBookedTime] = useState('');
   
   const [formData, setFormData] = useState({
     name: '',
