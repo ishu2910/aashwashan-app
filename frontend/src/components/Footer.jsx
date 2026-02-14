@@ -10,18 +10,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* About Section */}
           <div>
-            <div className="flex items-center space-x-3 mb-6">
-              <img 
-                src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
-                alt="Aashwashan Logo" 
-                className="h-14 w-auto"
-              />
-              <div className="flex flex-col">
-                <span className="text-xl font-semibold">
-                  Aashwashan
-                </span>
-                <span className="text-xs text-teal-400">Mental Health for All</span>
-              </div>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Aashwashan
+              </h2>
+              <span className="text-sm text-teal-400">Mental Health for All</span>
             </div>
             <p className="text-gray-400 mb-6 font-light leading-relaxed">
               Your journey to mental wellness starts here. We provide compassionate care and professional support for adults seeking mental health treatment.
