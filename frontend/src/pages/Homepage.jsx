@@ -67,11 +67,11 @@ const Homepage = () => {
     message: ''
   });
 
-  // Rotate hero images every 10 seconds
+  // Rotate hero images every 6 seconds
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHeroImage((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 10000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
