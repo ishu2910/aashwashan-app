@@ -15,13 +15,13 @@ const SESSION_PRICING = {
   '60': { duration: '60 minutes', price: 1600 }
 };
 
-// Hero background images for rotation
+// Hero background images for rotation - calming, professional mental health imagery
 const HERO_IMAGES = [
-  'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1920&q=80', // Smiling woman
-  'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1920&q=80', // Doctor
-  'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80', // Person at peace
-  'https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=1920&q=80', // Meditation
-  'https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=1920&q=80', // Happy person
+  'https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=1920&q=80', // Meditation/peaceful
+  'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1920&q=80', // Yoga/sunrise
+  'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=1920&q=80', // Peaceful nature
+  'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1920&q=80', // Calm water
+  'https://images.unsplash.com/photo-1528715471579-d1bcf0ba5e83?w=1920&q=80', // Sunrise hope
 ];
 
 const Homepage = () => {
