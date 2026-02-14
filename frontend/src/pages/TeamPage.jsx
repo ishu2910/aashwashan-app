@@ -86,6 +86,8 @@ const TeamPage = () => {
     try {
       await axios.post(`${API}/appointments`, appointmentData);
       setFinalPrice(price);
+      setBookedDate(formData.date);
+      setBookedTime(formData.time);
       closeModal();
       setIsPaymentModalOpen(true);
     } catch (error) {
