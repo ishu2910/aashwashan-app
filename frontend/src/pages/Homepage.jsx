@@ -930,14 +930,18 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: Why Aashwashan */}
-      <section className="py-20 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white">
-        <div className="container mx-auto px-4">
+      <section className="py-24 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-20 right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <p className="text-teal-200 font-medium uppercase tracking-widest text-sm mb-4">Why Choose Us</p>
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4">
+            <p className="text-teal-200 font-medium uppercase tracking-[0.2em] text-sm mb-4">Why Choose Us</p>
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
               Why Aashwashan?
             </h3>
-            <p className="text-white/80 max-w-2xl mx-auto text-lg">
+            <p className="text-white/80 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               We don't just provide therapy — we provide after-therapy services for emotional healing and lasting change.
             </p>
           </div>
