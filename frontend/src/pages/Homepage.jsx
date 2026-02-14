@@ -845,46 +845,20 @@ const Homepage = () => {
             </div>
           </div>
 
-          {/* Professional Worksheets Section */}
+          {/* Self-Assessment Tools Link */}
           <div className="mt-16 max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <h4 className="text-2xl font-semibold mb-2 text-gray-800">
-                Professional Worksheets
-              </h4>
-              <p className="text-gray-600">Download and use these therapy worksheets for deeper self-work</p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              <a 
-                href="https://customer-assets.emergentagent.com/job_0ea42f9a-ec24-4349-8b7e-7c4b2ee7febf/artifacts/3n3ef6hu_Exposure-Tracking-Form.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group border border-teal-100"
+            <div className="bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-8 text-white text-center">
+              <h4 className="text-2xl font-semibold mb-3">Want to Check Your Mental Well-Being?</h4>
+              <p className="text-white/90 mb-6 max-w-2xl mx-auto">
+                Take our validated self-assessment tests including PHQ-9, GAD-7, DASS-21, K6, PSS, and WHO-5 to understand your mental health better.
+              </p>
+              <Link 
+                to="/self-assessment"
+                className="inline-block bg-white text-teal-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+                data-testid="self-assessment-link"
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <CheckCircle className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h5 className="font-semibold text-lg text-gray-800 group-hover:text-teal-600 transition-colors">Exposure Tracking Form</h5>
-                  <p className="text-gray-600 text-sm">Track your exposure therapy progress with SUDS scale</p>
-                  <span className="text-teal-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
-                </div>
-              </a>
-              
-              <a 
-                href="https://customer-assets.emergentagent.com/job_0ea42f9a-ec24-4349-8b7e-7c4b2ee7febf/artifacts/romg4s32_Exposure-Tracking-Form-Hourly-Exposure.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex items-center space-x-4 group border border-teal-100"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h5 className="font-semibold text-lg text-gray-800 group-hover:text-teal-600 transition-colors">Hourly Exposure Tracking</h5>
-                  <p className="text-gray-600 text-sm">Track anxiety levels hour by hour throughout the day</p>
-                  <span className="text-teal-600 text-sm font-medium mt-1 inline-block">Download PDF →</span>
-                </div>
-              </a>
+                Take Self-Assessment
+              </Link>
             </div>
           </div>
 
