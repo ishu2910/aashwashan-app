@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon } from 'lucide-react';
+import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
@@ -14,6 +14,15 @@ const SESSION_PRICING = {
   '45': { duration: '45 minutes', price: 1400 },
   '60': { duration: '60 minutes', price: 1600 }
 };
+
+// Hero background images for rotation
+const HERO_IMAGES = [
+  'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1920&q=80', // Smiling woman
+  'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1920&q=80', // Doctor
+  'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80', // Person at peace
+  'https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=1920&q=80', // Meditation
+  'https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=1920&q=80', // Happy person
+];
 
 const Homepage = () => {
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
@@ -41,6 +50,9 @@ const Homepage = () => {
   });
   const [recommendedTherapist, setRecommendedTherapist] = React.useState(null);
   
+  // Hero image rotation
+  const [currentHeroImage, setCurrentHeroImage] = React.useState(0);
+  
   // Session booking state
   const [selectedSessionDuration, setSelectedSessionDuration] = React.useState('');
   const [finalPrice, setFinalPrice] = React.useState(0);
@@ -54,6 +66,14 @@ const Homepage = () => {
     time: '',
     message: ''
   });
+
+  // Rotate hero images every 10 seconds
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroImage((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const toggleFAQ = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? -1 : index);
