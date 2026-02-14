@@ -671,17 +671,21 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: We Are Human Just Like You */}
-      <section className="py-20 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white">
-        <div className="container mx-auto px-4">
+      <section className="py-24 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-8">
+            <h3 className="text-3xl lg:text-5xl font-semibold mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
               We're Human, Just Like You
             </h3>
-            <p className="text-white/90 text-lg leading-relaxed mb-10 max-w-3xl mx-auto">
+            <p className="text-white/90 text-lg leading-relaxed mb-10 max-w-3xl mx-auto" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               At Aashwashan, we understand that reaching out for help takes courage. Our therapists aren't just professionals — they're compassionate human beings who genuinely care about your well-being. When you visit us, you're not just a client — you're a person with a story that deserves to be heard.
             </p>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <p className="text-xl text-white leading-relaxed italic">
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-10 border border-white/20">
+              <p className="text-xl text-white leading-relaxed" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}>
                 "Every person who walks through our doors is treated with the dignity, respect, and warmth they deserve. We believe in the power of human connection to heal."
               </p>
               <p className="mt-6 text-teal-200 font-medium">— The Aashwashan Team</p>
