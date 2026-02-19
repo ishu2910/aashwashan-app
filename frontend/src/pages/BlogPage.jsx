@@ -253,7 +253,7 @@ const BlogPage = () => {
                     <span>From Aashwashan Blog</span>
                   </h3>
                   <div className="grid md:grid-cols-2 gap-6 mb-8">
-                    {dbBlogs.map((blog) => (
+                  {Array.isArray(dbBlogs) && dbBlogs.map((blog) => (
                       <Link 
                         key={blog.id}
                         to={`/blog/${blog.slug}`}
