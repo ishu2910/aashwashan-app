@@ -901,34 +901,62 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: How It Works */}
-      <section className="py-24 bg-white">
+      {/* SECTION: How It Works - Professional Timeline */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">The Process</p>
+            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Your Healing Journey</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               How It Works
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Your journey from struggle to strength
+              A simple, supportive process designed around you
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
-            {/* Visual Cycle */}
-            <div className="grid md:grid-cols-4 gap-6 relative">
-              {[
-                { num: '1', title: "You're Struggling", desc: 'Feeling overwhelmed, anxious, or lost' },
-                { num: '2', title: 'You Reach Out', desc: 'Share your concerns with us confidentially' },
-                { num: '3', title: 'Aashwashan Connects', desc: 'We match you with the right therapist' },
-                { num: '4', title: 'You Heal & Grow', desc: 'Together, we create your path to wellness' }
-              ].map((step, idx) => (
-                <div key={idx} className="text-center bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 border border-teal-100 hover:shadow-lg transition-shadow">
-                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-full flex items-center justify-center text-xl font-semibold mx-auto mb-4">{step.num}</div>
-                  <h4 className="font-semibold mb-2 text-teal-800">{step.title}</h4>
-                  <p className="text-gray-600 text-sm">{step.desc}</p>
-                </div>
-              ))}
+          <div className="max-w-6xl mx-auto">
+            {/* Professional Timeline */}
+            <div className="relative">
+              {/* Connection Line */}
+              <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-teal-200 via-cyan-300 to-teal-200 transform -translate-y-1/2 z-0"></div>
+              
+              <div className="grid md:grid-cols-4 gap-8 relative z-10">
+                {[
+                  { num: '01', title: "Recognize", subtitle: "The First Step", desc: 'Acknowledge that you need support — this takes courage, and we honor that.', icon: Heart },
+                  { num: '02', title: "Connect", subtitle: "Reach Out", desc: 'Book a session or take our assessment. We\'re here to listen without judgment.', icon: Phone },
+                  { num: '03', title: "Match", subtitle: "Find Your Fit", desc: 'We connect you with a therapist who understands your unique journey.', icon: Users },
+                  { num: '04', title: "Transform", subtitle: "Heal & Grow", desc: 'Begin your personalized healing journey with ongoing support and care.', icon: Sparkles }
+                ].map((step, idx) => (
+                  <div key={idx} className="text-center group">
+                    <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+                      {/* Step Number */}
+                      <div className="relative mb-6">
+                        <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-600 text-white rounded-2xl flex items-center justify-center mx-auto shadow-lg group-hover:scale-110 transition-transform duration-300">
+                          <step.icon className="w-10 h-10" />
+                        </div>
+                        <span className="absolute -top-2 -right-2 w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
+                          {step.num}
+                        </span>
+                      </div>
+                      
+                      <h4 className="text-xl font-bold mb-1 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>{step.title}</h4>
+                      <p className="text-teal-600 text-sm font-medium mb-3">{step.subtitle}</p>
+                      <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center mt-12">
+              <Link 
+                to="/team"
+                className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-10 py-4 rounded-full font-medium hover:shadow-xl transition-all duration-300 hover:scale-105 gap-2"
+              >
+                Start Your Journey Today
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
         </div>
