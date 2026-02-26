@@ -7,12 +7,11 @@ import { toast } from '../hooks/use-toast';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-// Session duration pricing - FINAL PRICES (no coupon)
-const SESSION_PRICING = {
-  '30': { duration: '30 minutes', price: 999 },
-  '45': { duration: '45 minutes', price: 1400 },
-  '60': { duration: '60 minutes', price: 1600 }
-};
+// Session duration pricing - Get from therapist data or use defaults
+const getSessionPricing = (therapist) => ({
+  '45': { duration: '45 minutes', price: parseInt(therapist?.price45 || 999) },
+  '60': { duration: '60 minutes', price: parseInt(therapist?.price60 || 1249) }
+});
 
 const TeamPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
