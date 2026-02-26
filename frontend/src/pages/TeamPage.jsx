@@ -72,6 +72,7 @@ const TeamPage = () => {
     }
     
     setIsSubmitting(true);
+    const SESSION_PRICING = getSessionPricing(selectedTherapist);
     const price = SESSION_PRICING[selectedSessionDuration].price;
     
     const appointmentData = {
