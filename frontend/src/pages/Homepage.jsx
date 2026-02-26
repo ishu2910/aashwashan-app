@@ -453,13 +453,13 @@ const Homepage = () => {
           {/* Trust indicators */}
           <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/70 text-sm animate-fade-in delay-500">
             <span className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-teal-300" /> 100% Confidential
+              <span className="w-4 h-4 rounded-full bg-teal-400 flex items-center justify-center text-white text-xs">✓</span> 100% Confidential
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-teal-300" /> Licensed Therapists
+              <span className="w-4 h-4 rounded-full bg-teal-400 flex items-center justify-center text-white text-xs">✓</span> Licensed Therapists
             </span>
             <span className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-teal-300" /> Safe & Secure
+              <span className="w-4 h-4 rounded-full bg-teal-400 flex items-center justify-center text-white text-xs">✓</span> Safe & Secure
             </span>
           </div>
         </div>
