@@ -47,6 +47,7 @@ function PublicLayout({ children }) {
       {children}
       <Footer />
       <WhatsAppButton />
+      <AIChatbot />
     </>
   );
 }
