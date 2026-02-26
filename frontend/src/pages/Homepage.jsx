@@ -626,10 +626,15 @@ const Homepage = () => {
                   <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-4 mb-4 border border-teal-100">
                     <p className="text-xs text-gray-500 mb-2 font-medium">Session Pricing</p>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-700">30 min — <strong className="text-teal-600">₹999</strong></span>
-                      <span className="text-gray-700">60 min — <strong className="text-teal-600">₹1600</strong></span>
+                      <span className="text-gray-700">45 min — <strong className="text-teal-600">₹{member.price45 || '999'}</strong></span>
+                      <span className="text-gray-700">60 min — <strong className="text-teal-600">₹{member.price60 || '1249'}</strong></span>
                     </div>
                   </div>
+                  
+                  {/* Credentials if available */}
+                  {member.credentials && (
+                    <p className="text-xs text-teal-600 mb-4 font-medium">{member.credentials}</p>
+                  )}
                   
                   <button
                     onClick={() => openBookingModal(member)}
