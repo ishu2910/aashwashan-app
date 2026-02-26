@@ -103,10 +103,13 @@ const Homepage = () => {
     });
   };
 
+  // Get dynamic pricing based on selected therapist
+  const SESSION_PRICING = selectedTherapist ? getSessionPricing(selectedTherapist) : getSessionPricing({});
+
   // Calculate final price based on session duration
   const calculatePrice = () => {
     if (!selectedSessionDuration) return 0;
-    return SESSION_PRICING[selectedSessionDuration].price;
+    return SESSION_PRICING[selectedSessionDuration]?.price || 999;
   };
   
   const closeSymptomModal = () => {
