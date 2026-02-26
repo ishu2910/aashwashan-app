@@ -962,45 +962,81 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: Why Aashwashan */}
-      <section className="py-24 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-20 right-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
-        
+      {/* SECTION: Why Aashwashan - Emotionally Connected */}
+      <section className="py-24 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <p className="text-teal-200 font-medium uppercase tracking-[0.2em] text-sm mb-4">Why Choose Us</p>
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Why Aashwashan?
+            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Our Promise to You</p>
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Why <span className="text-teal-600">Aashwashan</span>?
             </h3>
-            <p className="text-white/80 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              We don't just provide therapy — we provide after-therapy services for emotional healing and lasting change.
+            <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+              Because healing isn't just about therapy sessions — it's about feeling understood, supported, and cared for every single day.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Calendar, title: 'Weekly Schedule Planning', desc: 'We help structure your weekday schedule for better mental wellness' },
-              { icon: Activity, title: 'Find Your Triggers', desc: 'Identify your main trigger points and learn to manage them' },
-              { icon: CheckCircle, title: 'Execution Plan', desc: 'We create a personalized execution plan just for you' },
-              { icon: Heart, title: 'Emotional Healing', desc: 'Not professional services — real emotional healing and support' }
-            ].map((item, idx) => (
-              <div key={idx} className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/20 transition-colors">
-                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <item.icon className="w-8 h-8 text-white" />
+          <div className="max-w-6xl mx-auto">
+            {/* Emotional Connection Cards */}
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              {/* Card 1 */}
+              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-8 border border-teal-100 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Heart className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>We See You as a Person, Not a Patient</h4>
+                    <p className="text-gray-600 leading-relaxed">You're not just a case file or an appointment slot. You're someone's child, parent, friend, or partner. We treat you with the same care we'd want for our own family.</p>
+                  </div>
                 </div>
-                <h4 className="font-semibold text-lg mb-2">{item.title}</h4>
-                <p className="text-white/80 text-sm">{item.desc}</p>
               </div>
-            ))}
-          </div>
 
-          <div className="mt-12 text-center">
-            <div className="inline-block bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-2xl border border-white/20">
-              <p className="text-white text-lg italic">
-                "We pledge to change the conversation — from clinical to compassionate, from professional to personal."
+              {/* Card 2 */}
+              <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-8 border border-orange-100 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <MessageCircle className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>We're Here Between Sessions Too</h4>
+                    <p className="text-gray-600 leading-relaxed">Life doesn't pause between appointments. That's why we check in on you, remind you to smile, and celebrate your small wins — because they matter.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-100 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Users className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>Your Family's Mental Health Partner</h4>
+                    <p className="text-gray-600 leading-relaxed">We understand that your struggles affect your loved ones too. We help you become the best version of yourself — for you and for the people who love you.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 4 */}
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 border border-blue-100 hover:shadow-xl transition-all duration-300">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>We Believe in Your Potential</h4>
+                    <p className="text-gray-600 leading-relaxed">You're not broken — you're growing. We see your strength even when you can't. Our job is to help you see it too, one step at a time.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Emotional Quote */}
+            <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-3xl p-10 text-white text-center">
+              <p className="text-2xl font-semibold mb-4" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}>
+                "When you heal, your relationships heal. When you grow, your family grows. That's why we care about you — because your well-being ripples out to everyone you love."
               </p>
+              <p className="text-teal-200 font-medium">— Prakhar Tiwari, Founder</p>
             </div>
           </div>
         </div>
