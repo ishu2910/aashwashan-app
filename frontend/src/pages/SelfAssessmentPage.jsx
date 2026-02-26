@@ -363,6 +363,71 @@ const SelfAssessmentPage = () => {
             </Link>
           </div>
         </section>
+
+        {/* Author Credits & Legal Disclaimer */}
+        <section className="py-12 bg-gray-50 border-t border-gray-200">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              {/* Author Credits */}
+              <div className="mb-8">
+                <h4 className="text-lg font-semibold text-gray-800 mb-4">Assessment Credits & Sources</h4>
+                <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+                  <div className="bg-white p-4 rounded-lg border border-gray-100">
+                    <p className="font-medium text-gray-800">PHQ-9</p>
+                    <p>Developed by Drs. Robert L. Spitzer, Janet B.W. Williams, Kurt Kroenke, and colleagues. © Pfizer Inc.</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-gray-100">
+                    <p className="font-medium text-gray-800">GAD-7</p>
+                    <p>Developed by Drs. Robert L. Spitzer, Kurt Kroenke, Janet B.W. Williams, and Bernd Löwe. © Pfizer Inc.</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-gray-100">
+                    <p className="font-medium text-gray-800">DASS-21</p>
+                    <p>Developed by S.H. Lovibond and P.F. Lovibond at the University of New South Wales, Australia.</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-gray-100">
+                    <p className="font-medium text-gray-800">K6 Scale</p>
+                    <p>Developed by Ronald C. Kessler and colleagues, Harvard Medical School.</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-gray-100">
+                    <p className="font-medium text-gray-800">PSS (Perceived Stress Scale)</p>
+                    <p>Developed by Sheldon Cohen, Tom Kamarck, and Robin Mermelstein (1983).</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg border border-gray-100">
+                    <p className="font-medium text-gray-800">WHO-5</p>
+                    <p>Developed by the World Health Organization (WHO) Regional Office, Europe.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Legal Disclaimer */}
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
+                <div className="flex items-start space-x-3">
+                  <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-lg font-semibold text-amber-800 mb-2">Important Legal Disclaimer</h4>
+                    <div className="text-sm text-amber-700 space-y-2">
+                      <p>
+                        <strong>Not a Medical Diagnosis:</strong> These self-assessment tools are provided for educational and informational purposes only. They are NOT intended to diagnose, treat, cure, or prevent any mental health condition or illness.
+                      </p>
+                      <p>
+                        <strong>Seek Professional Help:</strong> The results of these assessments should not be used as a substitute for professional medical advice, diagnosis, or treatment. If you are experiencing mental health concerns, please consult a qualified healthcare provider or mental health professional.
+                      </p>
+                      <p>
+                        <strong>Crisis Resources:</strong> If you are in crisis or experiencing suicidal thoughts, please call Tele MANAS at <strong>14416</strong> (India) or your local emergency services immediately.
+                      </p>
+                      <p>
+                        <strong>Data Privacy:</strong> Your assessment responses are processed locally in your browser and are not stored on our servers. We respect your privacy and confidentiality.
+                      </p>
+                      <p className="pt-2 border-t border-amber-200">
+                        By using these assessments, you acknowledge that you have read and understood this disclaimer and agree that Aashwashan is not liable for any decisions made based on these screening tools.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     );
   }
