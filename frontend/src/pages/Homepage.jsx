@@ -147,9 +147,9 @@ const Homepage = () => {
     
     const appointmentData = {
       ...formData,
-      sessionDuration: SESSION_PRICING[selectedSessionDuration].duration,
+      sessionDuration: SESSION_PRICING[selectedSessionDuration]?.duration || '45 minutes',
       price: calculatePrice(),
-      message: `Requested therapist: ${selectedTherapist?.name || 'Any'}. Session: ${SESSION_PRICING[selectedSessionDuration].duration}. ${formData.message}`
+      message: `Requested therapist: ${selectedTherapist?.name || 'Any'}. Session: ${SESSION_PRICING[selectedSessionDuration]?.duration || '45 minutes'}. ${formData.message}`
     };
     
     try {
