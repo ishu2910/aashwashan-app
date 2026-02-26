@@ -52,12 +52,14 @@ const Navbar = () => {
           <div className="flex justify-between items-center py-4">
             {/* Logo with Name */}
             <Link to="/" className="flex items-center space-x-3 group">
-              <img 
-                src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
-                alt="Aashwashan" 
-                className="h-14 w-auto transition-transform group-hover:scale-105"
-              />
-              <div className="flex flex-col items-center">
+              <div className="h-14 w-14 rounded-full bg-gradient-to-br from-teal-50 to-cyan-50 flex items-center justify-center overflow-hidden border border-teal-100">
+                <img 
+                  src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
+                  alt="Aashwashan" 
+                  className="h-12 w-12 object-contain transition-transform group-hover:scale-110"
+                />
+              </div>
+              <div className="flex flex-col items-start">
                 <span className="text-2xl font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
                 <span className="text-[10px] text-gray-500 tracking-wider uppercase -mt-1">Mental Health for All</span>
               </div>
