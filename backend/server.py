@@ -1037,6 +1037,78 @@ async def get_legacy_community_posts(limit: int = 50, skip: int = 0):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ==================== AI CHATBOT ====================
+
+from emergentintegrations.llm.chat import LlmChat, UserMessage
+
+# Store chat sessions in memory (for production, use database)
+chat_sessions = {}
+
+# Chatbot system message for mental health support
+CHATBOT_SYSTEM_MESSAGE = """You are Aasha, a compassionate AI wellness companion at Aashwashan Mental Health. 
+
+Your role:
+- Provide empathetic, supportive responses to users seeking mental health guidance
+- Offer general wellness tips, coping strategies, and emotional support
+- Guide users to appropriate resources and professional help when needed
+- Be warm, understanding, and non-judgmental
+- Keep responses concise but caring (2-4 sentences unless more detail is needed)
+
+Important guidelines:
+- Never provide medical diagnoses or specific treatment recommendations
+- Always encourage users to seek professional help for serious concerns
+- If someone mentions self-harm or suicide, immediately provide crisis resources (Tele MANAS: 14416)
+- Remember context from the conversation to provide personalized support
+- Use the user's name if they share it to make conversations more personal
+
+Start each new conversation by introducing yourself warmly and asking how you can help today."""
+
+class ChatRequest(BaseModel):
+    message: str
+    session_id: str
+
+class ChatResponse(BaseModel):
+    response: str
+    session_id: str
+
+chatbot_router = APIRouter(prefix="/api/chatbot", tags=["Chatbot"])
+
+@chatbot_router.post("/chat", response_model=ChatResponse)
+async def chat_with_bot(request: ChatRequest):
+    """Chat with the AI wellness companion"""
+    try:
+        api_key = os.environ.get('EMERGENT_LLM_KEY')
+        if not api_key:
+            raise HTTPException(status_code=500, detail="Chatbot not configured")
+        
+        # Get or create chat session
+        if request.session_id not in chat_sessions:
+            chat_sessions[request.session_id] = LlmChat(
+                api_key=api_key,
+                session_id=request.session_id,
+                system_message=CHATBOT_SYSTEM_MESSAGE
+            ).with_model("openai", "gpt-4o-mini")
+        
+        chat = chat_sessions[request.session_id]
+        
+        # Send message and get response
+        user_message = UserMessage(text=request.message)
+        response = await chat.send_message(user_message)
+        
+        return ChatResponse(
+            response=response,
+            session_id=request.session_id
+        )
+    except Exception as e:
+        logger.error(f"Chatbot error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
+
+@chatbot_router.post("/new-session")
+async def create_new_session():
+    """Create a new chat session"""
+    session_id = str(uuid.uuid4())
+    return {"session_id": session_id}
+
 # ==================== INCLUDE ALL ROUTERS ====================
 
 app.include_router(api_router)
