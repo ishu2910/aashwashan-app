@@ -121,6 +121,9 @@ const TeamPage = () => {
     setSelectedTherapist(null);
   };
 
+  // Get dynamic pricing based on selected therapist
+  const SESSION_PRICING = selectedTherapist ? getSessionPricing(selectedTherapist) : getSessionPricing({});
+
   return (
     <div>
       {/* Hero Section - TEAL THEME */}
