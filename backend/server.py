@@ -1117,6 +1117,7 @@ app.include_router(admin_router)
 app.include_router(therapist_router)
 app.include_router(community_router)
 app.include_router(blog_router)
+app.include_router(chatbot_router)
 
 # CORS middleware
 app.add_middleware(
