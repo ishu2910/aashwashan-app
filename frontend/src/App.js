@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
+import AIChatbot from "./components/AIChatbot";
 import Homepage from "./pages/Homepage";
 import AboutPage from "./pages/AboutPage";
 import ResourcesPage from "./pages/ResourcesPage";
