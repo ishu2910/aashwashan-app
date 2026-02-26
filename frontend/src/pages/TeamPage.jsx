@@ -176,25 +176,6 @@ const TeamPage = () => {
         </div>
       </section>
 
-      {/* Session Pricing Info - TEAL THEME */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-teal-50/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h3 className="text-3xl font-semibold mb-4 text-gray-800">Session Pricing</h3>
-            <p className="text-gray-600">Choose a session duration that works for you</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {Object.entries(SESSION_PRICING).map(([key, value]) => (
-              <div key={key} className="bg-white rounded-2xl p-6 text-center shadow-lg border border-teal-100">
-                <h4 className="text-2xl font-semibold text-gray-800 mb-2">{key} min</h4>
-                <p className="text-3xl font-bold text-teal-600 mb-2">₹{value.price}</p>
-                <p className="text-gray-500 text-sm">per session</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Join Our Team CTA - TEAL THEME */}
       <section className="py-20 bg-gradient-to-r from-teal-500 to-cyan-600 text-white">
         <div className="container mx-auto px-4 text-center">
