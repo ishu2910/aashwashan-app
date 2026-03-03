@@ -529,19 +529,19 @@ const Homepage = () => {
 
           {/* CTA: Do you want to feel like this? */}
           <div className="text-center mt-16">
-            <div className="relative overflow-hidden rounded-2xl max-w-3xl mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-600"></div>
-              <div className="relative p-10 text-white">
-                <h3 className="text-2xl font-semibold mb-4">
-                  Do you want to feel like this?
+            <div className="relative overflow-hidden rounded-3xl max-w-3xl mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600"></div>
+              <div className="relative p-12 text-white">
+                <h3 className="text-3xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Ready to Feel Like This?
                 </h3>
-                <p className="text-white/90 mb-8 text-lg">Start your journey to a better life today</p>
+                <p className="text-white/90 mb-8 text-lg">Your transformation is just one conversation away</p>
                 <Link 
                   to="/team"
-                  className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="inline-block bg-white text-orange-600 px-10 py-4 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
                   data-testid="book-therapist-cta-btn"
                 >
-                  Book a Therapist Now
+                  Start Your Journey
                 </Link>
               </div>
             </div>
@@ -549,7 +549,19 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 3: Booking Header Section */}
+      {/* SECTION 3: Orange Accent Banner */}
+      <section className="py-12 bg-gradient-to-r from-orange-500 to-amber-500 text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <p className="text-xl font-medium">
+              Only <span className="font-bold text-2xl">1%</span> of people actively work on their emotional growth. 
+              <span className="ml-2 underline">Be the difference.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: Booking Header Section */}
       <section className="py-16 bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center">
@@ -601,53 +613,93 @@ const Homepage = () => {
             </button>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {team.map((member) => (
-              <div key={member.id} className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100">
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-teal-900/80 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <p className="text-white font-semibold text-lg">{member.name}</p>
-                    <p className="text-teal-200 text-sm">{member.role}</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {member.skills && member.skills.map((skill, idx) => (
-                      <span key={idx} className="bg-teal-50 text-teal-700 text-xs px-3 py-1 rounded-full font-medium">{skill}</span>
-                    ))}
-                  </div>
-                  <p className="text-gray-500 text-sm mb-4">{member.experience} experience</p>
-                  
-                  {/* Session Pricing Display */}
-                  <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-4 mb-4 border border-teal-100">
-                    <p className="text-xs text-gray-500 mb-2 font-medium">Session Pricing</p>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-700">45 min — <strong className="text-teal-600">₹{member.price45 || '999'}</strong></span>
-                      <span className="text-gray-700">60 min — <strong className="text-teal-600">₹{member.price60 || '1249'}</strong></span>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {team.map((member, memberIdx) => {
+              // Skill colors for visual appeal
+              const skillColors = [
+                'bg-rose-100 text-rose-700 border-rose-200',
+                'bg-amber-100 text-amber-700 border-amber-200',
+                'bg-violet-100 text-violet-700 border-violet-200',
+                'bg-cyan-100 text-cyan-700 border-cyan-200',
+                'bg-emerald-100 text-emerald-700 border-emerald-200',
+              ];
+              
+              return (
+                <div key={member.id} className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
+                  {/* Image Section */}
+                  <div className="relative h-72 overflow-hidden">
+                    <img 
+                      src={member.image} 
+                      alt={member.name} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/30 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <p className="text-white font-bold text-2xl" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</p>
+                      <p className="text-teal-300 font-medium">{member.role}</p>
+                    </div>
+                    {/* Experience Badge */}
+                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                      <span className="text-teal-700 font-bold text-sm">{member.experience}</span>
                     </div>
                   </div>
                   
-                  {/* Credentials if available */}
-                  {member.credentials && (
-                    <p className="text-xs text-teal-600 mb-4 font-medium">{member.credentials}</p>
-                  )}
-                  
-                  <button
-                    onClick={() => openBookingModal(member)}
-                    className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium"
-                    data-testid={`book-session-${member.id}`}
-                  >
-                    Book Session
-                  </button>
+                  {/* Content Section */}
+                  <div className="p-6">
+                    {/* Colorful Skills */}
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      {member.skills && member.skills.map((skill, idx) => (
+                        <span 
+                          key={idx} 
+                          className={`${skillColors[idx % skillColors.length]} text-xs px-4 py-2 rounded-full font-semibold border`}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                    
+                    {/* Bio */}
+                    <p className="text-gray-600 text-sm mb-5 line-clamp-2">{member.bio}</p>
+                    
+                    {/* Credentials */}
+                    {member.credentials && (
+                      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl px-4 py-3 mb-5">
+                        <p className="text-amber-700 text-sm font-semibold flex items-center gap-2">
+                          <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
+                          {member.credentials}
+                        </p>
+                      </div>
+                    )}
+                    
+                    {/* Pricing Section - Dynamic */}
+                    <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-5 mb-5 border border-teal-100">
+                      <p className="text-xs text-teal-600 font-semibold uppercase tracking-wider mb-3">Session Investment</p>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-600 font-medium">45 minutes</span>
+                          <span className="text-2xl font-bold text-teal-600">₹{member.price45 || '999'}</span>
+                        </div>
+                        {member.price60 && (
+                          <div className="flex justify-between items-center pt-2 border-t border-teal-200">
+                            <span className="text-gray-600 font-medium">60 minutes</span>
+                            <span className="text-2xl font-bold text-teal-600">₹{member.price60}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Book Button */}
+                    <button
+                      onClick={() => openBookingModal(member)}
+                      className="w-full bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-600 text-white py-4 rounded-xl hover:shadow-xl transition-all duration-300 font-semibold text-lg group-hover:from-teal-600 group-hover:to-cyan-600"
+                      data-testid={`book-session-${member.id}`}
+                    >
+                      Book Session
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Message Your Therapist - Shows after booking */}
@@ -1043,7 +1095,7 @@ const Homepage = () => {
               <p className="text-2xl font-semibold mb-4" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}>
                 "When you heal, your relationships heal. When you grow, your family grows. That's why we care about you — because your well-being ripples out to everyone you love."
               </p>
-              <p className="text-teal-200 font-medium">— Prakhar Tiwari, Founder</p>
+              <p className="text-teal-200 font-medium">— Ishan Goyal, Founder</p>
             </div>
           </div>
         </div>

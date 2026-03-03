@@ -20,6 +20,7 @@ import ContactPage from "./pages/ContactPage";
 import AppointmentPage from "./pages/AppointmentPage";
 import JoinOurTeamPage from "./pages/JoinOurTeamPage";
 import SelfAssessmentPage from "./pages/SelfAssessmentPage";
+import EmotionalOSPage from "./pages/EmotionalOSPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import TherapistLoginPage from "./pages/TherapistLoginPage";
@@ -69,8 +70,10 @@ function AppRoutes() {
         {/* Public Routes */}
         <Route path="/" element={<PublicLayout><Homepage /></PublicLayout>} />
         <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
-        <Route path="/services" element={<PublicLayout><ResourcesPage /></PublicLayout>} />
-        <Route path="/resources" element={<PublicLayout><ResourcesPage /></PublicLayout>} />
+        <Route path="/services" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
+        <Route path="/resources" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
+        <Route path="/eos" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
+        <Route path="/emotional-os" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
         <Route path="/community" element={<PublicLayout><CommunityPage /></PublicLayout>} />
         <Route path="/service/:id" element={<PublicLayout><SingleService /></PublicLayout>} />
         <Route path="/team" element={<PublicLayout><TeamPage /></PublicLayout>} />

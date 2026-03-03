@@ -364,42 +364,10 @@ const SelfAssessmentPage = () => {
           </div>
         </section>
 
-        {/* Author Credits & Legal Disclaimer */}
+        {/* Legal Disclaimer */}
         <section className="py-12 bg-gray-50 border-t border-gray-200">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              {/* Author Credits */}
-              <div className="mb-8">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Assessment Credits & Sources</h4>
-                <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <p className="font-medium text-gray-800">PHQ-9</p>
-                    <p>Developed by Drs. Robert L. Spitzer, Janet B.W. Williams, Kurt Kroenke, and colleagues. © Pfizer Inc.</p>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <p className="font-medium text-gray-800">GAD-7</p>
-                    <p>Developed by Drs. Robert L. Spitzer, Kurt Kroenke, Janet B.W. Williams, and Bernd Löwe. © Pfizer Inc.</p>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <p className="font-medium text-gray-800">DASS-21</p>
-                    <p>Developed by S.H. Lovibond and P.F. Lovibond at the University of New South Wales, Australia.</p>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <p className="font-medium text-gray-800">K6 Scale</p>
-                    <p>Developed by Ronald C. Kessler and colleagues, Harvard Medical School.</p>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <p className="font-medium text-gray-800">PSS (Perceived Stress Scale)</p>
-                    <p>Developed by Sheldon Cohen, Tom Kamarck, and Robin Mermelstein (1983).</p>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg border border-gray-100">
-                    <p className="font-medium text-gray-800">WHO-5</p>
-                    <p>Developed by the World Health Organization (WHO) Regional Office, Europe.</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Legal Disclaimer */}
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
                 <div className="flex items-start space-x-3">
                   <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
@@ -491,6 +459,20 @@ const SelfAssessmentPage = () => {
                   <span>Talk to a Therapist</span>
                   <ArrowRight className="w-5 h-5" />
                 </Link>
+              </div>
+
+              {/* Credits shown only after completing assessment */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <p className="text-xs text-gray-500 text-center">
+                  <strong>{selectedAssessment.title}</strong> credit: {
+                    selectedAssessment.id === 'phq9' ? 'Drs. Spitzer, Williams, Kroenke © Pfizer Inc.' :
+                    selectedAssessment.id === 'gad7' ? 'Drs. Spitzer, Kroenke, Williams, Löwe © Pfizer Inc.' :
+                    selectedAssessment.id === 'dass21' ? 'Lovibond & Lovibond, University of New South Wales' :
+                    selectedAssessment.id === 'k6' ? 'Kessler et al., Harvard Medical School' :
+                    selectedAssessment.id === 'pss' ? 'Cohen, Kamarck, Mermelstein (1983)' :
+                    'World Health Organization (WHO)'
+                  }
+                </p>
               </div>
             </div>
           </div>

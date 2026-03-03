@@ -101,7 +101,7 @@ export const team = [
     skills: ["Stress Management", "Relationship Issues", "Self-Esteem", "Anxiety"],
     experience: "3+ years",
     price45: "1499",
-    price60: "1899",
+    price60: null,
     image: "https://customer-assets.emergentagent.com/job_e346c176-86b9-4c64-8688-a2f0bf5fe171/artifacts/s1p9da79_Untitled%20design%20%281%29.png",
     bio: "Sonali is passionate about helping adults manage behavioral challenges and build healthier life patterns. She creates a safe, supportive space for clients to explore their emotions and develop coping strategies.",
     education: "M.A. in Clinical Psychology"

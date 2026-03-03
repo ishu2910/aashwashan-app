@@ -74,8 +74,8 @@ const Navbar = () => {
                 About Us
               </Link>
               
-              <Link to="/resources" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/resources') || isActive('/services') ? 'text-teal-600 after:w-full' : ''}`}>
-                Resources
+              <Link to="/resources" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/resources') || isActive('/services') || isActive('/eos') ? 'text-teal-600 after:w-full' : ''}`}>
+                Self-Help Tools
               </Link>
 
               <Link to="/community" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/community') ? 'text-teal-600 after:w-full' : ''}`}>
