@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles } from 'lucide-react';
+import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles, TrendingUp, Compass } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
@@ -810,150 +810,122 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: How We Support You - REDESIGNED */}
+      {/* SECTION: How We Support You - REDESIGNED WITH POSITIVE WORDS */}
       <section className="py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">How We Help</p>
+            <p className="text-orange-500 font-semibold uppercase tracking-[0.2em] text-sm mb-4">How We Help</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Find the Right Support for You
+              Find the <span className="text-orange-500">Right Support</span> for You
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Not sure where to start? Explore common concerns below to see how we can help.
+              We focus on <span className="text-teal-600 font-medium">building you up</span>, not fixing what's broken. Because you're not broken — you're growing.
             </p>
           </div>
 
-          {/* Main Categories */}
+          {/* Main Categories - POSITIVE FRAMING */}
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {/* Emotional Challenges */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
+              {/* Building Confidence */}
+              <div className="group bg-white rounded-3xl p-8 shadow-lg border border-teal-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center">
-                    <Heart className="w-7 h-7 text-white" />
+                  <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Sparkles className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-gray-800">Emotional Challenges</h4>
-                    <p className="text-gray-500 text-sm">When feelings become overwhelming</p>
+                    <h4 className="text-xl font-bold text-gray-800">Building <span className="text-orange-500">Confidence</span></h4>
+                    <p className="text-gray-500 text-sm">Discover your inner strength</p>
                   </div>
                 </div>
                 <ul className="space-y-3">
-                  {['Persistent sadness or hopelessness', 'Mood swings that affect daily life', 'Grief and loss', 'Low self-esteem', 'Feeling empty or numb'].map((item, i) => (
-                    <li key={i} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{item}</span>
+                  {['Developing unshakeable self-belief', 'Finding your authentic voice', 'Embracing your unique qualities', 'Building resilience for life\'s challenges', 'Creating healthy self-worth'].map((item, i) => (
+                    <li key={i} className="flex items-start space-x-3 group/item">
+                      <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 group-hover/item:text-gray-900 transition-colors">{item}</span>
                     </li>
                   ))}
                 </ul>
                 <button
                   onClick={() => openSymptomModal(services[0])}
-                  className="mt-6 w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
+                  className="mt-6 w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02]"
                 >
-                  Learn More & Get Help
+                  Start Building Confidence
                 </button>
               </div>
 
-              {/* Anxiety & Worry */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
+              {/* Finding Peace */}
+              <div className="group bg-white rounded-3xl p-8 shadow-lg border border-teal-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                    <Activity className="w-7 h-7 text-white" />
+                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Heart className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold text-gray-800">Worry & Anxiety</h4>
-                    <p className="text-gray-500 text-sm">When worry takes over your mind</p>
+                    <h4 className="text-xl font-bold text-gray-800">Finding <span className="text-teal-600">Inner Peace</span></h4>
+                    <p className="text-gray-500 text-sm">Calm your mind, free your spirit</p>
                   </div>
                 </div>
                 <ul className="space-y-3">
-                  {['Constant worry about everything', 'Panic attacks or racing heart', 'Fear of social situations', 'Overthinking and rumination', 'Physical tension and restlessness'].map((item, i) => (
-                    <li key={i} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-purple-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{item}</span>
+                  {['Achieving mental clarity', 'Managing stress with grace', 'Sleeping peacefully again', 'Feeling lighter every day', 'Living in the present moment'].map((item, i) => (
+                    <li key={i} className="flex items-start space-x-3 group/item">
+                      <CheckCircle className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 group-hover/item:text-gray-900 transition-colors">{item}</span>
                     </li>
                   ))}
                 </ul>
                 <button
                   onClick={() => openSymptomModal(services[1])}
-                  className="mt-6 w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
+                  className="mt-6 w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02]"
                 >
-                  Learn More & Get Help
-                </button>
-              </div>
-
-              {/* Sleep & Energy */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center">
-                    <Moon className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold text-gray-800">Sleep & Energy Issues</h4>
-                    <p className="text-gray-500 text-sm">When rest doesn't come easy</p>
-                  </div>
-                </div>
-                <ul className="space-y-3">
-                  {['Trouble falling or staying asleep', 'Waking up feeling exhausted', 'Sleeping too much or too little', 'Constant fatigue during the day', 'Racing thoughts at night'].map((item, i) => (
-                    <li key={i} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-indigo-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => openSymptomModal(services[2])}
-                  className="mt-6 w-full bg-gradient-to-r from-indigo-500 to-blue-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
-                >
-                  Learn More & Get Help
-                </button>
-              </div>
-
-              {/* Life & Relationship */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-teal-100 hover:shadow-xl transition-shadow">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
-                    <Users className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold text-gray-800">Life & Relationships</h4>
-                    <p className="text-gray-500 text-sm">When life feels difficult</p>
-                  </div>
-                </div>
-                <ul className="space-y-3">
-                  {['Relationship conflicts', 'Work stress and burnout', 'Major life transitions', 'Feeling disconnected from others', 'Struggling with purpose or direction'].map((item, i) => (
-                    <li key={i} className="flex items-start space-x-3">
-                      <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={() => openSymptomModal(services[3])}
-                  className="mt-6 w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-3 rounded-xl font-medium hover:shadow-lg transition-all"
-                >
-                  Learn More & Get Help
+                  Find Your Peace
                 </button>
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-8 text-white text-center">
-              <h4 className="text-2xl font-semibold mb-4">Not sure which category fits you?</h4>
-              <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-                That's completely okay! Book a session and our therapists will help you explore what you're experiencing together.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link 
-                  to="/self-assessment"
-                  className="inline-block bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-medium hover:bg-white/30 transition-all border border-white/30"
+            {/* Additional Support Areas - POSITIVE */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Relationship Growth */}
+              <div className="group bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <h5 className="font-bold text-gray-800 mb-2">Stronger <span className="text-rose-500">Relationships</span></h5>
+                <p className="text-gray-600 text-sm mb-4">Build deeper connections with loved ones and communicate with confidence.</p>
+                <button
+                  onClick={() => openSymptomModal(services[0])}
+                  className="text-rose-500 font-semibold text-sm hover:text-rose-600 transition-colors flex items-center gap-1"
                 >
-                  Take Self-Assessment First
-                </Link>
-                <Link 
-                  to="/team"
-                  className="inline-block bg-white text-teal-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all"
+                  Learn More <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Career Growth */}
+              <div className="group bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <h5 className="font-bold text-gray-800 mb-2">Career <span className="text-violet-500">Success</span></h5>
+                <p className="text-gray-600 text-sm mb-4">Overcome workplace stress and unlock your professional potential.</p>
+                <button
+                  onClick={() => openSymptomModal(services[0])}
+                  className="text-violet-500 font-semibold text-sm hover:text-violet-600 transition-colors flex items-center gap-1"
                 >
-                  Book a Session Now
-                </Link>
+                  Learn More <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Life Purpose */}
+              <div className="group bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Compass className="w-6 h-6 text-white" />
+                </div>
+                <h5 className="font-bold text-gray-800 mb-2">Life <span className="text-amber-500">Purpose</span></h5>
+                <p className="text-gray-600 text-sm mb-4">Discover what truly matters and create a meaningful life path.</p>
+                <button
+                  onClick={() => openSymptomModal(services[0])}
+                  className="text-amber-500 font-semibold text-sm hover:text-amber-600 transition-colors flex items-center gap-1"
+                >
+                  Learn More <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>

@@ -46,25 +46,26 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li><Link to="/about" className="text-gray-400 hover:text-teal-400 transition-colors font-light">About Us</Link></li>
-              <li><Link to="/resources" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Resources</Link></li>
+              <li><Link to="/eos" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Self-Help Tools</Link></li>
               <li><Link to="/team" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Meet Our Team</Link></li>
+              <li><Link to="/self-assessment" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Take Assessment</Link></li>
               <li><Link to="/community" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Community</Link></li>
               <li><Link to="/blog" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Blog</Link></li>
               <li><Link to="/contact" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Contact Us</Link></li>
             </ul>
           </div>
 
-          {/* What We Help With */}
+          {/* What We Help Build */}
           <div>
             <h3 className="text-lg font-semibold mb-6 text-teal-400">
-              What We Help With
+              What We Help Build
             </h3>
             <ul className="space-y-3">
-              <li><Link to="/resources" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Mood Swings</Link></li>
-              <li><Link to="/resources" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Anxiety & Stress</Link></li>
-              <li><Link to="/resources" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Psychological Distress</Link></li>
-              <li><Link to="/resources" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Sleep Disturbances</Link></li>
-              <li><Link to="/resources" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Self-Help Tools</Link></li>
+              <li><Link to="/eos" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Building Confidence</Link></li>
+              <li><Link to="/eos" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Finding Inner Peace</Link></li>
+              <li><Link to="/eos" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Stronger Relationships</Link></li>
+              <li><Link to="/eos" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Career Success</Link></li>
+              <li><Link to="/eos" className="text-gray-400 hover:text-teal-400 transition-colors font-light">Self-Help Tools</Link></li>
             </ul>
           </div>
 
