@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { team } from '../data/mockData';
-import { Mail, Phone, X, User, Calendar, Clock, CheckCircle, CreditCard, Video, Copy, ExternalLink } from 'lucide-react';
+import { Mail, Phone, X, User, Calendar, Clock, CheckCircle, CreditCard, Video, Copy, ExternalLink, Lock } from 'lucide-react';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
+import { useAuth } from '../context/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -14,7 +16,10 @@ const getSessionPricing = (therapist) => ({
 });
 
 const TeamPage = () => {
+  const { user, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const [selectedTherapist, setSelectedTherapist] = useState(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -35,8 +40,27 @@ const TeamPage = () => {
   });
 
   const openBookingModal = (therapist) => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      setSelectedTherapist(therapist);
+      setShowAuthPrompt(true);
+      return;
+    }
+    
+    // Pre-fill form with user data if available
+    setFormData(prev => ({
+      ...prev,
+      name: user?.name || '',
+      email: user?.email || ''
+    }));
+    
     setSelectedTherapist(therapist);
     setIsModalOpen(true);
+  };
+
+  const closeAuthPrompt = () => {
+    setShowAuthPrompt(false);
+    setSelectedTherapist(null);
   };
 
   const closeModal = () => {
@@ -126,6 +150,41 @@ const TeamPage = () => {
 
   return (
     <div>
+      {/* Authentication Required Modal */}
+      {showAuthPrompt && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-8 text-center animate-scale-in shadow-2xl">
+            <div className="w-20 h-20 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Lock className="w-10 h-10 text-teal-600" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Create an Account First
+            </h3>
+            <p className="text-gray-600 mb-6">
+              To book a session with <strong className="text-teal-600">{selectedTherapist?.name}</strong>, 
+              please create an account or sign in. This helps us personalize your experience and send you session reminders.
+            </p>
+            <div className="space-y-3">
+              <Link
+                to="/auth"
+                className="block w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-4 rounded-xl font-semibold hover:shadow-lg transition-all"
+              >
+                Sign Up / Sign In
+              </Link>
+              <button
+                onClick={closeAuthPrompt}
+                className="block w-full border-2 border-gray-200 text-gray-600 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all"
+              >
+                Maybe Later
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 mt-4">
+              Only 1% of people take this step. Be part of the difference.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section - TEAL THEME */}
       <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-20 text-white">
         <div className="container mx-auto px-4">

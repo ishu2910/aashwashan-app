@@ -32,17 +32,17 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Top Banner - Free Self Help Tools */}
-      <div className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-2">
+      {/* Top Banner - Orange Theme */}
+      <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white py-2.5">
         <div className="container mx-auto px-4">
-          <button 
-            onClick={scrollToSelfHelp}
+          <Link 
+            to="/eos"
             className="w-full flex items-center justify-center space-x-2 text-sm font-medium hover:opacity-90 transition-opacity"
           >
             <Sparkles className="w-4 h-4" />
-            <span>Hey! Wanna try our FREE Self-Help Tools?</span>
-            <span className="underline">Try Now →</span>
-          </button>
+            <span>Hey! Wanna try our <strong>FREE Self-Help Tools</strong>?</span>
+            <span className="underline font-semibold ml-1">Try Now →</span>
+          </Link>
         </div>
       </div>
 
@@ -75,7 +75,7 @@ const Navbar = () => {
               </Link>
               
               <Link to="/resources" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/resources') || isActive('/services') || isActive('/eos') ? 'text-teal-600 after:w-full' : ''}`}>
-                Self-Help Tools
+                Resources
               </Link>
 
               <Link to="/community" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/community') ? 'text-teal-600 after:w-full' : ''}`}>

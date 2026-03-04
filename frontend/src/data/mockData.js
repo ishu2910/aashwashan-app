@@ -81,7 +81,7 @@ export const team = [
   {
     id: 1,
     name: "Prakhar Tiwari",
-    role: "Clinical Psychologist",
+    role: "Counselling Psychologist",
     specialization: "Counseling & Mental Health Support",
     skills: ["Empathy", "Grief", "Active Listening", "Career Problems"],
     experience: "1+ years",

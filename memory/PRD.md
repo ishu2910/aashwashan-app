@@ -1,87 +1,96 @@
 # Aashwashan - Emotional Operating System
 
 ## Original Problem Statement
-A mental health platform that goes beyond therapy booking - building an Emotional Operating System (EOS) that helps users understand themselves, build confidence, and break free from limiting patterns. The vision: Be better than WYSA. Sell the experience, not the therapy.
+A mental health platform that goes beyond therapy booking - building an Emotional Operating System (EOS) that helps users understand themselves, build confidence, and break free from limiting patterns.
 
 ## Core Philosophy
 - **"Aashwashan is of the people, by the people, for the people."**
-- Only 1% of people actively work on emotional growth. Be part of the difference makers.
-- We don't sell sessions. We build emotional intelligence.
+- Only 1% of people actively work on emotional growth
+- We sell the experience, not the therapy
 - **Founder**: Ishan Goyal
 
 ## What's Been Completed
 
 ### UI/UX Fixes
-- ✅ White box bug on "Licensed Therapists" - FIXED
-- ✅ Navbar logo reflection - FIXED
-- ✅ "Made with Emergent" badge - REMOVED
-- ✅ "Resources" → "Self-Help Tools" in navbar
-- ✅ Footer updated with positive words
-- ✅ Global animation styles added (fadeIn, fadeInUp, hover effects)
-- ✅ Smooth scrolling enabled
-
-### "How We Help" Section - POSITIVE WORDS
-Instead of negative words (Anxiety, Depression), now shows:
-- **Building Confidence** (orange) - Developing self-belief, finding authentic voice
-- **Finding Inner Peace** (teal) - Mental clarity, stress management, peaceful sleep
-- **Stronger Relationships** (rose) - Deeper connections with loved ones
-- **Career Success** (violet) - Unlocking professional potential
-- **Life Purpose** (amber) - Discovering what truly matters
+- ✅ Orange top banner: "Hey! Wanna try our FREE Self-Help Tools?"
+- ✅ "Resources" in navbar
+- ✅ "One Conversation Can Change Your Day" hero button
+- ✅ "Help Me Feel Better" hero button
+- ✅ White box bug in hero - FIXED
+- ✅ Chatbot and WhatsApp buttons redesigned (cleaner)
+- ✅ "Building Confidence" now goes to /team (not mood swings modal)
+- ✅ All category buttons go to /team page
+- ✅ Prakhar Tiwari = "Counselling Psychologist"
 
 ### Therapist Profiles
-- **Prakhar Tiwari** - ₹999/45min, ₹1249/60min (colorful skill tags)
-- **Sonali Mishra** - ₹1499/45min only (no 60min option)
-- Shweta Bramhankar - REMOVED
+- **Prakhar Tiwari** - Counselling Psychologist, APA Member
+  - ₹999/45min, ₹1249/60min
+- **Sonali Mishra** - Licensed Therapist
+  - ₹1499/45min only
 
-### Emotional Operating System (EOS) - 4 Modules
-1. **Self-Worth Reset** - 4-week journey with AI prompts
-2. **Internal Clarity Engine** - Values discovery
-3. **Confidence Builder** - Evidence-based, not affirmation
-4. **Anti-Comparison Tracker** - Daily check-ins with AI reframes
+### Twilio WhatsApp Integration
+- ✅ Credentials configured
+- ✅ Welcome message on contact
+- ✅ Booking confirmation
+- ✅ Session reminder (1 hour before)
+- ✅ Post-session follow-up
+- ✅ Next-day wellness check-in
+- ✅ Morning/Afternoon/Evening messages
+
+### Emotional Operating System (4 Modules)
+1. Self-Worth Reset (4-week journey)
+2. Internal Clarity Engine
+3. Confidence Builder
+4. Anti-Comparison Tracker
 
 ### AI Chatbot "Aasha"
 - OpenAI GPT-4o-mini powered
 - Compassionate mental health support
-- Crisis detection with Tele MANAS reference
 
-## Upcoming Tasks
+## How to Access Admin Panel
 
-### 🔴 P0 - WhatsApp Daily Messaging System
-- **Phone Number**: 8950772282
-- **Morning (8 AM)**: "You have to do good today" + personalized based on profession
-- **Afternoon**: "What steps did you take today?"
-- **Evening (5 PM)**: Check-in on therapist recommendations
-- Tell them about the 1% who make a difference
-- Only for patients who provide phone number
+### Admin Login
+1. Go to: **https://aashwashan-app.preview.emergentagent.com/admin/login**
+2. Login with:
+   - Email: `admin@aashwashan.com`
+   - Password: `Admin123!`
 
-### 🟡 P1 - Therapist Calendar System
-- Dashboard for availability management
+### Admin Dashboard Features
+- View site statistics
+- Manage users
+- **Add/Edit/Delete Blog Posts**
+- View bookings
 
-### 🟢 P2 - Patient-Therapist Messaging
-- Secure in-app messaging
-
-### 🟢 P2 - Email Notifications
-- SendGrid/Resend configuration
+### Adding a Blog Post
+1. Login to Admin Panel
+2. Click on "Manage Blogs"
+3. Click "Create New Post"
+4. Fill in:
+   - Title
+   - Content (supports markdown)
+   - Category
+   - Featured Image URL
+5. Click "Publish"
+6. Share the blog link: `https://aashwashan-app.preview.emergentagent.com/blog/[slug]`
 
 ## Technical Stack
-- Frontend: React + TailwindCSS + Shadcn/UI
+- Frontend: React + TailwindCSS
 - Backend: FastAPI + Supabase PostgreSQL
-- AI: OpenAI GPT-4o-mini via Emergent LLM Key
-- Fonts: Playfair Display (headings), DM Sans (body)
-
-## Key Routes
-| Route | Page |
-|-------|------|
-| `/` | Homepage |
-| `/eos` or `/resources` | Emotional Operating System |
-| `/self-assessment` | Clinical assessments |
-| `/team` | Therapist profiles |
-| `/community` | User forum |
-| `/admin/dashboard` | Admin panel |
+- AI: OpenAI GPT-4o-mini
+- WhatsApp: Twilio API
 
 ## Credentials
-- Admin: admin@aashwashan.com / Admin123!
-- Therapist: therapist@aashwashan.com / Therapist123!
+- **Admin**: admin@aashwashan.com / Admin123!
+- **Therapist**: therapist@aashwashan.com / Therapist123!
+
+## WhatsApp Configuration
+- Account SID: ACfb3b1022092c7e978b18c84ece6e8f70
+- WhatsApp Number: +14155238886 (Twilio Sandbox)
+
+## Remaining Tasks
+1. Customer authentication before booking (in progress)
+2. Form redesign for human-made feel
+3. More animations across all pages
 
 ## Last Updated
 December 2025

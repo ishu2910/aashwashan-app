@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles, TrendingUp, Compass } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles, TrendingUp, Compass, Lock } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
+import { useAuth } from '../context/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -430,10 +431,10 @@ const Homepage = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
             <Link
               to="/team"
-              className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-4 rounded-full transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-2xl hover:scale-105 min-w-[220px] flex items-center justify-center gap-2"
+              className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-4 rounded-full transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-2xl hover:scale-105 min-w-[280px] flex items-center justify-center gap-2"
               data-testid="book-session-hero-btn"
             >
-              <span>Book a Session</span>
+              <span>One Conversation Can Change Your Day</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <button
@@ -443,10 +444,10 @@ const Homepage = () => {
                 setHelpMeAnswers({ concern: '', duration: '', preference: '' });
                 setRecommendedTherapist(null);
               }}
-              className="bg-white/15 backdrop-blur-md text-white px-10 py-4 rounded-full hover:bg-white/25 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[220px] hover:scale-105"
+              className="bg-white/15 backdrop-blur-md text-white px-10 py-4 rounded-full hover:bg-white/25 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[280px] hover:scale-105"
               data-testid="help-me-find-btn-hero"
             >
-              Help Me Find a Therapist
+              Help Me Feel Better
             </button>
           </div>
 
@@ -845,12 +846,12 @@ const Homepage = () => {
                     </li>
                   ))}
                 </ul>
-                <button
-                  onClick={() => openSymptomModal(services[0])}
-                  className="mt-6 w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02]"
+                <Link
+                  to="/team"
+                  className="mt-6 w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02] block text-center"
                 >
                   Start Building Confidence
-                </button>
+                </Link>
               </div>
 
               {/* Finding Peace */}
@@ -872,12 +873,12 @@ const Homepage = () => {
                     </li>
                   ))}
                 </ul>
-                <button
-                  onClick={() => openSymptomModal(services[1])}
-                  className="mt-6 w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02]"
+                <Link
+                  to="/team"
+                  className="mt-6 w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02] block text-center"
                 >
                   Find Your Peace
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -890,12 +891,12 @@ const Homepage = () => {
                 </div>
                 <h5 className="font-bold text-gray-800 mb-2">Stronger <span className="text-rose-500">Relationships</span></h5>
                 <p className="text-gray-600 text-sm mb-4">Build deeper connections with loved ones and communicate with confidence.</p>
-                <button
-                  onClick={() => openSymptomModal(services[0])}
+                <Link
+                  to="/team"
                   className="text-rose-500 font-semibold text-sm hover:text-rose-600 transition-colors flex items-center gap-1"
                 >
                   Learn More <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
 
               {/* Career Growth */}
@@ -905,12 +906,12 @@ const Homepage = () => {
                 </div>
                 <h5 className="font-bold text-gray-800 mb-2">Career <span className="text-violet-500">Success</span></h5>
                 <p className="text-gray-600 text-sm mb-4">Overcome workplace stress and unlock your professional potential.</p>
-                <button
-                  onClick={() => openSymptomModal(services[0])}
+                <Link
+                  to="/team"
                   className="text-violet-500 font-semibold text-sm hover:text-violet-600 transition-colors flex items-center gap-1"
                 >
                   Learn More <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
 
               {/* Life Purpose */}
@@ -920,12 +921,12 @@ const Homepage = () => {
                 </div>
                 <h5 className="font-bold text-gray-800 mb-2">Life <span className="text-amber-500">Purpose</span></h5>
                 <p className="text-gray-600 text-sm mb-4">Discover what truly matters and create a meaningful life path.</p>
-                <button
-                  onClick={() => openSymptomModal(services[0])}
+                <Link
+                  to="/team"
                   className="text-amber-500 font-semibold text-sm hover:text-amber-600 transition-colors flex items-center gap-1"
                 >
                   Learn More <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
