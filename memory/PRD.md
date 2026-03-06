@@ -50,7 +50,7 @@ A mental health platform that goes beyond therapy booking - building an Emotiona
 ## How to Access Admin Panel
 
 ### Admin Login
-1. Go to: **https://aashwashan-app.preview.emergentagent.com/admin/login**
+1. Go to: **https://emotional-os-8.preview.emergentagent.com/admin/login**
 2. Login with:
    - Email: `admin@aashwashan.com`
    - Password: `Admin123!`
@@ -71,7 +71,7 @@ A mental health platform that goes beyond therapy booking - building an Emotiona
    - Category
    - Featured Image URL
 5. Click "Publish"
-6. Share the blog link: `https://aashwashan-app.preview.emergentagent.com/blog/[slug]`
+6. Share the blog link: `https://emotional-os-8.preview.emergentagent.com/blog/[slug]`
 
 ## Technical Stack
 - Frontend: React + TailwindCSS

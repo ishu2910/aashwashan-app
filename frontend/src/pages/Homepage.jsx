@@ -542,7 +542,7 @@ const Homepage = () => {
                   className="inline-block bg-white text-orange-600 px-10 py-4 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
                   data-testid="book-therapist-cta-btn"
                 >
-                  Start Your Journey
+                  I Wanna Feel Good Too
                 </Link>
               </div>
             </div>
@@ -1262,31 +1262,45 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* Booking Modal */}
+      {/* Booking Modal - Human-made Design */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
-              <div>
-                <p className="text-sm text-green-600 font-medium mb-1">✓ It is Anonymous</p>
-                <h3 className="text-xl font-bold">Book Session</h3>
-                {selectedTherapist && (
-                  <p className="text-gray-600 text-sm">with {selectedTherapist.name}</p>
-                )}
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            {/* Header with warm gradient */}
+            <div className="sticky top-0 bg-gradient-to-r from-teal-500 to-cyan-600 px-6 py-5 rounded-t-3xl">
+              <div className="flex justify-between items-start">
+                <div className="text-white">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <p className="text-sm text-teal-100 font-medium">100% Confidential</p>
+                  </div>
+                  <h3 className="text-2xl font-bold">Book Your Session</h3>
+                  {selectedTherapist && (
+                    <p className="text-teal-100 mt-1">with {selectedTherapist.name} • {selectedTherapist.role}</p>
+                  )}
+                </div>
+                <button
+                  onClick={closeModal}
+                  className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
+                  data-testid="close-booking-modal"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
               </div>
-              <button
-                onClick={closeModal}
-                className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
-                data-testid="close-booking-modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
+            {/* Form with friendly styling */}
+            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              {/* Encouragement message */}
+              <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-4 border border-orange-100">
+                <p className="text-orange-800 text-sm font-medium text-center">
+                  Taking this step takes courage. We're proud of you for prioritizing your mental health.
+                </p>
+              </div>
+
               <div>
-                <label className="block text-sm font-semibold mb-2">
-                  <User className="inline w-4 h-4 mr-2" />Full Name *
+                <label className="block text-sm font-semibold mb-2 text-gray-700">
+                  <User className="inline w-4 h-4 mr-2 text-teal-500" />What should we call you? *
                 </label>
                 <input 
                   type="text"
@@ -1294,16 +1308,16 @@ const Homepage = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
-                  placeholder="Your Name"
+                  className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                  placeholder="Your name"
                   data-testid="booking-name-input"
                 />
               </div>
 
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    <Mail className="inline w-4 h-4 mr-2" />Email *
+                  <label className="block text-sm font-semibold mb-2 text-gray-700">
+                    <Mail className="inline w-4 h-4 mr-2 text-teal-500" />Email *
                   </label>
                   <input 
                     type="email"
@@ -1311,14 +1325,14 @@ const Homepage = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
                     placeholder="your@email.com"
                     data-testid="booking-email-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    <Phone className="inline w-4 h-4 mr-2" />Phone *
+                  <label className="block text-sm font-semibold mb-2 text-gray-700">
+                    <Phone className="inline w-4 h-4 mr-2 text-teal-500" />Phone *
                   </label>
                   <input 
                     type="tel"
@@ -1326,7 +1340,7 @@ const Homepage = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
                     placeholder="+91 98765 43210"
                     data-testid="booking-phone-input"
                   />
@@ -1334,24 +1348,25 @@ const Homepage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Select Session Duration *</label>
-                <div className="grid grid-cols-3 gap-3" data-testid="session-duration-selector">
+                <label className="block text-sm font-semibold mb-3 text-gray-700">Choose your session length *</label>
+                <div className="grid grid-cols-2 gap-4" data-testid="session-duration-selector">
                   {Object.entries(SESSION_PRICING).map(([key, value]) => (
                     <button
                       key={key}
                       type="button"
                       onClick={() => setSelectedSessionDuration(key)}
-                      className={`p-4 rounded-xl border-2 text-center transition-all duration-200 ${
+                      className={`p-5 rounded-2xl border-2 text-center transition-all duration-300 ${
                         selectedSessionDuration === key 
-                          ? 'border-teal-500 bg-teal-50 ring-2 ring-teal-200' 
+                          ? 'border-teal-500 bg-gradient-to-br from-teal-50 to-cyan-50 ring-4 ring-teal-100 scale-[1.02]' 
                           : 'border-gray-200 hover:border-teal-300 hover:bg-gray-50'
                       }`}
                       data-testid={`session-${key}-btn`}
                     >
-                      <p className="font-bold text-lg text-gray-800">{key} min</p>
-                      <p className={`text-sm font-semibold ${selectedSessionDuration === key ? 'text-teal-600' : 'text-teal-600'}`}>
+                      <p className="font-bold text-xl text-gray-800">{key} min</p>
+                      <p className={`text-2xl font-bold mt-1 ${selectedSessionDuration === key ? 'text-teal-600' : 'text-teal-500'}`}>
                         ₹{value.price}
                       </p>
+                      {key === '45' && <p className="text-xs text-gray-500 mt-1">Most popular</p>}
                     </button>
                   ))}
                 </div>
@@ -1373,8 +1388,8 @@ const Homepage = () => {
 
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    <Calendar className="inline w-4 h-4 mr-2" />Preferred Date *
+                  <label className="block text-sm font-semibold mb-2 text-gray-700">
+                    <Calendar className="inline w-4 h-4 mr-2 text-teal-500" />When works for you? *
                   </label>
                   <input 
                     type="date"
@@ -1383,20 +1398,20 @@ const Homepage = () => {
                     onChange={handleChange}
                     required
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
                     data-testid="booking-date-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    <Clock className="inline w-4 h-4 mr-2" />Preferred Time *
+                  <label className="block text-sm font-semibold mb-2 text-gray-700">
+                    <Clock className="inline w-4 h-4 mr-2 text-teal-500" />What time? *
                   </label>
                   <select 
                     name="time"
                     value={formData.time}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
                     data-testid="booking-time-select"
                   >
                     <option value="">Select time...</option>
@@ -1413,14 +1428,14 @@ const Homepage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Do you want to tell more?</label>
+                <label className="block text-sm font-semibold mb-2 text-gray-700">Anything you'd like us to know?</label>
                 <textarea 
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-teal-500 focus:outline-none transition-colors resize-none"
-                  placeholder="Tell us more about what brings you here today (optional)..."
+                  className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white resize-none"
+                  placeholder="Feel free to share what's on your mind (optional)..."
                   data-testid="booking-message-textarea"
                 ></textarea>
               </div>
@@ -1428,11 +1443,15 @@ const Homepage = () => {
               <button 
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 font-medium text-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100"
                 data-testid="submit-booking-btn"
               >
-                {isSubmitting ? 'Submitting...' : 'Proceed to Payment'}
+                {isSubmitting ? 'Booking your session...' : 'Continue to Payment'}
               </button>
+
+              <p className="text-xs text-gray-500 text-center">
+                Your information is safe with us. We respect your privacy.
+              </p>
             </form>
           </div>
         </div>

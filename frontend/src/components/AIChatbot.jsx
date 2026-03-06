@@ -1,9 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, Sparkles, Minimize2, Maximize2 } from 'lucide-react';
+import { X, Send, Minimize2, Maximize2, Heart, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
+
+// Custom Aasha logo component - friendly wellness icon
+const AashaIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="18" fill="url(#aashaGradient)" />
+    <path d="M20 10C16 10 12 14 12 18C12 22 14 24 16 26C18 28 20 30 20 30C20 30 22 28 24 26C26 24 28 22 28 18C28 14 24 10 20 10Z" fill="white" opacity="0.9"/>
+    <circle cx="16" cy="17" r="1.5" fill="#0d9488"/>
+    <circle cx="24" cy="17" r="1.5" fill="#0d9488"/>
+    <path d="M16 22C17 24 19 25 20 25C21 25 23 24 24 22" stroke="#0d9488" strokeWidth="1.5" strokeLinecap="round"/>
+    <defs>
+      <linearGradient id="aashaGradient" x1="2" y1="2" x2="38" y2="38">
+        <stop stopColor="#14b8a6"/>
+        <stop offset="1" stopColor="#0891b2"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
 
 const AIChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +29,12 @@ const AIChatbot = () => {
     {
       id: 1,
       type: 'bot',
-      text: "Hi! I'm Aasha, your wellness companion at Aashwashan. I'm here to listen and support you. How are you feeling today? 💚"
+      text: "Hi! I'm Aasha, your wellness companion at Aashwashan. I'm here to listen and support you.",
+      quickActions: [
+        { label: "I'm feeling anxious", action: "I'm feeling anxious today" },
+        { label: "Need to talk", action: "I need someone to talk to" },
+        { label: "Self-help tips", action: "Can you share some self-help tips?" }
+      ]
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -40,23 +62,34 @@ const AIChatbot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  const handleSend = async (messageText = inputValue) => {
+    if (!messageText.trim() || isLoading) return;
 
-    const userMessage = { id: Date.now(), type: 'user', text: inputValue };
+    const userMessage = { id: Date.now(), type: 'user', text: messageText };
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
 
     try {
       const response = await axios.post(`${API}/chatbot/chat`, {
-        message: inputValue,
+        message: messageText,
         session_id: sessionId
       });
-      const botMessage = { id: Date.now() + 1, type: 'bot', text: response.data.response };
+      
+      // Parse and structure the response
+      const botResponse = response.data.response;
+      const botMessage = { 
+        id: Date.now() + 1, 
+        type: 'bot', 
+        text: botResponse,
+        // Add quick actions for common follow-ups
+        quickActions: botResponse.toLowerCase().includes('professional') || botResponse.toLowerCase().includes('therapist') 
+          ? [{ label: "Book a session", action: "How can I book a therapy session?" }]
+          : null
+      };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      const errorMessage = { id: Date.now() + 1, type: 'bot', text: "I'm sorry, I'm having trouble connecting. Please try again. 💙" };
+      const errorMessage = { id: Date.now() + 1, type: 'bot', text: "I'm sorry, I'm having trouble connecting. Please try again." };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
@@ -70,37 +103,66 @@ const AIChatbot = () => {
     }
   };
 
+  const handleQuickAction = (action) => {
+    handleSend(action);
+  };
+
+  const resetChat = () => {
+    setSessionId(null);
+    setMessages([{
+      id: 1,
+      type: 'bot',
+      text: "Hi! I'm Aasha, your wellness companion at Aashwashan. I'm here to listen and support you.",
+      quickActions: [
+        { label: "I'm feeling anxious", action: "I'm feeling anxious today" },
+        { label: "Need to talk", action: "I need someone to talk to" },
+        { label: "Self-help tips", action: "Can you share some self-help tips?" }
+      ]
+    }]);
+  };
+
   if (!isOpen) {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-105"
+        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-teal-500"
         data-testid="chatbot-toggle"
+        title="Chat with Aasha"
       >
-        <Sparkles className="w-6 h-6 text-white" />
+        <AashaIcon className="w-10 h-10" />
       </button>
     );
   }
 
   return (
     <div 
-      className={`fixed bottom-24 right-6 z-40 bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 ${
-        isMinimized ? 'w-72 h-14' : 'w-80 h-[420px]'
+      className={`fixed bottom-24 right-6 z-40 bg-white rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 border border-gray-100 ${
+        isMinimized ? 'w-72 h-14' : 'w-80 sm:w-96 h-[480px]'
       }`}
       data-testid="chatbot-window"
     >
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-500 to-cyan-600 p-3 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
+          <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm">
+            <AashaIcon className="w-7 h-7" />
           </div>
           <div>
             <h3 className="font-semibold text-white text-sm">Aasha</h3>
-            <p className="text-[10px] text-teal-100">Wellness Companion</p>
+            <p className="text-[10px] text-teal-100 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+              Online • Wellness Companion
+            </p>
           </div>
         </div>
         <div className="flex items-center space-x-1">
+          <button 
+            onClick={resetChat} 
+            className="p-1.5 hover:bg-white/20 rounded-lg transition-colors" 
+            title="New conversation"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-white" />
+          </button>
           <button onClick={() => setIsMinimized(!isMinimized)} className="p-1.5 hover:bg-white/20 rounded-lg transition-colors">
             {isMinimized ? <Maximize2 className="w-3.5 h-3.5 text-white" /> : <Minimize2 className="w-3.5 h-3.5 text-white" />}
           </button>
@@ -113,25 +175,54 @@ const AIChatbot = () => {
       {!isMinimized && (
         <>
           {/* Messages */}
-          <div className="flex-1 p-3 overflow-y-auto h-[310px] bg-gray-50">
+          <div className="flex-1 p-3 overflow-y-auto h-[360px] bg-gradient-to-b from-gray-50 to-white">
             {messages.map((message) => (
               <div key={message.id} className={`mb-3 flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-2.5 rounded-xl text-sm ${
-                  message.type === 'user'
-                    ? 'bg-teal-500 text-white rounded-br-sm'
-                    : 'bg-white border border-gray-200 text-gray-700 rounded-bl-sm shadow-sm'
-                }`}>
-                  <p className="leading-relaxed">{message.text}</p>
+                <div className="flex flex-col max-w-[85%]">
+                  {message.type === 'bot' && (
+                    <div className="flex items-center gap-2 mb-1">
+                      <AashaIcon className="w-5 h-5" />
+                      <span className="text-xs text-gray-500 font-medium">Aasha</span>
+                    </div>
+                  )}
+                  <div className={`p-3 rounded-2xl text-sm ${
+                    message.type === 'user'
+                      ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-br-sm'
+                      : 'bg-white border border-gray-200 text-gray-700 rounded-bl-sm shadow-sm'
+                  }`}>
+                    <p className="leading-relaxed whitespace-pre-wrap">{message.text}</p>
+                  </div>
+                  
+                  {/* Quick action buttons */}
+                  {message.type === 'bot' && message.quickActions && message.quickActions.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {message.quickActions.map((qa, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => handleQuickAction(qa.action)}
+                          className="text-xs px-3 py-1.5 bg-teal-50 text-teal-700 rounded-full border border-teal-200 hover:bg-teal-100 transition-colors"
+                        >
+                          {qa.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
             {isLoading && (
               <div className="flex justify-start mb-3">
-                <div className="bg-white border border-gray-200 p-2.5 rounded-xl rounded-bl-sm shadow-sm">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2 mb-1">
+                    <AashaIcon className="w-5 h-5" />
+                    <span className="text-xs text-gray-500 font-medium">Aasha is typing...</span>
+                  </div>
+                  <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-bl-sm shadow-sm">
+                    <div className="flex space-x-1.5">
+                      <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -140,27 +231,30 @@ const AIChatbot = () => {
           </div>
 
           {/* Input */}
-          <div className="p-2.5 border-t border-gray-100 bg-white">
+          <div className="p-3 border-t border-gray-100 bg-white">
             <div className="flex items-center space-x-2">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type here..."
-                className="flex-1 px-3 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 text-sm"
+                placeholder="Share what's on your mind..."
+                className="flex-1 px-4 py-2.5 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent text-sm bg-gray-50"
                 disabled={isLoading}
                 data-testid="chatbot-input"
               />
               <button
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={isLoading || !inputValue.trim()}
-                className="p-2 bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-all disabled:opacity-50"
+                className="p-2.5 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-full hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 data-testid="chatbot-send"
               >
                 <Send className="w-4 h-4" />
               </button>
             </div>
+            <p className="text-[10px] text-gray-400 text-center mt-2">
+              Aasha is here to support, not replace professional help
+            </p>
           </div>
         </>
       )}
