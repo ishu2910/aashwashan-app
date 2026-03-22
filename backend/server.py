@@ -16,6 +16,9 @@ from email_service import send_appointment_email, send_contact_email
 from whatsapp_service import whatsapp_service
 import razorpay
 import json
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+import asyncio
 
 # Import Supabase database and models
 from database import get_db, engine, Base
@@ -871,6 +874,92 @@ async def create_appointment(request: AppointmentRequest):
         logger.error(f"Error creating appointment: {str(e)}")
         raise
 
+# New endpoint for appointment requests (sends email to care@aashwashan.com)
+class AppointmentRequestData(BaseModel):
+    name: str
+    email: str
+    phone: str
+    date: str
+    time: str
+    message: Optional[str] = ""
+    sessionDuration: Optional[str] = "45 minutes"
+    price: Optional[int] = 999
+    therapist_name: Optional[str] = "Any Available"
+
+@api_router.post("/appointments/request")
+async def request_appointment(request: AppointmentRequestData):
+    """Submit appointment request - sends email to care@aashwashan.com"""
+    try:
+        # Store the request in database
+        request_doc = {
+            "id": str(uuid.uuid4()),
+            "name": request.name,
+            "email": request.email,
+            "phone": request.phone,
+            "date": request.date,
+            "time": request.time,
+            "message": request.message,
+            "session_duration": request.sessionDuration,
+            "price": request.price,
+            "therapist_name": request.therapist_name,
+            "status": "pending",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await mongo_db.appointment_requests.insert_one(request_doc)
+        
+        # Send email notification to care@aashwashan.com
+        email_body = f"""
+New Appointment Request - Aashwashan
+
+Patient Details:
+- Name: {request.name}
+- Email: {request.email}
+- Phone: {request.phone}
+
+Session Details:
+- Preferred Therapist: {request.therapist_name}
+- Date: {request.date}
+- Time: {request.time}
+- Duration: {request.sessionDuration}
+- Price: ₹{request.price}
+
+Message from Patient:
+{request.message or 'No additional message'}
+
+---
+Please contact the patient within 24 hours to confirm the session.
+Reply to: {request.email}
+"""
+        
+        # Log the request (email sending will be handled by email_service when configured)
+        logger.info(f"Appointment request received from {request.name} ({request.email})")
+        logger.info(f"Email body to be sent to care@aashwashan.com:\n{email_body}")
+        
+        # Try to send email via email_service if configured
+        try:
+            send_appointment_email({
+                "name": request.name,
+                "email": request.email,
+                "phone": request.phone,
+                "date": request.date,
+                "time": request.time,
+                "service": request.sessionDuration,
+                "message": request.message,
+                "therapist_name": request.therapist_name,
+                "price": request.price
+            })
+        except Exception as email_error:
+            logger.warning(f"Email service error (request still saved): {str(email_error)}")
+        
+        return {
+            "success": True,
+            "message": "Your appointment request has been submitted. Our team will contact you within 24 hours.",
+            "request_id": request_doc["id"]
+        }
+    except Exception as e:
+        logger.error(f"Error processing appointment request: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to process appointment request")
+
 @api_router.get("/appointments", response_model=List[Appointment])
 async def get_appointments():
     appointments = await mongo_db.appointments.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
@@ -1252,6 +1341,207 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ==================== AI DAILY MESSAGING SYSTEM ====================
+
+# Initialize scheduler
+scheduler = AsyncIOScheduler()
+
+# Daily wellness message templates
+MORNING_MESSAGES = [
+    "Good morning! Remember, every new day is a fresh start. How are you feeling today?",
+    "Rise and shine! Take a moment to set a positive intention for today. You've got this!",
+    "Good morning! Your mental health matters. Take 3 deep breaths and start your day mindfully.",
+    "Hello! A new day means new possibilities. What small thing can you do for yourself today?",
+    "Morning! Remember: it's okay to take things one step at a time. You're doing great."
+]
+
+AFTERNOON_MESSAGES = [
+    "Hey there! Just checking in. Remember to take a break and stretch. How's your day going?",
+    "Afternoon reminder: You're doing better than you think. Take a moment to appreciate yourself.",
+    "Hi! Have you taken a break today? Even 5 minutes of rest can make a difference.",
+    "Checking in! Remember to hydrate and take a moment for yourself. You matter.",
+    "Afternoon hello! It's okay if today isn't perfect. Every small effort counts."
+]
+
+EVENING_MESSAGES = [
+    "Good evening! As the day winds down, reflect on one thing that went well today.",
+    "Evening check-in: You made it through another day. That's something to be proud of.",
+    "Hi! Before sleep, try to let go of today's worries. Tomorrow is a new opportunity.",
+    "Good evening! Remember, rest is productive too. Take care of yourself tonight.",
+    "End of day reminder: You're worthy of peace and rest. Sleep well!"
+]
+
+async def generate_ai_wellness_message(time_of_day: str, user_name: str = "friend") -> str:
+    """Generate a personalized wellness message using AI"""
+    import random
+    
+    if time_of_day == "morning":
+        templates = MORNING_MESSAGES
+    elif time_of_day == "afternoon":
+        templates = AFTERNOON_MESSAGES
+    else:
+        templates = EVENING_MESSAGES
+    
+    # Try to use AI for personalized message
+    try:
+        emergent_key = os.environ.get('EMERGENT_LLM_KEY')
+        if emergent_key:
+            from emergentintegrations.llm.chat import LlmChat, UserMessage
+            chat = LlmChat(api_key=emergent_key, model="gpt-4o-mini")
+            
+            prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}. 
+            Target audience: Young adults (18-30) who are silent overthinkers.
+            Keep it short (2-3 sentences), caring, and non-preachy.
+            Don't use emojis. Sound like a supportive friend."""
+            
+            response = await asyncio.to_thread(
+                chat.send_message,
+                UserMessage(content=prompt)
+            )
+            return response.content
+    except Exception as e:
+        logger.warning(f"AI message generation failed, using template: {str(e)}")
+    
+    # Fallback to templates
+    return random.choice(templates)
+
+async def send_daily_wellness_messages(time_of_day: str):
+    """Send wellness messages to all registered users"""
+    logger.info(f"Starting {time_of_day} wellness message job...")
+    
+    try:
+        # Get all users with phone numbers who opted in for daily messages
+        users = await mongo_db.wellness_subscribers.find({"opted_in": True}).to_list(1000)
+        
+        for user in users:
+            try:
+                message = await generate_ai_wellness_message(time_of_day, user.get("name", "friend"))
+                
+                # Send via WhatsApp if configured
+                if user.get("phone") and whatsapp_service.client:
+                    whatsapp_service.send_message(
+                        to_phone=user["phone"],
+                        message=message
+                    )
+                    logger.info(f"Sent {time_of_day} message to {user.get('name', 'user')}")
+            except Exception as e:
+                logger.error(f"Failed to send message to user {user.get('id')}: {str(e)}")
+        
+        logger.info(f"Completed {time_of_day} wellness message job. Sent to {len(users)} users.")
+    except Exception as e:
+        logger.error(f"Daily wellness message job failed: {str(e)}")
+
+# API endpoint to subscribe/unsubscribe from daily messages
+class WellnessSubscription(BaseModel):
+    name: str
+    phone: str
+    email: Optional[str] = None
+    opted_in: bool = True
+
+@api_router.post("/wellness/subscribe")
+async def subscribe_wellness_messages(subscription: WellnessSubscription):
+    """Subscribe to daily AI wellness messages"""
+    try:
+        # Clean phone number
+        phone = subscription.phone.replace(" ", "").replace("-", "")
+        if not phone.startswith("+"):
+            phone = "+91" + phone if not phone.startswith("91") else "+" + phone
+        
+        doc = {
+            "id": str(uuid.uuid4()),
+            "name": subscription.name,
+            "phone": phone,
+            "email": subscription.email,
+            "opted_in": subscription.opted_in,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Upsert based on phone number
+        await mongo_db.wellness_subscribers.update_one(
+            {"phone": phone},
+            {"$set": doc},
+            upsert=True
+        )
+        
+        return {
+            "success": True,
+            "message": "You're now subscribed to daily wellness check-ins!" if subscription.opted_in else "You've unsubscribed from daily messages."
+        }
+    except Exception as e:
+        logger.error(f"Wellness subscription error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to update subscription")
+
+@api_router.post("/wellness/unsubscribe")
+async def unsubscribe_wellness_messages(phone: str):
+    """Unsubscribe from daily AI wellness messages"""
+    try:
+        phone = phone.replace(" ", "").replace("-", "")
+        if not phone.startswith("+"):
+            phone = "+91" + phone if not phone.startswith("91") else "+" + phone
+        
+        await mongo_db.wellness_subscribers.update_one(
+            {"phone": phone},
+            {"$set": {"opted_in": False, "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        return {"success": True, "message": "You've been unsubscribed from daily wellness messages."}
+    except Exception as e:
+        logger.error(f"Wellness unsubscribe error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to unsubscribe")
+
+@api_router.get("/wellness/test-message/{time_of_day}")
+async def test_wellness_message(time_of_day: str):
+    """Test endpoint to generate a wellness message"""
+    if time_of_day not in ["morning", "afternoon", "evening"]:
+        raise HTTPException(status_code=400, detail="time_of_day must be morning, afternoon, or evening")
+    
+    message = await generate_ai_wellness_message(time_of_day)
+    return {"time_of_day": time_of_day, "message": message}
+
+# Schedule daily wellness messages (IST timezone = UTC+5:30)
+# Morning: 8 AM IST = 2:30 AM UTC
+# Afternoon: 2 PM IST = 8:30 AM UTC  
+# Evening: 5 PM IST = 11:30 AM UTC
+
+def start_scheduler():
+    """Start the scheduler with daily jobs"""
+    try:
+        # Morning message at 8 AM IST (2:30 AM UTC)
+        scheduler.add_job(
+            lambda: asyncio.create_task(send_daily_wellness_messages("morning")),
+            CronTrigger(hour=2, minute=30),
+            id="morning_wellness",
+            replace_existing=True
+        )
+        
+        # Afternoon message at 2 PM IST (8:30 AM UTC)
+        scheduler.add_job(
+            lambda: asyncio.create_task(send_daily_wellness_messages("afternoon")),
+            CronTrigger(hour=8, minute=30),
+            id="afternoon_wellness",
+            replace_existing=True
+        )
+        
+        # Evening message at 5 PM IST (11:30 AM UTC)
+        scheduler.add_job(
+            lambda: asyncio.create_task(send_daily_wellness_messages("evening")),
+            CronTrigger(hour=11, minute=30),
+            id="evening_wellness",
+            replace_existing=True
+        )
+        
+        scheduler.start()
+        logger.info("AI Daily Wellness Scheduler started - Messages scheduled for 8 AM, 2 PM, and 5 PM IST")
+    except Exception as e:
+        logger.error(f"Failed to start scheduler: {str(e)}")
+
+@app.on_event("startup")
+async def startup_event():
+    """Start scheduler on app startup"""
+    start_scheduler()
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     mongo_client.close()
+    scheduler.shutdown()

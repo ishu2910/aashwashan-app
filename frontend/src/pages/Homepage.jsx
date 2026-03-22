@@ -150,25 +150,26 @@ const Homepage = () => {
       ...formData,
       sessionDuration: SESSION_PRICING[selectedSessionDuration]?.duration || '45 minutes',
       price: calculatePrice(),
-      message: `Requested therapist: ${selectedTherapist?.name || 'Any'}. Session: ${SESSION_PRICING[selectedSessionDuration]?.duration || '45 minutes'}. ${formData.message}`
+      message: `Requested therapist: ${selectedTherapist?.name || 'Any'}. Session: ${SESSION_PRICING[selectedSessionDuration]?.duration || '45 minutes'}. ${formData.message}`,
+      therapist_name: selectedTherapist?.name || 'Any Available'
     };
     
     try {
-      await axios.post(`${API}/appointments`, appointmentData);
+      // Send appointment request via email to care@aashwashan.com
+      await axios.post(`${API}/appointments/request`, appointmentData);
       
-      // Store the final price before closing modal
-      setFinalPrice(calculatePrice());
-      
-      // Show payment modal after successful booking
-      setBookedTherapist(selectedTherapist);
       closeModal();
-      setIsPaymentModalOpen(true);
+      setBookingComplete(true);
+      toast({
+        title: "Request Submitted!",
+        description: "We've received your booking request. Our team will contact you within 24 hours to confirm your session.",
+      });
       
     } catch (error) {
       console.error('Error submitting appointment:', error);
       toast({
         title: "Error",
-        description: "There was an error submitting your appointment. Please try again.",
+        description: "There was an error submitting your request. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -1446,11 +1447,11 @@ const Homepage = () => {
                 className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100"
                 data-testid="submit-booking-btn"
               >
-                {isSubmitting ? 'Booking your session...' : 'Continue to Payment'}
+                {isSubmitting ? 'Submitting your request...' : 'Submit Request'}
               </button>
 
               <p className="text-xs text-gray-500 text-center">
-                Your information is safe with us. We respect your privacy.
+                Our team will contact you within 24 hours to confirm your session.
               </p>
             </form>
           </div>
