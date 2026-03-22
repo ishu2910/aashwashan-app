@@ -61,7 +61,7 @@ const Navbar = () => {
               </div>
               <div className="flex flex-col items-start">
                 <span className="text-2xl font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
-                <span className="text-[10px] text-gray-500 tracking-wider uppercase -mt-1">Mental Health for All</span>
+                <span className="text-[10px] text-gray-500 tracking-wider uppercase -mt-1">You're Not Alone Anymore</span>
               </div>
             </Link>
 

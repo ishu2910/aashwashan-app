@@ -1,22 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Send, Minimize2, Maximize2, Heart, RefreshCw } from 'lucide-react';
+import { X, Send, Minimize2, Maximize2, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-// Custom Aasha logo component - friendly wellness icon
+// Custom Aasha logo component - warm heart-based wellness icon
 const AashaIcon = ({ className = "w-6 h-6" }) => (
   <svg className={className} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="20" cy="20" r="18" fill="url(#aashaGradient)" />
-    <path d="M20 10C16 10 12 14 12 18C12 22 14 24 16 26C18 28 20 30 20 30C20 30 22 28 24 26C26 24 28 22 28 18C28 14 24 10 20 10Z" fill="white" opacity="0.9"/>
-    <circle cx="16" cy="17" r="1.5" fill="#0d9488"/>
-    <circle cx="24" cy="17" r="1.5" fill="#0d9488"/>
-    <path d="M16 22C17 24 19 25 20 25C21 25 23 24 24 22" stroke="#0d9488" strokeWidth="1.5" strokeLinecap="round"/>
+    {/* Heart shape */}
+    <path d="M20 28C20 28 12 22 12 16C12 13 14.5 11 17 11C18.5 11 19.5 12 20 13C20.5 12 21.5 11 23 11C25.5 11 28 13 28 16C28 22 20 28 20 28Z" fill="white"/>
+    {/* Gentle smile below heart */}
+    <path d="M15 30C16.5 31.5 18.5 32 20 32C21.5 32 23.5 31.5 25 30" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
     <defs>
       <linearGradient id="aashaGradient" x1="2" y1="2" x2="38" y2="38">
-        <stop stopColor="#14b8a6"/>
-        <stop offset="1" stopColor="#0891b2"/>
+        <stop stopColor="#f97316"/>
+        <stop offset="0.5" stopColor="#fb923c"/>
+        <stop offset="1" stopColor="#14b8a6"/>
       </linearGradient>
     </defs>
   </svg>
@@ -29,11 +30,12 @@ const AIChatbot = () => {
     {
       id: 1,
       type: 'bot',
-      text: "Hi! I'm Aasha, your wellness companion at Aashwashan. I'm here to listen and support you.",
+      text: "Hey, I'm Aasha. I'm here for you, whenever you need to talk. No judgment, just support. How are you feeling right now?",
       quickActions: [
-        { label: "I'm feeling anxious", action: "I'm feeling anxious today" },
-        { label: "Need to talk", action: "I need someone to talk to" },
-        { label: "Self-help tips", action: "Can you share some self-help tips?" }
+        { label: "I'm feeling low", action: "I'm feeling low today and don't know why" },
+        { label: "Just need to vent", action: "I just need someone to listen to me" },
+        { label: "Feeling anxious", action: "I'm feeling anxious and overwhelmed" },
+        { label: "Can't sleep well", action: "I've been having trouble sleeping lately" }
       ]
     }
   ]);
@@ -112,11 +114,12 @@ const AIChatbot = () => {
     setMessages([{
       id: 1,
       type: 'bot',
-      text: "Hi! I'm Aasha, your wellness companion at Aashwashan. I'm here to listen and support you.",
+      text: "Hey, I'm Aasha. I'm here for you, whenever you need to talk. No judgment, just support. How are you feeling right now?",
       quickActions: [
-        { label: "I'm feeling anxious", action: "I'm feeling anxious today" },
-        { label: "Need to talk", action: "I need someone to talk to" },
-        { label: "Self-help tips", action: "Can you share some self-help tips?" }
+        { label: "I'm feeling low", action: "I'm feeling low today and don't know why" },
+        { label: "Just need to vent", action: "I just need someone to listen to me" },
+        { label: "Feeling anxious", action: "I'm feeling anxious and overwhelmed" },
+        { label: "Can't sleep well", action: "I've been having trouble sleeping lately" }
       ]
     }]);
   };
@@ -125,11 +128,12 @@ const AIChatbot = () => {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-teal-500"
+        className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 border-orange-400 group"
         data-testid="chatbot-toggle"
         title="Chat with Aasha"
       >
         <AashaIcon className="w-10 h-10" />
+        <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></span>
       </button>
     );
   }
