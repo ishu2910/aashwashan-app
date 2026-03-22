@@ -46,9 +46,9 @@ A mental health platform that goes beyond therapy booking - building an Emotiona
 ### AI Chatbot "Saathi"
 - OpenAI GPT-4o-mini powered (via Emergent LLM Key)
 - "Saathi" = Companion/Friend in Hindi
-- Chat bubble icon with soft curves
+- Chat bubble icon with soft curves (teal/cyan gradient)
 - Deeply empathetic for 18-30 age group
-- Quick action buttons for common feelings
+- Quick action buttons: "I'm feeling low", "Just need to vent", "Feeling anxious", "Can't sleep well"
 - Knows when to suggest seeing a therapist
 - Crisis resource provision (Tele MANAS: 14416)
 
