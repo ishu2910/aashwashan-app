@@ -465,8 +465,8 @@ const Homepage = () => {
           </div>
         </div>
 
-        {/* Hero image indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+        {/* Hero image indicators - Hidden on mobile */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 gap-2 z-10 hidden md:flex">
           {HERO_IMAGES.map((_, index) => (
             <button
               key={index}

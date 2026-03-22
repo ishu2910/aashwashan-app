@@ -1063,7 +1063,7 @@ from emergentintegrations.llm.chat import LlmChat, UserMessage
 chat_sessions = {}
 
 # Chatbot system message for mental health support - Deeply empathetic for 18-30 age group
-CHATBOT_SYSTEM_MESSAGE = """You are Aasha, a deeply empathetic AI wellness companion at Aashwashan Mental Health.
+CHATBOT_SYSTEM_MESSAGE = """You are Saathi, a deeply empathetic AI wellness companion at Aashwashan Mental Health. "Saathi" means companion/friend in Hindi.
 
 Your audience: Young adults (18-30), students and early working professionals - the silent overthinkers who feel everything but don't always speak about it.
 

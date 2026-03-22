@@ -76,6 +76,53 @@ code {
 .delay-700 { animation-delay: 0.7s; }
 .delay-800 { animation-delay: 0.8s; }
 
+/* Chatbot Animations */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceSoft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.animate-slide-up { animation: slideUp 0.3s ease-out forwards; }
+.animate-bounce-soft { animation: bounceSoft 2s ease-in-out infinite; }
+
+/* Scroll Reveal Animation */
+@keyframes revealFromBottom {
+    from { 
+        opacity: 0; 
+        transform: translateY(50px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+.scroll-reveal {
+    opacity: 0;
+}
+
+.scroll-reveal.revealed {
+    animation: revealFromBottom 0.6s ease-out forwards;
+}
+
+/* Section entrance animations */
+section {
+    opacity: 1;
+}
+
+/* Card entrance with stagger */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
 /* Hover Animations */
 .hover-lift { transition: all 0.3s ease; }
 .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15); }
