@@ -466,21 +466,7 @@ const Homepage = () => {
           </div>
         </div>
 
-        {/* Hero image indicators - Hidden on mobile */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 gap-2 z-10 hidden md:flex">
-          {HERO_IMAGES.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentHeroImage(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentHeroImage === index 
-                  ? 'bg-white w-8' 
-                  : 'bg-white/40 hover:bg-white/60'
-              }`}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
-        </div>
+        {/* Hero image indicators - REMOVED to fix visual glitch */}
 
         {/* Decorative wave - Hidden on mobile to prevent white box glitch */}
         <div className="absolute bottom-0 left-0 right-0 hidden md:block">
@@ -615,7 +601,32 @@ const Homepage = () => {
             </button>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Animated Skills Marquee - Like Amaha */}
+          <div className="mb-12 overflow-hidden">
+            <div className="flex animate-marquee">
+              {['Empathy', 'Grief', 'Active Listening', 'Stress Management', 'Career Problems', 'Relationship Issues', 'Self-Esteem', 'Anxiety', 'Depression', 'Trauma Recovery', 'Emotional Support', 'Mindfulness', 'CBT', 'Couples Therapy', 'Family Counseling', 'Work-Life Balance', 'Empathy', 'Grief', 'Active Listening', 'Stress Management', 'Career Problems', 'Relationship Issues', 'Self-Esteem', 'Anxiety', 'Depression', 'Trauma Recovery', 'Emotional Support', 'Mindfulness'].map((skill, idx) => {
+                const colors = [
+                  'bg-rose-100 text-rose-700 border-rose-200',
+                  'bg-amber-100 text-amber-700 border-amber-200',
+                  'bg-violet-100 text-violet-700 border-violet-200',
+                  'bg-cyan-100 text-cyan-700 border-cyan-200',
+                  'bg-emerald-100 text-emerald-700 border-emerald-200',
+                  'bg-pink-100 text-pink-700 border-pink-200',
+                  'bg-blue-100 text-blue-700 border-blue-200',
+                ];
+                return (
+                  <span 
+                    key={idx} 
+                    className={`${colors[idx % colors.length]} text-sm px-6 py-3 rounded-full font-semibold border mx-2 whitespace-nowrap`}
+                  >
+                    {skill}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {team.map((member, memberIdx) => {
               // Skill colors for visual appeal
               const skillColors = [
@@ -722,11 +733,6 @@ const Homepage = () => {
             </div>
           )}
 
-          <div className="text-center mt-12">
-            <Link to="/team" className="inline-block bg-white text-teal-700 border-2 border-teal-600 px-8 py-3 rounded-lg hover:bg-teal-50 transition-all duration-300 font-medium">
-              View All Team Members
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -1346,6 +1352,24 @@ const Homepage = () => {
                     data-testid="booking-phone-input"
                   />
                 </div>
+              </div>
+
+              {/* Emergency Contact */}
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-700">
+                  <Phone className="inline w-4 h-4 mr-2 text-orange-500" />Emergency Contact Number *
+                </label>
+                <input 
+                  type="tel"
+                  name="emergencyPhone"
+                  value={formData.emergencyPhone || ''}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                  placeholder="Emergency contact number"
+                  data-testid="booking-emergency-input"
+                />
+                <p className="text-xs text-gray-500 mt-1">Someone we can reach in case of emergency</p>
               </div>
 
               <div>

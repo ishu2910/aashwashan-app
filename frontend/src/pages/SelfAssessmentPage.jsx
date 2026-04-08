@@ -13,6 +13,12 @@ const assessments = {
     time: '5-10 min',
     icon: Brain,
     color: 'from-blue-500 to-indigo-600',
+    precautions: [
+      "This is a screening tool, not a diagnostic test",
+      "Results should be discussed with a mental health professional",
+      "If you're having thoughts of self-harm, please call Tele MANAS at 14416 immediately",
+      "Your responses are confidential and will help guide your care"
+    ],
     items: [
       "Little interest or pleasure in doing things",
       "Feeling down, depressed, or hopeless",
@@ -47,6 +53,12 @@ const assessments = {
     time: '5-10 min',
     icon: Activity,
     color: 'from-purple-500 to-pink-600',
+    precautions: [
+      "This assessment helps identify anxiety symptoms, not diagnose anxiety disorders",
+      "Anxiety levels can fluctuate - take this at different times for a clearer picture",
+      "Physical symptoms like chest pain should be checked by a doctor first",
+      "If anxiety is affecting your daily life, please speak to a professional"
+    ],
     items: [
       "Feeling nervous, anxious, or on edge",
       "Not being able to stop or control worrying",
@@ -78,6 +90,12 @@ const assessments = {
     time: '10-15 min',
     icon: Heart,
     color: 'from-teal-500 to-cyan-600',
+    precautions: [
+      "This is a comprehensive assessment - find a quiet place to complete it",
+      "Answer based on how you've felt over the PAST WEEK",
+      "There are no right or wrong answers - be honest with yourself",
+      "This measures three areas: Depression, Anxiety, and Stress separately"
+    ],
     items: [
       "I found it hard to wind down",
       "I was aware of dryness of my mouth",
@@ -330,6 +348,24 @@ const SelfAssessmentPage = () => {
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">{assessment.title}</h3>
                   <p className="text-gray-600 text-sm mb-4">{assessment.subtitle}</p>
+                  
+                  {/* Precautions */}
+                  {assessment.precautions && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">
+                      <p className="text-amber-700 text-xs font-medium mb-2 flex items-center">
+                        <AlertTriangle className="w-3 h-3 mr-1" /> Before You Start
+                      </p>
+                      <ul className="text-amber-600 text-xs space-y-1">
+                        {assessment.precautions.map((precaution, idx) => (
+                          <li key={idx} className="flex items-start">
+                            <span className="text-amber-500 mr-1">•</span>
+                            {precaution}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
                   <div className="flex items-center space-x-4 text-sm text-gray-500 mb-6">
                     <span className="bg-teal-100 text-teal-700 px-2 py-1 rounded-full">{assessment.questions} questions</span>
                     <span>{assessment.time}</span>

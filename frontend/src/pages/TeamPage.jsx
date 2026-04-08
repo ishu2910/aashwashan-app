@@ -339,6 +339,24 @@ const TeamPage = () => {
                 </div>
               </div>
 
+              {/* Emergency Contact */}
+              <div>
+                <label className="block text-sm font-semibold mb-2 text-gray-700">
+                  <Phone className="inline w-4 h-4 mr-2 text-orange-500" />Emergency Contact Number *
+                </label>
+                <input 
+                  type="tel"
+                  name="emergencyPhone"
+                  value={formData.emergencyPhone || ''}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+                  placeholder="Emergency contact number"
+                  data-testid="booking-emergency-input"
+                />
+                <p className="text-xs text-gray-500 mt-1">Someone we can reach in case of emergency</p>
+              </div>
+
               <div>
                 <label className="block text-sm font-semibold mb-3 text-gray-700">Choose your session length *</label>
                 <div className="grid grid-cols-2 gap-4" data-testid="session-duration-selector">

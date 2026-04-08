@@ -100,11 +100,24 @@ export const team = [
     specialization: "Behavioral Therapy & Wellness",
     skills: ["Stress Management", "Relationship Issues", "Self-Esteem", "Anxiety"],
     experience: "3+ years",
-    price45: "1499",
-    price60: null,
+    price45: "1299",
+    price60: "1599",
     image: "https://customer-assets.emergentagent.com/job_e346c176-86b9-4c64-8688-a2f0bf5fe171/artifacts/s1p9da79_Untitled%20design%20%281%29.png",
     bio: "Sonali is passionate about helping adults manage behavioral challenges and build healthier life patterns. She creates a safe, supportive space for clients to explore their emotions and develop coping strategies.",
     education: "M.A. in Clinical Psychology"
+  },
+  {
+    id: 3,
+    name: "Anushka",
+    role: "Psychologist",
+    specialization: "Relationship & Grief Counseling",
+    skills: ["Relationship Issues", "Grief", "Emotional Support", "Trauma Recovery"],
+    experience: "4+ years",
+    price45: "1199",
+    price60: "1499",
+    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop",
+    bio: "Anushka specializes in helping individuals navigate through relationship challenges and grief. With 4+ years of experience, she provides a compassionate, non-judgmental space for healing and personal growth.",
+    education: "M.A. in Psychology"
   }
 ];
 

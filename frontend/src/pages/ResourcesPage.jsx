@@ -1,12 +1,106 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, X, User, Mail, Phone, Calendar, Clock, CreditCard, BookOpen, Users, Video, FileText } from 'lucide-react';
+import { CheckCircle, X, User, Mail, Phone, Calendar, Clock, CreditCard, BookOpen, Users, Video, FileText, Play, Pause } from 'lucide-react';
 import { services, team } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
+
+// Breathing Game Component
+const BreathingGame = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [phase, setPhase] = useState('ready'); // ready, inhale, hold, exhale
+  const [seconds, setSeconds] = useState(0);
+  const [cycles, setCycles] = useState(0);
+  
+  useEffect(() => {
+    let interval;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setSeconds(prev => {
+          const newSeconds = prev + 1;
+          
+          // 4-7-8 breathing technique
+          if (newSeconds <= 4) {
+            setPhase('inhale');
+          } else if (newSeconds <= 11) {
+            setPhase('hold');
+          } else if (newSeconds <= 19) {
+            setPhase('exhale');
+          } else {
+            setCycles(c => c + 1);
+            return 0;
+          }
+          
+          return newSeconds;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+  
+  const getInstruction = () => {
+    switch(phase) {
+      case 'inhale': return 'Breathe In...';
+      case 'hold': return 'Hold...';
+      case 'exhale': return 'Breathe Out...';
+      default: return 'Press Play to Start';
+    }
+  };
+  
+  const getCircleSize = () => {
+    switch(phase) {
+      case 'inhale': return 'scale-150';
+      case 'hold': return 'scale-150';
+      case 'exhale': return 'scale-100';
+      default: return 'scale-100';
+    }
+  };
+
+  return (
+    <div className="max-w-md mx-auto bg-white rounded-3xl shadow-xl p-8 text-center">
+      <div className="relative mb-8">
+        <div 
+          className={`w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 transition-transform duration-[4000ms] ease-in-out ${getCircleSize()}`}
+        />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-white font-bold text-xl">{phase === 'ready' ? '' : seconds}</span>
+        </div>
+      </div>
+      
+      <p className="text-2xl font-semibold text-gray-700 mb-4">{getInstruction()}</p>
+      
+      <div className="flex items-center justify-center gap-4 mb-6">
+        <button
+          onClick={() => {
+            setIsPlaying(!isPlaying);
+            if (!isPlaying) {
+              setPhase('inhale');
+              setSeconds(0);
+            } else {
+              setPhase('ready');
+            }
+          }}
+          className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+        >
+          {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
+        </button>
+      </div>
+      
+      {cycles > 0 && (
+        <p className="text-gray-500 text-sm">
+          Completed {cycles} breathing cycle{cycles > 1 ? 's' : ''}
+        </p>
+      )}
+      
+      <p className="text-gray-400 text-xs mt-4">
+        4-7-8 Breathing: Inhale 4s, Hold 7s, Exhale 8s
+      </p>
+    </div>
+  );
+};
 
 const ResourcesPage = () => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -251,6 +345,18 @@ const ResourcesPage = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Mindfulness Game Section */}
+      <section className="py-16 bg-gradient-to-r from-teal-50 to-cyan-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">Take a Mindful Break</h3>
+            <p className="text-gray-600">Try our breathing exercise to calm your mind</p>
+          </div>
+          
+          <BreathingGame />
         </div>
       </section>
 
