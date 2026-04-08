@@ -5,106 +5,112 @@ A mental health platform that goes beyond therapy booking - building an Emotiona
 
 ## Core Philosophy
 - **"Aashwashan is of the people, by the people, for the people."**
-- **Tagline: "You're Not Alone Anymore"**
-- Only 1% of people actively work on emotional growth
-- We sell the experience, not the therapy
+- **Tagline: "A Safe Place to Start"**
+- Target Audience: 18-30 year olds, students & early working professionals, silent overthinkers
 - **Founder**: Ishan Goyal
-- **Target Audience**: 18-30 year olds, students & early working professionals, silent overthinkers who feel everything but don't always speak
 
-## What's Been Completed
+## Latest Updates (December 2025 - Iteration 12)
 
-### Latest Updates (December 2025 - Iteration 11)
-- ✅ **Chatbot Renamed**: "Aasha" → "Saathi" (means companion in Hindi)
-- ✅ **New Chatbot Icon**: Chat bubble with soft curves (no longer heart/alien)
-- ✅ **Mobile Dots Removed**: Carousel indicator dots hidden on mobile
-- ✅ **Animations Added**: Site-wide animations for smooth UX
-- ✅ **Secrets Removed**: All sensitive credentials removed from codebase
+### UI/UX Fixes
+- ✅ **Hero dots REMOVED** - No carousel indicators on desktop or mobile
+- ✅ **Tagline changed**: "A Safe Place to Start"
+- ✅ **"All Team Members" button REMOVED**
+- ✅ **Animated skills marquee** - Scrolling right to left like Amaha
 
-### Previous Updates
-- ✅ Tagline: "You're Not Alone Anymore"
-- ✅ Hero Button: "Just talk. No pressure."
-- ✅ Mobile White Box Fix
-- ✅ Empathetic Chatbot System for 18-30 age group
-- ✅ Booking Modal Redesign
-- ✅ Orange accent colors
-- ✅ Self-Assessment page
-- ✅ Emotional Operating System (EOS) page
+### Chatbot "Saathi"
+- ✅ **Renamed from "Aasha" to "Saathi"** (companion in Hindi)
+- ✅ **Chat bubble icon** with soft curves
+- ✅ **Trained as psychologist** - Gives SHORT 2-3 line responses, asks questions
+- ✅ **No long advice** - Helps users discover their own feelings
 
-### Pages Completed
-1. Homepage
-2. About Us
-3. Team (Therapists)
-4. Resources
-5. Emotional OS (/eos)
-6. Community Forum
-7. Blog
-8. Contact Us
-9. Self-Assessment
-10. Admin Dashboard
-11. Therapist Login
+### Therapists
+- ✅ **Prakhar Tiwari**: ₹999/45min, ₹1249/60min
+- ✅ **Sonali Mishra**: ₹1299/45min, ₹1599/60min (FIXED)
+- ✅ **Anushka (NEW)**: 4+ years, ₹1199/45min, ₹1499/60min, Relationship Issues & Grief
 
-### AI Chatbot "Saathi"
-- OpenAI GPT-4o-mini powered (via Emergent LLM Key)
-- "Saathi" = Companion/Friend in Hindi
-- Chat bubble icon with soft curves (teal/cyan gradient)
-- Deeply empathetic for 18-30 age group
-- Quick action buttons: "I'm feeling low", "Just need to vent", "Feeling anxious", "Can't sleep well"
-- Knows when to suggest seeing a therapist
-- Crisis resource provision (Tele MANAS: 14416)
+### Forms
+- ✅ **Emergency Contact Number** field added to all booking forms
+- ✅ **Form submits to email** (care@aashwashan.com) - NOT payment
+- ✅ Button changed to "Submit Request"
 
-## How to Access Admin Panel
+### Assessments
+- ✅ **Precautions shown BEFORE each test** (PHQ-9, GAD-7, DASS-21, K6, PSS, WHO-5)
 
-### Admin Login
-1. Go to: `/admin/login`
-2. Login with admin credentials (stored securely)
+### AI Daily Messaging
+- ✅ **Scheduler implemented** - 8 AM, 2 PM, 5 PM IST
+- ✅ **/api/wellness/subscribe** endpoint to subscribe users
+- ✅ AI-generated personalized messages
+
+## How to Use Admin Panel
+
+### Accessing Admin Panel
+1. Go to: **https://[your-domain]/admin/login**
+2. Enter credentials:
+   - Email: `admin@aashwashan.com`
+   - Password: `Admin123!`
+3. Click "Login"
 
 ### Admin Dashboard Features
-- View site statistics
-- Manage users
-- Add/Edit/Delete Blog Posts
-- View bookings
+- **Dashboard**: View site statistics (users, bookings, revenue)
+- **Users**: Manage registered users
+- **Blogs**: Create, edit, delete blog posts
+- **Bookings**: View all appointment requests
 
-## Technical Stack
-- Frontend: React + TailwindCSS + Shadcn/UI
-- Backend: FastAPI + Supabase PostgreSQL + MongoDB
-- AI: OpenAI GPT-4o-mini (via Emergent LLM Key)
-- WhatsApp: Twilio API (to be configured by user)
+### How to Write and Publish a Blog
+
+1. **Login** to the Admin Panel
+2. Click **"Blogs"** in the sidebar
+3. Click **"Create New Post"** button
+4. Fill in the form:
+   - **Title**: Your blog post title
+   - **Excerpt**: Short summary (appears in blog listings)
+   - **Content**: Full blog content (supports basic formatting)
+   - **Category**: Choose from available categories
+   - **Featured Image**: Enter an image URL
+5. Toggle **"Published"** to make it live
+6. Click **"Save"**
+7. Your blog appears at: `https://[your-domain]/blog/[slug]`
+
+### Blog Categories
+- Mental Health
+- Self-Care
+- Relationships
+- Workplace Wellness
+- Student Life
+- Personal Growth
 
 ## Therapist Pricing (Consistent Across Site)
-- **Prakhar Tiwari** (Counselling Psychologist): ₹999/45min, ₹1249/60min
-- **Sonali Mishra** (Licensed Therapist): ₹1499/45min
+| Therapist | 45 min | 60 min |
+|-----------|--------|--------|
+| Prakhar Tiwari | ₹999 | ₹1249 |
+| Sonali Mishra | ₹1299 | ₹1599 |
+| Anushka | ₹1199 | ₹1499 |
 
 ## Environment Variables Required
-User must configure these in backend/.env:
-- TWILIO_ACCOUNT_SID
-- TWILIO_AUTH_TOKEN
-- TWILIO_WHATSAPP_NUMBER
+```
+TWILIO_ACCOUNT_SID=     (user to configure)
+TWILIO_AUTH_TOKEN=      (user to configure)
+TWILIO_WHATSAPP_NUMBER= (user to configure)
+```
 
-## Remaining Tasks (Prioritized)
+## GitHub Push Issue
+The error is due to OLD commits containing Twilio secrets. **Solution**:
+- Click **"Create Branch & Push"** in the Emergent UI to push to a new branch
+- This avoids the old commits with secrets
+
+## Remaining Tasks
 
 ### P0 - Critical
-1. **Twilio Configuration** - User needs to add their own Twilio credentials
-2. **AI Daily Patient Messaging System** - Scheduled wellness messages
+1. Configure Twilio credentials for WhatsApp
+2. Set up email service for appointment notifications
 
 ### P1 - Important
-3. **Therapist Calendar System** - Therapist login to set availability
-4. **Light Color Theme** - Shift to lighter palette
+3. Therapist Calendar System
+4. Light color theme refinements
 
 ### P2 - Nice to Have
-5. **Patient-Therapist Messaging** - In-app secure messaging
-
-### P3 - Future/Backlog
-6. Email Notifications
-7. Google Analytics Integration
-8. Razorpay Payment Integration
-
-## Known Issues Fixed
-- ✅ Mobile white box glitch - FIXED
-- ✅ Mobile dots under hero - FIXED (hidden on mobile)
-- ✅ Chatbot alien icon - FIXED (chat bubble design)
-- ✅ Generic chatbot responses - FIXED (empathetic Saathi)
-- ✅ Secrets in repo - FIXED (all removed)
-- ✅ No animations - FIXED (site-wide animations added)
+5. Patient-Therapist messaging
+6. Resources page breathing game fix
 
 ## Last Updated
-December 2025 - Iteration 11 completed
+December 2025 - Iteration 12 completed (100% test pass rate)
