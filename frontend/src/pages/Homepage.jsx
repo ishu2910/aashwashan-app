@@ -10,10 +10,16 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 // Get session pricing based on therapist
-const getSessionPricing = (therapist) => ({
-  '45': { duration: '45 minutes', price: parseInt(therapist?.price45 || 999) },
-  '60': { duration: '60 minutes', price: parseInt(therapist?.price60 || 1249) }
-});
+const getSessionPricing = (therapist) => {
+  const pricing = {
+    '45': { duration: '45 minutes', price: parseInt(therapist?.price45 || 999) }
+  };
+  // Only add 60 min option if therapist has price60 set (not null)
+  if (therapist?.price60) {
+    pricing['60'] = { duration: '60 minutes', price: parseInt(therapist.price60) };
+  }
+  return pricing;
+};
 
 // Hero background images for rotation - calming, professional mental health imagery
 const HERO_IMAGES = [
