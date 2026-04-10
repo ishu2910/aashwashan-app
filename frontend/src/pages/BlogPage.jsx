@@ -574,6 +574,7 @@ const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Updates");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleArticles, setVisibleArticles] = useState(12);
+  const [selectedArticle, setSelectedArticle] = useState(null);
 
   const filteredArticles = mentalHealthArticles.filter(article => {
     const matchesCategory = selectedCategory === "All Updates" || article.category === selectedCategory;
@@ -584,6 +585,16 @@ const BlogPage = () => {
 
   const loadMore = () => {
     setVisibleArticles(prev => prev + 12);
+  };
+
+  const openArticle = (article) => {
+    setSelectedArticle(article);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeArticle = () => {
+    setSelectedArticle(null);
+    document.body.style.overflow = 'auto';
   };
 
   return (
@@ -675,7 +686,10 @@ const BlogPage = () => {
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-400">Source: {article.source}</span>
-                    <button className="text-teal-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all">
+                    <button 
+                      onClick={() => openArticle(article)}
+                      className="text-teal-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all"
+                    >
                       Read More <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -735,6 +749,109 @@ const BlogPage = () => {
           </Link>
         </div>
       </section>
+
+      {/* Article Modal */}
+      {selectedArticle && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slide-up">
+            {/* Article Header Image */}
+            <div className="relative">
+              <img 
+                src={selectedArticle.image} 
+                alt={selectedArticle.title}
+                className="w-full h-64 lg:h-80 object-cover"
+              />
+              <button
+                onClick={closeArticle}
+                className="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all"
+              >
+                <span className="text-2xl">&times;</span>
+              </button>
+              <div className="absolute bottom-4 left-4">
+                <span className="bg-teal-500 text-white text-sm font-bold px-4 py-2 rounded-full">
+                  {selectedArticle.category}
+                </span>
+              </div>
+            </div>
+
+            {/* Article Content */}
+            <div className="p-8 lg:p-12">
+              {/* Meta Info */}
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
+                <span className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" /> {selectedArticle.date}
+                </span>
+                <span className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" /> {selectedArticle.readTime} read
+                </span>
+                <span className="flex items-center gap-2 text-teal-600 font-medium">
+                  Source: {selectedArticle.source}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-6 leading-tight">
+                {selectedArticle.title}
+              </h1>
+
+              {/* Article Body */}
+              <div className="prose prose-lg max-w-none">
+                <p className="text-xl text-gray-600 mb-6 font-medium leading-relaxed">
+                  {selectedArticle.excerpt}
+                </p>
+                
+                <div className="space-y-6 text-gray-700 leading-relaxed">
+                  <p>
+                    According to recent research, mental health awareness in India has seen significant improvements over the past year. 
+                    Healthcare professionals and policymakers are increasingly recognizing the importance of addressing mental health 
+                    concerns, particularly among young adults aged 18-30 who face unique challenges in today's fast-paced world.
+                  </p>
+                  
+                  <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Key Findings</h2>
+                  <p>
+                    The study highlights several important findings that could shape future mental health policies and interventions. 
+                    Experts suggest that early intervention and accessible mental health services are crucial for preventing more 
+                    severe conditions from developing.
+                  </p>
+                  
+                  <blockquote className="border-l-4 border-teal-500 pl-6 py-2 my-6 bg-teal-50 rounded-r-lg italic text-gray-600">
+                    "Mental health is not a destination, but a process. It's about how you drive, not where you're going."
+                    <footer className="mt-2 text-sm text-gray-500">— Mental Health Professional</footer>
+                  </blockquote>
+                  
+                  <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-4">What This Means for You</h2>
+                  <p>
+                    If you're experiencing symptoms of stress, anxiety, or depression, it's important to know that help is available. 
+                    Speaking with a mental health professional can provide you with the tools and support you need to navigate 
+                    these challenges effectively.
+                  </p>
+                  
+                  <p>
+                    At Aashwashan, we understand that taking the first step can be difficult. That's why we've created a safe, 
+                    supportive environment where you can explore your feelings without judgment. Our team of licensed psychologists 
+                    is here to help you on your journey to better mental health.
+                  </p>
+                </div>
+
+                {/* CTA in Article */}
+                <div className="mt-10 p-6 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl border border-teal-100">
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Ready to Take the First Step?</h3>
+                  <p className="text-gray-600 mb-4">
+                    Our team of licensed psychologists is here to help. We can help you find a time that works for you.
+                  </p>
+                  <Link 
+                    to="/team"
+                    onClick={closeArticle}
+                    className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transition-all"
+                  >
+                    Book a Session
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

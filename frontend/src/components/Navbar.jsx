@@ -52,16 +52,16 @@ const Navbar = () => {
           <div className="flex justify-between items-center py-4">
             {/* Logo with Name */}
             <Link to="/" className="flex items-center space-x-3 group">
-              <div className="h-12 w-12 lg:h-14 lg:w-14 rounded-full bg-white/90 lg:bg-gradient-to-br lg:from-teal-50 lg:to-cyan-50 flex items-center justify-center overflow-hidden shadow-sm lg:border lg:border-teal-100">
+              <div className="h-14 w-14 lg:h-16 lg:w-16 rounded-full bg-white/90 lg:bg-gradient-to-br lg:from-teal-50 lg:to-cyan-50 flex items-center justify-center overflow-hidden shadow-sm lg:border lg:border-teal-100">
                 <img 
                   src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
                   alt="Aashwashan" 
-                  className="h-10 w-10 lg:h-12 lg:w-12 object-contain transition-transform group-hover:scale-110"
+                  className="h-12 w-12 lg:h-14 lg:w-14 object-contain transition-transform group-hover:scale-110"
                 />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-2xl font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
-                <span className="text-[10px] text-gray-500 tracking-wider uppercase -mt-1">A Safe Place to Start</span>
+                <span className="text-2xl lg:text-3xl font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+                <span className="text-[10px] lg:text-xs text-gray-500 tracking-wider uppercase -mt-1">A Safe Place to Start</span>
               </div>
             </Link>
 

@@ -48,7 +48,9 @@ const AIChatbot = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const [messageCount, setMessageCount] = useState(0);
   const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const initSession = async () => {
@@ -64,11 +66,20 @@ const AIChatbot = () => {
     if (isOpen && !sessionId) {
       initSession();
     }
+    
+    // Auto-focus input when chat opens
+    if (isOpen && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
   }, [isOpen, sessionId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    // Keep focus on input after each message
+    if (inputRef.current && isOpen && !isMinimized) {
+      inputRef.current.focus();
+    }
+  }, [messages, isOpen, isMinimized]);
 
   const handleSend = async (messageText = inputValue) => {
     if (!messageText.trim() || isLoading) return;
@@ -77,20 +88,31 @@ const AIChatbot = () => {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+    setMessageCount(prev => prev + 1);
 
     try {
       const response = await axios.post(`${API}/chatbot/chat`, {
         message: messageText,
-        session_id: sessionId
+        session_id: sessionId,
+        message_count: messageCount + 1
       });
       
       const botResponse = response.data.response;
+      
+      // Check if bot is recommending therapy
+      const suggestsTherapy = botResponse.toLowerCase().includes('therapist') || 
+                              botResponse.toLowerCase().includes('professional') ||
+                              botResponse.toLowerCase().includes('book a session');
+      
       const botMessage = { 
         id: Date.now() + 1, 
         type: 'bot', 
         text: botResponse,
-        quickActions: botResponse.toLowerCase().includes('professional') || botResponse.toLowerCase().includes('therapist') 
-          ? [{ label: "Book a session", action: "How can I book a therapy session?" }]
+        quickActions: suggestsTherapy 
+          ? [
+              { label: "Yes, book a session", action: "I'd like to book a therapy session" },
+              { label: "Tell me more", action: "Tell me more about how therapy can help" }
+            ]
           : null
       };
       setMessages(prev => [...prev, botMessage]);
@@ -99,6 +121,8 @@ const AIChatbot = () => {
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      // Keep focus on input
+      inputRef.current?.focus();
     }
   };
 
@@ -242,6 +266,7 @@ const AIChatbot = () => {
           <div className="p-3 border-t border-gray-100 bg-white">
             <div className="flex items-center space-x-2">
               <input
+                ref={inputRef}
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
@@ -249,6 +274,7 @@ const AIChatbot = () => {
                 placeholder="Share what's on your mind..."
                 className="flex-1 px-4 py-2.5 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent text-sm bg-gray-50 transition-all"
                 disabled={isLoading}
+                autoFocus
                 data-testid="chatbot-input"
               />
               <button
