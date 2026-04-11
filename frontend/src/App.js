@@ -71,7 +71,7 @@ function AppRoutes() {
         <Route path="/" element={<PublicLayout><Homepage /></PublicLayout>} />
         <Route path="/about" element={<PublicLayout><AboutPage /></PublicLayout>} />
         <Route path="/services" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
-        <Route path="/resources" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
+        <Route path="/resources" element={<PublicLayout><ResourcesPage /></PublicLayout>} />
         <Route path="/eos" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
         <Route path="/emotional-os" element={<PublicLayout><EmotionalOSPage /></PublicLayout>} />
         <Route path="/community" element={<PublicLayout><CommunityPage /></PublicLayout>} />

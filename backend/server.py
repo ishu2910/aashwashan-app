@@ -1146,12 +1146,25 @@ async def get_legacy_community_posts(limit: int = 50, skip: int = 0):
 
 # ==================== AI CHATBOT ====================
 
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+# Try emergentintegrations first (available on Emergent platform)
+# Falls back to OpenAI SDK for external deployments (Vercel, local)
+_USE_EMERGENT = False
+try:
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    _USE_EMERGENT = True
+    logger.info("Using emergentintegrations for AI chatbot")
+except ImportError:
+    logger.info("emergentintegrations not available, using OpenAI SDK fallback")
+    try:
+        from openai import AsyncOpenAI
+    except ImportError:
+        logger.warning("Neither emergentintegrations nor openai SDK available - chatbot disabled")
 
-# Store chat sessions in memory (for production, use database)
+# Store chat sessions in memory
 chat_sessions = {}
+# Store conversation history for OpenAI fallback
+chat_histories = {}
 
-# Chatbot system message for mental health support - Deeply empathetic for 18-30 age group
 CHATBOT_SYSTEM_MESSAGE = """You are Saathi, a trained psychologist chatbot at Aashwashan Mental Health. "Saathi" means companion/friend in Hindi.
 
 CRITICAL INSTRUCTION - KEEP RESPONSES SHORT:
@@ -1202,27 +1215,54 @@ class ChatResponse(BaseModel):
 
 chatbot_router = APIRouter(prefix="/api/chatbot", tags=["Chatbot"])
 
+async def _chat_openai_fallback(session_id: str, message: str, api_key: str) -> str:
+    """Fallback chat using OpenAI SDK directly with the Emergent LLM key"""
+    if session_id not in chat_histories:
+        chat_histories[session_id] = [
+            {"role": "system", "content": CHATBOT_SYSTEM_MESSAGE}
+        ]
+    
+    chat_histories[session_id].append({"role": "user", "content": message})
+    
+    # Keep only last 20 messages + system to avoid token overflow
+    if len(chat_histories[session_id]) > 21:
+        chat_histories[session_id] = [chat_histories[session_id][0]] + chat_histories[session_id][-20:]
+    
+    client = AsyncOpenAI(api_key=api_key)
+    response = await client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=chat_histories[session_id],
+        max_tokens=300,
+        temperature=0.7
+    )
+    
+    assistant_msg = response.choices[0].message.content
+    chat_histories[session_id].append({"role": "assistant", "content": assistant_msg})
+    return assistant_msg
+
 @chatbot_router.post("/chat", response_model=ChatResponse)
 async def chat_with_bot(request: ChatRequest):
     """Chat with the AI wellness companion"""
     try:
         api_key = os.environ.get('EMERGENT_LLM_KEY')
         if not api_key:
-            raise HTTPException(status_code=500, detail="Chatbot not configured")
+            raise HTTPException(status_code=500, detail="Chatbot not configured - EMERGENT_LLM_KEY missing")
         
-        # Get or create chat session
-        if request.session_id not in chat_sessions:
-            chat_sessions[request.session_id] = LlmChat(
-                api_key=api_key,
-                session_id=request.session_id,
-                system_message=CHATBOT_SYSTEM_MESSAGE
-            ).with_model("openai", "gpt-4o-mini")
-        
-        chat = chat_sessions[request.session_id]
-        
-        # Send message and get response
-        user_message = UserMessage(text=request.message)
-        response = await chat.send_message(user_message)
+        if _USE_EMERGENT:
+            # Primary: Use emergentintegrations (Emergent platform)
+            if request.session_id not in chat_sessions:
+                chat_sessions[request.session_id] = LlmChat(
+                    api_key=api_key,
+                    session_id=request.session_id,
+                    system_message=CHATBOT_SYSTEM_MESSAGE
+                ).with_model("openai", "gpt-4o-mini")
+            
+            chat = chat_sessions[request.session_id]
+            user_message = UserMessage(text=request.message)
+            response = await chat.send_message(user_message)
+        else:
+            # Fallback: Use OpenAI SDK directly
+            response = await _chat_openai_fallback(request.session_id, request.message, api_key)
         
         return ChatResponse(
             response=response,
@@ -1391,19 +1431,24 @@ async def generate_ai_wellness_message(time_of_day: str, user_name: str = "frien
     try:
         emergent_key = os.environ.get('EMERGENT_LLM_KEY')
         if emergent_key:
-            from emergentintegrations.llm.chat import LlmChat, UserMessage
-            chat = LlmChat(api_key=emergent_key, model="gpt-4o-mini")
-            
             prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}. 
             Target audience: Young adults (18-30) who are silent overthinkers.
             Keep it short (2-3 sentences), caring, and non-preachy.
             Don't use emojis. Sound like a supportive friend."""
             
-            response = await asyncio.to_thread(
-                chat.send_message,
-                UserMessage(content=prompt)
-            )
-            return response.content
+            if _USE_EMERGENT:
+                chat = LlmChat(api_key=emergent_key, session_id=f"wellness-{time_of_day}",
+                              system_message="You generate wellness messages.").with_model("openai", "gpt-4o-mini")
+                response = await chat.send_message(UserMessage(text=prompt))
+                return response
+            else:
+                client = AsyncOpenAI(api_key=emergent_key)
+                response = await client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=150
+                )
+                return response.choices[0].message.content
     except Exception as e:
         logger.warning(f"AI message generation failed, using template: {str(e)}")
     
