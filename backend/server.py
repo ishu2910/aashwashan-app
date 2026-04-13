@@ -15,7 +15,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 from email_service import send_appointment_email, send_contact_email
-from whatsapp_service import whatsapp_service
+# from whatsapp_service import whatsapp_service
 import razorpay
 import json
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
