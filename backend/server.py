@@ -15,7 +15,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 from email_service import send_appointment_email, send_contact_email
-# from whatsapp_service import whatsapp_service
+from whatsapp_service import whatsapp_service
 import razorpay
 import json
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -885,27 +885,30 @@ async def create_appointment(request: AppointmentRequest):
         appointment = Appointment(**request.model_dump())
         doc = appointment.model_dump()
         doc['created_at'] = doc['created_at'].isoformat()
+
         await mongo_db.appointments.insert_one(doc)
+
         email_sent = send_appointment_email(request.model_dump())
-        
-        # # Send WhatsApp booking confirmation if phone provided
-        # if request.phone:
-        #     try:
-        #         whatsapp_service.send_booking_confirmation(
-        #             to_phone=request.phone,
-        #             user_name=request.name,
-        #             therapist_name=request.service or "Our Therapist",
-        #             date=request.date,
-        #             time=request.time,
-        #             duration=request.service or "45 minutes",
-        #             meeting_link=None  # Will be added after payment
-        #         )
-        #         logger.info(f"WhatsApp booking confirmation sent to {request.phone}")
-        #     except Exception as wa_error:
-        #         logger.error(f"WhatsApp error: {str(wa_error)}")
-        
+
+        # Send WhatsApp booking confirmation if phone provided
+        if request.phone:
+            try:
+                whatsapp_service.send_booking_confirmation(
+                    to_phone=request.phone,
+                    user_name=request.name,
+                    therapist_name=request.service or "Our Therapist",
+                    date=request.date,
+                    time=request.time,
+                    duration=request.service or "45 minutes",
+                    meeting_link=None
+                )
+                logger.info(f"WhatsApp booking confirmation sent to {request.phone}")
+            except Exception as wa_error:
+                logger.error(f"WhatsApp error: {str(wa_error)}")
+
         logger.info(f"Appointment created for {request.name} - Email sent: {email_sent}")
         return appointment
+
     except Exception as e:
         logger.error(f"Error creating appointment: {str(e)}")
         raise
