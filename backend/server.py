@@ -1,3 +1,8 @@
+import os
+
+print("🚀 SERVER STARTING...")
+print("ENV CHECK:", os.getenv("OPENAI_API_KEY"))
+
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI, APIRouter, HTTPException, Depends
