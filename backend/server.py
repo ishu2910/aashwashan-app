@@ -1,8 +1,3 @@
-import os
-
-print("🚀 SERVER STARTING...")
-print("ENV CHECK:", os.getenv("OPENAI_API_KEY"))
-
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI, APIRouter, HTTPException, Depends
@@ -893,21 +888,21 @@ async def create_appointment(request: AppointmentRequest):
         await mongo_db.appointments.insert_one(doc)
         email_sent = send_appointment_email(request.model_dump())
         
-        # Send WhatsApp booking confirmation if phone provided
-        if request.phone:
-            try:
-                whatsapp_service.send_booking_confirmation(
-                    to_phone=request.phone,
-                    user_name=request.name,
-                    therapist_name=request.service or "Our Therapist",
-                    date=request.date,
-                    time=request.time,
-                    duration=request.service or "45 minutes",
-                    meeting_link=None  # Will be added after payment
-                )
-                logger.info(f"WhatsApp booking confirmation sent to {request.phone}")
-            except Exception as wa_error:
-                logger.error(f"WhatsApp error: {str(wa_error)}")
+        # # Send WhatsApp booking confirmation if phone provided
+        # if request.phone:
+        #     try:
+        #         whatsapp_service.send_booking_confirmation(
+        #             to_phone=request.phone,
+        #             user_name=request.name,
+        #             therapist_name=request.service or "Our Therapist",
+        #             date=request.date,
+        #             time=request.time,
+        #             duration=request.service or "45 minutes",
+        #             meeting_link=None  # Will be added after payment
+        #         )
+        #         logger.info(f"WhatsApp booking confirmation sent to {request.phone}")
+        #     except Exception as wa_error:
+        #         logger.error(f"WhatsApp error: {str(wa_error)}")
         
         logger.info(f"Appointment created for {request.name} - Email sent: {email_sent}")
         return appointment
@@ -1321,91 +1316,91 @@ async def create_new_session():
 
 # ==================== WHATSAPP ROUTES ====================
 
-whatsapp_router = APIRouter(prefix="/api/whatsapp", tags=["WhatsApp"])
+# whatsapp_router = APIRouter(prefix="/api/whatsapp", tags=["WhatsApp"])
 
-class WhatsAppMessageRequest(BaseModel):
-    to_phone: str
-    message_type: str  # welcome, booking, reminder, followup, checkin, morning, afternoon, evening
-    user_name: str = "there"
-    therapist_name: Optional[str] = None
-    date: Optional[str] = None
-    time: Optional[str] = None
-    duration: Optional[str] = None
-    meeting_link: Optional[str] = None
-    profession: Optional[str] = None
-    recommendations: Optional[str] = None
+#class WhatsAppMessageRequest(BaseModel):
+    #to_phone: str
+    #message_type: str  # welcome, booking, reminder, followup, checkin, morning, afternoon, evening
+    #user_name: str = "there"
+    #therapist_name: Optional[str] = None
+    #date: Optional[str] = None
+    #time: Optional[str] = None
+    #duration: Optional[str] = None
+   # meeting_link: Optional[str] = None
+  #  profession: Optional[str] = None
+ #   recommendations: Optional[str] = None
 
-@whatsapp_router.post("/send")
-async def send_whatsapp_message(request: WhatsAppMessageRequest):
-    """Send WhatsApp message based on type"""
-    try:
-        result = None
+#@whatsapp_router.post("/send")
+#async def send_whatsapp_message(request: WhatsAppMessageRequest):
+    #"""Send WhatsApp message based on type"""
+    #try:
+        #result = None
         
-        if request.message_type == "welcome":
-            result = whatsapp_service.send_welcome_message(request.to_phone, request.user_name)
+        #if request.message_type == "welcome":
+         #   result = whatsapp_service.send_welcome_message(request.to_phone, request.user_name)
         
-        elif request.message_type == "booking":
-            result = whatsapp_service.send_booking_confirmation(
-                request.to_phone, request.user_name, request.therapist_name or "Our Therapist",
-                request.date or "TBD", request.time or "TBD", request.duration or "45 minutes",
-                request.meeting_link
-            )
+        #elif request.message_type == "booking":
+           # result = whatsapp_service.send_booking_confirmation(
+            #    request.to_phone, request.user_name, request.therapist_name or "Our Therapist",
+           #     request.date or "TBD", request.time or "TBD", request.duration or "45 minutes",
+          #      request.meeting_link
+         #   )
         
-        elif request.message_type == "reminder":
-            result = whatsapp_service.send_session_reminder(
-                request.to_phone, request.user_name, request.therapist_name or "Our Therapist",
-                request.time or "TBD", request.meeting_link
-            )
+        #elif request.message_type == "reminder":
+           # result = whatsapp_service.send_session_reminder(
+          #      request.to_phone, request.user_name, request.therapist_name or "Our Therapist",
+         #       request.time or "TBD", request.meeting_link
+        #    )
         
-        elif request.message_type == "followup":
-            result = whatsapp_service.send_post_session_followup(
-                request.to_phone, request.user_name, request.therapist_name or "Our Therapist"
-            )
+       # elif request.message_type == "followup":
+          #  result = whatsapp_service.send_post_session_followup(
+         #       request.to_phone, request.user_name, request.therapist_name or "Our Therapist"
+        #    )
         
-        elif request.message_type == "checkin":
-            result = whatsapp_service.send_next_day_checkin(
-                request.to_phone, request.user_name, request.recommendations
-            )
+       # elif request.message_type == "checkin":
+          #  result = whatsapp_service.send_next_day_checkin(
+         #       request.to_phone, request.user_name, request.recommendations
+        #    )
         
-        elif request.message_type == "morning":
-            result = whatsapp_service.send_morning_motivation(
-                request.to_phone, request.user_name, request.profession
-            )
+       # elif request.message_type == "morning":
+          #  result = whatsapp_service.send_morning_motivation(
+         #       request.to_phone, request.user_name, request.profession
+        #    )
         
-        elif request.message_type == "afternoon":
-            result = whatsapp_service.send_afternoon_checkin(request.to_phone, request.user_name)
+       # elif request.message_type == "afternoon":
+         #   result = whatsapp_service.send_afternoon_checkin(request.to_phone, request.user_name)
         
-        elif request.message_type == "evening":
-            result = whatsapp_service.send_evening_reflection(request.to_phone, request.user_name)
+        #elif request.message_type == "evening":
+       #     result = whatsapp_service.send_evening_reflection(request.to_phone, request.user_name)
         
-        else:
-            raise HTTPException(status_code=400, detail=f"Unknown message type: {request.message_type}")
+      #  else:
+     #       raise HTTPException(status_code=400, detail=f"Unknown message type: {request.message_type}")
         
-        return result
+    #    return result
     
-    except Exception as e:
-        logger.error(f"WhatsApp send error: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+   # except Exception as e:
+  #      logger.error(f"WhatsApp send error: {str(e)}")
+ #       raise HTTPException(status_code=500, detail=str(e))
 
-@whatsapp_router.post("/webhook")
-async def whatsapp_webhook(request: dict):
-    """Handle incoming WhatsApp messages from Twilio webhook"""
-    try:
+#@whatsapp_router.post("/webhook")
+#async def whatsapp_webhook(request: dict):
+#    """Handle incoming WhatsApp messages from Twilio webhook"""
+    #try:
         # Extract message details from Twilio webhook
-        from_number = request.get('From', '').replace('whatsapp:', '')
-        body = request.get('Body', '').strip()
+        #from_number = request.get('From', '').replace('whatsapp:', '')
+        #body = request.get('Body', '').strip()
         
-        logger.info(f"Incoming WhatsApp from {from_number}: {body}")
+        #logger.info(f"Incoming WhatsApp from {from_number}: {body}")
         
         # Send welcome message for new contacts
-        if body.lower() in ['hi', 'hello', 'hey', 'start', 'help']:
-            whatsapp_service.send_welcome_message(from_number)
+       # if body.lower() in ['hi', 'hello', 'hey', 'start', 'help']:
+      #      whatsapp_service.send_welcome_message(from_number)
         
-        return {"status": "received"}
+     #   return {"status": "received"}
     
-    except Exception as e:
-        logger.error(f"WhatsApp webhook error: {str(e)}")
-        return {"status": "error", "message": str(e)}
+    #except Exception as e:
+        #logger.error(f"WhatsApp webhook error: {str(e)}")
+        #return {"status": "error", "message": str(e)}
 
 
 from pydantic import BaseModel
@@ -1433,7 +1428,7 @@ app.include_router(therapist_router)
 app.include_router(community_router)
 app.include_router(blog_router)
 app.include_router(chatbot_router)
-app.include_router(whatsapp_router)
+#app.include_router(whatsapp_router)
 
 # CORS middleware
 app.add_middleware(
@@ -1487,7 +1482,7 @@ async def generate_ai_wellness_message(time_of_day: str, user_name: str = "frien
     
     # Try to use AI for personalized message
     try:
-        emergent_key = os.environ.get('EMERGENT_LLM_KEY')
+        emergent_key = os.environ.get('OPENAI_API_KEY')
         if emergent_key:
             prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}. 
             Target audience: Young adults (18-30) who are silent overthinkers.
@@ -1526,12 +1521,12 @@ async def send_daily_wellness_messages(time_of_day: str):
                 message = await generate_ai_wellness_message(time_of_day, user.get("name", "friend"))
                 
                 # Send via WhatsApp if configured
-                if user.get("phone") and whatsapp_service.client:
-                    whatsapp_service.send_message(
-                        to_phone=user["phone"],
-                        message=message
-                    )
-                    logger.info(f"Sent {time_of_day} message to {user.get('name', 'user')}")
+               # if user.get("phone") and whatsapp_service.client:
+                #    whatsapp_service.send_message(
+               #         to_phone=user["phone"],
+              #          message=message
+                    #)
+                    #logger.info(f"Sent {time_of_day} message to {user.get('name', 'user')}")
             except Exception as e:
                 logger.error(f"Failed to send message to user {user.get('id')}: {str(e)}")
         
