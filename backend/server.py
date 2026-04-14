@@ -23,7 +23,7 @@ from apscheduler.triggers.cron import CronTrigger
 import asyncio
 
 import os
-print("KEY CHECK:", os.environ.get("EMERGENT_LLM_KEY"))
+
 
 # Import Supabase database and models
 from database import get_db, engine, Base
