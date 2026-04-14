@@ -76,3 +76,4 @@ urllib3==2.6.2
 uvicorn==0.25.0
 watchfiles==1.1.1
 openai>=1.50.0
+apscheduler==3.10.4
