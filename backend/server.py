@@ -39,9 +39,13 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 # MongoDB connection (for existing endpoints)
-mongo_url = os.environ['MONGO_URL']
-mongo_client = AsyncIOMotorClient(mongo_url)
-mongo_db = mongo_client[os.environ['DB_NAME']]
+mongo_url = os.getenv("MONGO_URL")
+mongo_db = None
+mongo_client = None
+
+if mongo_url:
+    mongo_client = AsyncIOMotorClient(mongo_url)
+    mongo_db = mongo_client[os.getenv("DB_NAME", "test")]
 
 # Razorpay configuration (test keys for development)
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_placeholder')
@@ -1283,7 +1287,7 @@ async def _chat_openai_fallback(session_id: str, message: str, api_key: str) -> 
 async def chat_with_bot(request: ChatRequest):
     """Chat with the AI wellness companion"""
     try:
-        api_key = os.environ.get('EMERGENT_LLM_KEY')
+        api_key = os.getenv.get('EMERGENT_LLM_KEY')
         if not api_key:
             raise HTTPException(status_code=500, detail="Chatbot not configured - EMERGENT_LLM_KEY missing")
         
@@ -1513,7 +1517,7 @@ async def generate_ai_wellness_message(time_of_day: str, user_name: str = "frien
     
     # Try to use AI for personalized message
     try:
-        emergent_key = os.environ.get('OPENAI_API_KEY')
+        emergent_key = os.getenv.get('OPENAI_API_KEY')
         if emergent_key:
             prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}. 
             Target audience: Young adults (18-30) who are silent overthinkers.
