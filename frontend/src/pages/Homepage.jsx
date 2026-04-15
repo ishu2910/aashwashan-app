@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles, TrendingUp, Compass, Lock } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
-import axios from 'axios';
+import api from "../api";
 import { toast } from '../hooks/use-toast';
 import { useAuth } from '../context/AuthContext';
 
@@ -162,7 +162,7 @@ const Homepage = () => {
     
     try {
       // Send appointment request via email to care@aashwashan.com
-      await axios.post(`${API}/appointments/request`, appointmentData);
+      await api.post(`${API}/appointments/request`, appointmentData);
       
       closeModal();
       setBookingComplete(true);

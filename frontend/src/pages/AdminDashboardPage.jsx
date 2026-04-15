@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from "../api";
 import { 
   Users, Calendar, FileText, MessageSquare, 
   LogOut, Plus, Edit, Trash2, Eye, BarChart3,
@@ -51,11 +51,10 @@ const AdminDashboardPage = () => {
       const headers = getAuthHeader();
       
       const [statsRes, blogsRes, usersRes] = await Promise.all([
-        axios.get(`${API_URL}/api/admin/stats`, { headers }),
-        axios.get(`${API_URL}/api/admin/blogs`, { headers }),
-        axios.get(`${API_URL}/api/admin/users`, { headers })
-      ]);
-
+  api.get("/api/admin/stats", { headers }),
+  api.get("/api/admin/blogs", { headers }),
+  api.get("/api/admin/users", { headers })
+]);
       setStats(statsRes.data);
       setBlogs(blogsRes.data);
       setUsers(usersRes.data);
@@ -82,10 +81,10 @@ const AdminDashboardPage = () => {
       const headers = getAuthHeader();
       
       if (editingBlog) {
-        await axios.put(`${API_URL}/api/admin/blogs/${editingBlog.id}`, blogForm, { headers });
+        await api.put(`${API_URL}/api/admin/blogs/${editingBlog.id}`, blogForm, { headers });
         toast({ title: "Blog updated successfully" });
       } else {
-        await axios.post(`${API_URL}/api/admin/blogs`, blogForm, { headers });
+        await api.post(`${API_URL}/api/admin/blogs`, blogForm, { headers });
         toast({ title: "Blog created successfully" });
       }
 
@@ -114,7 +113,7 @@ const AdminDashboardPage = () => {
     if (!window.confirm('Are you sure you want to delete this blog?')) return;
     
     try {
-      await axios.delete(`${API_URL}/api/admin/blogs/${blogId}`, { headers: getAuthHeader() });
+      await api.delete(`${API_URL}/api/admin/blogs/${blogId}`, { headers: getAuthHeader() });
       toast({ title: "Blog deleted" });
       fetchData();
     } catch (error) {

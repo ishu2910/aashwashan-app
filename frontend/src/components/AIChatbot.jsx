@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, Minimize2, Maximize2, RefreshCw } from 'lucide-react';
-import axios from 'axios';
+import api from "../api";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const API = "/api";
 
 // Saathi icon - Chat bubble with soft curve design
 const SaathiIcon = ({ className = "w-6 h-6" }) => (
@@ -55,7 +54,7 @@ const AIChatbot = () => {
   useEffect(() => {
     const initSession = async () => {
       try {
-        const res = await axios.post(`${API}/chatbot/new-session`);
+        const res = await api.post(`${API}/chatbot/new-session`);
         setSessionId(res.data.session_id);
       } catch (err) {
         console.error('Failed to create session:', err);
@@ -91,7 +90,7 @@ const AIChatbot = () => {
     setMessageCount(prev => prev + 1);
 
     try {
-      const response = await axios.post(`${API}/chatbot/chat`, {
+      const response = await api.post(`${API}/chatbot/chat`, {
         message: messageText,
         session_id: sessionId,
         message_count: messageCount + 1

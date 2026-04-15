@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle, X, User, Mail, Phone, Calendar, Clock, CreditCard, BookOpen, Users, Video, FileText, Play, Pause } from 'lucide-react';
 import { services, team } from '../data/mockData';
-import axios from 'axios';
+import api from "../api";
 import { toast } from '../hooks/use-toast';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -172,7 +172,7 @@ const ResourcesPage = () => {
     };
     
     try {
-      await axios.post(`${API}/appointments`, appointmentData);
+      await api.post(`${API}/appointments`, appointmentData);
       closeBookingModal();
       setIsPaymentModalOpen(true);
     } catch (error) {

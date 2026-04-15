@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, Clock, User, Phone, Mail } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import { services } from '../data/mockData';
-import axios from 'axios';
+import api from "../api";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -31,7 +31,7 @@ const AppointmentPage = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await axios.post(`${API}/appointments`, formData);
+      const response = await api.post(`${API}/appointments`, formData);
       
       toast({
         title: "Appointment Requested!",

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { team } from '../data/mockData';
 import { Mail, Phone, X, User, Calendar, Clock, CheckCircle, CreditCard, Video, Copy, ExternalLink, Lock } from 'lucide-react';
-import axios from 'axios';
+import api from "../api";
 import { toast } from '../hooks/use-toast';
 import { useAuth } from '../context/AuthContext';
 
@@ -109,7 +109,7 @@ const TeamPage = () => {
     
     try {
       // Send appointment request via email to care@aashwashan.com
-     await axios.post(`http://127.0.0.1:8000/api/book-session`, {
+     await api.post("/api/book-session", {
         ...appointmentData,
         therapist_name: selectedTherapist?.name || 'Any Available'
       });

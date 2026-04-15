@@ -1287,7 +1287,7 @@ async def _chat_openai_fallback(session_id: str, message: str, api_key: str) -> 
 async def chat_with_bot(request: ChatRequest):
     """Chat with the AI wellness companion"""
     try:
-        api_key = os.getenv.get('EMERGENT_LLM_KEY')
+        api_key = os.getenv('EMERGENT_LLM_KEY')
         if not api_key:
             raise HTTPException(status_code=500, detail="Chatbot not configured - EMERGENT_LLM_KEY missing")
         
@@ -1517,7 +1517,7 @@ async def generate_ai_wellness_message(time_of_day: str, user_name: str = "frien
     
     # Try to use AI for personalized message
     try:
-        emergent_key = os.getenv.get('OPENAI_API_KEY')
+        emergent_key = os.getenv('OPENAI_API_KEY')
         if emergent_key:
             prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}. 
             Target audience: Young adults (18-30) who are silent overthinkers.

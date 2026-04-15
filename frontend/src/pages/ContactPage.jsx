@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Mail, Phone, Clock, Send } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
-import axios from 'axios';
+import api from "../api";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -29,7 +29,7 @@ const ContactPage = () => {
     setIsSubmitting(true);
     
     try {
-      await axios.post(`${API}/contact`, formData);
+      await api.post(`${API}/contact`, formData);
       
       toast({
         title: "Message Sent!",

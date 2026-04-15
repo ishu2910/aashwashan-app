@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from "../api";
 import { 
   Calendar, Clock, Plus, Trash2, LogOut, User, 
   CheckCircle, XCircle, ChevronLeft, ChevronRight,
@@ -56,7 +56,7 @@ const TherapistDashboardPage = () => {
       
       // Fetch profile
       try {
-        const profileRes = await axios.get(`${API_URL}/api/therapist/profile`, { headers });
+        const profileRes = await api.get(`${API_URL}/api/therapist/profile`, { headers });
         setProfile(profileRes.data);
         setProfileForm({
           specialization: profileRes.data.specialization || '',
@@ -72,7 +72,7 @@ const TherapistDashboardPage = () => {
       
       // Fetch availability
       try {
-        const slotsRes = await axios.get(`${API_URL}/api/therapist/availability`, { headers });
+        const slotsRes = await api.get(`${API_URL}/api/therapist/availability`, { headers });
         setSlots(slotsRes.data);
       } catch (err) {
         console.log('No slots yet');
@@ -93,7 +93,7 @@ const TherapistDashboardPage = () => {
     e.preventDefault();
     try {
       const headers = getAuthHeader();
-      await axios.post(`${API_URL}/api/therapist/availability`, newSlot, { headers });
+      await api.post(`${API_URL}/api/therapist/availability`, newSlot, { headers });
       toast({ title: "Availability slot added!" });
       setShowAddSlot(false);
       setNewSlot({ date: '', start_time: '09:00', end_time: '10:00' });
@@ -112,7 +112,7 @@ const TherapistDashboardPage = () => {
     
     try {
       const headers = getAuthHeader();
-      await axios.delete(`${API_URL}/api/therapist/availability/${slotId}`, { headers });
+      await api.delete(`${API_URL}/api/therapist/availability/${slotId}`, { headers });
       toast({ title: "Slot deleted" });
       fetchData();
     } catch (error) {
@@ -128,7 +128,7 @@ const TherapistDashboardPage = () => {
     e.preventDefault();
     try {
       const headers = getAuthHeader();
-      await axios.put(`${API_URL}/api/therapist/profile`, profileForm, { headers });
+      await api.put(`${API_URL}/api/therapist/profile`, profileForm, { headers });
       toast({ title: "Profile updated!" });
       fetchData();
     } catch (error) {
