@@ -1287,9 +1287,9 @@ async def _chat_openai_fallback(session_id: str, message: str, api_key: str) -> 
 async def chat_with_bot(request: ChatRequest):
     """Chat with the AI wellness companion"""
     try:
-        api_key = os.getenv('EMERGENT_LLM_KEY')
+        api_key = os.getenv('OPENAI_API_KEY')
         if not api_key:
-            raise HTTPException(status_code=500, detail="Chatbot not configured - EMERGENT_LLM_KEY missing")
+            raise HTTPException(status_code=500, detail="Chatbot not configured - OPENAI_API_KEY missing")
         
         if _USE_EMERGENT:
             # Primary: Use emergentintegrations (Emergent platform)
