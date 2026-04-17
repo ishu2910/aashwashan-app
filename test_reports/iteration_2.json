@@ -17,7 +17,7 @@
     },
     "homepage": {
       "status": "PASS",
-      "details": "Header shows 'Aashwashan' with 'MENTAL HEALTH FOR ALL' tagline, all sections loading correctly"
+      "details": "Header shows 'Aashwashan' with 'A Safe Place To Start' tagline, all sections loading correctly"
     },
     "services_page": {
       "status": "PASS",

@@ -578,7 +578,8 @@ import requests
 import os
 
 def send_email(name, email, phone, message):
-
+    
+    print("BREVO KEY:", os.getenv("BREVO_API_KEY"))
     url = "https://api.brevo.com/v3/smtp/email"
 
     headers = {

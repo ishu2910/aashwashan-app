@@ -26,7 +26,15 @@ const Navbar = () => {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      window.location.href = '/#self-help-tools';
+      // Navigate to homepage first, then scroll after render
+      navigate('/');
+      // Use a timeout to wait for React to render the homepage
+      setTimeout(() => {
+        const element = document.getElementById('self-help-tools');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 500);
     }
   };
 
@@ -35,14 +43,14 @@ const Navbar = () => {
       {/* Top Banner - Orange Theme */}
       <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white py-2.5">
         <div className="container mx-auto px-4">
-          <Link 
-            to="/eos"
+          <button
+            onClick={scrollToSelfHelp}
             className="w-full flex items-center justify-center space-x-2 text-sm font-medium hover:opacity-90 transition-opacity"
           >
             <Sparkles className="w-4 h-4" />
             <span>Hey! Wanna try our <strong>FREE Self-Help Tools</strong>?</span>
             <span className="underline font-semibold ml-1">Try Now →</span>
-          </Link>
+          </button>
         </div>
       </div>
 

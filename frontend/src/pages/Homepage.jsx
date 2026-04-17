@@ -162,7 +162,7 @@ const Homepage = () => {
     
     try {
       // Send appointment request via email to care@aashwashan.com
-      await api.post(`${API}/appointments/request`, appointmentData);
+      await api.post("/api/appointments/request", appointmentData);
       
       closeModal();
       setBookingComplete(true);

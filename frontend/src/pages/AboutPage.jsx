@@ -10,7 +10,7 @@ const AboutPage = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-teal-100 font-medium uppercase tracking-widest text-sm mb-4">ABOUT AASHWASHAN</p>
-            <h1 className="text-4xl lg:text-5xl font-semibold mb-6">Mental Health for All</h1>
+            <h1 className="text-4xl lg:text-5xl font-semibold mb-6">A Safe Place To Start</h1>
             <p className="text-lg text-white/90">
               We pledge to provide high-quality mental health treatment for those who want it, at their comfort zone.
             </p>
