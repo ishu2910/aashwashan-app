@@ -35,7 +35,7 @@ const Error404 = () => {
         </div>
 
         <p className="text-gray-600">
-          Need immediate assistance? <a href="tel:5551234567" className="text-blue-600 font-semibold hover:underline">Call us at (555) 123-4567</a>
+          Need immediate assistance? <a href="tel:5551234567" className="text-blue-600 font-semibold hover:underline">Call us at 8950772282</a>
         </p>
       </div>
     </div>

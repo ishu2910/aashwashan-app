@@ -4,8 +4,8 @@ import { toast } from '../hooks/use-toast';
 import { services } from '../data/mockData';
 import api from "../api";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+
+const API = "https://aashwashan-app-1.onrender.com/api";
 
 const AppointmentPage = () => {
   const [formData, setFormData] = useState({

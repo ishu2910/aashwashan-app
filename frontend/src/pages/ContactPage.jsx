@@ -3,8 +3,8 @@ import { MapPin, Mail, Phone, Clock, Send } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import api from "../api";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+
+const API = "https://aashwashan-app-1.onrender.com/api";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({

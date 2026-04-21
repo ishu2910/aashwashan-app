@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = "https://aashwashan-app-1.onrender.com/api";
 
 const TherapistDashboardPage = () => {
   const { user, logout, getAuthHeader, isTherapist, loading: authLoading } = useAuth();
@@ -56,7 +56,7 @@ const TherapistDashboardPage = () => {
       
       // Fetch profile
       try {
-        const profileRes = await api.get(`${API_URL}/api/therapist/profile`, { headers });
+        const profileRes = await api.get("/api/therapist/profile`, { headers }");
         setProfile(profileRes.data);
         setProfileForm({
           specialization: profileRes.data.specialization || '',
@@ -72,7 +72,7 @@ const TherapistDashboardPage = () => {
       
       // Fetch availability
       try {
-        const slotsRes = await api.get(`${API_URL}/api/therapist/availability`, { headers });
+        const slotsRes = await api.get("/api/therapist/availability`, { headers }");
         setSlots(slotsRes.data);
       } catch (err) {
         console.log('No slots yet');
@@ -93,7 +93,7 @@ const TherapistDashboardPage = () => {
     e.preventDefault();
     try {
       const headers = getAuthHeader();
-      await api.post(`${API_URL}/api/therapist/availability`, newSlot, { headers });
+      await api.post("/api/therapist/availability`, newSlot, { headers }");
       toast({ title: "Availability slot added!" });
       setShowAddSlot(false);
       setNewSlot({ date: '', start_time: '09:00', end_time: '10:00' });
@@ -112,7 +112,7 @@ const TherapistDashboardPage = () => {
     
     try {
       const headers = getAuthHeader();
-      await api.delete(`${API_URL}/api/therapist/availability/${slotId}`, { headers });
+      await api.delete("/api/therapist/availability/${slotId}`, { headers }");
       toast({ title: "Slot deleted" });
       fetchData();
     } catch (error) {
@@ -128,7 +128,7 @@ const TherapistDashboardPage = () => {
     e.preventDefault();
     try {
       const headers = getAuthHeader();
-      await api.put(`${API_URL}/api/therapist/profile`, profileForm, { headers });
+      await api.put("/api/therapist/profile`, profileForm, { headers }");
       toast({ title: "Profile updated!" });
       fetchData();
     } catch (error) {

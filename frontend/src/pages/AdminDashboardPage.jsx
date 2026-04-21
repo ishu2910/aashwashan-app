@@ -9,8 +9,6 @@ import {
 } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
-
 const AdminDashboardPage = () => {
   const { user, logout, getAuthHeader, isAdmin, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -51,9 +49,9 @@ const AdminDashboardPage = () => {
       const headers = getAuthHeader();
       
       const [statsRes, blogsRes, usersRes] = await Promise.all([
-  api.get("/api/admin/stats", { headers }),
-  api.get("/api/admin/blogs", { headers }),
-  api.get("/api/admin/users", { headers })
+  api.get("/admin/stats", { headers }),
+  api.get("/admin/blogs", { headers }),
+  api.get("/admin/users", { headers })
 ]);
       setStats(statsRes.data);
       setBlogs(blogsRes.data);
@@ -81,10 +79,10 @@ const AdminDashboardPage = () => {
       const headers = getAuthHeader();
       
       if (editingBlog) {
-        await api.put(`${API_URL}/api/admin/blogs/${editingBlog.id}`, blogForm, { headers });
+        await api.put(`/admin/blogs/${editingBlog.id}`, blogForm, { headers });
         toast({ title: "Blog updated successfully" });
       } else {
-        await api.post(`${API_URL}/api/admin/blogs`, blogForm, { headers });
+       await api.post("/admin/blogs", blogForm, { headers });
         toast({ title: "Blog created successfully" });
       }
 
@@ -113,7 +111,7 @@ const AdminDashboardPage = () => {
     if (!window.confirm('Are you sure you want to delete this blog?')) return;
     
     try {
-      await api.delete(`${API_URL}/api/admin/blogs/${blogId}`, { headers: getAuthHeader() });
+      await api.delete(`/admin/blogs/${blogId}`, { headers: getAuthHeader() });
       toast({ title: "Blog deleted" });
       fetchData();
     } catch (error) {

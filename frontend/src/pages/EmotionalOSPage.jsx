@@ -6,8 +6,8 @@ import {
   Star, Zap, Compass, Eye, Users, Calendar
 } from 'lucide-react';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+
+const API = "https://aashwashan-app-1.onrender.com/api";
 
 // EOS Module Data
 const EOS_MODULES = {

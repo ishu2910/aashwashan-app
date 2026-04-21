@@ -14,7 +14,7 @@ const Footer = () => {
               <h2 className="text-2xl font-bold text-white mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Aashwashan
               </h2>
-              <span className="text-sm text-teal-400">A Safe Place To Start</span>
+              <span className="text-sm text-teal-400">Mental Health for All</span>
             </div>
             <p className="text-gray-400 mb-6 font-light leading-relaxed">
               Your journey to mental wellness starts here. We provide compassionate care and professional support for adults seeking mental health treatment.

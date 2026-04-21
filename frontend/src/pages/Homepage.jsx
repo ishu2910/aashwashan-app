@@ -2,12 +2,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles, TrendingUp, Compass, Lock } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
-import api from "../api";
+import axios from 'axios';
 import { toast } from '../hooks/use-toast';
 import { useAuth } from '../context/AuthContext';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+
+const API = "https://aashwashan-app-1.onrender.com/api";
 
 // Get session pricing based on therapist
 const getSessionPricing = (therapist) => {
@@ -162,7 +162,7 @@ const Homepage = () => {
     
     try {
       // Send appointment request via email to care@aashwashan.com
-      await api.post("/api/appointments/request", appointmentData);
+      await axios.post(`${API}/appointments/request`, appointmentData);
       
       closeModal();
       setBookingComplete(true);
@@ -392,7 +392,7 @@ const Homepage = () => {
   return (
     <div className="overflow-hidden">
       {/* HERO SECTION: How are you Feeling Today? - With Rotating Background Images */}
-      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[70vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden">
         {/* Rotating Background Images */}
         <div className="absolute inset-0">
           {HERO_IMAGES.map((img, index) => (
@@ -413,9 +413,9 @@ const Homepage = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-teal-900/50 via-transparent to-transparent"></div>
         </div>
 
-        {/* Animated floating elements for visual interest */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-teal-400/20 rounded-full blur-3xl animate-pulse-soft"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl animate-pulse-soft delay-500"></div>
+        {/* Animated floating elements — hidden on mobile for performance */}
+        <div className="hidden sm:block absolute top-20 left-10 w-64 h-64 bg-teal-400/20 rounded-full blur-3xl animate-pulse-soft"></div>
+        <div className="hidden sm:block absolute bottom-20 right-10 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl animate-pulse-soft delay-500"></div>
 
         {/* Content */}
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto animate-fade-in-up">
@@ -424,21 +424,21 @@ const Homepage = () => {
           </p>
           
           <h1 
-            className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-8 leading-tight animate-fade-in delay-200"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 sm:mb-8 leading-tight animate-fade-in delay-200"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             How are you feeling<br />
             <span className="italic font-normal text-teal-200">today?</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in delay-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in delay-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
             You don't have to face this alone. Our compassionate therapists are here to listen, understand, and guide you towards a healthier mind.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
             <Link
               to="/team"
-              className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-4 rounded-full transition-all duration-300 font-medium text-lg shadow-lg hover:shadow-2xl hover:scale-105 min-w-[280px] flex items-center justify-center gap-2"
+              className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-2xl hover:scale-105 w-full sm:w-auto sm:min-w-[280px] flex items-center justify-center gap-2"
               data-testid="book-session-hero-btn"
             >
               <span>Just talk. No pressure.</span>
@@ -451,7 +451,7 @@ const Homepage = () => {
                 setHelpMeAnswers({ concern: '', duration: '', preference: '' });
                 setRecommendedTherapist(null);
               }}
-              className="bg-white/15 backdrop-blur-md text-white px-10 py-4 rounded-full hover:bg-white/25 transition-all duration-300 font-medium text-lg border border-white/30 min-w-[280px] hover:scale-105"
+              className="bg-white/15 backdrop-blur-md text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-white/25 transition-all duration-300 font-medium text-base sm:text-lg border border-white/30 w-full sm:w-auto sm:min-w-[280px] hover:scale-105"
               data-testid="help-me-find-btn-hero"
             >
               Help Me Feel Better
@@ -483,9 +483,9 @@ const Homepage = () => {
       </section>
 
       {/* SECTION 2: How Life Feels Better After Therapy */}
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">The Benefits</p>
             <h2 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               How Life Feels Better After Therapy
@@ -577,173 +577,68 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION 4: Meet Our Experts */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
+      {/* SECTION: Meet Our Therapists */}
+      <section className="py-16 sm:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Our Team</p>
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Meet Our Expert Therapists
-            </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Our team of licensed professionals brings years of experience and compassionate care to help you achieve mental wellness.
-            </p>
-          </div>
-
-          {/* Help Me Find Popup Trigger */}
-          <div className="text-center mb-12">
-            <button
-              onClick={() => {
-                setIsHelpMeModalOpen(true);
-                setHelpMeStep(1);
-                setHelpMeAnswers({ concern: '', duration: '', preference: '' });
-                setRecommendedTherapist(null);
-              }}
-              className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-lg hover:shadow-lg transition-all duration-300 font-medium inline-flex items-center space-x-2"
-              data-testid="help-me-find-btn"
-            >
-              <HelpCircle className="w-5 h-5" />
-              <span>Not sure who to book? Let us help you find the right match</span>
-            </button>
-          </div>
-
-          {/* Animated Skills Marquee - Like Amaha */}
-          <div className="mb-12 overflow-hidden">
-            <div className="flex animate-marquee">
-              {['Empathy', 'Grief', 'Active Listening', 'Stress Management', 'Career Problems', 'Relationship Issues', 'Self-Esteem', 'Anxiety', 'Depression', 'Trauma Recovery', 'Emotional Support', 'Mindfulness', 'CBT', 'Couples Therapy', 'Family Counseling', 'Work-Life Balance', 'Empathy', 'Grief', 'Active Listening', 'Stress Management', 'Career Problems', 'Relationship Issues', 'Self-Esteem', 'Anxiety', 'Depression', 'Trauma Recovery', 'Emotional Support', 'Mindfulness'].map((skill, idx) => {
-                const colors = [
-                  'bg-rose-100 text-rose-700 border-rose-200',
-                  'bg-amber-100 text-amber-700 border-amber-200',
-                  'bg-violet-100 text-violet-700 border-violet-200',
-                  'bg-cyan-100 text-cyan-700 border-cyan-200',
-                  'bg-emerald-100 text-emerald-700 border-emerald-200',
-                  'bg-pink-100 text-pink-700 border-pink-200',
-                  'bg-blue-100 text-blue-700 border-blue-200',
-                ];
-                return (
-                  <span 
-                    key={idx} 
-                    className={`${colors[idx % colors.length]} text-sm px-6 py-3 rounded-full font-semibold border mx-2 whitespace-nowrap`}
-                  >
-                    {skill}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {team.map((member, memberIdx) => {
-              // Skill colors for visual appeal
-              const skillColors = [
-                'bg-rose-100 text-rose-700 border-rose-200',
-                'bg-amber-100 text-amber-700 border-amber-200',
-                'bg-violet-100 text-violet-700 border-violet-200',
-                'bg-cyan-100 text-cyan-700 border-cyan-200',
-                'bg-emerald-100 text-emerald-700 border-emerald-200',
-              ];
-              
-              return (
-                <div key={member.id} className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                  {/* Image Section */}
-                  <div className="relative h-72 overflow-hidden">
-                    <img 
-                      src={member.image} 
-                      alt={member.name} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/30 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <p className="text-white font-bold text-2xl" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</p>
-                      <p className="text-teal-300 font-medium">{member.role}</p>
-                    </div>
-                    {/* Experience Badge */}
-                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-                      <span className="text-teal-700 font-bold text-sm">{member.experience}</span>
-                    </div>
-                  </div>
-                  
-                  {/* Content Section */}
-                  <div className="p-6">
-                    {/* Colorful Skills */}
-                    <div className="flex flex-wrap gap-2 mb-5">
-                      {member.skills && member.skills.map((skill, idx) => (
-                        <span 
-                          key={idx} 
-                          className={`${skillColors[idx % skillColors.length]} text-xs px-4 py-2 rounded-full font-semibold border`}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                    
-                    {/* Bio */}
-                    <p className="text-gray-600 text-sm mb-5 line-clamp-2">{member.bio}</p>
-                    
-                    {/* Credentials */}
-                    {member.credentials && (
-                      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl px-4 py-3 mb-5">
-                        <p className="text-amber-700 text-sm font-semibold flex items-center gap-2">
-                          <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-                          {member.credentials}
-                        </p>
-                      </div>
-                    )}
-                    
-                    {/* Pricing Section - Dynamic */}
-                    <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-5 mb-5 border border-teal-100">
-                      <p className="text-xs text-teal-600 font-semibold uppercase tracking-wider mb-3">Session Investment</p>
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-600 font-medium">45 minutes</span>
-                          <span className="text-2xl font-bold text-teal-600">₹{member.price45 || '999'}</span>
-                        </div>
-                        {member.price60 && (
-                          <div className="flex justify-between items-center pt-2 border-t border-teal-200">
-                            <span className="text-gray-600 font-medium">60 minutes</span>
-                            <span className="text-2xl font-bold text-teal-600">₹{member.price60}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Book Button */}
-                    <button
-                      onClick={() => openBookingModal(member)}
-                      className="w-full bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-600 text-white py-4 rounded-xl hover:shadow-xl transition-all duration-300 font-semibold text-lg group-hover:from-teal-600 group-hover:to-cyan-600"
-                      data-testid={`book-session-${member.id}`}
-                    >
-                      Book Session
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Message Your Therapist - Shows after booking */}
-          {bookingComplete && bookedTherapist && (
-            <div className="mt-10 text-center">
-              <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-6 max-w-md mx-auto">
-                <MessageCircle className="w-10 h-10 text-green-600 mx-auto mb-3" />
-                <h4 className="text-lg font-bold text-green-800 mb-2">Session Booked with {bookedTherapist.name}!</h4>
-                <p className="text-green-700 text-sm mb-4">You can now message your therapist. They will respond when available.</p>
-                <button
-                  onClick={() => setIsMessageModalOpen(true)}
-                  className="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition-colors font-medium"
-                  data-testid="message-therapist-btn"
-                >
-                  Message {bookedTherapist.name}
-                </button>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Talk to someone who gets it.
+              </h2>
+              <p className="text-gray-500 text-base sm:text-lg max-w-xl mx-auto">
+                Book your first session — it's on us. Online, private, and at your pace.
+              </p>
+              <div className="mt-4 inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-semibold border border-green-200">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                1st Session Free — Book Now
               </div>
             </div>
-          )}
 
+            {/* Therapist Cards */}
+            <div className="space-y-3 sm:space-y-4 mb-8">
+              {team.map((member) => (
+                <Link 
+                  to="/team"
+                  key={member.id} 
+                  className="flex items-center gap-4 sm:gap-5 bg-white border border-gray-200 rounded-xl sm:rounded-2xl p-4 sm:p-5 hover:shadow-lg hover:border-teal-200 transition-all duration-300 group"
+                  data-testid={`homepage-therapist-${member.id}`}
+                >
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 border border-gray-100">
+                    <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{member.name}</h4>
+                    <p className="text-xs sm:text-sm text-gray-500 mb-1.5">{member.role} &bull; {member.experience}</p>
+                    <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                      {member.skills?.slice(0, 3).map((skill, idx) => (
+                        <span key={idx} className="text-[10px] sm:text-xs bg-gray-100 text-gray-600 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1 shrink-0">
+                    <span className="text-xs sm:text-sm font-bold text-teal-600">From ₹{member.price45 || '999'}</span>
+                    <span className="text-[10px] sm:text-xs text-gray-400 line-through">1st session free</span>
+                    <span className="text-teal-600 text-xs sm:text-sm font-medium group-hover:underline hidden sm:block">View Profile →</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <Link 
+                to="/team"
+                className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm sm:text-base"
+                data-testid="view-all-therapists-btn"
+              >
+                Book Your Free Session
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* SECTION: We Are Human Just Like You - REDESIGNED with White Background */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-12 sm:py-24 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-6">Our Philosophy</p>
@@ -755,8 +650,8 @@ const Homepage = () => {
             </p>
             
             {/* Quote Card */}
-            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-10 border border-teal-100 shadow-lg">
-              <p className="text-xl text-gray-700 leading-relaxed" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}>
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-teal-100 shadow-lg">
+              <p className="text-base sm:text-xl text-gray-700 leading-relaxed" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}>
                 "Every person who walks through our doors is treated with the <span className="text-teal-600">dignity</span>, <span className="text-cyan-600">respect</span>, and <span className="text-orange-500">warmth</span> they deserve. We believe in the power of human connection to heal."
               </p>
               <p className="mt-6 text-teal-600 font-semibold">— The Aashwashan Team</p>
@@ -772,184 +667,10 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* SECTION: Why You Can't Ignore Mental Health Symptoms */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              {/* Left side - Main message */}
-              <div>
-                <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Important</p>
-                <h2 className="text-3xl lg:text-4xl font-semibold mb-6 text-gray-800 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  Why You Can't Ignore Mental Health Symptoms Anymore
-                </h2>
-                <p className="text-gray-600 text-lg mb-8 leading-relaxed" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                  Start by noticing, not judging, your emotions. Anxiety, irritability, sadness and even anger are natural human emotions. What matters is how we relate to them.
-                </p>
-                <Link 
-                  to="/team"
-                  className="group inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all duration-300 font-medium hover:scale-105"
-                  data-testid="choose-therapist-btn"
-                >
-                  <Heart className="w-5 h-5 mr-2" />
-                  Therapy Can Help — Choose a Therapist
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-              
-              {/* Right side - Structured points */}
-              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 border border-teal-100">
-                <h3 className="text-xl font-semibold mb-6 text-teal-800">Signs You Shouldn't Ignore:</h3>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">1</div>
-                    <p className="text-gray-700">Persistent feelings of sadness or hopelessness</p>
-                  </div>
-                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">2</div>
-                    <p className="text-gray-700">Excessive worry or anxiety that won't go away</p>
-                  </div>
-                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">3</div>
-                    <p className="text-gray-700">Difficulty sleeping or changes in appetite</p>
-                  </div>
-                  <div className="flex items-start space-x-4 p-4 bg-white rounded-xl shadow-sm">
-                    <div className="w-10 h-10 bg-teal-500 text-white rounded-full flex items-center justify-center flex-shrink-0 font-semibold">4</div>
-                    <p className="text-gray-700">Withdrawing from friends and activities you enjoy</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION: How We Support You - REDESIGNED WITH POSITIVE WORDS */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <p className="text-orange-500 font-semibold uppercase tracking-[0.2em] text-sm mb-4">How We Help</p>
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Find the <span className="text-orange-500">Right Support</span> for You
-            </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              We focus on <span className="text-teal-600 font-medium">building you up</span>, not fixing what's broken. Because you're not broken — you're growing.
-            </p>
-          </div>
-
-          {/* Main Categories - POSITIVE FRAMING */}
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {/* Building Confidence */}
-              <div className="group bg-white rounded-3xl p-8 shadow-lg border border-teal-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Sparkles className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-800">Building <span className="text-orange-500">Confidence</span></h4>
-                    <p className="text-gray-500 text-sm">Discover your inner strength</p>
-                  </div>
-                </div>
-                <ul className="space-y-3">
-                  {['Developing unshakeable self-belief', 'Finding your authentic voice', 'Embracing your unique qualities', 'Building resilience for life\'s challenges', 'Creating healthy self-worth'].map((item, i) => (
-                    <li key={i} className="flex items-start space-x-3 group/item">
-                      <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 group-hover/item:text-gray-900 transition-colors">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to="/team"
-                  className="mt-6 w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02] block text-center"
-                >
-                  Start Building Confidence
-                </Link>
-              </div>
-
-              {/* Finding Peace */}
-              <div className="group bg-white rounded-3xl p-8 shadow-lg border border-teal-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Heart className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-800">Finding <span className="text-teal-600">Inner Peace</span></h4>
-                    <p className="text-gray-500 text-sm">Calm your mind, free your spirit</p>
-                  </div>
-                </div>
-                <ul className="space-y-3">
-                  {['Achieving mental clarity', 'Managing stress with grace', 'Sleeping peacefully again', 'Feeling lighter every day', 'Living in the present moment'].map((item, i) => (
-                    <li key={i} className="flex items-start space-x-3 group/item">
-                      <CheckCircle className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 group-hover/item:text-gray-900 transition-colors">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to="/team"
-                  className="mt-6 w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all group-hover:scale-[1.02] block text-center"
-                >
-                  Find Your Peace
-                </Link>
-              </div>
-            </div>
-
-            {/* Additional Support Areas - POSITIVE */}
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Relationship Growth */}
-              <div className="group bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <h5 className="font-bold text-gray-800 mb-2">Stronger <span className="text-rose-500">Relationships</span></h5>
-                <p className="text-gray-600 text-sm mb-4">Build deeper connections with loved ones and communicate with confidence.</p>
-                <Link
-                  to="/team"
-                  className="text-rose-500 font-semibold text-sm hover:text-rose-600 transition-colors flex items-center gap-1"
-                >
-                  Learn More <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-              {/* Career Growth */}
-              <div className="group bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <TrendingUp className="w-6 h-6 text-white" />
-                </div>
-                <h5 className="font-bold text-gray-800 mb-2">Career <span className="text-violet-500">Success</span></h5>
-                <p className="text-gray-600 text-sm mb-4">Overcome workplace stress and unlock your professional potential.</p>
-                <Link
-                  to="/team"
-                  className="text-violet-500 font-semibold text-sm hover:text-violet-600 transition-colors flex items-center gap-1"
-                >
-                  Learn More <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-              {/* Life Purpose */}
-              <div className="group bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Compass className="w-6 h-6 text-white" />
-                </div>
-                <h5 className="font-bold text-gray-800 mb-2">Life <span className="text-amber-500">Purpose</span></h5>
-                <p className="text-gray-600 text-sm mb-4">Discover what truly matters and create a meaningful life path.</p>
-                <Link
-                  to="/team"
-                  className="text-amber-500 font-semibold text-sm hover:text-amber-600 transition-colors flex items-center gap-1"
-                >
-                  Learn More <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* SECTION: How It Works - Professional Timeline */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
+      <section className="py-16 sm:py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Your Healing Journey</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               How It Works
@@ -1008,9 +729,9 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: Why Aashwashan - Emotionally Connected */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-12 sm:py-24 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Our Promise to You</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               Why <span className="text-teal-600">Aashwashan</span>?
@@ -1088,9 +809,9 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: Self-Help Tools */}
-      <section id="self-help-tools" className="py-24 bg-white">
+      <section id="self-help-tools" className="py-12 sm:py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Self Care</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               Take Care of Yourself
@@ -1180,9 +901,9 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: What Our Clients Say */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
+      <section className="py-12 sm:py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Testimonials</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               What Our Clients Say
@@ -1221,9 +942,9 @@ const Homepage = () => {
       </section>
 
       {/* SECTION: FAQ */}
-      <section className="py-24 bg-white">
+      <section className="py-12 sm:py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 sm:mb-16">
             <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">FAQs</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
               Frequently Asked Questions
