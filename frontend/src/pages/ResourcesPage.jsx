@@ -264,61 +264,7 @@ const ResourcesPage = () => {
         </div>
       </section>
 
-      {/* Session Pricing - TEAL THEME (No Coupon) */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-teal-50/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800">Book a Session</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Choose the session duration that works best for you
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {sessionPricing.map((session, index) => (
-              <div 
-                key={index}
-                className={`bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 border ${index === 1 ? 'border-teal-500 ring-2 ring-teal-200 transform scale-105' : 'border-gray-100'}`}
-              >
-                {index === 1 && (
-                  <div className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">
-                    MOST POPULAR
-                  </div>
-                )}
-                <h4 className="text-2xl font-semibold mb-2 text-gray-800">{session.duration}</h4>
-                <div className="mb-4">
-                  <span className="text-4xl font-bold text-teal-600">₹{session.price}</span>
-                </div>
-                <ul className="text-gray-600 text-sm space-y-2 mb-6">
-                  <li className="flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-teal-500 mr-2" />
-                    One-on-one video session
-                  </li>
-                  <li className="flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-teal-500 mr-2" />
-                    Session recording available
-                  </li>
-                  <li className="flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-teal-500 mr-2" />
-                    Post-session notes
-                  </li>
-                  <li className="flex items-center justify-center">
-                    <CheckCircle className="w-4 h-4 text-teal-500 mr-2" />
-                    100% Confidential
-                  </li>
-                </ul>
-                <button
-                  onClick={() => openBookingModal(session)}
-                  className={`w-full py-3 rounded-lg font-medium transition-all ${index === 1 ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:shadow-lg' : 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white hover:shadow-lg'}`}
-                >
-                  Book Now
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* What We Help With - TEAL THEME */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
