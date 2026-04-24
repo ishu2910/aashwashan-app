@@ -1,17 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight, Search } from 'lucide-react';
+import axios from 'axios';
 import { mentalHealthArticles, newsCategories } from '../data/blogArticles';
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+// Helper to format ISO date → "Apr 10, 2026"
+const formatDate = (iso) => {
+  if (!iso) return '';
+  try {
+    return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch {
+    return iso;
+  }
+};
 
 const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All Updates");
   const [searchQuery, setSearchQuery] = useState("");
   const [visibleArticles, setVisibleArticles] = useState(12);
+  const [dbArticles, setDbArticles] = useState([]);
 
-  const filteredArticles = mentalHealthArticles.filter(article => {
+  // Fetch admin-created blogs from backend; merge with static list.
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/blogs?limit=100`);
+        const mapped = (res.data || []).map((b) => ({
+          id: b.slug,           // use slug as stable id for DB articles
+          dbId: b.id,
+          slug: b.slug,
+          title: b.title,
+          excerpt: b.excerpt || '',
+          category: b.category || 'Mental Health',
+          date: formatDate(b.published_at),
+          readTime: '5 min',
+          source: b.author_name || 'Aashwashan',
+          image: b.featured_image || 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=800',
+          isFromDB: true,
+        }));
+        setDbArticles(mapped);
+      } catch (err) {
+        console.error('Failed to fetch blogs from DB:', err);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
+  // Merge DB articles at the top, then static ones.
+  const allArticles = [...dbArticles, ...mentalHealthArticles];
+
+  const filteredArticles = allArticles.filter(article => {
     const matchesCategory = selectedCategory === "All Updates" || article.category === selectedCategory;
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+                         (article.excerpt || '').toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -64,7 +107,7 @@ const BlogPage = () => {
                 }`}
                 data-testid={`blog-category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
               >
-                {category.name} ({category.count})
+                {category.name}
               </button>
             ))}
           </div>
@@ -77,8 +120,8 @@ const BlogPage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredArticles.slice(0, visibleArticles).map((article, index) => (
               <Link 
-                to={`/blog/${article.id}`}
-                key={article.id}
+                to={`/blog/${article.isFromDB ? article.slug : article.id}`}
+                key={`${article.isFromDB ? 'db-' : ''}${article.id}`}
                 className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 animate-fade-in-up group block"
                 style={{ animationDelay: `${(index % 12) * 0.1}s` }}
                 data-testid={`blog-article-${article.id}`}
@@ -94,6 +137,13 @@ const BlogPage = () => {
                       {article.category}
                     </span>
                   </div>
+                  {article.isFromDB && (
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-amber-400 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        NEW
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
@@ -111,7 +161,7 @@ const BlogPage = () => {
                     {article.excerpt}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-400">Source: {article.source}</span>
+                    <span className="text-xs text-gray-400">By {article.source}</span>
                     <span className="text-teal-600 font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
                       Read More <ArrowRight className="w-4 h-4" />
                     </span>
@@ -150,7 +200,7 @@ const BlogPage = () => {
                 placeholder="Enter your email"
                 className="px-6 py-4 rounded-full text-gray-800 w-full sm:w-80 focus:outline-none focus:ring-4 focus:ring-teal-200"
               />
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-semibold transition-all hover:shadow-xl">
+              <button className="bg-amber-400 hover:bg-amber-500 text-white px-8 py-4 rounded-full font-semibold transition-all hover:shadow-xl">
                 Subscribe
               </button>
             </div>
@@ -167,7 +217,7 @@ const BlogPage = () => {
           </p>
           <Link 
             to="/team"
-            className="inline-block bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105"
+            className="inline-block bg-gradient-to-r from-amber-400 to-orange-400 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             Book a Session
           </Link>

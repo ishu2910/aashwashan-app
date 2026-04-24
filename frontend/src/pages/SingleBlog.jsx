@@ -1,14 +1,80 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowLeft, ExternalLink, Share2 } from 'lucide-react';
+import axios from 'axios';
 import { mentalHealthArticles } from '../data/blogArticles';
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+const formatDate = (iso) => {
+  if (!iso) return '';
+  try {
+    return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch {
+    return iso;
+  }
+};
 
 const SingleBlog = () => {
   const { slug } = useParams();
-  const articleId = parseInt(slug);
-  const article = mentalHealthArticles.find(a => a.id === articleId);
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!article) {
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      setLoading(true);
+      setNotFound(false);
+      // 1) Try DB: treat slug as a real slug string
+      try {
+        const res = await axios.get(`${API_URL}/api/blogs/${slug}`);
+        if (!cancelled) {
+          const b = res.data;
+          setArticle({
+            id: b.slug,
+            title: b.title,
+            excerpt: b.excerpt || '',
+            content: b.content,
+            category: b.category || 'Mental Health',
+            date: formatDate(b.published_at || b.created_at),
+            readTime: '5 min',
+            source: b.author_name || 'Aashwashan',
+            image: b.featured_image || 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=1200',
+            isFromDB: true,
+          });
+          setLoading(false);
+          return;
+        }
+      } catch (err) {
+        // fall through to static fallback
+      }
+
+      // 2) Fall back to static articles by numeric id
+      const numericId = parseInt(slug, 10);
+      const staticArticle = mentalHealthArticles.find((a) => a.id === numericId);
+      if (!cancelled) {
+        if (staticArticle) setArticle(staticArticle);
+        else setNotFound(true);
+        setLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-500">Loading article...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (notFound || !article) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50" data-testid="blog-not-found">
         <div className="text-center">
@@ -26,8 +92,6 @@ const SingleBlog = () => {
   const relatedArticles = mentalHealthArticles
     .filter(a => a.id !== article.id && a.category === article.category)
     .slice(0, 3);
-  
-  // If not enough related in same category, fill from other articles
   const moreRelated = relatedArticles.length < 3 
     ? [...relatedArticles, ...mentalHealthArticles.filter(a => a.id !== article.id && !relatedArticles.includes(a)).slice(0, 3 - relatedArticles.length)]
     : relatedArticles;
@@ -64,7 +128,7 @@ const SingleBlog = () => {
                 <Calendar className="w-4 h-4" /> {article.date}
               </span>
               <span className="flex items-center gap-2 text-teal-600 font-medium">
-                <ExternalLink className="w-4 h-4" /> Source: {article.source}
+                <ExternalLink className="w-4 h-4" /> {article.isFromDB ? 'By' : 'Source'}: {article.source}
               </span>
             </div>
           </div>
@@ -91,22 +155,32 @@ const SingleBlog = () => {
           <div className="max-w-3xl mx-auto">
             <div className="prose prose-lg max-w-none">
               {/* Lead / Excerpt */}
-              <p className="text-xl text-gray-700 leading-relaxed mb-8 font-medium border-l-4 border-teal-500 pl-6">
-                {article.excerpt}
-              </p>
+              {article.excerpt && (
+                <p className="text-xl text-gray-700 leading-relaxed mb-8 font-medium border-l-4 border-teal-500 pl-6">
+                  {article.excerpt}
+                </p>
+              )}
 
-              {/* Generated Article Body */}
-              <ArticleContent article={article} />
+              {/* Article Body */}
+              {article.isFromDB && article.content ? (
+                <div className="space-y-6 text-gray-700 leading-relaxed whitespace-pre-wrap text-lg" data-testid="single-blog-content">
+                  {article.content}
+                </div>
+              ) : (
+                <ArticleContent article={article} />
+              )}
 
               {/* Source Attribution */}
               <div className="mt-10 p-6 bg-gray-50 rounded-xl border border-gray-200">
                 <p className="text-sm text-gray-500">
-                  <strong>Source:</strong> {article.source} &bull; Published: {article.date}
+                  <strong>{article.isFromDB ? 'Author' : 'Source'}:</strong> {article.source} &bull; Published: {article.date}
                 </p>
-                <p className="text-xs text-gray-400 mt-2">
-                  This article is curated and summarized by Aashwashan for educational purposes. 
-                  For the full original article, please visit the original source.
-                </p>
+                {!article.isFromDB && (
+                  <p className="text-xs text-gray-400 mt-2">
+                    This article is curated and summarized by Aashwashan for educational purposes. 
+                    For the full original article, please visit the original source.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -190,11 +264,10 @@ const SingleBlog = () => {
   );
 };
 
-// Component to generate structured article content based on article data
+// Component to generate structured article content for static articles
 const ArticleContent = ({ article }) => {
-  const { title, excerpt, category, source } = article;
-  
-  // Generate contextual content based on article category and topic
+  const { excerpt, category } = article;
+
   const categoryContent = {
     "Research & Studies": {
       sections: [
