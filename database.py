@@ -13,7 +13,7 @@ if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set")
 
 # Convert to async URL
-ASYNC_DATABASE_URL = DATABASE_URL.replace('postgresql://', 'postgresql+asyncpg://')
+ASYNC_DATABASE_URL = DATABASE_URL
 
 # Create async engine with transaction pooler settings
 engine = create_async_engine(
@@ -21,13 +21,14 @@ engine = create_async_engine(
     pool_size=10,
     max_overflow=5,
     pool_timeout=30,
-    pool_recycle=1800,
-    pool_pre_ping=False,
+    pool_recycle=300,
+    pool_pre_ping=True,
     echo=False,
     connect_args={
-        "statement_cache_size": 0,  # CRITICAL: Required for transaction pooler
-        "command_timeout": 30,
-    }
+          "statement_cache_size": 0,
+          "command_timeout": 30,
+          "ssl": "require"
+  }
 )
 
 # Create async session factory

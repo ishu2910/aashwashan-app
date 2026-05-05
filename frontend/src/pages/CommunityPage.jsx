@@ -23,10 +23,15 @@ const CommunityPage = () => {
 const navigate = useNavigate();
 
 const [posts, setPosts] = useState([]);
+const [trendingPosts, setTrendingPosts] = useState([]);
 const [newPost, setNewPost] = useState('');
 const [isAnonymous, setIsAnonymous] = useState(true);
 const [isSubmitting, setIsSubmitting] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
+const [comments, setComments] = useState({});
+const [showComments, setShowComments] = useState({});
+const [newComment, setNewComment] = useState({});
+
 
 useEffect(() => {
 fetchPosts();
@@ -37,12 +42,19 @@ const fetchPosts = async () => {
 try {
 const { data, error } = await supabase
 .from("community_posts")
-.select("*");
+.select("*")
+.order("created_at", { ascending: false });
 
   if (error) {
     console.log("FETCH ERROR:", error);
   } else {
     setPosts(data || []);
+    const sorted = [...(data || [])].sort(
+  (a, b) => (b.likes_count || 0) - (a.likes_count || 0)
+);
+
+setTrendingPosts(sorted.slice(0, 3));
+    data?.forEach(p => fetchComments(p.id));
   }
 } catch (err) {
   console.log("CRASH:", err);
@@ -67,17 +79,78 @@ return `${Math.floor(diffHours / 24)} days ago`;
 };
 
 // ❤️ Like (UI only)
-const handleLike = (postId) => {
-setPosts(posts.map(post =>
-post.id === postId
-? { ...post, likes_count: (post.likes_count || 0) + 1 }
-: post
-));
+const handleLike = async (postId) => {
+  const userId = getUserId();
+
+  // 🔍 check already liked?
+  const { data: existing } = await supabase
+    .from("post_likes")
+    .select("*")
+    .eq("post_id", postId)
+    .eq("user_id", userId);
+
+  if (existing.length > 0) {
+    // ❌ already liked — do nothing
+    return;
+  }
+
+  // ❤️ insert like
+  const { error } = await supabase
+    .from("post_likes")
+    .insert([{ post_id: postId, user_id: userId }]);
+
+  if (!error) {
+    // UI update
+    setPosts(posts.map(post =>
+      post.id === postId
+        ? { ...post, likes_count: (post.likes_count || 0) + 1 }
+        : post
+    ));
+  }
 };
 
+
+const toggleComments = (postId) => {
+  setShowComments(prev => ({
+    ...prev,
+    [postId]: !prev[postId]
+  }));
+};
+
+const fetchComments = async (postId) => {
+  const { data } = await supabase
+    .from("post_comments")
+    .select("*")
+    .eq("post_id", postId)
+    .order("created_at", { ascending: true });
+
+  setComments(prev => ({
+    ...prev,
+    [postId]: data || []
+  }));
+};
+
+const handleAddComment = async (postId) => {
+  const text = newComment[postId];
+  if (!text) return;
+
+  const { error } = await supabase
+    .from("post_comments")
+    .insert([{
+      post_id: postId,
+      user_id: getUserId(),
+      content: text
+    }]);
+
+  if (!error) {
+    setNewComment(prev => ({ ...prev, [postId]: "" }));
+    fetchComments(postId);
+  }
+};
+
+
 // 🚀 Submit post
-const handleSubmitPost = async (e) => {
-e.preventDefault();
+const handleSubmitPost = async () => {
 
 if (!newPost.trim()) return;
 
@@ -107,85 +180,156 @@ setIsSubmitting(false);
 };
 
 return (
-  <div>
+  <div className="min-h-screen bg-[#0f172a] text-white p-6">
 
-    {/* Hero */}
-    <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-20 text-white">
-      <div className="text-center max-w-4xl mx-auto">
-        <h1 className="text-4xl font-semibold mb-4">Community Forum</h1>
-        <p>A safe space to share your thoughts anonymously.</p>
-      </div>
-    </section>
+    {/* HEADER */}
+    <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text">
+  Community
+</h1>
 
-  {/* Create Post */}
-  <section className="py-10 bg-white">
-    <div className="max-w-3xl mx-auto px-4">
-      <form onSubmit={handleSubmitPost} className="bg-teal-50 p-6 rounded-xl">
+    <div className="grid grid-cols-12 gap-6">
 
-        <textarea
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
-          placeholder="What's on your mind?"
-          rows="4"
-          className="w-full p-3 border rounded-lg mb-4"
-        />
+      {/* LEFT SIDEBAR */}
+<div className="col-span-3 space-y-4">
 
-        <label className="flex items-center space-x-2 mb-4">
-          <input
-            type="checkbox"
-            checked={isAnonymous}
-            onChange={(e) => setIsAnonymous(e.target.checked)}
-          />
-          <span>Post anonymously</span>
-        </label>
+  <div className="bg-white/5 backdrop-blur-lg p-4 rounded-xl border border-white/10 shadow-md">
+    <h3 className="font-semibold mb-2">Your Stats</h3>
+    <p>Posts: {posts.length}</p>
+  </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting || !newPost.trim()}
-          className="bg-teal-500 text-white px-6 py-2 rounded-lg"
-        >
-          {isSubmitting ? "Posting..." : "Share"}
-        </button>
+  <div className="bg-white/5 backdrop-blur-lg p-4 rounded-xl border border-white/10 shadow-md">
+    <h3 className="font-semibold mb-2">Top Users</h3>
+    <p>User 1</p>
+    <p>User 2</p>
+  </div>
 
-      </form>
-    </div>
-  </section>
-
-  {/* Posts */}
-  <section className="py-10">
-    <div className="max-w-3xl mx-auto px-4">
-
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : posts.length === 0 ? (
-        <p>No posts yet</p>
-      ) : (
-        posts.map(post => (
-          <div key={post.id} className="border p-4 rounded-lg mb-4">
-
-            <div className="flex justify-between mb-2">
-              <p className="font-semibold">
-                {post.is_anonymous ? "Someone Like You" : post.name}
-              </p>
-              <span className="text-sm text-gray-500">
-                {formatTimestamp(post.created_at)}
-              </span>
-            </div>
-
-            <p className="mb-3">{post.content}</p>
-
-            <button onClick={() => handleLike(post.id)}>
-              ❤️ {post.likes_count || 0}
-            </button>
-
-          </div>
-        ))
-      )}
-
-    </div>
-  </section>
 </div>
 
+      {/* LEFT FEED */}
+      <div className="col-span-6 space-y-8">
+
+        {/* CREATE POST */}
+        <div className="sticky top-4 z-10 bg-white/5 backdrop-blur-lg p-6 rounded-2xl border border-white/10 shadow-lg">
+
+          <textarea
+            value={newPost}
+            onChange={(e) => setNewPost(e.target.value)}
+            placeholder="Share your thoughts..."
+            rows="3"
+            className="w-full bg-transparent outline-none text-white placeholder-gray-400"
+          />
+
+          <div className="flex justify-between items-center mt-4">
+            <label className="flex items-center space-x-2 text-sm">
+              <input
+                type="checkbox"
+                checked={isAnonymous}
+                onChange={(e) => setIsAnonymous(e.target.checked)}
+              />
+              <span>Anonymous</span>
+            </label>
+
+            <button
+              onClick={handleSubmitPost}
+              disabled={isSubmitting || !newPost.trim()}
+              className="bg-purple-600 px-5 py-2 rounded-lg shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition duration-300"
+            >
+              {isSubmitting ? "Posting..." : "Post"}
+            </button>
+          </div>
+        </div>
+
+        {/* POSTS */}
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : posts.length === 0 ? (
+          <p>No posts yet</p>
+        ) : (
+          posts.map(post => (
+            <div
+              key={post.id}
+              className="bg-white/5 backdrop-blur-lg p-5 rounded-2xl border border-white/10 shadow-xl hover:shadow-purple-500/10 hover:-translate-y-1 hover:scale-[1.01] transition duration-300"
+            >
+
+              {/* HEADER */}
+              <div className="flex items-center gap-3 mb-3">
+
+  <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center">
+    <User size={18} />
+  </div>
+
+  <div className="flex flex-col">
+    <p className="font-semibold text-purple-300">
+      {post.is_anonymous ? "Someone Like You" : post.name}
+
+      {new Date() - new Date(post.created_at) < 3600000 && (
+  <span className="ml-2 text-xs text-green-400">New</span>
+)}
+    </p>
+    <span className="text-xs text-gray-400">
+      {formatTimestamp(post.created_at)}
+    </span>
+  </div>
+
+</div>
+
+              {/* CONTENT */}
+              <p className="mb-4 text-gray-200 leading-relaxed">
+  {post.content}
+</p>
+
+              {/* ACTIONS */}
+              <div className="flex justify-between border-t border-white/10 pt-3 mt-3 text-sm">
+
+  <button
+    onClick={() => handleLike(post.id)}
+    className="flex items-center gap-1 hover:text-red-400 transition"
+  >
+    ❤️ <span>{post.likes_count || 0}</span>
+  </button>
+
+  <button
+  onClick={() => toggleComments(post.id)}
+  className="flex items-center gap-1 hover:text-blue-400"
+>
+  💬 {comments[post.id]?.length || 0}
+</button>
+
+  <button className="flex items-center gap-1 hover:text-green-400">
+    🔗 Share
+  </button>
+
+</div>
+
+
+
+            </div>
+          ))
+        )}
+
+      </div>
+
+      {/* RIGHT SIDEBAR */}
+      <div className="col-span-3 space-y-6">
+
+        <div className="bg-white/5 backdrop-blur-lg p-5 rounded-2xl border border-white/10">
+          <h3 className="font-semibold mb-3">Trending</h3>
+          {trendingPosts.map(post => (
+  <p key={post.id} className="text-sm text-gray-300 mb-2">
+    {post.content.slice(0, 40)}...
+  </p>
+))}
+        </div>
+
+        <div className="bg-white/5 backdrop-blur-lg p-5 rounded-2xl border border-white/10">
+          <h3 className="font-semibold mb-3">Top Therapists</h3>
+          <p>Coming soon...</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 );
 };
 

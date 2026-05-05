@@ -1,16 +1,30 @@
+from auth import get_current_user
+from models import Booking, User
+
 from dotenv import load_dotenv
 load_dotenv()
-from fastapi import FastAPI, APIRouter, HTTPException, Depends
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Body
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import text
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
+class BookingCreate(BaseModel):
+    therapist_id: str
+    client_name: str
+    client_email: str
+    date: datetime
+    time_slot: str
+    duration_minutes: int
+    price: int
+
+
 from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
@@ -27,12 +41,29 @@ import os
 
 # Import Supabase database and models
 from database import get_db, engine, Base
-from models import User, UserRole, TherapistProfile, AvailabilitySlot, Booking, CommunityPost as CommunityPostModel, Blog
+from models import User, Booking, UserRole, TherapistProfile, AvailabilitySlot, Booking, CommunityPost as CommunityPostModel, Blog
 from auth import (
     UserCreate, UserLogin, Token, UserResponse,
     hash_password, verify_password, create_access_token,
     get_current_user, get_admin_user, get_therapist_user
 )
+
+async def log_activity(db, user_id: str, action: str, details: str = None):
+    from sqlalchemy import text
+
+    await db.execute(
+        text("""
+            INSERT INTO user_activity (id, user_id, action, details)
+            VALUES (gen_random_uuid(), :user_id, :action, :details)
+        """),
+        {
+            "user_id": user_id,
+            "action": action,
+            "details": details
+        }
+    )
+    await db.commit()
+
 
 
 ROOT_DIR = Path(__file__).parent
@@ -58,6 +89,20 @@ if RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET and 'placeholder' not in RAZORPAY_KEY
 
 # Create the main app
 app = FastAPI(title="Aashwashan API", version="2.0")
+
+async def log_activity(db: AsyncSession, user_id, action, metadata=None):
+    await db.execute(
+        text("""
+            INSERT INTO user_activity (user_id, action, metadata)
+            VALUES (:user_id, :action, :metadata)
+        """),
+        {
+            "user_id": user_id,
+            "action": action,
+            "metadata": json.dumps(metadata or {})   # 👈 FIX
+        }
+    )
+    await db.commit()
 
 # Create routers
 api_router = APIRouter(prefix="/api")
@@ -212,7 +257,10 @@ class BlogResponse(BaseModel):
     created_at: str
     published_at: Optional[str]
 
-
+class TherapistCreate(BaseModel):
+    specialization: str
+    experience_years: int
+ 
 # ==================== HELPER FUNCTIONS ====================
 
 def generate_jitsi_meeting_link(appointment_id: str) -> str:
@@ -229,6 +277,36 @@ def generate_slug(title: str) -> str:
 
 
 # ==================== AUTHENTICATION ROUTES ====================
+
+@therapist_router.post("/profile")
+async def create_profile(
+    data: TherapistCreate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    # 🔥 CHECK if already exists
+    result = await db.execute(
+        select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
+    )
+    existing = result.scalar_one_or_none()
+
+    if existing:
+        raise HTTPException(status_code=400, detail="Profile already exists")
+
+    # CREATE
+    new_profile = TherapistProfile(
+        id=str(uuid.uuid4()),
+        user_id=current_user.id,
+        specialization=data.specialization,
+        experience_years=data.experience_years,
+        is_available=True
+    )
+
+    db.add(new_profile)
+    await db.commit()
+    await db.refresh(new_profile)
+
+    return {"message": "Profile created"}
 
 @auth_router.post("/register", response_model=Token)
 async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
@@ -282,7 +360,12 @@ async def login(credentials: UserLogin, db: AsyncSession = Depends(get_db)):
     access_token = create_access_token(data={"sub": user.id, "role": user.role.value})
     
     logger.info(f"User logged in: {user.email}")
-    
+
+    try:
+        await log_activity(db, user.id, "login")
+    except Exception as e:
+        logger.error(f"log_activity failed: {str(e)}")
+
     return Token(
         access_token=access_token,
         token_type="bearer",
@@ -299,6 +382,36 @@ async def get_me(current_user: User = Depends(get_current_user)):
         role=current_user.role.value,
         is_active=current_user.is_active
     )
+
+@auth_router.post("/book")
+async def create_booking(
+    booking_data: BookingCreate = Body(...),
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    print("USER:", current_user)  # 👈 debug
+
+    new_booking = Booking(
+        therapist_id=booking_data.therapist_id,
+        user_id=current_user.id,
+        client_name=booking_data.client_name,
+        client_email=booking_data.client_email,
+        date=booking_data.date,
+        time_slot=booking_data.time_slot,
+        duration_minutes=booking_data.duration_minutes,
+        price=booking_data.price
+    )
+
+    db.add(new_booking)
+    await db.commit()
+    await db.refresh(new_booking)
+
+    await log_activity(db, current_user.id, "booking_created")
+
+    return {
+        "message": "Booking created",
+        "booking_id": new_booking.id
+    }
 
 
 # ==================== ADMIN ROUTES ====================
@@ -430,29 +543,38 @@ async def get_therapist_profile(
 @therapist_router.put("/profile")
 async def update_therapist_profile(
     profile_data: TherapistProfileCreate,
-    current_user: User = Depends(get_therapist_user),
+    current_user: User = Depends(get_current_user),  # 👈 safer
     db: AsyncSession = Depends(get_db)
 ):
-    """Update therapist profile"""
     result = await db.execute(
-        select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
+        select(TherapistProfile).where(
+            TherapistProfile.user_id == current_user.id
+        )
     )
     profile = result.scalar_one_or_none()
-    
+
+    # 🔥 CREATE IF NOT EXISTS
     if not profile:
-        # Create profile if doesn't exist
-        profile = TherapistProfile(user_id=current_user.id)
+        profile = TherapistProfile(
+            id=str(uuid.uuid4()),
+            user_id=current_user.id
+        )
         db.add(profile)
-    
+
+    # 🔥 UPDATE
     profile.specialization = profile_data.specialization
     profile.bio = profile_data.bio
     profile.experience_years = profile_data.experience_years
-    profile.skills = json.dumps(profile_data.skills)
+    profile.skills = json.dumps(profile_data.skills) if profile_data.skills else None
     profile.image_url = profile_data.image_url
-    
+
     await db.commit()
-    
-    return {"message": "Profile updated successfully"}
+    await db.refresh(profile)   # 👈 IMPORTANT
+
+    return {
+        "message": "Profile updated successfully",
+        "profile_id": profile.id
+    }
 
 @therapist_router.get("/availability")
 async def get_therapist_availability(
@@ -689,6 +811,8 @@ async def create_community_post(
     
     logger.info(f"Community post created by {current_user.email}")
     
+    await log_activity(db, current_user.id, "post_created")
+
     return {"message": "Post created", "id": post.id}
 
 
@@ -931,7 +1055,11 @@ class AppointmentRequestData(BaseModel):
     therapist_name: Optional[str] = "Any Available"
 
 @api_router.post("/appointments/request")
-async def request_appointment(request: AppointmentRequestData):
+async def request_appointment(
+    request: AppointmentRequestData,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
     """Submit appointment request - sends email to care@aashwashan.com"""
     try:
         # Store the request in database
@@ -978,6 +1106,17 @@ Reply to: {request.email}
         # Log the request (email sending will be handled by email_service when configured)
         logger.info(f"Appointment request received from {request.name} ({request.email})")
         logger.info(f"Email body to be sent to care@aashwashan.com:\n{email_body}")
+
+        await log_activity(
+    db,
+    current_user.id,
+    "appointment_requested",
+    {
+        "date": request.date,
+        "time": request.time,
+        "therapist": request.therapist_name
+    }
+)
         
         # Try to send email via email_service if configured
         try:
@@ -1456,7 +1595,7 @@ async def send_whatsapp_message(request: WhatsAppMessageRequest):
 
 # include routers  
 app.include_router(api_router)
-app.include_router(auth_router)
+app.include_router(auth_router, prefix="/api/auth")
 app.include_router(admin_router)
 app.include_router(therapist_router)
 app.include_router(community_router)

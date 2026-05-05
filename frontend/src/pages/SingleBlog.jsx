@@ -4,7 +4,7 @@ import { Calendar, Clock, ArrowLeft, ExternalLink, Share2 } from 'lucide-react';
 import axios from 'axios';
 import { mentalHealthArticles } from '../data/blogArticles';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = "https://aashwashan-app-1.onrender.com";
 
 const formatDate = (iso) => {
   if (!iso) return '';

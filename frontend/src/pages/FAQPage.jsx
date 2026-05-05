@@ -108,7 +108,7 @@ const FAQPage = () => {
                 Contact Us
               </Link>
               <a href="tel:5551234567" className="bg-white text-blue-600 px-8 py-4 rounded-full hover:bg-gray-50 transition-all duration-300 font-semibold border-2 border-blue-600">
-                Call (555) 123-4567
+                Call +91 8950772282
               </a>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { Calendar, Clock, ArrowRight, Search } from 'lucide-react';
 import axios from 'axios';
 import { mentalHealthArticles, newsCategories } from '../data/blogArticles';
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = "https://aashwashan-app-1.onrender.com";
 
 // Helper to format ISO date → "Apr 10, 2026"
 const formatDate = (iso) => {

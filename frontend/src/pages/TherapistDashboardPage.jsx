@@ -56,7 +56,7 @@ const TherapistDashboardPage = () => {
       
       // Fetch profile
       try {
-        const profileRes = await api.get("/api/therapist/profile`, { headers }");
+        const profileRes = await api.get("/therapist/profile", { headers });
         setProfile(profileRes.data);
         setProfileForm({
           specialization: profileRes.data.specialization || '',
@@ -93,7 +93,7 @@ const TherapistDashboardPage = () => {
     e.preventDefault();
     try {
       const headers = getAuthHeader();
-      await api.post("/api/therapist/availability`, newSlot, { headers }");
+      await api.post("/therapist/availability", newSlot, { headers });
       toast({ title: "Availability slot added!" });
       setShowAddSlot(false);
       setNewSlot({ date: '', start_time: '09:00', end_time: '10:00' });
@@ -112,7 +112,7 @@ const TherapistDashboardPage = () => {
     
     try {
       const headers = getAuthHeader();
-      await api.delete("/api/therapist/availability/${slotId}`, { headers }");
+      await api.delete(`/therapist/availability/${slotId}`, { headers });
       toast({ title: "Slot deleted" });
       fetchData();
     } catch (error) {
@@ -128,7 +128,7 @@ const TherapistDashboardPage = () => {
     e.preventDefault();
     try {
       const headers = getAuthHeader();
-      await api.put("/api/therapist/profile`, profileForm, { headers }");
+      await api.put("/therapist/profile", profileForm, { headers });
       toast({ title: "Profile updated!" });
       fetchData();
     } catch (error) {
