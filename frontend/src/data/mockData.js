@@ -199,7 +199,7 @@ export const faqs = [
   {
     id: 1,
     question: "How do I book an appointment?",
-    answer: "You can book an appointment by calling us at (555) 123-4567, filling out the contact form on our website, or clicking the 'Book Appointment' button. We'll get back to you within 24 hours to confirm your appointment."
+    answer: "You can book an appointment by calling us at +91 8950772282, filling out the contact form on our website, or clicking the 'Book Appointment' button. We'll get back to you within 24 hours to confirm your appointment."
   },
   {
     id: 2,
