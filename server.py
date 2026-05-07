@@ -104,8 +104,8 @@ class StatusCheckCreate(BaseModel):
 
 class AppointmentRequest(BaseModel):
     name: str
-    email: EmailStr
-    phone: str
+    email: Optional[str] = ""
+    phone: Optional[str] = ""
     service: str = ""
     date: str
     time: str
