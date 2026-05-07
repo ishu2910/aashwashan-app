@@ -979,6 +979,7 @@ async def request_appointment(request: AppointmentRequestData):
 
     """Submit appointment request - sends email to care@aashwashan.com"""
     try:
+        print("INSIDE TRY")
         # Store the request in database
         request_doc = {
             "id": str(uuid.uuid4()),
@@ -993,6 +994,7 @@ async def request_appointment(request: AppointmentRequestData):
             "therapist_name": request.therapist_name,
             "status": "pending",
             "created_at": datetime.now(timezone.utc).isoformat()
+            
         }
         # await mongo_db.appointment_requests.insert_one(request_doc)
         
@@ -1046,6 +1048,7 @@ Reply to: {request.email}
             "request_id": request_doc["id"]
         }
     except Exception as e:
+        print("ERROR:", str(e))
         logger.error(f"Error processing appointment request: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to process appointment request")
 
