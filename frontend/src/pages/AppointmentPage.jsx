@@ -118,7 +118,7 @@ const AppointmentPage = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
-                    placeholder="(555) 123-4567"
+                    placeholder="+91 8950772282"
                   />
                 </div>
 

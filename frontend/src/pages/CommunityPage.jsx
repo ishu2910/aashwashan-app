@@ -25,6 +25,7 @@ const navigate = useNavigate();
 const [posts, setPosts] = useState([]);
 const [trendingPosts, setTrendingPosts] = useState([]);
 const [newPost, setNewPost] = useState('');
+const [selectedMood, setSelectedMood] = useState('');
 const [isAnonymous, setIsAnonymous] = useState(true);
 const [isSubmitting, setIsSubmitting] = useState(false);
 const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +35,15 @@ const [newComment, setNewComment] = useState({});
 
 
 useEffect(() => {
-fetchPosts();
+  fetchPosts();
+
+  if (window.gtag) {
+    window.gtag('event', 'community_view', {
+      event_category: 'page',
+      event_label: 'community_page_open'
+    });
+  }
+
 }, []);
 
 // 📥 Fetch posts
@@ -164,6 +173,7 @@ const { error } = await supabase
     user_id: getUserId(),
       name: "Someone Like You",
       is_anonymous: true,
+      mood: selectedMood,
     },
   ]);
 
@@ -211,6 +221,27 @@ return (
         {/* CREATE POST */}
         <div className="sticky top-4 z-10 bg-white/5 backdrop-blur-lg p-6 rounded-2xl border border-white/10 shadow-lg">
 
+        <div className="mb-4">
+    <p className="text-sm text-gray-400 mb-2">How are you feeling?</p>
+
+    <div className="flex gap-2 flex-wrap">
+      {["😔 Low", "😰 Anxious", "😵 Overthinking", "😐 Numb"].map(mood => (
+        <button
+          key={mood}
+          type="button"
+          onClick={() => setSelectedMood(mood)}
+          className={`px-3 py-1 rounded-full text-sm ${
+            selectedMood === mood
+              ? "bg-purple-600 text-white"
+              : "bg-white/10 text-gray-300"
+          }`}
+        >
+          {mood}
+        </button>
+      ))}
+    </div>
+  </div>  
+
           <textarea
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
@@ -230,7 +261,13 @@ return (
             </label>
 
             <button
-              onClick={handleSubmitPost}
+              onClick={() => {
+              gtag('event', 'create_post', {
+              event_category: 'engagement',
+              event_label: 'post_created'
+              });
+              handleSubmitPost();
+              }}
               disabled={isSubmitting || !newPost.trim()}
               className="bg-purple-600 px-5 py-2 rounded-lg shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition duration-300"
             >
@@ -272,6 +309,10 @@ return (
   </div>
 
 </div>
+              {post.mood && (
+  <p className="text-sm text-purple-300 mb-1">{post.mood}</p>
+)}
+
 
               {/* CONTENT */}
               <p className="mb-4 text-gray-200 leading-relaxed">
@@ -282,14 +323,28 @@ return (
               <div className="flex justify-between border-t border-white/10 pt-3 mt-3 text-sm">
 
   <button
-    onClick={() => handleLike(post.id)}
+    onClick={() => {
+  gtag('event', 'like_post', {
+    event_category: 'engagement',
+    event_label: 'like_clicked'
+  });
+  handleLike(post.id);
+}}
     className="flex items-center gap-1 hover:text-red-400 transition"
   >
     ❤️ <span>{post.likes_count || 0}</span>
   </button>
 
   <button
-  onClick={() => toggleComments(post.id)}
+  onClick={() => {
+  if (window.gtag) {
+    window.gtag('event', 'open_comments', {
+      event_category: 'engagement',
+      event_label: 'comment_open'
+    });
+  }
+  toggleComments(post.id);
+}}
   className="flex items-center gap-1 hover:text-blue-400"
 >
   💬 {comments[post.id]?.length || 0}

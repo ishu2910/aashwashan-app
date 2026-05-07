@@ -2,12 +2,19 @@ import React from 'react';
 import { MessageCircle } from 'lucide-react';
 
 const WhatsAppButton = () => {
-  const phoneNumber = '14155238886';
+  const phoneNumber = '918950772282';
   
-  const handleClick = () => {
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent('Hi! I would like to connect with Aashwashan.')}`;
-    window.open(url, '_blank');
-  };
+ const handleClick = () => {
+  if (window.gtag) {
+    window.gtag('event', 'whatsapp_click', {
+      event_category: 'conversion',
+      event_label: 'whatsapp_contact'
+    });
+  }
+
+  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent('Hi, I need help regarding mental health support.')}`;
+  window.open(url, '_blank');
+};
 
   return (
     <button

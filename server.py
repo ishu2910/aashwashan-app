@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI, APIRouter, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -61,6 +62,18 @@ if RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET and 'placeholder' not in RAZORPAY_KEY
 
 # Create the main app
 app = FastAPI(title="Aashwashan API", version="2.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://aashwashan.com",
+        "https://www.aashwashan.com",
+        "http://localhost:3000",
+        "http://localhost:3001"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Create routers
 api_router = APIRouter(prefix="/api")
@@ -960,6 +973,10 @@ class AppointmentRequestData(BaseModel):
 
 @api_router.post("/appointments/request")
 async def request_appointment(request: AppointmentRequestData):
+
+    print("REQUEST HIT")
+    print(request)
+
     """Submit appointment request - sends email to care@aashwashan.com"""
     try:
         # Store the request in database
@@ -1494,14 +1511,6 @@ app.include_router(whatsapp_router)
 
 
 
-# CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # ==================== AI DAILY MESSAGING SYSTEM ====================
 
