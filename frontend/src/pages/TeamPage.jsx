@@ -5,7 +5,7 @@ import { X, Calendar, Clock, CheckCircle, Video, Globe, Shield, Star, BadgeCheck
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
 import { useAuth } from '../context/AuthContext';
-
+import api from '../api';
 
 const API = "https://aashwashan-app-1.onrender.com/api";
 
@@ -36,7 +36,7 @@ const TeamPage = () => {
   });
 
   const openBookingModal = (therapist) => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated()) {
       setSelectedTherapist(therapist);
       setShowAuthPrompt(true);
       return;
@@ -66,7 +66,7 @@ const TeamPage = () => {
     const price = SESSION_PRICING[selectedSessionDuration].price;
 
     try {
-      await axios.post(`${API}/appointments/request`, {
+      await api.post('/appointments/request', {
         ...formData,
         sessionDuration: SESSION_PRICING[selectedSessionDuration].duration,
         price,
