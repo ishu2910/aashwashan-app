@@ -37,25 +37,25 @@ export const AuthProvider = ({ children }) => {
 
   // 🔐 LOGIN
   const login = async (email, password) => {
-    try {
-      const res = await supabase.auth.signInWithPassword({
-        email: email.toLowerCase(),
-        password,
-      });
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.toLowerCase(),
+      password,
+    });
 
-      if (res.error) {
-        console.log("LOGIN ERROR:", res.error);
-        alert(res.error.message);
-        throw res.error;
-      }
-
-      setUser(res.data?.user || null);
-      return res.data?.user;
-    } catch (err) {
-      console.log("LOGIN CATCH ERROR:", err);
-      throw err;
+    if (error) {
+      console.error("SUPABASE LOGIN ERROR:", error.message);
+      throw new Error(error.message);
     }
-  };
+
+    setUser(data?.user || null);
+    return data?.user;
+
+  } catch (err) {
+    console.error("LOGIN CATCH ERROR:", err.message);
+    throw err;
+  }
+};
 
   // 🆕 REGISTER
   const register = async (email, password) => {
