@@ -66,7 +66,7 @@ const TeamPage = () => {
     const price = SESSION_PRICING[selectedSessionDuration].price;
 
     try {
-      await api.post('/appointments/request', {
+      await axios.post('https://aashwashan-app-1.onrender.com/api/appointments/request', {
         ...formData,
         sessionDuration: SESSION_PRICING[selectedSessionDuration].duration,
         price,
