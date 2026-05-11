@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = "https://zafjzucmixwahqxngxrr.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZmp6dWNtaXh3YWhxeG5neHJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MTgwNjgsImV4cCI6MjA5MTQ5NDA2OH0.FUnQot_bkz2m9EHgS9p_nKhl3sjMUHY7kVM0k5UZ63U"; // ⚠️ apni key daal
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
