@@ -1057,8 +1057,7 @@ class AppointmentRequestData(BaseModel):
 @api_router.post("/appointments/request")
 async def request_appointment(
     request: AppointmentRequestData,
-    current_user: User = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    
 ):
     """Submit appointment request - sends email to care@aashwashan.com"""
     try:
@@ -1107,16 +1106,7 @@ Reply to: {request.email}
         logger.info(f"Appointment request received from {request.name} ({request.email})")
         logger.info(f"Email body to be sent to care@aashwashan.com:\n{email_body}")
 
-        await log_activity(
-    db,
-    current_user.id,
-    "appointment_requested",
-    {
-        "date": request.date,
-        "time": request.time,
-        "therapist": request.therapist_name
-    }
-)
+       
         
         # Try to send email via email_service if configured
         try:
