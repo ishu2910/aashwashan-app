@@ -15,7 +15,7 @@ const UserAuthPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const returnTo = location.state?.returnTo || '/community';
+  const returnTo = location.state?.returnTo || '/';
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -36,7 +36,7 @@ const AdminLoginPage = () => {
     } catch (error) {
       toast({
         title: "Login Failed",
-        description: error.response?.data?.detail || "Invalid credentials",
+        description: error.message || "Invalid credentials",
         variant: "destructive"
       });
     } finally {

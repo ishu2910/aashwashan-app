@@ -37,33 +37,35 @@ export const AuthProvider = ({ children }) => {
 
   // 🔐 LOGIN
   const login = async (email, password) => {
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.toLowerCase(),
-      password,
-    });
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email.toLowerCase(),
+    password,
+  });
 
-    if (error) {
-      console.error("SUPABASE LOGIN ERROR:", error.message);
-      throw new Error(error.message);
-    }
-
-    setUser(data?.user || null);
-    return data?.user;
-
-  } catch (err) {
-    console.error("LOGIN CATCH ERROR:", err.message);
-    throw err;
+  if (error) {
+    throw new Error(error.message);
   }
+
+  setUser(data.user);
+
+  return {
+    ...data.user,
+    role: data.user?.user_metadata?.role || 'user'
+  };
 };
 
   // 🆕 REGISTER
   const register = async (email, password) => {
     try {
-      const res = await supabase.auth.signUp({
-        email: email.toLowerCase(),
-        password,
-      });
+      const { data, error } = await supabase.auth.signUp({
+  email: email.toLowerCase(),
+  password,
+  options: {
+    data: {
+      role: 'user'
+    }
+  }
+});
 
       console.log("SIGNUP RESPONSE:", res);
 
@@ -74,7 +76,10 @@ export const AuthProvider = ({ children }) => {
       }
 
       setUser(res.data?.user || null);
-      return res.data?.user;
+      return {
+  ...data.user,
+  role: data.user?.user_metadata?.role || 'user'
+};
     } catch (err) {
       console.log("REGISTER CATCH ERROR:", err);
       throw err;
