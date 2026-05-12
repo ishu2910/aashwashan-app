@@ -28,7 +28,7 @@ const UserAuthPage = () => {
           title: "Welcome back!",
           description: "Successfully logged in.",
         });
-         navigate(returnTo || '/');
+         navigate(returnTo || '/team');
       } else {
         await register(email, password);
 
