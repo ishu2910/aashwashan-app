@@ -65,7 +65,7 @@ const UserAuthPage = () => {
           </h1>
           <p className="text-gray-600">
             {isLogin 
-              ? 'Sign in to access the community forum' 
+              ? 'Sign in or create an account to continue your booking' 
               : 'Create an account to share and connect'}
           </p>
         </div>
