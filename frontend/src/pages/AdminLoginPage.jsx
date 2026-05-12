@@ -34,6 +34,7 @@ const AdminLoginPage = () => {
       });
       navigate('/admin/dashboard');
     } catch (error) {
+      console.log("LOGIN ERROR:", error);
       toast({
         title: "Login Failed",
         description: error.message || "Invalid credentials",

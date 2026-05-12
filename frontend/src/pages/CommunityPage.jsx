@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from '../lib/supabase';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Send, User, Shield, Clock } from 'lucide-react';
@@ -14,10 +14,7 @@ const getUserId = () => {
 };
 
 // 🔑 Supabase
-const supabase = createClient(
-"https://zafjzucmixwahqxngxrr.supabase.co",
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZmp6dWNtaXh3YWhxeG5neHJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MTgwNjgsImV4cCI6MjA5MTQ5NDA2OH0.FUnQot_bkz2m9EHgS9p_nKhl3sjMUHY7kVM0k5UZ63U"
-);
+
 
 const CommunityPage = () => {
 const navigate = useNavigate();
