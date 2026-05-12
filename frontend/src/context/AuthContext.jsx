@@ -43,48 +43,34 @@ export const AuthProvider = ({ children }) => {
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw error;
   }
 
   setUser(data.user);
 
-  return {
-    ...data.user,
-    role: data.user?.user_metadata?.role || 'user'
-  };
-};
+  return data.user;
+};      
 
   // 🆕 REGISTER
-  const register = async (email, password) => {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-  email: email.toLowerCase(),
-  password,
-  options: {
-    data: {
-      role: 'user'
-    }
-  }
-});
-
-      console.log("SIGNUP RESPONSE:", res);
-
-      if (res.error) {
-        console.log("SIGNUP ERROR:", res.error);
-        alert(res.error.message);
-        throw res.error;
+ const register = async (email, password) => {
+  const { data, error } = await supabase.auth.signUp({
+    email: email.toLowerCase(),
+    password,
+    options: {
+      data: {
+        role: 'user'
       }
-
-      setUser(res.data?.user || null);
-      return {
-  ...data.user,
-  role: data.user?.user_metadata?.role || 'user'
-};
-    } catch (err) {
-      console.log("REGISTER CATCH ERROR:", err);
-      throw err;
     }
-  };
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  setUser(data.user);
+
+  return data.user;
+};
 
   // 🚪 LOGOUT
   const logout = async () => {

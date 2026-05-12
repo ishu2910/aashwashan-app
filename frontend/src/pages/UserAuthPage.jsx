@@ -17,7 +17,7 @@ const UserAuthPage = () => {
   
   const returnTo = location.state?.returnTo || '/';
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {git
     e.preventDefault();
     setLoading(true);
 
