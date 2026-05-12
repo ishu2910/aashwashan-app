@@ -15,7 +15,7 @@ const UserAuthPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const returnTo = location.state?.returnTo || '/';
+  const returnTo = location.state?.returnTo || '/team';
 
   const handleSubmit = async (e) => {git
     e.preventDefault();
@@ -29,13 +29,20 @@ const UserAuthPage = () => {
           description: "Successfully logged in.",
         });
       } else {
-        await register(email, password, name, 'user');
-        toast({
-          title: "Account created!",
-          description: "Welcome to Aashwashan community.",
-        });
+        const user = await register(email, password);
+
+toast({
+  title: "Account created!",
+  description: "You can now sign in.",
+});
+
+setTimeout(() => {
+  setIsLogin(true);
+}, 1500);
+
+setIsLogin(true);
       }
-      navigate(returnTo);
+      navigate(returnTo || '/');
     } catch (error) {
   console.log("FULL ERROR:", error);
 
