@@ -17,7 +17,7 @@ const UserAuthPage = () => {
   
   const returnTo = location.state?.returnTo || '/team';
 
-  const handleSubmit = async (e) => {git
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -28,8 +28,9 @@ const UserAuthPage = () => {
           title: "Welcome back!",
           description: "Successfully logged in.",
         });
+         navigate(returnTo || '/');
       } else {
-        const user = await register(email, password);
+        await register(email, password);
 
 toast({
   title: "Account created!",
@@ -40,17 +41,18 @@ setTimeout(() => {
   setIsLogin(true);
 }, 1500);
 
-setIsLogin(true);
-      }
-      navigate(returnTo || '/');
-    } catch (error) {
-  console.log("FULL ERROR:", error);
+  return;
+    }
 
-  toast({
-    title: isLogin ? "Login Failed" : "Registration Failed",
-    description: error.message || "Something went wrong",
-    variant: "destructive"
-  });
+  } catch (error) {
+
+    console.log("FULL ERROR:", error);
+
+    toast({
+      title: isLogin ? "Login Failed" : "Registration Failed",
+      description: error.message || "Something went wrong",
+      variant: "destructive"
+    });
 } finally {
       setLoading(false);
     }
@@ -73,7 +75,7 @@ setIsLogin(true);
           <p className="text-gray-600">
             {isLogin 
               ? 'Sign in or create an account to continue your booking' 
-              : 'Create an account to book'}
+              : 'Create an account to continue your booking'}
           </p>
         </div>
 
