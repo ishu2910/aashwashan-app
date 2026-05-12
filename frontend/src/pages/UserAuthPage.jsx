@@ -68,12 +68,12 @@ setIsLogin(true);
             />
           </Link>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            {isLogin ? 'Welcome Back' : 'Join Our Community'}
+            {isLogin ? 'Welcome Back' : 'Create an account'}
           </h1>
           <p className="text-gray-600">
             {isLogin 
               ? 'Sign in or create an account to continue your booking' 
-              : 'Create an account to share and connect'}
+              : 'Create an account to book'}
           </p>
         </div>
 
