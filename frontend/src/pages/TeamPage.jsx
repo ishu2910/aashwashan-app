@@ -120,6 +120,19 @@ const TeamPage = () => {
         </div>
       </section>
 
+         {/* CTA */}
+      <section className="py-16 bg-gradient-to-r from-teal-600 to-cyan-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h3 className="text-2xl font-bold mb-3">Want to Join Our Team?</h3>
+          <p className="text-white/80 mb-6 max-w-xl mx-auto">We're looking for passionate mental health professionals to join our mission.</p>
+          <a href="mailto:care@aashwashan.com" className="inline-block bg-white text-teal-600 px-8 py-3.5 rounded-xl font-semibold hover:shadow-lg transition-all">
+            View Open Positions
+          </a>
+        </div>
+      </section>
+
+
+
       {/* Therapist Cards — Amaha Style */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
@@ -264,16 +277,7 @@ const TeamPage = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-gradient-to-r from-teal-600 to-cyan-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h3 className="text-2xl font-bold mb-3">Want to Join Our Team?</h3>
-          <p className="text-white/80 mb-6 max-w-xl mx-auto">We're looking for passionate mental health professionals to join our mission.</p>
-          <a href="mailto:care@aashwashan.com" className="inline-block bg-white text-teal-600 px-8 py-3.5 rounded-xl font-semibold hover:shadow-lg transition-all">
-            View Open Positions
-          </a>
-        </div>
-      </section>
+   
 
       {/* Booking Modal — Amaha style */}
       {isModalOpen && (
