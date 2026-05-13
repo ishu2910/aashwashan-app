@@ -5,6 +5,7 @@ import { Eye, EyeOff, Lock, Mail, User, ArrowRight } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 
 const UserAuthPage = () => {
+  const [submitting, setSubmitting] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,9 +17,12 @@ const UserAuthPage = () => {
   const location = useLocation();
   
   const returnTo = location.state?.returnTo || '/team';
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+
+setSubmitting(true);
     setLoading(true);
 
     try {
@@ -55,6 +59,7 @@ setTimeout(() => {
     });
 } finally {
       setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -167,7 +172,7 @@ setTimeout(() => {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={submitting}
               className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
               data-testid="user-submit-btn"
             >
