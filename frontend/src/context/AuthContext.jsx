@@ -15,24 +15,41 @@ export const AuthProvider = ({ children }) => {
 
   // 🔹 Get current user (runs once)
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { data, error } = await supabase.auth.getUser();
+  let mounted = true;
 
-        if (error) {
-          console.log("GET USER ERROR:", error);
-        } else {
-          setUser(data?.user || null);
-        }
-      } catch (err) {
-        console.log("UNEXPECTED ERROR:", err);
-      } finally {
+  const initializeAuth = async () => {
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (mounted) {
+        setUser(session?.user ?? null);
+      }
+    } catch (err) {
+      console.log("SESSION ERROR:", err);
+    } finally {
+      if (mounted) {
         setLoading(false);
       }
-    };
+    }
+  };
 
-    getUser();
-  }, []);
+  initializeAuth();
+
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((_event, session) => {
+    if (mounted) {
+      setUser(session?.user ?? null);
+    }
+  });
+
+  return () => {
+    mounted = false;
+    subscription.unsubscribe();
+  };
+}, []);
 
   // 🔐 LOGIN
   const login = async (email, password) => {
