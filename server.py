@@ -106,6 +106,7 @@ class AppointmentRequest(BaseModel):
     name: str
     email: Optional[str] = ""
     phone: Optional[str] = ""
+    therapist_name: Optional[str] = "Prakhar Tiwari"
     service: str = ""
     date: str
     time: str
