@@ -194,6 +194,22 @@ return (
   Community
 </h1>
 
+<div className="mb-6 flex gap-3">
+  <button
+    onClick={() => navigate('/auth')}
+    className="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-lg"
+  >
+    Sign In
+  </button>
+
+  <button
+    onClick={() => navigate('/auth')}
+    className="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg"
+  >
+    Sign Up
+  </button>
+</div>
+
     <div className="grid grid-cols-12 gap-6">
 
       {/* LEFT SIDEBAR */}

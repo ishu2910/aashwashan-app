@@ -8,15 +8,16 @@ import api from "../api";
 const API = "https://aashwashan-app-1.onrender.com/api";
 
 const AppointmentPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    service: '',
-    date: '',
-    time: '',
-    message: ''
-  });
+ const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  phone: '',
+  therapist: '',
+  service: '',
+  date: '',
+  time: '',
+  message: ''
+});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
@@ -31,14 +32,19 @@ const AppointmentPage = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await api.post(`${API}/appointments`, formData);
+      const payload = {
+  ...formData,
+  therapist_name: formData.therapist
+};
+
+const response = await api.post(`${API}/appointments`, payload);
       
       toast({
         title: "Appointment Requested!",
         description: "We've received your appointment request. Our team will contact you within 24 hours to confirm. A confirmation email has been sent to your email address.",
       });
       
-      setFormData({ name: '', email: '', phone: '', service: '', date: '', time: '', message: '' });
+      setFormData({ name: '', email: '', phone: '',  therapist: '', service: '', date: '', time: '', message: '' });
     } catch (error) {
       console.error('Error submitting appointment:', error);
       toast({
@@ -121,6 +127,30 @@ const AppointmentPage = () => {
                     placeholder="+91 8950772282"
                   />
                 </div>
+                
+                <div>
+  <label className="block text-sm font-semibold mb-2">
+    Select Therapist *
+  </label>
+
+  <select
+    name="therapist"
+    value={formData.therapist}
+    onChange={handleChange}
+    required
+    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
+  >
+    <option value="">Choose a therapist...</option>
+
+    <option value="Ishan Goyal">
+      Ishan Goyal
+    </option>
+
+    <option value="Nipun Nair">
+      Nipun Nair
+    </option>
+  </select>
+</div>
 
                 {/* Appointment Details */}
                 <div className="pt-6">

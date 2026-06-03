@@ -25,7 +25,6 @@ const TeamPage = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const [selectedTherapist, setSelectedTherapist] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedSessionDuration, setSelectedSessionDuration] = useState('');
@@ -35,16 +34,18 @@ const TeamPage = () => {
     name: '', email: '', phone: '', date: '', time: '', message: ''
   });
 
-  const openBookingModal = (therapist) => {
-    if (!isAuthenticated()) {
-      setSelectedTherapist(therapist);
-      setShowAuthPrompt(true);
-      return;
-    }
-    setFormData(prev => ({ ...prev, name: user?.name || '', email: user?.email || '' }));
-    setSelectedTherapist(therapist);
-    setIsModalOpen(true);
-  };
+ const openBookingModal = (therapist) => {
+  if (isAuthenticated()) {
+    setFormData(prev => ({
+      ...prev,
+      name: user?.name || '',
+      email: user?.email || ''
+    }));
+  }
+
+  setSelectedTherapist(therapist);
+  setIsModalOpen(true);
+};
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -91,25 +92,7 @@ const TeamPage = () => {
   return (
     <div data-testid="team-page">
       {/* Auth Prompt */}
-      {showAuthPrompt && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-8 text-center animate-scale-in shadow-2xl">
-            <div className="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-5">
-              <Shield className="w-8 h-8 text-teal-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Sign in to book</h3>
-            <p className="text-gray-500 text-sm mb-6">
-              Create an account to book a session with <strong className="text-teal-600">{selectedTherapist?.name}</strong> and get session reminders.
-            </p>
-            <Link to="/auth" className="block w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3.5 rounded-xl font-semibold hover:shadow-lg transition-all mb-3">
-              Sign Up / Sign In
-            </Link>
-            <button onClick={() => { setShowAuthPrompt(false); setSelectedTherapist(null); }} className="w-full text-gray-500 py-2 text-sm hover:text-gray-700">
-              Maybe Later
-            </button>
-          </div>
-        </div>
-      )}
+      
 
       {/* Hero */}
       <section className="bg-gradient-to-br from-teal-600 via-teal-500 to-cyan-500 py-16 text-white">

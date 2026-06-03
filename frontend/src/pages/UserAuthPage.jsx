@@ -38,7 +38,8 @@ setSubmitting(true);
 
 toast({
   title: "Account created!",
-  description: "You can now sign in.",
+  description:
+    "Please check your email and verify your account before signing in.",
 });
 
 setTimeout(() => {
