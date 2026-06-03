@@ -32,6 +32,7 @@ def send_appointment_email(appointment_data: Dict) -> bool:
             
             <h3>Appointment Details:</h3>
             <ul>
+                <li><strong>Therapist:</strong> {appointment_data.get('therapist_name', 'Not Selected')}</li>
                 <li><strong>Service:</strong> {appointment_data['service']}</li>
                 <li><strong>Date:</strong> {appointment_data['date']}</li>
                 <li><strong>Time:</strong> {appointment_data['time']}</li>
