@@ -436,14 +436,14 @@ const Homepage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
-            <Link
-              to="/team"
+            <button
+                onClick={() => openBookingModal(team[0])}
               className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-2xl hover:scale-105 w-full sm:w-auto sm:min-w-[280px] flex items-center justify-center gap-2"
               data-testid="book-session-hero-btn"
             >
               <span>Just talk. No pressure.</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            </button>
             <button
               onClick={() => {
                 setIsHelpMeModalOpen(true);
@@ -530,13 +530,13 @@ const Homepage = () => {
                   Ready to Feel Like This?
                 </h3>
                 <p className="text-white/90 mb-8 text-lg">Your transformation is just one conversation away</p>
-                <Link 
-                  to="/team"
+                <button
+                    onClick={() => openBookingModal(team[0])}
                   className="inline-block bg-white text-orange-600 px-10 py-4 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
                   data-testid="book-therapist-cta-btn"
                 >
                   I Wanna Feel Good Too
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -566,12 +566,12 @@ const Homepage = () => {
               <span className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-lg text-lg font-medium border border-white/30">
                 100% Confidential
               </span>
-              <Link 
-                to="/team"
+              <button
+                  onClick={() => openBookingModal(team[0])}
                 className="bg-white text-teal-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-lg"
               >
                 Meet Our Therapists
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -586,20 +586,21 @@ const Homepage = () => {
                 Talk to someone who gets it.
               </h2>
               <p className="text-gray-500 text-base sm:text-lg max-w-xl mx-auto">
-                Book your first session — it's on us. Online, private, and at your pace.
+                Book a session with a therapist who understands your journey. Online, private, and at your pace.
               </p>
               <div className="mt-4 inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-semibold border border-green-200">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                1st Session Free — Book Now
+                Free first session available with selected therapists
               </div>
             </div>
 
             {/* Therapist Cards */}
             <div className="space-y-3 sm:space-y-4 mb-8">
               {team.map((member) => (
-                <Link 
-                  to="/team"
-                  key={member.id} 
+  <button
+    type="button"
+    key={member.id}
+    onClick={() => openBookingModal(member)} 
                   className="flex items-center gap-4 sm:gap-5 bg-white border border-gray-200 rounded-xl sm:rounded-2xl p-4 sm:p-5 hover:shadow-lg hover:border-teal-200 transition-all duration-300 group"
                   data-testid={`homepage-therapist-${member.id}`}
                 >
@@ -618,20 +619,19 @@ const Homepage = () => {
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className="text-xs sm:text-sm font-bold text-teal-600">From ₹{member.price45 || '999'}</span>
                     <span className="text-[10px] sm:text-xs text-gray-400 line-through">1st session free</span>
-                    <span className="text-teal-600 text-xs sm:text-sm font-medium group-hover:underline hidden sm:block">View Profile →</span>
+                    <span className="text-teal-600 text-xs sm:text-sm font-medium group-hover:underline hidden sm:block">Book Session →</span>
                   </div>
-                </Link>
+                </button>
               ))}
             </div>
 
             <div className="text-center">
-              <Link 
-                to="/team"
-                className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm sm:text-base"
-                data-testid="view-all-therapists-btn"
-              >
-                Book Your Free Session
-              </Link>
+              <button
+  onClick={() => openBookingModal(team[0])}
+  className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm sm:text-base"
+>
+  Book Your Session
+</button>
             </div>
           </div>
         </div>
@@ -716,13 +716,13 @@ const Homepage = () => {
 
             {/* CTA */}
             <div className="text-center mt-12">
-              <Link 
-                to="/team"
+              <button
+                  onClick={() => openBookingModal(team[0])}
                 className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-10 py-4 rounded-full font-medium hover:shadow-xl transition-all duration-300 hover:scale-105 gap-2"
               >
                 Start Your Journey Today
                 <ArrowRight className="w-5 h-5" />
-              </Link>
+              </button>
             </div>
           </div>
         </div>
