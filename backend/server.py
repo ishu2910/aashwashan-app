@@ -41,7 +41,16 @@ import os
 
 # Import Supabase database and models
 from database import get_db, engine, Base
-from models import User, Booking, UserRole, TherapistProfile, AvailabilitySlot, Booking, CommunityPost as CommunityPostModel, Blog
+from models import (
+    User,
+    Booking,
+    AppointmentRequest,
+    UserRole,
+    TherapistProfile,
+    AvailabilitySlot,
+    CommunityPost as CommunityPostModel,
+    Blog,
+)
 from auth import (
     UserCreate, UserLogin, Token, UserResponse,
     hash_password, verify_password, create_access_token,
@@ -1057,26 +1066,28 @@ class AppointmentRequestData(BaseModel):
 @api_router.post("/appointments/request")
 async def request_appointment(
     request: AppointmentRequestData,
-    
+    db: AsyncSession = Depends(get_db),
 ):
     """Submit appointment request - sends email to care@aashwashan.com"""
     try:
         # Store the request in database
-        request_doc = {
-            "id": str(uuid.uuid4()),
-            "name": request.name,
-            "email": request.email,
-            "phone": request.phone,
-            "date": request.date,
-            "time": request.time,
-            "message": request.message,
-            "session_duration": request.sessionDuration,
-            "price": request.price,
-            "therapist_name": request.therapist_name,
-            "status": "pending",
-            "created_at": datetime.now(timezone.utc).isoformat()
-        }
-        # await mongo_db.appointment_requests.insert_one(request_doc)
+        appointment = AppointmentRequest(
+    client_name=request.name,
+    client_email=request.email,
+    client_phone=request.phone,
+    therapist_name=request.therapist_name,
+    therapist_id=None,
+    service=request.sessionDuration,
+    session_mode="Online",
+    appointment_date=datetime.strptime(request.date, "%Y-%m-%d").date(),
+    appointment_time=request.time,
+    message=request.message,
+    status="Pending",
+)
+
+db.add(appointment)
+await db.commit()
+await db.refresh(appointment)
         
         # Send email notification to care@aashwashan.com
         email_body = f"""
@@ -1127,7 +1138,7 @@ Reply to: {request.email}
         return {
             "success": True,
             "message": "Your appointment request has been submitted. Our team will contact you within 24 hours.",
-            "request_id": request_doc["id"]
+            "request_id": appointment.id
         }
     except Exception as e:
         logger.error(f"Error processing appointment request: {str(e)}")

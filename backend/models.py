@@ -1,7 +1,7 @@
 # /app/backend/models.py
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import Column, String, Text, DateTime, Boolean, Integer, ForeignKey, Enum as SQLEnum
+from sqlalchemy import Column, String, Date, Text, DateTime, Boolean, Integer, ForeignKey, Enum as SQLEnum
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
@@ -127,3 +127,30 @@ class Blog(Base):
     
     # Relationships
     author = relationship('User', back_populates='blogs')
+
+
+
+
+class AppointmentRequest(Base):
+    __tablename__ = "appointment_requests"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+
+    client_name = Column(String, nullable=False)
+    client_email = Column(String)
+    client_phone = Column(String)
+
+    therapist_name = Column(String)
+    therapist_id = Column(String)
+
+    service = Column(String)
+    session_mode = Column(String)
+
+    appointment_date = Column(Date)
+    appointment_time = Column(String)
+
+    message = Column(Text)
+
+    status = Column(String, default="Pending")
+
+    created_at = Column(DateTime(timezone=True), default=utc_now)

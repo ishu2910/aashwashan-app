@@ -618,7 +618,18 @@ const Homepage = () => {
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className="text-xs sm:text-sm font-bold text-teal-600">From ₹{member.price45 || '999'}</span>
-                    <span className="text-[10px] sm:text-xs text-gray-400 line-through">1st session free</span>
+                    {(
+  member.name === "Prakhar Tiwari" ||
+  member.name === "Kanika Sharma"
+) ? (
+  <span className="text-[10px] sm:text-xs text-green-600 font-semibold">
+    1st Session Free
+  </span>
+) : (
+  <span className="text-[10px] sm:text-xs text-gray-500">
+    Paid First Session
+  </span>
+)}
                     <span className="text-teal-600 text-xs sm:text-sm font-medium group-hover:underline hidden sm:block">Book Session →</span>
                   </div>
                 </button>
