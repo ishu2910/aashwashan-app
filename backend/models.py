@@ -131,7 +131,7 @@ class Blog(Base):
 
 
 
-class AppointmentRequest(Base):
+class AppointmentRequestModel(Base):
     __tablename__ = "appointment_requests"
 
     id = Column(String(36), primary_key=True, default=generate_uuid)

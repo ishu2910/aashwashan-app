@@ -44,7 +44,7 @@ from database import get_db, engine, Base
 from models import (
     User,
     Booking,
-    AppointmentRequest,
+    AppointmentRequestModel,
     UserRole,
     TherapistProfile,
     AvailabilitySlot,
@@ -1071,7 +1071,7 @@ async def request_appointment(
     """Submit appointment request - sends email to care@aashwashan.com"""
     try:
         # Store the request in database
-        appointment = AppointmentRequest(
+        appointment = AppointmentRequestModel(
     client_name=request.name,
     client_email=request.email,
     client_phone=request.phone,
@@ -1085,33 +1085,33 @@ async def request_appointment(
     status="Pending",
 )
 
-db.add(appointment)
-await db.commit()
-await db.refresh(appointment)
+        db.add(appointment)
+        await db.commit()
+        await db.refresh(appointment)
         
         # Send email notification to care@aashwashan.com
         email_body = f"""
-New Appointment Request - Aashwashan
+        New Appointment Request - Aashwashan
 
-Patient Details:
-- Name: {request.name}
-- Email: {request.email}
-- Phone: {request.phone}
+        Patient Details:
+        - Name: {request.name}
+        - Email: {request.email}
+        - Phone: {request.phone}
 
-Session Details:
-- Preferred Therapist: {request.therapist_name}
-- Date: {request.date}
-- Time: {request.time}
-- Duration: {request.sessionDuration}
-- Price: ₹{request.price}
+        Session Details:
+        - Preferred Therapist: {request.therapist_name}
+        - Date: {request.date}
+        - Time: {request.time}
+        - Duration: {request.sessionDuration}
+        - Price: ₹{request.price}
 
-Message from Patient:
-{request.message or 'No additional message'}
+         Message from Patient:
+         {request.message or 'No additional message'}
 
----
-Please contact the patient within 24 hours to confirm the session.
-Reply to: {request.email}
-"""
+         ---
+          Please contact the patient within 24 hours to confirm the session.
+           Reply to: {request.email}
+             """
         
         # Log the request (email sending will be handled by email_service when configured)
         logger.info(f"Appointment request received from {request.name} ({request.email})")
