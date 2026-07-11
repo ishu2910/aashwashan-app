@@ -2,6 +2,7 @@
 import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, Date, Text, DateTime, Boolean, Integer, ForeignKey, Enum as SQLEnum
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
@@ -134,7 +135,7 @@ class Blog(Base):
 class AppointmentRequestModel(Base):
     __tablename__ = "appointment_requests"
 
-    id = Column(String(36), primary_key=True, default=generate_uuid)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
 
     client_name = Column(String, nullable=False)
     client_email = Column(String)
