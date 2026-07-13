@@ -115,7 +115,7 @@ export const team = [
     experience: "800+ Therapy Sessions",
     price45: "1199",
     price60: null,
-    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop",
+    image: "https://res.cloudinary.com/qqjn11uq/image/upload/v1783953498/Anushka_psychologist_gbjqqn.jpg",
     bio: "Anushka specializes in supporting children, teenagers, and parents through emotional, behavioural, and developmental challenges.",
     education: "M.A. in Psychology"
   },
