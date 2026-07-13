@@ -84,7 +84,7 @@ export const team = [
     role: "Counselling Psychologist",
     specialization: "Counseling & Mental Health Support",
     skills: ["Empathy", "Grief", "Active Listening", "Career Problems"],
-    experience: "1+ years",
+    experience: "500+ Therapy Sessions",
     price45: "999",
     price60: "1249",
     image: "https://customer-assets.emergentagent.com/job_e346c176-86b9-4c64-8688-a2f0bf5fe171/artifacts/5g3j69yz_prakhar%20-%20Edited.png",
@@ -96,10 +96,10 @@ export const team = [
   {
     id: 2,
     name: "Sonali Mishra",
-    role: "Licensed Therapist",
+    role: "Counselling Psychologist",
     specialization: "Behavioral Therapy & Wellness",
     skills: ["Stress Management", "Relationship Issues", "Self-Esteem", "Anxiety"],
-    experience: "3+ years",
+    experience: "800+ Therapy Sessions",
     price45: "1299",
     price60: null,
     image: "https://customer-assets.emergentagent.com/job_e346c176-86b9-4c64-8688-a2f0bf5fe171/artifacts/s1p9da79_Untitled%20design%20%281%29.png",
@@ -109,22 +109,39 @@ export const team = [
   {
     id: 3,
     name: "Anushka",
-    role: "Psychologist",
+    role: "Child & Teen Specialist",
     specialization: "Relationship & Grief Counseling",
-    skills: ["Relationship Issues", "Grief", "Emotional Support", "Trauma Recovery"],
-    experience: "4+ years",
+    skills: ["Child Therapy","Teen Counselling","Parent Guidance","Emotional Development"],
+    experience: "800+ Therapy Sessions",
     price45: "1199",
     price60: null,
     image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&h=400&fit=crop",
-    bio: "Anushka specializes in helping individuals navigate through relationship challenges and grief. With 4+ years of experience, she provides a compassionate, non-judgmental space for healing and personal growth.",
+    bio: "Anushka specializes in supporting children, teenagers, and parents through emotional, behavioural, and developmental challenges.",
     education: "M.A. in Psychology"
-  }
+  },
+{
+  id: 4,
+  name: "Kanika Dhariwal",
+  role: "Mental Wellness Coach",
+  experience: "200+ Coaching Sessions",
+  image: "https://res.cloudinary.com/qqjn11uq/image/upload/v1783939898/Kanika_image_m6bjan.jpg",
+  price45: "999",
+  price60: null,
+  specialization: "Emotional Wellbeing & Mindfulness",
+  skills: [
+    "Stress Management",
+    "Mindfulness",
+    "Relationship Guidance",
+    "Emotional Support"
+  ]
+}
+
 ];
 
 export const testimonials = [
   {
     id: 1,
-    name: "Priya Sharma",
+    name: "Ruchi Goyal",
     role: "Individual Therapy Client",
     rating: 5,
     text: "Aashwashan has truly changed my life. The therapists here are compassionate, professional, and genuinely care about their clients' well-being. I've made tremendous progress in managing my anxiety.",
@@ -132,18 +149,18 @@ export const testimonials = [
   },
   {
     id: 2,
-    name: "Rahul & Neha Gupta",
-    role: "Couples Counseling",
+    name: "Rahul Singh Mandloi",
+    role: "Loneliness support",
     rating: 5,
-    text: "Our marriage was on the brink of collapse, but the couples therapy we received here helped us rebuild our relationship. We learned to communicate better and understand each other's needs.",
+    text: "I was feeling so much low and hopeless that i had lost my interests in every activity i do and Aashwashan helped me to get out of it.",
     icon: "users"
   },
   {
     id: 3,
-    name: "Amit Verma",
-    role: "Depression Support Client",
+    name: "Harsh Jain",
+    role: "Anxiety attacks due to breakup",
     rating: 5,
-    text: "After years of struggling with depression, I finally found hope at Aashwashan. The support and guidance I received helped me reclaim my life and find joy again.",
+    text: "I had a big breakup and i did not know how to get out it. I couldn't sleep well and then i took Aashwashan free session and that changed my way of looking at therapy. Don't overthink , just go for therapy and ask for help.",
     icon: "heart"
   }
 ];

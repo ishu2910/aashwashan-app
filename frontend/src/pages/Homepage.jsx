@@ -601,7 +601,7 @@ const Homepage = () => {
     type="button"
     key={member.id}
     onClick={() => openBookingModal(member)} 
-                  className="flex items-center gap-4 sm:gap-5 bg-white border border-gray-200 rounded-xl sm:rounded-2xl p-4 sm:p-5 hover:shadow-lg hover:border-teal-200 transition-all duration-300 group"
+                  className="flex items-center gap-5 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group"
                   data-testid={`homepage-therapist-${member.id}`}
                 >
                   <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 border border-gray-100">
@@ -609,28 +609,53 @@ const Homepage = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{member.name}</h4>
-                    <p className="text-xs sm:text-sm text-gray-500 mb-1.5">{member.role} &bull; {member.experience}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mb-1.5">
+  {member.role} &bull; {
+    member.name === "Prakhar Tiwari"
+      ? "500+ Sessions"
+      : member.name === "Anushka"
+      ? "Child & Teen Specialist"
+      : member.name === "Sonali Mishra"
+      ? "800+ Sessions"
+      : member.name === "Kanika Dhariwal"
+      ? "200+ Coaching Sessions"
+      : member.experience
+  }
+</p>
                     <div className="flex flex-wrap gap-1 sm:gap-1.5">
                       {member.skills?.slice(0, 3).map((skill, idx) => (
-                        <span key={idx} className="text-[10px] sm:text-xs bg-gray-100 text-gray-600 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">{skill}</span>
+                        <span key={idx} className="text-[10px] sm:text-xs bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">{skill}</span>
                       ))}
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className="text-xs sm:text-sm font-bold text-teal-600">From ₹{member.price45 || '999'}</span>
-                    {(
-  member.name === "Prakhar Tiwari" ||
-  member.name === "Kanika Sharma"
-) ? (
-  <span className="text-[10px] sm:text-xs text-green-600 font-semibold">
-    1st Session Free
+                    {member.name === "Prakhar Tiwari" ? (
+  <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-[10px] sm:text-xs font-semibold text-green-700">
+    🎁 1st Session Free
+  </span>
+) : member.name === "Kanika Dhariwal" ? (
+  <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-[10px] sm:text-xs font-semibold text-green-700">
+    🎁 1st Session Free
   </span>
 ) : (
-  <span className="text-[10px] sm:text-xs text-gray-500">
-    Paid First Session
+  <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-1 text-[10px] sm:text-xs font-medium text-slate-600">
+    Available This Week
   </span>
 )}
-                    <span className="text-teal-600 text-xs sm:text-sm font-medium group-hover:underline hidden sm:block">Book Session →</span>
+                    <span className="text-teal-600 text-xs sm:text-sm font-semibold group-hover:underline hidden sm:block">
+  {
+  member.name === "Prakhar Tiwari"
+    ? "Book Now →"
+    : member.name === "Sonali Mishra"
+    ? "Request a Session →"
+    : member.name === "Anushka"
+    ? "Request a Session →"
+    : member.name === "Kanika Dhariwal"
+    ? "Request a Session →"
+    : "Book Now →"
+}
+</span>
                   </div>
                 </button>
               ))}
