@@ -731,10 +731,10 @@ return (
               
               <div className="grid md:grid-cols-4 gap-8 relative z-10">
                 {[
-                  { num: '01', title: "Recognize", subtitle: "The First Step", desc: 'Acknowledge that you need support — this takes courage, and we honor that.', icon: Heart },
+                  { num: '01', title: "Recognize", subtitle: "The First Step", desc: 'Acknowledge that you need support. Asking for help is a sign of strength.', icon: Heart },
                   { num: '02', title: "Connect", subtitle: "Reach Out", desc: 'Book a session or take our assessment. We\'re here to listen without judgment.', icon: Phone },
-                  { num: '03', title: "Match", subtitle: "Find Your Fit", desc: 'We connect you with a therapist who understands your unique journey.', icon: Users },
-                  { num: '04', title: "Transform", subtitle: "Heal & Grow", desc: 'Begin your personalized healing journey with ongoing support and care.', icon: Sparkles }
+                  { num: '03', title: "Match", subtitle: "Find Your Therapist", desc: 'We\'ll connect you with the therapist who best understands your concerns.', icon: Users },
+                  { num: '04', title: "One Step at a Time", subtitle: "Feel Better", desc: 'Small conversations can lead to meaningful change. Healing happens at your own pace.', icon: Sparkles }
                 ].map((step, idx) => (
                   <div key={idx} className="text-center group">
                     <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
