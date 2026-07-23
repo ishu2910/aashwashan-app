@@ -144,7 +144,7 @@ export const testimonials = [
     name: "Ruchi Goyal",
     role: "Individual Therapy Client",
     rating: 5,
-    text: "Aashwashan has truly changed my life. The therapists here are compassionate, professional, and genuinely care about their clients' well-being. I've made tremendous progress in managing my anxiety.",
+    text: "Therapy helped me manage my anxiety.",
     icon: "user"
   },
   {
@@ -152,7 +152,7 @@ export const testimonials = [
     name: "Rahul Singh Mandloi",
     role: "Loneliness support",
     rating: 5,
-    text: "I was feeling so much low and hopeless that i had lost my interests in every activity i do and Aashwashan helped me to get out of it.",
+    text: "I felt heard for the first time.",
     icon: "users"
   },
   {
@@ -160,7 +160,7 @@ export const testimonials = [
     name: "Harsh Jain",
     role: "Anxiety attacks due to breakup",
     rating: 5,
-    text: "I had a big breakup and i did not know how to get out it. I couldn't sleep well and then i took Aashwashan free session and that changed my way of looking at therapy. Don't overthink , just go for therapy and ask for help.",
+    text: "I finally started sleeping peacefully.",
     icon: "heart"
   }
 ];

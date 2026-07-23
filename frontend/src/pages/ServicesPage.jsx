@@ -4,6 +4,7 @@ import { CheckCircle, X, User, Mail, Phone, Calendar, Clock, CreditCard } from '
 import { services, team } from '../data/mockData';
 import api from "../api";
 import { toast } from '../hooks/use-toast';
+import SEO from "@/components/SEO";
 
 
 const API = "https://aashwashan-app-1.onrender.com/api";
@@ -92,6 +93,13 @@ const ServicesPage = () => {
   };
 
   return (
+    <>
+    <SEO
+  title="Online Therapy Services | Anxiety, Depression & Relationship Counselling | Aashwashan"
+  description="Explore online therapy services at Aashwashan, including support for anxiety, depression, stress, relationships, grief, sleep issues, and emotional wellbeing."
+  keywords="online therapy services, anxiety therapy, depression counselling, relationship counselling, stress management, online psychologist India"
+  url="https://aashwashan.com/services"
+/>
     <div>
       {/* Hero Section - Do You Know What? */}
       <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 py-20 text-white">
@@ -491,6 +499,7 @@ const ServicesPage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

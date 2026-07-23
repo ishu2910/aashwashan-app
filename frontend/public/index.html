@@ -50,48 +50,38 @@
         <!-- Structured Data / Schema.org -->
         <script type="application/ld+json">
         {
-            "@context": "https://schema.org",
-            "@type": "MedicalBusiness",
-            "name": "Aashwashan Mental Health Services",
-            "description": "Professional mental health care and therapy services in India",
-            "url": "https://aashwashan.com",
-            "logo": "https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif",
-            "image": "https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif",
-            "email": "care@aashwashan.com",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "1289/6 Near Market Committee",
-                "addressLocality": "Ambala City",
-                "addressRegion": "Haryana",
-                "addressCountry": "IN"
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "30.3782",
-                "longitude": "76.7767"
-            },
-            "priceRange": "₹₹",
-            "openingHours": "Mo-Su 09:00-18:00",
-            "sameAs": [],
-            "medicalSpecialty": ["Psychiatry", "Psychology"],
-            "availableService": [
-                {
-                    "@type": "MedicalTherapy",
-                    "name": "Anxiety Treatment",
-                    "description": "Professional therapy for anxiety disorders"
-                },
-                {
-                    "@type": "MedicalTherapy", 
-                    "name": "Depression Treatment",
-                    "description": "Compassionate care for depression and mood disorders"
-                },
-                {
-                    "@type": "MedicalTherapy",
-                    "name": "Stress Management",
-                    "description": "Therapy for stress and burnout"
-                }
-            ]
-        }
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://aashwashan.com/#organization",
+  "name": "Aashwashan",
+  "alternateName": "A Safe Place To Start",
+  "url": "https://aashwashan.com",
+  "logo": "https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif",
+  "image": "https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif",
+  "description": "Aashwashan provides professional online therapy, counselling and mental wellness support across India.",
+  "email": "care@aashwashan.com",
+  "telephone": "+91-8950772282",
+  "areaServed": {
+    "@type": "Country",
+    "name": "India"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+91-8950772282",
+    "contactType": "customer support",
+    "email": "care@aashwashan.com",
+    "availableLanguage": [
+      "English",
+      "Hindi"
+    ]
+  },
+  "sameAs": [
+    "https://www.instagram.com/aashwashan.health/",
+    "https://www.linkedin.com/in/aashwashan-a-safe-place-to-start-5543493a7/",
+    "https://x.com/Aashwashan_care",
+    "https://www.facebook.com/profile.php?id=61588488503908"
+  ]
+}
         </script>
         
         <!-- Google Fonts for better typography -->
@@ -218,6 +208,10 @@
                 document.head.appendChild(tailwindScript);
             }
         </script>
+       <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+       <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+       <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+              
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>

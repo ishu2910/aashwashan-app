@@ -3,6 +3,7 @@ import { Calendar, Clock, User, Phone, Mail } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import { services } from '../data/mockData';
 import api from "../api";
+import SEO from "@/components/SEO";
 
 
 const API = "https://aashwashan-app-1.onrender.com/api";
@@ -58,6 +59,13 @@ const response = await api.post(`${API}/appointments`, payload);
   };
 
   return (
+    <>
+    <SEO
+  title="Book an Online Therapy Session | Aashwashan"
+  description="Schedule your confidential online therapy session with experienced psychologists at Aashwashan."
+  keywords="book therapy online, psychologist appointment"
+  url="https://aashwashan.com/appointment"
+/>
     <div>
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-20">
@@ -286,6 +294,7 @@ const response = await api.post(`${API}/appointments`, payload);
         </div>
       </section>
     </div>
+    </>
   );
 };
 

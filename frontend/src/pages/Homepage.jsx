@@ -5,6 +5,7 @@ import { services, team, testimonials, faqs } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
 import { useAuth } from '../context/AuthContext';
+import SEO from "@/components/SEO";
 
 
 const API = "https://aashwashan-app-1.onrender.com/api";
@@ -389,9 +390,15 @@ const Homepage = () => {
     }
   };
 
-  return (
-    <div className="overflow-hidden">
-      {/* HERO SECTION: How are you Feeling Today? - With Rotating Background Images */}
+return (
+  <>
+    <SEO
+  title="Aashwashan | Online Therapy & Counselling with Licensed Psychologists"
+  description="Connect with experienced psychologists through secure online therapy sessions. Aashwashan provides compassionate support for anxiety, depression, stress, relationships, and emotional wellbeing across India."
+  keywords="online therapy India, online psychologist, counselling psychologist, anxiety therapy, depression counselling, relationship counselling, mental health support"
+  url="https://aashwashan.com/"
+/>
+    <div className="overflow-hidden">      {/* HERO SECTION: How are you Feeling Today? - With Rotating Background Images */}
       <section className="relative min-h-[70vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden">
         {/* Rotating Background Images */}
         <div className="absolute inset-0">
@@ -420,7 +427,7 @@ const Homepage = () => {
         {/* Content */}
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto animate-fade-in-up">
           <p className="text-teal-200 font-medium uppercase tracking-[0.3em] text-sm mb-6 animate-fade-in delay-100">
-            Your Journey to Wellness Starts Here
+            Hope is real. Healing is possible.
           </p>
           
           <h1 
@@ -428,11 +435,11 @@ const Homepage = () => {
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             How are you feeling<br />
-            <span className="italic font-normal text-teal-200">today?</span>
+            <span className="italic font-normal text-teal-200"></span>
           </h1>
           
           <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in delay-300" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-            You don't have to face this alone. Our compassionate therapists are here to listen, understand, and guide you towards a healthier mind.
+            You don't have to face this alone. Whatever you're going through, we're here to listen, understand, and help you move forward—one conversation at a time.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
@@ -441,7 +448,7 @@ const Homepage = () => {
               className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-2xl hover:scale-105 w-full sm:w-auto sm:min-w-[280px] flex items-center justify-center gap-2"
               data-testid="book-session-hero-btn"
             >
-              <span>Just talk. No pressure.</span>
+              <span>Book Your First Session</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button
@@ -454,7 +461,7 @@ const Homepage = () => {
               className="bg-white/15 backdrop-blur-md text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-white/25 transition-all duration-300 font-medium text-base sm:text-lg border border-white/30 w-full sm:w-auto sm:min-w-[280px] hover:scale-105"
               data-testid="help-me-find-btn-hero"
             >
-              Help Me Feel Better
+              Find the Right Therapist
             </button>
           </div>
 
@@ -501,7 +508,7 @@ const Homepage = () => {
               { title: 'Think Clearer', desc: 'Better focus and decision making', img: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=200' },
               { title: 'Feel Lighter', desc: 'Less emotional burden, more joy', img: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=200' },
               { title: 'Build Resilience', desc: 'Bounce back stronger from challenges', img: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200' },
-              { title: 'Become Yourself', desc: 'Rediscover who you truly are', img: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=200' }
+              { title: 'Feel More Like Yourself', desc: 'Enjoy the little moments again', img: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=200' }
             ].map((item, idx) => (
               <div 
                 key={idx} 
@@ -527,7 +534,7 @@ const Homepage = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600"></div>
               <div className="relative p-12 text-white">
                 <h3 className="text-3xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  Ready to Feel Like This?
+                  Imagine Feeling This Way Again.
                 </h3>
                 <p className="text-white/90 mb-8 text-lg">Your transformation is just one conversation away</p>
                 <button
@@ -535,7 +542,7 @@ const Homepage = () => {
                   className="inline-block bg-white text-orange-600 px-10 py-4 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
                   data-testid="book-therapist-cta-btn"
                 >
-                  I Wanna Feel Good Too
+                  Start My Healing Journey
                 </button>
               </div>
             </div>
@@ -682,8 +689,8 @@ const Homepage = () => {
               We're <span className="text-teal-600">Human</span>, Just Like <span className="text-cyan-600">You</span>
             </h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-10 max-w-3xl mx-auto" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              At <span className="text-teal-600 font-semibold">Aashwashan</span>, we understand that reaching out for help takes <span className="text-orange-500 font-semibold">courage</span>. Our therapists aren't just professionals — they're <span className="text-cyan-600 font-semibold">compassionate human beings</span> who genuinely care about your well-being. When you visit us, you're not just a client — you're a <span className="text-teal-600 font-semibold">person with a story</span> that deserves to be heard.
-            </p>
+  At <span className="text-teal-600 font-semibold">Aashwashan</span>, we know that asking for help takes courage. You'll be heard without judgment, supported with compassion, and guided by licensed psychologists who genuinely care about your well-being. Because healing begins when someone truly listens.
+</p>
             
             {/* Quote Card */}
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-teal-100 shadow-lg">
@@ -787,8 +794,8 @@ const Homepage = () => {
                     <Heart className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>We See You as a Person, Not a Patient</h4>
-                    <p className="text-gray-600 leading-relaxed">You're not just a case file or an appointment slot. You're someone's child, parent, friend, or partner. We treat you with the same care we'd want for our own family.</p>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>You're Matched With the Right Therapist</h4>
+                    <p className="text-gray-600 leading-relaxed">We carefully match you with a psychologist who understands your concerns, so you can build a connection that feels comfortable from the very first session.</p>
                   </div>
                 </div>
               </div>
@@ -800,8 +807,8 @@ const Homepage = () => {
                     <MessageCircle className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>We're Here Between Sessions Too</h4>
-                    <p className="text-gray-600 leading-relaxed">Life doesn't pause between appointments. That's why we check in on you, remind you to smile, and celebrate your small wins — because they matter.</p>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>100% Private & Confidential</h4>
+                    <p className="text-gray-600 leading-relaxed">Everything you share stays confidential. Your privacy and emotional safety always come first.</p>
                   </div>
                 </div>
               </div>
@@ -813,8 +820,8 @@ const Homepage = () => {
                     <Users className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>Your Family's Mental Health Partner</h4>
-                    <p className="text-gray-600 leading-relaxed">We understand that your struggles affect your loved ones too. We help you become the best version of yourself — for you and for the people who love you.</p>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>Evidence-Based Therapy</h4>
+                    <p className="text-gray-600 leading-relaxed">Our psychologists use proven therapeutic approaches tailored to your needs—not one-size-fits-all advice.</p>
                   </div>
                 </div>
               </div>
@@ -826,8 +833,8 @@ const Homepage = () => {
                     <Sparkles className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>We Believe in Your Potential</h4>
-                    <p className="text-gray-600 leading-relaxed">You're not broken — you're growing. We see your strength even when you can't. Our job is to help you see it too, one step at a time.</p>
+                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>Healing at Your Own Pace</h4>
+                    <p className="text-gray-600 leading-relaxed">There's no pressure to be "better" overnight. We'll support you through every step of your journey.</p>
                   </div>
                 </div>
               </div>
@@ -1694,6 +1701,7 @@ const Homepage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

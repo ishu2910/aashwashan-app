@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check } from 'lucide-react';
 import { pricingPlans } from '../data/mockData';
+import SEO from "@/components/SEO";
 
 const PricingPage = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
 
   return (
+    <>
+    <SEO
+  title="Online Therapy Pricing | Aashwashan"
+  description="View online therapy session pricing at Aashwashan and choose the right mental health support for your needs."
+  keywords="therapy cost, online psychologist fees, counselling pricing"
+  url="https://aashwashan.com/pricing"
+/>
     <div>
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-20">
@@ -146,6 +154,7 @@ const PricingPage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

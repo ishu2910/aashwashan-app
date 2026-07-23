@@ -1,9 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle, Award, Users, Heart, Target, Lightbulb, Shield } from 'lucide-react';
+import SEO from "@/components/SEO";
 
 const AboutPage = () => {
   return (
+    <>
+  <SEO
+    title="About Aashwashan | Online Mental Health Platform"
+    description="Learn about Aashwashan's mission to make quality online mental healthcare accessible across India through compassionate psychologists."
+    keywords="about Aashwashan, online therapy India, mental health platform, psychologists"
+    url="https://aashwashan.com/about"
+  />
     <div>
       {/* Hero Section - TEAL THEME */}
       <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-16 text-white">
@@ -183,6 +191,7 @@ const AboutPage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

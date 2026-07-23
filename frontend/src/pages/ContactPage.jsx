@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Mail, Phone, Clock, Send } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
 import api from "../api";
+import SEO from "@/components/SEO";
 
 
 const API = "https://aashwashan-app-1.onrender.com/api";
@@ -50,6 +51,13 @@ const ContactPage = () => {
   };
 
   return (
+    <>
+    <SEO
+  title="Contact Aashwashan | Book an Online Therapy Session"
+  description="Get in touch with Aashwashan to book confidential online therapy sessions with experienced psychologists."
+  keywords="contact psychologist, online counselling, therapy booking"
+  url="https://aashwashan.com/contact"
+/>
     <div>
       {/* Hero Section - TEAL THEME */}
       <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-20 text-white">
@@ -234,6 +242,7 @@ const ContactPage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

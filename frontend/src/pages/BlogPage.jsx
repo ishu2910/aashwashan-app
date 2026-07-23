@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight, Search } from 'lucide-react';
 import axios from 'axios';
 import { mentalHealthArticles, newsCategories } from '../data/blogArticles';
+import SEO from "@/components/SEO";
 
 const API_URL = "https://aashwashan-app-1.onrender.com";
 
@@ -63,6 +64,13 @@ const BlogPage = () => {
   };
 
   return (
+    <>
+    <SEO
+  title="Mental Health Blog | Aashwashan"
+  description="Read evidence-based mental health articles, therapy guides, and emotional wellness resources from Aashwashan."
+  keywords="mental health blog, therapy articles, anxiety, depression"
+  url="https://aashwashan.com/blog"
+/>
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white" data-testid="blog-page">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-16 text-white">
@@ -224,6 +232,7 @@ const BlogPage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from '../hooks/use-toast';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
+import SEO from "@/components/SEO";
 
 const API = "https://aashwashan-app-1.onrender.com/api";
 
@@ -90,6 +91,13 @@ const TeamPage = () => {
   const SESSION_PRICING = selectedTherapist ? getSessionPricing(selectedTherapist) : getSessionPricing({});
 
   return (
+    <>
+  <SEO
+    title="Meet Our Therapists | Aashwashan"
+    description="Meet licensed online psychologists and mental health professionals at Aashwashan. Get confidential online therapy for anxiety, depression, stress, relationships, couples therapy, children, teens and emotional wellbeing across India."
+    keywords="online psychologist India, online therapist India, counselling psychologist, child psychologist, couples therapist, anxiety therapist, depression counselling, relationship counselling, online therapy India"
+    url="https://aashwashan.com/team"
+  />
     <div data-testid="team-page">
       {/* Auth Prompt */}
       
@@ -399,6 +407,7 @@ const TeamPage = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

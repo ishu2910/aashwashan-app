@@ -187,6 +187,13 @@ setIsSubmitting(false);
 };
 
 return (
+  <>
+  <SEO
+  title="Mental Health Community | Aashwashan"
+  description="Join the Aashwashan mental health community to learn, share experiences, and support emotional wellbeing."
+  keywords="mental health community, emotional wellbeing, support group"
+  url="https://aashwashan.com/community"
+/>
   <div className="min-h-screen bg-[#0f172a] text-white p-6">
 
     {/* HEADER */}
@@ -398,6 +405,7 @@ return (
 
     </div>
   </div>
+  </>
 );
 };
 

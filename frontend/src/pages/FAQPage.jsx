@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { faqs } from '../data/mockData';
 import { Link } from 'react-router-dom';
+import SEO from "@/components/SEO";
 
 const FAQPage = () => {
   const [openIndex, setOpenIndex] = useState(0);
@@ -11,6 +12,13 @@ const FAQPage = () => {
   };
 
   return (
+    <>
+    <SEO
+  title="Frequently Asked Questions | Online Therapy | Aashwashan"
+  description="Find answers to common questions about online therapy, booking sessions, confidentiality, pricing, and mental health support."
+  keywords="therapy FAQ, online counselling questions, psychologist consultation"
+  url="https://aashwashan.com/faq"
+/>
     <div>
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 py-20">
@@ -115,6 +123,7 @@ const FAQPage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, Upload, User, Heart, Lightbulb, Users } from 'lucide-react';
 import { toast } from '../hooks/use-toast';
+import SEO from "@/components/SEO";
 
 const JoinOurTeamPage = () => {
   const [formData, setFormData] = useState({
@@ -44,6 +45,13 @@ const JoinOurTeamPage = () => {
   };
 
   return (
+    <>
+    <SEO
+  title="Careers | Join Aashwashan"
+  description="Join Aashwashan as a psychologist, therapist, or mental health professional and help make quality online therapy accessible across India."
+  keywords="psychologist jobs, therapist careers, join mental health team"
+  url="https://aashwashan.com/join-team"
+/>
     <div>
       {/* Hero Section - TEAL THEME */}
       <section className="bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 py-20 text-white">
@@ -217,6 +225,7 @@ const JoinOurTeamPage = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
