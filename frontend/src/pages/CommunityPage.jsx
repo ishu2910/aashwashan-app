@@ -2,6 +2,8 @@ import { supabase } from '../lib/supabase';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Send, User, Shield, Clock } from 'lucide-react';
+import SEO from "../components/SEO";
+import { trackEvent } from "../analytics";
 const getUserId = () => {
   let userId = localStorage.getItem("user_id");
 
@@ -282,10 +284,12 @@ return (
 
             <button
               onClick={() => {
-              gtag('event', 'create_post', {
-              event_category: 'engagement',
-              event_label: 'post_created'
-              });
+              if (window.gtag) {
+  window.gtag('event', 'create_post', {
+    event_category: 'engagement',
+    event_label: 'post_created'
+  });
+}
               handleSubmitPost();
               }}
               disabled={isSubmitting || !newPost.trim()}
@@ -344,10 +348,12 @@ return (
 
   <button
     onClick={() => {
-  gtag('event', 'like_post', {
+  if (window.gtag) {
+  window.gtag('event', 'like_post', {
     event_category: 'engagement',
     event_label: 'like_clicked'
   });
+}
   handleLike(post.id);
 }}
     className="flex items-center gap-1 hover:text-red-400 transition"

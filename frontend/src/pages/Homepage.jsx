@@ -926,7 +926,7 @@ return (
   </div>
 
   <h4 className="text-xl font-semibold mb-3 text-gray-800">
-    Self-Help Library
+    Learning Centre
   </h4>
 
   <p className="text-gray-600 mb-6 text-sm flex-grow">
@@ -937,7 +937,7 @@ return (
     disabled
     className="mt-auto bg-gray-300 text-gray-600 px-6 py-2 rounded-lg font-medium cursor-not-allowed"
   >
-    Coming Soon
+    Coming Soon ✨
   </button>
 </div>
 
