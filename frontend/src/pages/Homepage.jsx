@@ -855,83 +855,95 @@ return (
       <section id="self-help-tools" className="py-12 sm:py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-16">
-            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Self Care</p>
+            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">TOOLS & RESOURCES</p>
             <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Take Care of Yourself
+              Tools for Your Well-Being
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Simple tools you can use right now to feel better. Start writing for clarity.
+              Practical, therapist-informed tools to help you understand your emotions, manage daily challenges, and support your mental well-being.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 h-full flex flex-col hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
               <div className="w-20 h-20 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Wind className="w-10 h-10 text-white" />
               </div>
-              <h4 className="text-xl font-semibold mb-3 text-teal-800">4-4-4 Breathing</h4>
-              <p className="text-gray-600 mb-4 text-sm">
-                A simple technique to calm your nervous system and reduce anxiety instantly.
+              <h4 className="text-xl font-semibold mb-3 text-teal-800">Calm Corner</h4>
+              <p className="text-gray-600 mb-6 text-sm flex-grow">
+                Feeling overwhelmed? Take a moment to breathe, slow down, and reconnect with yourself using our guided breathing exercise.
               </p>
               <button
                 onClick={() => setIsBreathingModalOpen(true)}
-                className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
+                className="mt-auto bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
                 data-testid="breathing-exercise-btn"
               >
-                Try Now
+                Open Calm Corner
               </button>
             </div>
 
-            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 h-full flex flex-col hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
               <div className="w-20 h-20 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <BookHeart className="w-10 h-10 text-white" />
               </div>
-              <h4 className="text-xl font-semibold mb-3 text-teal-800">Gratitude Journal</h4>
-              <p className="text-gray-600 mb-4 text-sm">
-                Write down 3 things you're grateful for. It shifts your focus to positivity.
+              <h4 className="text-xl font-semibold mb-3 text-teal-800">Reflection Journal</h4>
+              <p className="text-gray-600 mb-6 text-sm flex-grow">
+                Write your thoughts, emotions, or moments of gratitude. Small reflections today can create meaningful change tomorrow.
               </p>
               <button
                 onClick={() => setIsGratitudeModalOpen(true)}
-                className="bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
+                className="mt-auto bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
                 data-testid="gratitude-journal-btn"
               >
                 Start Writing
               </button>
             </div>
 
-            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
-              <div className="w-20 h-20 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Activity className="w-10 h-10 text-white" />
-              </div>
-              <h4 className="text-xl font-semibold mb-3 text-teal-800">Move Your Body</h4>
-              <p className="text-gray-600 mb-4 text-sm">
-                Feeling anxious? Go for a run, walk, or any physical exercise. Movement releases endorphins.
-              </p>
-              <div className="bg-white/80 rounded-lg p-3 border border-teal-100">
-                <p className="text-teal-700 text-sm font-medium">
-                  "Even 10 minutes of movement can reduce anxiety by 20%"
-                </p>
-              </div>
-            </div>
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8 h-full flex flex-col hover:shadow-xl transition-all duration-300 text-center border border-teal-100">
+  <div className="w-20 h-20 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-6">
+    <Activity className="w-10 h-10 text-white" />
+  </div>
+
+  <h4 className="text-xl font-semibold mb-3 text-teal-800">
+    Mental Health Assessment
+  </h4>
+
+  <p className="text-gray-600 mb-6 text-sm flex-grow">
+   Take clinically validated assessments to better understand your anxiety, stress, depression, and overall emotional well-being.
+  </p>
+
+  <Link
+    to="/self-assessment"
+    className="mt-auto inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
+  >
+    Start Assessment
+  </Link>
+</div>
+
+             <div className="bg-gradient-to-br from-gray-50 to-slate-100 rounded-2xl p-8 h-full flex flex-col hover:shadow-xl transition-all duration-300 text-center border border-gray-200">
+  <div className="w-20 h-20 bg-gradient-to-r from-gray-500 to-slate-600 rounded-full flex items-center justify-center mx-auto mb-6">
+    <Lock className="w-10 h-10 text-white" />
+  </div>
+
+  <h4 className="text-xl font-semibold mb-3 text-gray-800">
+    Self-Help Library
+  </h4>
+
+  <p className="text-gray-600 mb-6 text-sm flex-grow">
+    Discover therapist-curated articles, practical exercises, and evidence-based resources to support your mental well-being.
+  </p>
+
+  <button
+    disabled
+    className="mt-auto bg-gray-300 text-gray-600 px-6 py-2 rounded-lg font-medium cursor-not-allowed"
+  >
+    Coming Soon
+  </button>
+</div>
+
           </div>
 
-          {/* Self-Assessment Tools Link */}
-          <div className="mt-16 max-w-5xl mx-auto">
-            <div className="bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-8 text-white text-center">
-              <h4 className="text-2xl font-semibold mb-3">Want to Check Your Mental Well-Being?</h4>
-              <p className="text-white/90 mb-6 max-w-2xl mx-auto">
-                Take our validated self-assessment tests including PHQ-9, GAD-7, DASS-21, K6, PSS, and WHO-5 to understand your mental health better.
-              </p>
-              <Link 
-                to="/self-assessment"
-                className="inline-block bg-white text-teal-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-                data-testid="self-assessment-link"
-              >
-                Take Self-Assessment
-              </Link>
-            </div>
-          </div>
-
+          
           {/* Remember: Therapy takes time message */}
           <div className="mt-16 text-center">
             <div className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl p-6 max-w-2xl text-white">
@@ -941,6 +953,19 @@ return (
             </div>
           </div>
         </div>
+        <div className="mt-10 text-center">
+  <p className="text-gray-600 mb-5 max-w-2xl mx-auto">
+    Self-help tools are a great place to begin, but lasting healing often comes through meaningful conversations with a mental health professional.
+  </p>
+
+  <button
+    onClick={() => openBookingModal(team[0])}
+    className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all duration-300"
+  >
+    Talk to a Psychologist
+  </button>
+</div>
+
       </section>
 
       {/* SECTION: What Our Clients Say */}
