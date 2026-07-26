@@ -537,7 +537,7 @@ return (
       {/* SECTION: Meet Our Therapists */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <div className="text-center mb-10">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Talk to someone who gets it.
@@ -552,69 +552,83 @@ return (
             </div>
 
             {/* Therapist Cards */}
-            <div className="space-y-3 sm:space-y-4 mb-8">
+            <div className="space-y-5 mb-10">
               {team.map((member) => (
-  <button
-    type="button"
-    key={member.id}
-    onClick={() => openBookingModal(member)} 
-                  className="flex items-center gap-5 bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group"
+  <div
+  key={member.id}
+                  className="flex items-center justify-between gap-6 bg-white rounded-3xl border border-slate-200 p-5 lg:p-6 shadow-sm hover:shadow-xl transition-all duration-300 group"
                   data-testid={`homepage-therapist-${member.id}`}
                 >
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 border border-gray-100">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-gray-200">
                     <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{member.name}</h4>
-                    <p className="text-xs sm:text-sm text-gray-500 mb-1.5">
-  {member.role} &bull; {
+                    <p className="text-sm text-gray-500">
+  {member.role}
+</p>
+
+<p className="text-xs font-semibold text-teal-600 mt-1">
+  {
     member.name === "Prakhar Tiwari"
-      ? "500+ Sessions"
+      ? "500+ Sessions Conducted"
       : member.name === "Anushka"
-      ? "Child & Teen Specialist"
+      ? "250+ Sessions Conducted"
       : member.name === "Sonali Mishra"
-      ? "800+ Sessions"
+      ? "800+ Sessions Conducted"
       : member.name === "Kanika Dhariwal"
-      ? "200+ Coaching Sessions"
+      ? "200+ Sessions Conducted"
       : member.experience
   }
 </p>
-                    <div className="flex flex-wrap gap-1 sm:gap-1.5">
-                      {member.skills?.slice(0, 3).map((skill, idx) => (
-                        <span key={idx} className="text-[10px] sm:text-xs bg-teal-50 text-teal-700 border border-teal-100 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">{skill}</span>
-                      ))}
-                    </div>
+
+             <p className="text-xs font-semibold text-gray-700 mt-2 mb-2">
+  Works Best With
+</p>       
+
+                    <div className="overflow-hidden mt-1 max-w-[380px]">
+  <div className="flex w-max gap-2 whitespace-nowrap animate-marquee">
+
+    {[...member.skills, ...member.skills].map((skill, idx) => (
+      <span
+        key={idx}
+        className="bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full text-xs font-medium shadow-sm"
+      >
+        {skill}
+      </span>
+    ))}
+
+  </div>
+</div>
                   </div>
-                  <div className="flex flex-col items-end gap-1 shrink-0">
-                    <span className="text-xs sm:text-sm font-bold text-teal-600">From ₹{member.price45 || '999'}</span>
-                    {member.name === "Prakhar Tiwari" ? (
-  <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-[10px] sm:text-xs font-semibold text-green-700">
-    🎁 1st Session Free
+                  <div className="flex flex-col items-end justify-center gap-3 shrink-0 min-w-[170px]">
+
+  <span className="text-sm font-bold text-teal-600">
+    From ₹{member.price45 || "999"}
   </span>
-) : member.name === "Kanika Dhariwal" ? (
-  <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-[10px] sm:text-xs font-semibold text-green-700">
-    🎁 1st Session Free
-  </span>
-) : (
-  <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-1 text-[10px] sm:text-xs font-medium text-slate-600">
-    Available This Week
-  </span>
-)}
-                    <span className="text-teal-600 text-xs sm:text-sm font-semibold group-hover:underline hidden sm:block">
-  {
-  member.name === "Prakhar Tiwari"
-    ? "Book Now →"
-    : member.name === "Sonali Mishra"
-    ? "Request a Session →"
-    : member.name === "Anushka"
-    ? "Request a Session →"
-    : member.name === "Kanika Dhariwal"
-    ? "Request a Session →"
-    : "Book Now →"
-}
-</span>
-                  </div>
-                </button>
+
+  {member.name === "Prakhar Tiwari" || member.name === "Kanika Dhariwal" ? (
+    <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+      🎁 1st Session Free
+    </span>
+  ) : (
+    <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+      💵 1st Session Paid
+    </span>
+  )}
+
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      openBookingModal(member);
+    }}
+    className="mt-2 w-full rounded-full bg-teal-600 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-700 hover:shadow-lg"
+  >
+    Book Session
+  </button>
+
+</div>
+                </div>
               ))}
             </div>
 
