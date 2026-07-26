@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles, TrendingUp, Compass, Lock } from 'lucide-react';
+import { Phone, CheckCircle, Users, Home as HomeIcon, Heart, HeartHandshake, ShieldCheck, Clock, ChevronDown, ChevronUp, X, Calendar, User, Mail, Wind, BookHeart, Activity, MessageCircle, HelpCircle, Send, CreditCard, Moon, ArrowRight, Sparkles, TrendingUp, Compass, Lock } from 'lucide-react';
 import { services, team, testimonials, faqs } from '../data/mockData';
 import axios from 'axios';
 import { toast } from '../hooks/use-toast';
@@ -692,100 +692,101 @@ return (
           </div>
         </div>
       </section>
+
+
 {/* SECTION: Why Choose Aashwashan */}
-<section className="py-16 sm:py-24 bg-gray-50">
+<section className="py-16 lg:py-24 bg-white">
   <div className="container mx-auto px-4">
 
-    <div className="text-center max-w-3xl mx-auto mb-16">
+    {/* Heading */}
+    <div className="text-center max-w-3xl mx-auto mb-14">
       <h3
         className="text-3xl lg:text-5xl font-semibold text-gray-900 mb-5"
         style={{ fontFamily: "'Playfair Display', serif" }}
       >
-        Why Choose <span className="text-teal-600">Aashwashan?</span>
+        Why <span className="text-teal-600">Aashwashan?</span>
       </h3>
 
       <p
         className="text-lg text-gray-600 leading-relaxed"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        We're not just another therapy platform. We're building a place where
-        people feel understood, supported, and safe throughout their healing
-        journey—not just during a session.
+        Therapy is just one part of healing. We focus on making you feel heard,
+        supported, and cared for—every step of the way.
       </p>
     </div>
 
-    <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+    {/* Cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
 
       {/* Card 1 */}
-      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
+      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
-          01
-        </span>
+        <div className="w-12 h-12 rounded-2xl bg-teal-100 flex items-center justify-center mb-6">
+          <MessageCircle className="w-6 h-6 text-teal-600" />
+        </div>
 
-        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
+        <h4 className="text-xl font-semibold text-gray-900 mb-3">
           We Speak Your Language
         </h4>
 
-        <p className="text-gray-600 leading-8">
-          Therapy shouldn't feel intimidating. We explain things simply,
-          listen without judgment, and create conversations that feel natural—
-          not clinical.
+        <p className="text-gray-600 leading-7">
+          No medical jargon. No judgment. Just honest conversations that make
+          you feel understood.
         </p>
 
       </div>
 
       {/* Card 2 */}
-      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
+      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
-          02
-        </span>
+        <div className="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center mb-6">
+          <HeartHandshake className="w-6 h-6 text-orange-600" />
+        </div>
 
-        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
+        <h4 className="text-xl font-semibold text-gray-900 mb-3">
           Support Beyond Sessions
         </h4>
 
-        <p className="text-gray-600 leading-8">
-          Healing doesn't stop after therapy. Journals, breathing exercises,
-          assessments, and guided resources help you between sessions too.
+        <p className="text-gray-600 leading-7">
+          Healing continues between appointments with guided exercises,
+          journals, assessments, and practical resources.
         </p>
 
       </div>
 
       {/* Card 3 */}
-      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
+      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
-          03
-        </span>
+        <div className="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center mb-6">
+          <Heart className="w-6 h-6 text-pink-600" />
+        </div>
 
-        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
-          Your Journey Matters To Us
+        <h4 className="text-xl font-semibold text-gray-900 mb-3">
+          Your Healing Matters
         </h4>
 
-        <p className="text-gray-600 leading-8">
-          You're never just another appointment. We celebrate your progress,
-          stand by you through setbacks, and genuinely care about where you're
-          headed.
+        <p className="text-gray-600 leading-7">
+          We don't just schedule appointments—we genuinely care about your
+          progress, setbacks, and every small win along the way.
         </p>
 
       </div>
 
       {/* Card 4 */}
-      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
+      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
-          04
-        </span>
+        <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center mb-6">
+          <ShieldCheck className="w-6 h-6 text-blue-600" />
+        </div>
 
-        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
-          A Safe Space To Heal
+        <h4 className="text-xl font-semibold text-gray-900 mb-3">
+          A Safe Place to Open Up
         </h4>
 
-        <p className="text-gray-600 leading-8">
-          Everything you share stays confidential. This is a space where you
-          can be honest, vulnerable, and completely yourself.
+        <p className="text-gray-600 leading-7">
+          Everything you share remains private, confidential, and respected—
+          because feeling safe is where healing begins.
         </p>
 
       </div>
@@ -794,7 +795,6 @@ return (
 
   </div>
 </section>
-
 
       {/* SECTION: Self-Help Tools */}
       <section id="self-help-tools" className="py-12 sm:py-24 bg-white">
