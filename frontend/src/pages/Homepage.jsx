@@ -722,8 +722,8 @@ return (
       {/* Card 1 */}
       <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <div className="w-12 h-12 rounded-2xl bg-teal-100 flex items-center justify-center mb-6">
-          <MessageCircle className="w-6 h-6 text-teal-600" />
+        <div className="w-14 h-14 rounded-2xl bg-teal-100 flex items-center justify-center mb-6">
+          <MessageCircle className="w-7 h-7 text-teal-600" />
         </div>
 
         <h4 className="text-xl font-semibold text-gray-900 mb-3">
@@ -740,8 +740,8 @@ return (
       {/* Card 2 */}
       <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <div className="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center mb-6">
-          <HeartHandshake className="w-6 h-6 text-orange-600" />
+        <div className="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center mb-6">
+          <HeartHandshake className="w-7 h-7 text-orange-600" />
         </div>
 
         <h4 className="text-xl font-semibold text-gray-900 mb-3">
@@ -758,8 +758,8 @@ return (
       {/* Card 3 */}
       <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <div className="w-12 h-12 rounded-2xl bg-pink-100 flex items-center justify-center mb-6">
-          <Heart className="w-6 h-6 text-pink-600" />
+        <div className="w-14 h-14 rounded-2xl bg-pink-100 flex items-center justify-center mb-6">
+          <Heart className="w-7 h-7 text-pink-600" />
         </div>
 
         <h4 className="text-xl font-semibold text-gray-900 mb-3">
@@ -776,8 +776,8 @@ return (
       {/* Card 4 */}
       <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center mb-6">
-          <ShieldCheck className="w-6 h-6 text-blue-600" />
+        <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mb-6">
+          <ShieldCheck className="w-7 h-7 text-blue-600" />
         </div>
 
         <h4 className="text-xl font-semibold text-gray-900 mb-3">
