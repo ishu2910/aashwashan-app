@@ -528,61 +528,11 @@ return (
             ))}
           </div>
 
-          {/* CTA: Do you want to feel like this? */}
-          <div className="text-center mt-16">
-            <div className="relative overflow-hidden rounded-3xl max-w-3xl mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600"></div>
-              <div className="relative p-12 text-white">
-                <h3 className="text-3xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  Imagine Feeling This Way Again.
-                </h3>
-                <p className="text-white/90 mb-8 text-lg">Your transformation is just one conversation away</p>
-                <button
-                    onClick={() => openBookingModal(team[0])}
-                  className="inline-block bg-white text-orange-600 px-10 py-4 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105"
-                  data-testid="book-therapist-cta-btn"
-                >
-                  Start My Healing Journey
-                </button>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </section>
 
-      {/* SECTION 3: Orange Accent Banner */}
-      <section className="py-12 bg-gradient-to-r from-orange-500 to-amber-500 text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <p className="text-xl font-medium">
-              Only <span className="font-bold text-2xl">1%</span> of people actively work on their emotional growth. 
-              <span className="ml-2 underline">Be the difference.</span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: Booking Header Section */}
-      <section className="py-16 bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h2 className="text-3xl lg:text-4xl font-semibold mb-6">
-              Booking a therapist is now just one step away
-            </h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <span className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-lg text-lg font-medium border border-white/30">
-                100% Confidential
-              </span>
-              <button
-                  onClick={() => openBookingModal(team[0])}
-                className="bg-white text-teal-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors shadow-lg"
-              >
-                Meet Our Therapists
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* SECTION: Meet Our Therapists */}
       <section className="py-16 sm:py-20 bg-white">
@@ -680,35 +630,7 @@ return (
         </div>
       </section>
 
-      {/* SECTION: We Are Human Just Like You - REDESIGNED with White Background */}
-      <section className="py-12 sm:py-24 bg-white relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-6">Our Philosophy</p>
-            <h3 className="text-3xl lg:text-5xl font-semibold mb-8 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
-              We're <span className="text-teal-600">Human</span>, Just Like <span className="text-cyan-600">You</span>
-            </h3>
-            <p className="text-gray-600 text-lg leading-relaxed mb-10 max-w-3xl mx-auto" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-  At <span className="text-teal-600 font-semibold">Aashwashan</span>, we know that asking for help takes courage. You'll be heard without judgment, supported with compassion, and guided by licensed psychologists who genuinely care about your well-being. Because healing begins when someone truly listens.
-</p>
-            
-            {/* Quote Card */}
-            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl sm:rounded-3xl p-6 sm:p-10 border border-teal-100 shadow-lg">
-              <p className="text-base sm:text-xl text-gray-700 leading-relaxed" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}>
-                "Every person who walks through our doors is treated with the <span className="text-teal-600">dignity</span>, <span className="text-cyan-600">respect</span>, and <span className="text-orange-500">warmth</span> they deserve. We believe in the power of human connection to heal."
-              </p>
-              <p className="mt-6 text-teal-600 font-semibold">— The Aashwashan Team</p>
-            </div>
 
-            {/* Tagline */}
-            <div className="mt-10">
-              <p className="text-2xl font-semibold text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
-                <span className="text-teal-600">Aashwashan</span> is of the <span className="text-orange-500">people</span>, by the <span className="text-cyan-600">people</span>, for the <span className="text-teal-600">people</span>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* SECTION: How It Works - Professional Timeline */}
       <section className="py-16 sm:py-24 bg-gradient-to-br from-gray-50 to-teal-50/30">
