@@ -692,86 +692,109 @@ return (
           </div>
         </div>
       </section>
+{/* SECTION: Why Choose Aashwashan */}
+<section className="py-16 sm:py-24 bg-gray-50">
+  <div className="container mx-auto px-4">
 
-      {/* SECTION: Why Aashwashan - Emotionally Connected */}
-      <section className="py-12 sm:py-24 bg-white relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-8 sm:mb-16">
-            <p className="text-teal-600 font-medium uppercase tracking-[0.2em] text-sm mb-4">Our Promise to You</p>
-            <h3 className="text-3xl lg:text-4xl font-semibold mb-4 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Why <span className="text-teal-600">Aashwashan</span>?
-            </h3>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Because healing isn't just about therapy sessions — it's about feeling understood, supported, and cared for every single day.
-            </p>
-          </div>
+    <div className="text-center max-w-3xl mx-auto mb-16">
+      <h3
+        className="text-3xl lg:text-5xl font-semibold text-gray-900 mb-5"
+        style={{ fontFamily: "'Playfair Display', serif" }}
+      >
+        Why Choose <span className="text-teal-600">Aashwashan?</span>
+      </h3>
 
-          <div className="max-w-6xl mx-auto">
-            {/* Emotional Connection Cards */}
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {/* Card 1 */}
-              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-8 border border-teal-100 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>You're Matched With the Right Therapist</h4>
-                    <p className="text-gray-600 leading-relaxed">We carefully match you with a psychologist who understands your concerns, so you can build a connection that feels comfortable from the very first session.</p>
-                  </div>
-                </div>
-              </div>
+      <p
+        className="text-lg text-gray-600 leading-relaxed"
+        style={{ fontFamily: "'DM Sans', sans-serif" }}
+      >
+        We're not just another therapy platform. We're building a place where
+        people feel understood, supported, and safe throughout their healing
+        journey—not just during a session.
+      </p>
+    </div>
 
-              {/* Card 2 */}
-              <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-3xl p-8 border border-orange-100 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <MessageCircle className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>100% Private & Confidential</h4>
-                    <p className="text-gray-600 leading-relaxed">Everything you share stays confidential. Your privacy and emotional safety always come first.</p>
-                  </div>
-                </div>
-              </div>
+    <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
 
-              {/* Card 3 */}
-              <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-100 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Users className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>Evidence-Based Therapy</h4>
-                    <p className="text-gray-600 leading-relaxed">Our psychologists use proven therapeutic approaches tailored to your needs—not one-size-fits-all advice.</p>
-                  </div>
-                </div>
-              </div>
+      {/* Card 1 */}
+      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
 
-              {/* Card 4 */}
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl p-8 border border-blue-100 hover:shadow-xl transition-all duration-300">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2 text-gray-800" style={{ fontFamily: "'Playfair Display', serif" }}>Healing at Your Own Pace</h4>
-                    <p className="text-gray-600 leading-relaxed">There's no pressure to be "better" overnight. We'll support you through every step of your journey.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
+          01
+        </span>
 
-            {/* Emotional Quote */}
-            <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-3xl p-10 text-white text-center">
-              <p className="text-2xl font-semibold mb-4" style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic' }}>
-                "When you heal, your relationships heal. When you grow, your family grows. That's why we care about you — because your well-being ripples out to everyone you love."
-              </p>
-              <p className="text-teal-200 font-medium">— Ishan Goyal, Founder</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
+          We Speak Your Language
+        </h4>
+
+        <p className="text-gray-600 leading-8">
+          Therapy shouldn't feel intimidating. We explain things simply,
+          listen without judgment, and create conversations that feel natural—
+          not clinical.
+        </p>
+
+      </div>
+
+      {/* Card 2 */}
+      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
+
+        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
+          02
+        </span>
+
+        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
+          Support Beyond Sessions
+        </h4>
+
+        <p className="text-gray-600 leading-8">
+          Healing doesn't stop after therapy. Journals, breathing exercises,
+          assessments, and guided resources help you between sessions too.
+        </p>
+
+      </div>
+
+      {/* Card 3 */}
+      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
+
+        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
+          03
+        </span>
+
+        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
+          Your Journey Matters To Us
+        </h4>
+
+        <p className="text-gray-600 leading-8">
+          You're never just another appointment. We celebrate your progress,
+          stand by you through setbacks, and genuinely care about where you're
+          headed.
+        </p>
+
+      </div>
+
+      {/* Card 4 */}
+      <div className="bg-white rounded-3xl p-8 border border-gray-200 hover:shadow-xl transition-all duration-300">
+
+        <span className="text-sm font-semibold text-teal-600 uppercase tracking-wider">
+          04
+        </span>
+
+        <h4 className="text-2xl font-semibold mt-3 mb-4 text-gray-900">
+          A Safe Space To Heal
+        </h4>
+
+        <p className="text-gray-600 leading-8">
+          Everything you share stays confidential. This is a space where you
+          can be honest, vulnerable, and completely yourself.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
 
       {/* SECTION: Self-Help Tools */}
       <section id="self-help-tools" className="py-12 sm:py-24 bg-white">
