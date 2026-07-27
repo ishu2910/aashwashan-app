@@ -586,10 +586,25 @@ return (
   Works Best With
 </p>       
 
-                    <div className="overflow-hidden mt-1 max-w-[380px]">
-  <div className="flex w-max gap-2 whitespace-nowrap animate-marquee">
+                    <div className="mt-1 max-w-[380px]">
 
-    {[...member.skills, ...member.skills].map((skill, idx) => (
+  {/* Desktop Animation */}
+  <div className="hidden sm:overflow-hidden sm:block">
+    <div className="flex w-max gap-2 whitespace-nowrap animate-marquee">
+      {[...member.skills, ...member.skills].map((skill, idx) => (
+        <span
+          key={idx}
+          className="bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full text-xs font-medium shadow-sm"
+        >
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  {/* Mobile Static Chips */}
+  <div className="flex flex-wrap gap-2 sm:hidden mt-1">
+    {member.skills?.map((skill, idx) => (
       <span
         key={idx}
         className="bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full text-xs font-medium shadow-sm"
@@ -597,8 +612,8 @@ return (
         {skill}
       </span>
     ))}
-
   </div>
+
 </div>
                   </div>
                   <div className="flex flex-col items-end justify-center gap-3 shrink-0 min-w-[170px]">
