@@ -455,3 +455,24 @@ html {
         border-bottom-color: inherit;
     }
 }
+
+@keyframes topBannerMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-top-banner {
+  display: flex;
+  width: max-content;
+  animation: topBannerMarquee 20s linear infinite;
+  will-change: transform;
+}
+
+.group:hover .animate-top-banner {
+  animation-play-state: paused;
+}

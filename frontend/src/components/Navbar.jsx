@@ -41,18 +41,35 @@ const Navbar = () => {
   return (
     <>
       {/* Top Banner - Orange Theme */}
-      <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white py-2.5">
-        <div className="container mx-auto px-4">
-          <button
-            onClick={scrollToSelfHelp}
-            className="w-full flex items-center justify-center space-x-2 text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>Hey! Wanna try our <strong>FREE Self-Help Tools</strong>?</span>
-            <span className="underline font-semibold ml-1">Try Now →</span>
-          </button>
-        </div>
-      </div>
+      <div className="bg-gradient-to-r from-orange-500 to-amber-500 text-white py-2.5 overflow-hidden">
+  <button
+    onClick={scrollToSelfHelp}
+    className="group w-full overflow-hidden"
+  >
+    <div className="flex items-center justify-center gap-2 animate-pulse-soft">
+
+      <div className="flex animate-top-banner whitespace-nowrap">
+  {Array.from({ length: 8 }).map((_, i) => (
+  <div
+    key={i}
+    className="flex items-center gap-2 mx-10 flex-shrink-0"
+  >
+    <Sparkles className="w-4 h-4 animate-pulse" />
+
+    <span className="text-sm font-medium">
+      Hey! Wanna try our <strong>FREE Self-Help Tools?</strong>
+    </span>
+
+    <span className="underline font-semibold">
+      Try Now →
+    </span>
+  </div>
+))}
+</div>
+
+    </div>
+  </button>
+</div>
 
       {/* Main Navigation */}
       <nav className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white'}`}>
