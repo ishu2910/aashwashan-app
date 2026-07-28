@@ -459,7 +459,7 @@ return (
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
             <button
                 onClick={() => openBookingModal(null)}
-              className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-2xl hover:scale-105 w-full sm:w-auto sm:min-w-[280px] flex items-center justify-center gap-2"
+              className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-1 w-full sm:w-auto sm:min-w-[280px] flex items-center justify-center gap-2"
               data-testid="book-session-hero-btn"
             >
               <span>Book Your First Session</span>
@@ -472,7 +472,7 @@ return (
                 setHelpMeAnswers({ concern: '', duration: '', preference: '' });
                 setRecommendedTherapist(null);
               }}
-              className="bg-white/15 backdrop-blur-md text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-white/25 transition-all duration-300 font-medium text-base sm:text-lg border border-white/30 w-full sm:w-auto sm:min-w-[280px] hover:scale-105"
+              className="bg-white/15 backdrop-blur-md text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-white/25 hover:-translate-y-1 transition-all duration-300 font-medium text-base sm:text-lg border border-white/30 w-full sm:w-auto sm:min-w-[280px] hover:scale-105"
               data-testid="help-me-find-btn-hero"
             >
               Find the Right Therapist
@@ -526,18 +526,25 @@ return (
             ].map((item, idx) => (
               <div 
                 key={idx} 
-                className="group bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 text-center hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-teal-100"
+                className="group bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 text-center border border-teal-100
+hover:-translate-y-3 hover:scale-[1.03]
+hover:shadow-[0_25px_60px_rgba(20,184,166,0.15)]
+hover:border-teal-300
+transition-all duration-500"
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
                 <div className="mb-4 h-24 flex items-center justify-center">
                   <img 
                     src={item.img} 
                     alt={item.title} 
-                    className="w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg group-hover:scale-110 transition-transform duration-500" 
+                    className="w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg
+transition-all duration-500
+group-hover:scale-110
+group-hover:rotate-3" 
                   />
                 </div>
-                <h4 className="text-xl font-semibold mb-2 text-teal-800" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</h4>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
+                <h4 className="text-xl font-semibold mb-2 text-teal-800 transition-colors duration-300 group-hover:text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</h4>
+                <p className="text-gray-600 text-sm transition-colors duration-300 group-hover:text-gray-700">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -570,11 +577,15 @@ return (
               {team.map((member) => (
   <div
   key={member.id}
-                  className="flex items-center justify-between gap-6 bg-white rounded-3xl border border-slate-200 p-5 lg:p-6 shadow-sm hover:shadow-xl transition-all duration-300 group"
+                  className="group flex items-center justify-between gap-6 bg-white rounded-3xl border border-slate-200 p-5 lg:p-6 shadow-sm
+hover:shadow-2xl
+hover:border-teal-200
+hover:-translate-y-2
+transition-all duration-500"
                   data-testid={`homepage-therapist-${member.id}`}
                 >
                   <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-gray-200">
-                    <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+                    <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{member.name}</h4>
@@ -649,7 +660,7 @@ return (
 
   <button
     onClick={() => openBookingModal(member)}
-    className="mt-2 w-full rounded-full bg-teal-600 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-700 hover:shadow-lg"
+    className="mt-2 w-full rounded-full bg-teal-600 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-700 hover:shadow-xl hover:scale-105"
   >
     Book Session
   </button>
@@ -752,26 +763,26 @@ return (
         className="text-lg text-gray-600 leading-relaxed"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        Therapy is just one part of healing. We focus on making you feel heard,
-        supported, and cared for—every step of the way.
+        Healing isn't just about therapy. It's about feeling understood,
+        supported, and never having to go through it alone.
       </p>
     </div>
 
     {/* Cards */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
 
       {/* Card 1 */}
-      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+      <div className="group bg-white rounded-3xl border border-gray-100 p-7 hover:bg-white hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-full">
 
-        <div className="w-14 h-14 rounded-2xl bg-teal-100 flex items-center justify-center mb-6">
-          <MessageCircle className="w-7 h-7 text-teal-600" />
+        <div className="w-16 h-16 rounded-2xl bg-teal-100 flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110">
+          <MessageCircle className="w-8 h-8 text-teal-600" />
         </div>
 
-        <h4 className="text-xl font-semibold text-gray-900 mb-3">
+        <h4 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
           We Speak Your Language
         </h4>
 
-        <p className="text-gray-600 leading-7">
+        <p className="text-gray-600 text-[16px] leading-8">
           No medical jargon. No judgment. Just honest conversations that make
           you feel understood.
         </p>
@@ -779,17 +790,17 @@ return (
       </div>
 
       {/* Card 2 */}
-      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+      <div className="group bg-white rounded-3xl border border-gray-100 p-7 hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 h-full">
 
-        <div className="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center mb-6">
-          <HeartHandshake className="w-7 h-7 text-orange-600" />
+        <div className="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110">
+          <HeartHandshake className="w-8 h-8 text-orange-600" />
         </div>
 
-        <h4 className="text-xl font-semibold text-gray-900 mb-3">
+        <h4 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
           Support Beyond Sessions
         </h4>
 
-        <p className="text-gray-600 leading-7">
+        <p className="text-gray-600 text-[16px] leading-8">
           Healing continues between appointments with guided exercises,
           journals, assessments, and practical resources.
         </p>
@@ -797,17 +808,17 @@ return (
       </div>
 
       {/* Card 3 */}
-      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+      <div className="group bg-white rounded-3xl border border-gray-100 p-7 hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 h-full">
 
-        <div className="w-14 h-14 rounded-2xl bg-pink-100 flex items-center justify-center mb-6">
-          <Heart className="w-7 h-7 text-pink-600" />
+        <div className="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110">
+          <Heart className="w-8 h-8 text-pink-600" />
         </div>
 
-        <h4 className="text-xl font-semibold text-gray-900 mb-3">
+        <h4 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
           Your Healing Matters
         </h4>
 
-        <p className="text-gray-600 leading-7">
+        <p className="text-gray-600 text-[16px] leading-8">
           We don't just schedule appointments—we genuinely care about your
           progress, setbacks, and every small win along the way.
         </p>
@@ -815,17 +826,17 @@ return (
       </div>
 
       {/* Card 4 */}
-      <div className="bg-gray-50 rounded-3xl border border-gray-200 p-8 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+      <div className="group bg-white rounded-3xl border border-gray-100 p-7 hover:bg-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 h-full">
 
-        <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mb-6">
-          <ShieldCheck className="w-7 h-7 text-blue-600" />
+        <div className="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110">
+          <ShieldCheck className="w-8 h-8 text-blue-600" />
         </div>
 
-        <h4 className="text-xl font-semibold text-gray-900 mb-3">
+        <h4 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
           A Safe Place to Open Up
         </h4>
 
-        <p className="text-gray-600 leading-7">
+        <p className="text-gray-600 text-[16px] leading-8">
           Everything you share remains private, confidential, and respected—
           because feeling safe is where healing begins.
         </p>
@@ -963,30 +974,46 @@ return (
               What Our Clients Say
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto text-lg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
-              Real stories from real people who found healing and hope through our mental health services.
+              Every story started with one small step. Today, these journeys remind others that healing is possible.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+              <div key={testimonial.id} className="group bg-white rounded-2xl p-8 shadow-lg border border-gray-100
+transition-all duration-500
+hover:-translate-y-3
+hover:shadow-[0_25px_60px_rgba(20,184,166,0.15)]
+hover:border-teal-200">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center
+transition-all duration-500
+group-hover:scale-110
+group-hover:rotate-6
+group-hover:shadow-xl">
                     {getTestimonialIcon(testimonial.icon)}
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+                    <h4 className="text-lg font-bold text-gray-800 transition-colors duration-300 group-hover:text-teal-600">{testimonial.name}</h4>
                     <p className="text-sm text-gray-500">{testimonial.role}</p>
                   </div>
                 </div>
                 <div className="flex space-x-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 text-teal-500" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+  key={i}
+  className="w-5 h-5 text-teal-500 transition-transform duration-300 group-hover:scale-125"
+  fill="currentColor"
+  viewBox="0 0 20 20"
+>
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
-                <p className="text-gray-600 italic">
+                <div className="text-5xl text-teal-100 font-serif leading-none mb-3 select-none">
+  “
+</div>
+                <p className="text-gray-600 italic leading-8 text-[16px] transition-colors duration-300 group-hover:text-gray-700">
                   "{testimonial.text}"
                 </p>
               </div>
