@@ -32,6 +32,7 @@ const HERO_IMAGES = [
 ];
 
 const Homepage = () => {
+  const navigate = useNavigate();
   const [openFaqIndex, setOpenFaqIndex] = React.useState(0);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isSymptomModalOpen, setIsSymptomModalOpen] = React.useState(false);
@@ -86,10 +87,23 @@ const Homepage = () => {
     setOpenFaqIndex(openFaqIndex === index ? -1 : index);
   };
 
-  const openBookingModal = (therapist) => {
-    setSelectedTherapist(therapist);
-    setIsModalOpen(true);
-  };
+  const openBookingModal = (therapist = null) => {
+  setSelectedTherapist(therapist);
+
+  // Reset form every time
+  setFormData({
+    name: "",
+    email: "",
+    phone: "",
+    sessionDuration: "",
+    date: "",
+    time: "",
+    message: ""
+  });
+
+  setSelectedSessionDuration("");
+  setIsModalOpen(true);
+};
   
   const openSymptomModal = (service) => {
     setSelectedService(service);
@@ -444,7 +458,7 @@ return (
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
             <button
-                onClick={() => openBookingModal(team[0])}
+                onClick={() => openBookingModal(null)}
               className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-2xl hover:scale-105 w-full sm:w-auto sm:min-w-[280px] flex items-center justify-center gap-2"
               data-testid="book-session-hero-btn"
             >
@@ -616,6 +630,7 @@ return (
 
 </div>
                   </div>
+                  
                   <div className="flex flex-col items-end justify-center gap-3 shrink-0 min-w-[170px]">
 
   <span className="text-sm font-bold text-teal-600">
@@ -633,10 +648,7 @@ return (
   )}
 
   <button
-    onClick={(e) => {
-      e.stopPropagation();
-      openBookingModal(member);
-    }}
+    onClick={() => openBookingModal(member)}
     className="mt-2 w-full rounded-full bg-teal-600 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-700 hover:shadow-lg"
   >
     Book Session
@@ -649,7 +661,7 @@ return (
 
             <div className="text-center">
               <button
-  onClick={() => openBookingModal(team[0])}
+  onClick={() => openBookingModal(null)}
   className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm sm:text-base"
 >
   Book Your Session
@@ -711,7 +723,7 @@ return (
             {/* CTA */}
             <div className="text-center mt-12">
               <button
-                  onClick={() => openBookingModal(team[0])}
+                  onClick={() => openBookingModal(null)}
                 className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-10 py-4 rounded-full font-medium hover:shadow-xl transition-all duration-300 hover:scale-105 gap-2"
               >
                 Start Your Journey Today
@@ -933,7 +945,7 @@ return (
   </p>
 
   <button
-    onClick={() => openBookingModal(team[0])}
+    onClick={() => openBookingModal(null)}
     className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all duration-300"
   >
     Talk to a Psychologist
@@ -1050,7 +1062,11 @@ return (
                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                     <p className="text-sm text-teal-100 font-medium">100% Confidential</p>
                   </div>
-                  <h3 className="text-2xl font-bold">Book Your Session</h3>
+                 <h3 className="text-2xl font-bold">
+  {selectedTherapist
+    ? `Book with ${selectedTherapist.name.split(" ")[0]}`
+    : "Book Your Session"}
+</h3>
                   {selectedTherapist && (
                     <p className="text-teal-100 mt-1">with {selectedTherapist.name} • {selectedTherapist.role}</p>
                   )}
@@ -1126,14 +1142,13 @@ return (
               {/* Emergency Contact */}
               <div>
                 <label className="block text-sm font-semibold mb-2 text-gray-700">
-                  <Phone className="inline w-4 h-4 mr-2 text-orange-500" />Emergency Contact Number *
+                  <Phone className="inline w-4 h-4 mr-2 text-orange-500" />Emergency Contact Number (Optional)
                 </label>
                 <input 
                   type="tel"
                   name="emergencyPhone"
                   value={formData.emergencyPhone || ''}
                   onChange={handleChange}
-                  required
                   className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
                   placeholder="Emergency contact number"
                   data-testid="booking-emergency-input"
@@ -1142,6 +1157,70 @@ return (
               </div>
 
               <div>
+
+                 
+  <div>
+    <label className="block text-sm font-semibold mb-2 text-gray-700">
+      Choose Your Psychologist *
+    </label>
+
+    <select
+      className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white"
+      value={selectedTherapist?.name || ""}
+      onChange={(e) => {
+        const therapist = team.find((t) => t.name === e.target.value);
+        setSelectedTherapist(therapist || null);
+      }}
+      required
+    >
+      <option value="">Choose a psychologist...</option>
+
+      {team.map((member) => (
+  <option key={member.id} value={member.name}>
+    {member.name} • {member.role}
+    {(member.name === "Prakhar Tiwari" ||
+      member.name === "Kanika Dhariwal")
+      ? " 🎁 First Session FREE"
+      : ""}
+  </option>
+))}
+    </select>
+  </div>
+                   
+                {selectedTherapist && (
+  <div className="mt-4 rounded-2xl border border-teal-200 bg-teal-50 p-4">
+    <div className="flex items-center gap-4">
+      <img
+        src={selectedTherapist.image}
+        alt={selectedTherapist.name}
+        className="w-14 h-14 rounded-full object-cover border-2 border-white shadow"
+      />
+
+      <div className="flex-1">
+        <h4 className="font-bold text-gray-900">
+          {selectedTherapist.name}
+        </h4>
+
+        <p className="text-sm text-gray-600">
+          {selectedTherapist.role}
+        </p>
+
+        <p className="text-xs text-teal-700 font-semibold mt-1">
+          {
+            selectedTherapist.name === "Prakhar Tiwari"
+              ? "500+ Sessions Conducted"
+              : selectedTherapist.name === "Sonali Mishra"
+              ? "800+ Sessions Conducted"
+              : selectedTherapist.name === "Kanika Dhariwal"
+              ? "200+ Sessions Conducted"
+              : "250+ Sessions Conducted"
+          }
+        </p>
+      </div>
+    </div>
+  </div>
+)}
+
                 <label className="block text-sm font-semibold mb-3 text-gray-700">Choose your session length *</label>
                 <div className="grid grid-cols-2 gap-4" data-testid="session-duration-selector">
                   {Object.entries(SESSION_PRICING).map(([key, value]) => (
@@ -1165,6 +1244,17 @@ return (
                   ))}
                 </div>
               </div>
+
+             {selectedTherapist &&
+ (selectedTherapist.name === "Prakhar Tiwari" ||
+  selectedTherapist.name === "Kanika Dhariwal") && (
+  <div className="rounded-xl bg-green-50 border border-green-200 p-4">
+    <p className="text-green-700 font-semibold text-sm">
+      🎁 Great news! Your first session with{" "}
+      {selectedTherapist.name.split(" ")[0]} is FREE.
+    </p>
+  </div>
+)}
 
               {/* Price Summary */}
               {selectedSessionDuration && (
@@ -1222,14 +1312,14 @@ return (
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2 text-gray-700">Anything you'd like us to know?</label>
+                <label className="block text-sm font-semibold mb-2 text-gray-700">What would you like help with?</label>
                 <textarea 
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows="3"
                   className="w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 focus:border-teal-500 focus:ring-4 focus:ring-teal-100 focus:outline-none transition-all bg-gray-50 focus:bg-white resize-none"
-                  placeholder="Feel free to share what's on your mind (optional)..."
+                  placeholder="Briefly tell us what's been on your mind..."
                   data-testid="booking-message-textarea"
                 ></textarea>
               </div>
@@ -1240,9 +1330,17 @@ return (
                 className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-4 rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300 font-semibold text-lg disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100"
                 data-testid="submit-booking-btn"
               >
-                {isSubmitting ? 'Submitting your request...' : 'Submit Request'}
+                {isSubmitting
+  ? "Submitting your request..."
+  : selectedTherapist
+  ? `Book with ${selectedTherapist.name.split(" ")[0]}`
+  : "Book My Session"}
               </button>
-
+               <div className="rounded-xl bg-blue-50 border border-blue-200 p-3">
+  <p className="text-center text-sm font-medium text-blue-700">
+    💙 No payment required today. We'll confirm everything before your session.
+  </p>
+</div>
               <p className="text-xs text-gray-500 text-center">
                 Our team will contact you within 24 hours to confirm your session.
               </p>
