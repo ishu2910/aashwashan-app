@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Sparkles, ClipboardCheck } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,48 +78,60 @@ const Navbar = () => {
       {/* Main Navigation */}
       <nav className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white'}`}>
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center py-5">
             {/* Logo with Name */}
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="h-14 w-14 lg:h-16 lg:w-16 rounded-full bg-white/90 lg:bg-gradient-to-br lg:from-teal-50 lg:to-cyan-50 flex items-center justify-center overflow-hidden shadow-sm lg:border lg:border-teal-100">
-                <img 
-                  src="https://customer-assets.emergentagent.com/job_294a8bf0-85ca-41ba-993d-fcdbbbb03ad2/artifacts/3env23ej_logo.gif" 
+            <Link to="/" className="flex items-center gap-4 group">
+              <div className="h-[88px] w-[88px] lg:h-[108px] lg:w-[108px] flex items-center justify-center">
+                <img
+  src="https://res.cloudinary.com/qqjn11uq/image/upload/v1786124404/Untitled_1587_x_1245_px_700_x_800_px_or1v1b.png" 
                   alt="Aashwashan" 
-                  className="h-12 w-12 lg:h-14 lg:w-14 object-contain transition-transform group-hover:scale-110"
+                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-2xl lg:text-3xl font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
-                <span className="text-[10px] lg:text-xs text-gray-500 tracking-wider uppercase -mt-1">A Safe Place to Start</span>
+                <span className="text-[32px] lg:text-[40px] font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
+                <span className="text-xs lg:text-sm text-gray-500 tracking-wider uppercase -mt-1">A Safe Place to Start</span>
               </div>
             </Link>
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center space-x-8">
-              <Link to="/" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/') ? 'text-teal-600 after:w-full' : ''}`}>
+              <Link to="/" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all
+after:duration-300
+after:ease-out hover:after:w-full ${isActive('/') ? 'text-teal-600 after:w-full pb-1' : ''}`}>
                 Home
               </Link>
-              <Link to="/about" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/about') ? 'text-teal-600 after:w-full' : ''}`}>
+              <Link to="/about" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all
+after:duration-300
+after:ease-out hover:after:w-full ${isActive('/about') ? 'text-teal-600 after:w-full pb-1' : ''}`}>
                 About Us
               </Link>
               
-              <Link to="/resources" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/resources') ? 'text-teal-600 after:w-full' : ''}`}>
+              <Link to="/resources" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all
+after:duration-300
+after:ease-out hover:after:w-full ${isActive('/resources') ? 'text-teal-600 after:w-full pb-1' : ''}`}>
                 Resources
               </Link>
 
-              <Link to="/community" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/community') ? 'text-teal-600 after:w-full' : ''}`}>
+              <Link to="/community" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all
+after:duration-300
+after:ease-out hover:after:w-full ${isActive('/community') ? 'text-teal-600 after:w-full pb-1' : ''}`}>
                 Community
               </Link>
 
-              <Link to="/blog" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/blog') ? 'text-teal-600 after:w-full' : ''}`}>
+              <Link to="/blog" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all
+after:duration-300
+after:ease-out hover:after:w-full ${isActive('/blog') ? 'text-teal-600 after:w-full pb-1' : ''}`}>
                 Blog
               </Link>
               
-              <Link to="/join-team" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/join-team') ? 'text-teal-600 after:w-full' : ''}`}>
+              <Link to="/join-team" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all
+after:duration-300
+after:ease-out hover:after:w-full ${isActive('/join-team') ? 'text-teal-600 after:w-full pb-1' : ''}`}>
                 Join Our Team
               </Link>
 
-              <Link to="/contact" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/contact') ? 'text-teal-600 after:w-full' : ''}`}>
+              <Link to="/contact" className={`text-gray-700 hover:text-teal-600 font-medium transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-teal-500 after:transition-all hover:after:w-full ${isActive('/contact') ? 'text-teal-600 after:w-full pb-1' : ''}`}>
                 Contact Us
               </Link>
             </div>
@@ -123,7 +139,8 @@ const Navbar = () => {
             {/* CTA Button - Changed to Take Assessment */}
             <Link 
               to="/self-assessment" 
-              className="hidden lg:flex items-center space-x-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-3 rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300 font-medium group"
+              className="hidden lg:flex items-center space-x-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-3 rounded-full hover:shadow-xl hover:scale-[1.03]
+hover:-translate-y-1 transition-all duration-300 font-medium group"
             >
               <ClipboardCheck className="w-5 h-5 group-hover:animate-bounce" />
               <span>Take Assessment</span>

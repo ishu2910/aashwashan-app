@@ -34,6 +34,7 @@
     "@supabase/supabase-js": "2.49.4",
     "ajv": "^8.18.0",
     "ajv-keywords": "^5.1.0",
+    "aos": "^2.3.4",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
