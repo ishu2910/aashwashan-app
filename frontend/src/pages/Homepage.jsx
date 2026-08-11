@@ -641,47 +641,52 @@ transition-all duration-500"
                     data-testid={`homepage-therapist-${member.id}`}
                   >
                     <div className="w-full aspect-square sm:w-28 sm:h-28 lg:w-40 lg:h-40 rounded-3xl overflow-hidden shrink-0 border border-gray-200 shadow-lg">
-                      <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105" />
+                      <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110" />
                     </div>
                     <div className="flex-1 min-w-0 text-center sm:text-left">
                       <h4 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{member.name}</h4>
                       <p className="text-sm text-gray-500">
     {member.role}
     <div className="mt-3 flex items-center gap-2 justify-center sm:justify-start">
-
-  <div className="flex text-amber-400 text-sm">
-    ★★★★★
+  <div className="flex items-center gap-0.5 text-amber-400 text-sm">
+    {[1, 2, 3, 4, 5].map((star) => (
+      <span
+        key={star}
+        className="inline-block animate-star-pop"
+        style={{ animationDelay: `${star * 80}ms` }}
+      >
+        ★
+      </span>
+    ))}
   </div>
 
-  <span className="text-xs text-gray-500">
-    4.9 (186 Reviews)
-  </span>
-
+  {member.rating && member.reviewCount ? (
+    <span className="text-xs text-gray-500">
+      {member.rating} ({member.reviewCount} Reviews)
+    </span>
+  ) : null}
 </div>
   </p>
 
-  <p className="text-xs font-semibold text-teal-600 mt-1">
-    {
-      member.name === "Prakhar Tiwari"
-        ? "500+ Sessions Conducted"
-        : member.name === "Anushka"
-        ? "250+ Sessions Conducted"
-        : member.name === "Sonali Mishra"
-        ? "800+ Sessions Conducted"
-        : member.name === "Kanika Dhariwal"
-        ? "200+ Sessions Conducted"
-        : member.experience
-    }
-  </p>
+  {member.sessions && (
+  <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-teal-50 border border-teal-100 px-3 py-1">
+    <span className="text-sm font-bold text-teal-700">
+      {member.sessions}+
+    </span>
 
+    <span className="text-xs font-semibold text-teal-700">
+      Sessions
+    </span>
+  </div>
+)}
               <p className="text-xs font-semibold text-gray-700 mt-2 mb-2">
-    Works Best With
+    Specializes In
   </p>       
 
                       <div className="mt-1 max-w-[380px]">
 
     {/* Desktop Animation */}
-    <div className="hidden sm:overflow-hidden sm:block">
+    <div className="overflow-hidden">
       <div className="flex w-max gap-2 whitespace-nowrap animate-marquee">
         {[...member.skills, ...member.skills].map((skill, idx) => (
           <span
@@ -694,18 +699,7 @@ transition-all duration-500"
       </div>
     </div>
 
-    {/* Mobile Static Chips */}
-    <div className="flex flex-wrap gap-2 sm:hidden mt-1">
-      {member.skills?.map((skill, idx) => (
-        <span
-          key={idx}
-          className="bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full text-xs font-medium shadow-sm"
-        >
-          {skill}
-        </span>
-      ))}
-    </div>
-
+    
   </div>
                     </div>
                     
@@ -716,23 +710,23 @@ transition-all duration-500"
     </span>
 
     {member.name === "Prakhar Tiwari" || member.name === "Kanika Dhariwal" ? (
-      <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+      <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm">
         🎁 1st Session Free
       </span>
     ) : (
-      <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+      <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm">
         💵 1st Session Paid
       </span>
     )}
     <button
   onClick={() => navigate(`/therapists/${member.id}`)}
-  className="w-full mb-3 rounded-full border border-teal-200 bg-white py-3 text-sm font-semibold text-teal-700 transition-all duration-300 hover:bg-teal-50 hover:border-teal-400"
+  className="w-full mb-3 rounded-full border border-teal-200 bg-white py-3 text-sm font-semibold text-teal-700 transition-all duration-300 hover:bg-teal-50 hover:border-teal-500 hover:shadow-md hover:-translate-y-1"
 >
   View Full Profile →
 </button>
     <button
       onClick={() => openBookingModal(member)}
-      className="mt-2 w-full rounded-full bg-teal-600 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-700 hover:shadow-xl hover:scale-105"
+     className="mt-2 w-full rounded-full bg-teal-600 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-700 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]"
     >
       Book Session
     </button>
@@ -745,7 +739,7 @@ transition-all duration-500"
               <div className="text-center">
                 <button
     onClick={() => openBookingModal(null)}
-    className="inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm sm:text-base"
+    className="inline-flex items-center justify-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-300 hover:scale-[1.03] text-sm sm:text-base"
   >
     Book Your Session
   </button>

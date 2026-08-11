@@ -12,6 +12,7 @@ import ResourcesPage from "./pages/ResourcesPage";
 import CommunityPage from "./pages/CommunityPage";
 import SingleService from "./pages/SingleService";
 import TeamPage from "./pages/TeamPage";
+import TherapistProfilePage from "./pages/TherapistProfilePage";
 import PricingPage from "./pages/PricingPage";
 import FAQPage from "./pages/FAQPage";
 import BlogPage from "./pages/BlogPage";
@@ -77,6 +78,7 @@ function AppRoutes() {
         <Route path="/community" element={<PublicLayout><CommunityPage /></PublicLayout>} />
         <Route path="/service/:id" element={<PublicLayout><SingleService /></PublicLayout>} />
         <Route path="/team" element={<PublicLayout><TeamPage /></PublicLayout>} />
+        <Route path="/therapists/:id" element={<TherapistProfilePage />} />
         <Route path="/pricing" element={<PublicLayout><PricingPage /></PublicLayout>} />
         <Route path="/faq" element={<PublicLayout><FAQPage /></PublicLayout>} />
         <Route path="/blog" element={<PublicLayout><BlogPage /></PublicLayout>} />

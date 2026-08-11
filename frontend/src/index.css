@@ -637,3 +637,24 @@ button,
 a{
   -webkit-tap-highlight-color:transparent;
 }
+
+@keyframes starPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(4px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.18) translateY(-2px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-star-pop {
+  animation: starPop 0.5s ease-out both;
+}
