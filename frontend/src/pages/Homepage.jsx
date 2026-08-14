@@ -645,7 +645,7 @@ transition-all duration-500"
                     </div>
                     <div className="flex-1 min-w-0 text-center sm:text-left">
                       <h4 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{member.name}</h4>
-                      <p className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-500">
     {member.role}
     <div className="mt-3 flex items-center gap-2 justify-center sm:justify-start">
   <div className="flex items-center gap-0.5 text-amber-400 text-sm">
@@ -666,7 +666,8 @@ transition-all duration-500"
     </span>
   ) : null}
 </div>
-  </p>
+  </div>
+  
 
   {member.sessions && (
   <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-teal-50 border border-teal-100 px-3 py-1">
