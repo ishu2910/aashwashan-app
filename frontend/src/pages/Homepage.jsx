@@ -667,7 +667,7 @@ transition-all duration-500"
   ) : null}
 </div>
   </div>
-  
+
 
   {member.sessions && (
   <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-teal-50 border border-teal-100 px-3 py-1">
@@ -1275,8 +1275,7 @@ decision I made.
 
     <Link
       to="/self-assessment"
-      className="mt-auto inline-block bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
-    >
+     className="animated-cta px-6 py-3 w-full"    >
       Start Assessment
     </Link>
   </div>
