@@ -139,8 +139,7 @@ after:ease-out hover:after:w-full ${isActive('/join-team') ? 'text-teal-600 afte
             {/* CTA Button - Changed to Take Assessment */}
             <Link 
               to="/self-assessment" 
-              className="hidden lg:flex items-center space-x-2 bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-3 rounded-full hover:shadow-xl hover:scale-[1.03]
-hover:-translate-y-1 transition-all duration-300 font-medium group"
+              className="animated-cta hidden lg:flex items-center space-x-2 px-6 py-3 font-medium group"
             >
               <ClipboardCheck className="w-5 h-5 group-hover:animate-bounce" />
               <span>Take Assessment</span>
@@ -184,7 +183,7 @@ hover:-translate-y-1 transition-all duration-300 font-medium group"
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Contact Us
               </Link>
-              <Link to="/self-assessment" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-center space-x-2 w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-3 rounded-full hover:shadow-lg transition-all">
+              <Link to="/self-assessment" onClick={() => setIsMobileMenuOpen(false)} className="animated-cta flex items-center justify-center space-x-2 w-full px-6 py-3">
                 <ClipboardCheck className="w-5 h-5" />
                 <span>Take Assessment</span>
               </Link>

@@ -508,7 +508,7 @@
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in delay-400">
               <button
                   onClick={() => openBookingModal(null)}
-                className="group bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-1 w-full sm:w-auto sm:min-w-[280px] flex items-center justify-center gap-2"
+                className="animated-cta px-8 sm:px-10 py-3.5 sm:py-4 w-full sm:w-auto sm:min-w-[280px]"
                 data-testid="book-session-hero-btn"
               >
                 <span>Book Your First Session</span>
@@ -521,7 +521,7 @@
                   setHelpMeAnswers({ concern: '', duration: '', preference: '' });
                   setRecommendedTherapist(null);
                 }}
-                className="bg-white/15 backdrop-blur-md text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full hover:bg-white/25 hover:-translate-y-1 transition-all duration-300 font-medium text-base sm:text-lg border border-white/30 w-full sm:w-auto sm:min-w-[280px] hover:scale-105"
+                className="animated-cta px-8 sm:px-10 py-3.5 sm:py-4 w-full sm:w-auto sm:min-w-[280px]"
                 data-testid="help-me-find-btn-hero"
               >
                 Find the Right Therapist
@@ -640,7 +640,7 @@ hover:-translate-y-2
 transition-all duration-500"
                     data-testid={`homepage-therapist-${member.id}`}
                   >
-                    <div className="w-full aspect-square sm:w-28 sm:h-28 lg:w-40 lg:h-40 rounded-3xl overflow-hidden shrink-0 border border-gray-200 shadow-lg">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-2xl overflow-hidden shrink-0 border border-gray-200 shadow-md">
                       <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110" />
                     </div>
                     <div className="flex-1 min-w-0 text-center sm:text-left">
@@ -679,6 +679,7 @@ transition-all duration-500"
     </span>
   </div>
 )}
+
               <p className="text-xs font-semibold text-gray-700 mt-2 mb-2">
     Specializes In
   </p>       
@@ -720,14 +721,14 @@ transition-all duration-500"
     )}
     <button
   onClick={() => navigate(`/therapists/${member.id}`)}
-  className="w-full mb-3 rounded-full border border-teal-200 bg-white py-3 text-sm font-semibold text-teal-700 transition-all duration-300 hover:bg-teal-50 hover:border-teal-500 hover:shadow-md hover:-translate-y-1"
->
+  className="animated-cta px-6 py-3 w-full"
+  >
   View Full Profile →
 </button>
     <button
-      onClick={() => openBookingModal(member)}
-     className="mt-2 w-full rounded-full bg-teal-600 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-teal-700 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]"
-    >
+      onClick={() => openBookingModal(  member)}
+    className="animated-cta px-6 py-3 w-full"
+  >
       Book Session
     </button>
 
@@ -739,7 +740,7 @@ transition-all duration-500"
               <div className="text-center">
                 <button
     onClick={() => openBookingModal(null)}
-    className="inline-flex items-center justify-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-8 sm:px-10 py-3.5 sm:py-4 rounded-full font-semibold hover:shadow-xl hover:-translate-y-1 transition-all duration-300 hover:scale-[1.03] text-sm sm:text-base"
+    className="animated-cta px-8 sm:px-10 py-3.5 sm:py-4"
   >
     Book Your Session
   </button>
@@ -805,7 +806,7 @@ className="text-center group">
               <div className="text-center mt-12">
                 <button
                     onClick={() => openBookingModal(null)}
-                  className="inline-flex items-center bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-10 py-4 rounded-full font-medium hover:shadow-xl transition-all duration-300 hover:scale-105 gap-2"
+                  className="animated-cta px-10 py-4"
                 >
                   Start Your Journey Today
                   <ArrowRight className="w-5 h-5" />
@@ -1228,8 +1229,7 @@ decision I made.
                 </p>
                 <button
                   onClick={() => setIsBreathingModalOpen(true)}
-                  className="mt-auto bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
-                  data-testid="breathing-exercise-btn"
+                  className="animated-cta px-6 py-3"
                 >
                   Open Calm Corner
                 </button>
@@ -1249,8 +1249,7 @@ decision I made.
                 </p>
                 <button
                   onClick={() => setIsGratitudeModalOpen(true)}
-                  className="mt-auto bg-gradient-to-r from-teal-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
-                  data-testid="gratitude-journal-btn"
+                  className="animated-cta px-6 py-3"
                 >
                   Start Writing
                 </button>
@@ -1326,7 +1325,7 @@ decision I made.
 
     <button
       onClick={() => openBookingModal(null)}
-      className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-xl transition-all duration-300"
+      className="animated-cta px-8 py-3.5"
     >
       Talk to a Psychologist
     </button>
