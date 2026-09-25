@@ -83,7 +83,7 @@ const Navbar = () => {
             <Link to="/" className="flex items-center gap-4 group">
               <div className="h-[88px] w-[88px] lg:h-[108px] lg:w-[108px] flex items-center justify-center">
                 <img
-  src="https://res.cloudinary.com/qqjn11uq/image/upload/v1786124404/Untitled_1587_x_1245_px_700_x_800_px_or1v1b.png" 
+  src="https://res.cloudinary.com/qqjn11uq/image/upload/v1790353722/logo_5_otnlud.png" 
                   alt="Aashwashan" 
                   className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
                 />
