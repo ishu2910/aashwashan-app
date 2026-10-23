@@ -77,22 +77,18 @@ const Navbar = () => {
 
       {/* Main Navigation */}
       <nav className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white'}`}>
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-5">
+        <div className="container mx-auto px-10 lg:px-12">
+          <div className="flex justify-between items-center py-3">
             {/* Logo with Name */}
-            <Link to="/" className="flex items-center gap-4 group">
-              <div className="h-[88px] w-[88px] lg:h-[108px] lg:w-[108px] flex items-center justify-center">
-                <img
-  src="https://res.cloudinary.com/qqjn11uq/image/upload/v1790353722/logo_5_otnlud.png" 
-                  alt="Aashwashan" 
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="flex flex-col items-start">
-                <span className="text-[32px] lg:text-[40px] font-bold text-teal-600" style={{ fontFamily: "'Playfair Display', serif" }}>Aashwashan</span>
-                <span className="text-xs lg:text-sm text-gray-500 tracking-wider uppercase -mt-1">A Safe Place to Start</span>
-              </div>
-            </Link>
+            <Link to="/" className="flex items-center group">
+  <div className="h-[110px] w-[150px] flex items-center justify-center shrink-0">
+    <img
+      src="https://res.cloudinary.com/qqjn11uq/image/upload/v1790353722/logo_5_otnlud.png"
+      alt="Aashwashan"
+      className="w-full h-full object-contain"
+    />
+  </div>
+</Link>
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center space-x-8">
