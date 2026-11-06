@@ -1,5 +1,5 @@
 from auth import get_current_user
-from models import Booking, User
+from models import User, UserRole, TherapistProfile, AvailabilitySlot, Booking, CommunityPostModel, Blog, SelfAssessment
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -269,6 +269,13 @@ class BlogResponse(BaseModel):
 class TherapistCreate(BaseModel):
     specialization: str
     experience_years: int
+
+class AssessmentCreate(BaseModel):
+    assessment_type: str
+    answers: dict
+    score: int
+    result_level: str
+    result_message: Optional[str] = None    
  
 # ==================== HELPER FUNCTIONS ====================
 
@@ -764,7 +771,36 @@ async def get_therapist_public_availability(
         for s in slots
     ]
 
+@api_router.post("/assessments")
+async def save_assessment(
+    payload: AssessmentCreate,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        assessment = SelfAssessment(
+            assessment_type=payload.assessment_type,
+            answers=json.dumps(payload.answers),
+            score=payload.score,
+            result_level=payload.result_level,
+            result_message=payload.result_message
+        )
 
+        db.add(assessment)
+        await db.commit()
+        await db.refresh(assessment)
+
+        return {
+            "success": True,
+            "id": assessment.id,
+            "message": "Assessment saved successfully"
+        }
+
+    except Exception as e:
+        await db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to save assessment"
+        )
 # ==================== COMMUNITY ROUTES ====================
 
 @community_router.get("/posts")

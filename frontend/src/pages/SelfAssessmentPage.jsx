@@ -236,14 +236,17 @@ const SelfAssessmentPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
-
+  const [saveConsent, setSaveConsent] = useState(false);
+const [saving, setSaving] = useState(false);
+const [saveMessage, setSaveMessage] = useState("");
   const startAssessment = (assessmentId) => {
-    setSelectedAssessment(assessments[assessmentId]);
-    setCurrentQuestion(0);
-    setAnswers({});
-    setShowResult(false);
-  };
-
+  setSelectedAssessment(assessments[assessmentId]);
+  setCurrentQuestion(0);
+  setAnswers({});
+  setShowResult(false);
+  setSaveConsent(false);
+  setSaveMessage("");
+};
   const handleAnswer = (value) => {
     const newAnswers = { ...answers, [currentQuestion]: value };
     setAnswers(newAnswers);
@@ -293,6 +296,52 @@ const SelfAssessmentPage = () => {
     }
     return { score, level: "Unknown", color: "gray", message: "Unable to calculate result." };
   };
+
+  
+const saveAssessment = async () => {
+  if (!saveConsent) {
+    setSaveMessage("Please provide consent before saving.");
+    return;
+  }
+
+  setSaving(true);
+  setSaveMessage("");
+
+  try {
+    const result = getResult();
+
+    const response = await fetch(
+      "https://aashwashan-app-1.onrender.com/api/assessments",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          assessment_type: selectedAssessment.id,
+          answers: answers,
+          score: result.score,
+          result_level: result.level,
+          result_message: result.message,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || "Unable to save assessment.");
+    }
+
+    setSaveMessage("Your assessment results have been saved successfully.");
+  } catch (error) {
+    console.error("Assessment save error:", error);
+    setSaveMessage("Unable to save results. Please try again.");
+  } finally {
+    setSaving(false);
+  }
+};
+
 
   const resetAssessment = () => {
     setSelectedAssessment(null);
@@ -420,7 +469,7 @@ const SelfAssessmentPage = () => {
                         <strong>Crisis Resources:</strong> If you are in crisis or experiencing suicidal thoughts, please call Tele MANAS at <strong>14416</strong> (India) or your local emergency services immediately.
                       </p>
                       <p>
-                        <strong>Data Privacy:</strong> Your assessment responses are processed locally in your browser and are not stored on our servers. We respect your privacy and confidentiality.
+                        <strong>Data Privacy:</strong> Your assessment responses remain in your browser unless you explicitly consent to saving them. If you choose to save, your responses and results will be transmitted to and stored on Aashwashan's server.
                       </p>
                       <p className="pt-2 border-t border-amber-200">
                         By using these assessments, you acknowledge that you have read and understood this disclaimer and agree that Aashwashan is not liable for any decisions made based on these screening tools.
@@ -479,6 +528,39 @@ const SelfAssessmentPage = () => {
                   If you're concerned about your mental health, we encourage you to speak with a therapist.
                 </p>
               </div>
+              
+              
+<div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
+  <label className="flex items-start gap-3 cursor-pointer">
+    <input
+      type="checkbox"
+      checked={saveConsent}
+      onChange={(e) => setSaveConsent(e.target.checked)}
+      className="mt-1"
+    />
+    <span className="text-sm text-blue-900">
+      I consent to securely storing my assessment responses and results on Aashwashan's server for future reference. I understand that this includes sensitive mental health information and that I can choose not to save my responses.
+    </span>
+  </label>
+</div>
+
+
+<div className="mb-6">
+  <button
+    onClick={saveAssessment}
+    disabled={!saveConsent || saving}
+    className="w-full bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    {saving ? "Saving..." : "Save My Results"}
+  </button>
+
+  {saveMessage && (
+    <p className="text-sm text-center mt-3 text-gray-700">
+      {saveMessage}
+    </p>
+  )}
+</div>
+
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <button

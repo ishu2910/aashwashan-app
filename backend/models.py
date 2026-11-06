@@ -155,3 +155,15 @@ class AppointmentRequestModel(Base):
     status = Column(String, default="Pending")
 
     created_at = Column(DateTime(timezone=True), default=utc_now)
+
+    
+class SelfAssessment(Base):
+    __tablename__ = "self_assessments"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    assessment_type = Column(String(50), nullable=False, index=True)
+    answers = Column(Text, nullable=False)
+    score = Column(Integer, nullable=False)
+    result_level = Column(String(100), nullable=False)
+    result_message = Column(Text)
+    created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
