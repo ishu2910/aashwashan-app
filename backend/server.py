@@ -1,5 +1,5 @@
 from auth import get_current_user
-from models import User, UserRole, TherapistProfile, AvailabilitySlot, Booking, CommunityPostModel, Blog, SelfAssessment
+from models import User, UserRole, TherapistProfile, AvailabilitySlot, Booking, CommunityPost, Blog, SelfAssessment
 
 from dotenv import load_dotenv
 load_dotenv()
