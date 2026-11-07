@@ -275,8 +275,12 @@ class AssessmentCreate(BaseModel):
     answers: dict
     score: int
     result_level: str
-    result_message: Optional[str] = None    
- 
+    result_message: Optional[str] = None
+    name: Optional[str] = None
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    city: Optional[str] = None
+    user_id: Optional[str] = None 
 # ==================== HELPER FUNCTIONS ====================
 
 def generate_jitsi_meeting_link(appointment_id: str) -> str:
@@ -777,13 +781,20 @@ async def save_assessment(
     db: AsyncSession = Depends(get_db)
 ):
     try:
-        assessment = SelfAssessment(
-            assessment_type=payload.assessment_type,
-            answers=json.dumps(payload.answers),
-            score=payload.score,
-            result_level=payload.result_level,
-            result_message=payload.result_message
-        )
+        
+assessment = SelfAssessment(
+    assessment_type=payload.assessment_type,
+    answers=json.dumps(payload.answers),
+    score=payload.score,
+    result_level=payload.result_level,
+    result_message=payload.result_message,
+    name=payload.name,
+    age=payload.age,
+    gender=payload.gender,
+    city=payload.city,
+    user_id=payload.user_id
+)
+
 
         db.add(assessment)
         await db.commit()

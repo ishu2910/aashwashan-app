@@ -232,6 +232,10 @@ const assessments = {
 };
 
 const SelfAssessmentPage = () => {
+  const [name, setName] = useState("");
+const [age, setAge] = useState("");
+const [gender, setGender] = useState("");
+const [city, setCity] = useState("");
   const [selectedAssessment, setSelectedAssessment] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -319,6 +323,10 @@ const saveAssessment = async () => {
         },
         body: JSON.stringify({
           assessment_type: selectedAssessment.id,
+          name: name,
+          age: age ? parseInt(age, 10) : null,
+          gender: gender,
+          city: city,
           answers: answers,
           score: result.score,
           result_level: result.level,
@@ -529,7 +537,49 @@ const saveAssessment = async () => {
                 </p>
               </div>
               
-              
+              <div className="mb-6 space-y-4">
+  <h3 className="text-lg font-semibold">
+    Personal Details
+  </h3>
+
+  <input
+    type="text"
+    placeholder="Full Name"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    className="w-full rounded-lg border p-3"
+  />
+
+  <input
+    type="number"
+    placeholder="Age"
+    value={age}
+    onChange={(e) => setAge(e.target.value)}
+    className="w-full rounded-lg border p-3"
+  />
+
+  <select
+    value={gender}
+    onChange={(e) => setGender(e.target.value)}
+    className="w-full rounded-lg border p-3"
+  >
+    <option value="">Select Gender</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Other">Other</option>
+    <option value="Prefer not to say">Prefer not to say</option>
+  </select>
+
+  <input
+    type="text"
+    placeholder="City"
+    value={city}
+    onChange={(e) => setCity(e.target.value)}
+    className="w-full rounded-lg border p-3"
+  />
+</div>
+
+
 <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
   <label className="flex items-start gap-3 cursor-pointer">
     <input
