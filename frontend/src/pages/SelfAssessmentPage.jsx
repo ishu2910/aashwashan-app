@@ -539,47 +539,70 @@ const saveAssessment = async () => {
                 </p>
               </div>
               
-              <div className="mb-6 space-y-4">
-  <h3 className="text-lg font-semibold">
-    Personal Details
-  </h3>
+              
+<div className="mb-6 space-y-4">
+  <h3 className="text-lg font-semibold">Personal Details</h3>
 
-  <input
-    type="text"
-    placeholder="Full Name"
-    value={name}
-    onChange={(e) => setName(e.target.value)}
-    className="w-full rounded-lg border p-3"
-  />
+  <label className="block text-sm font-medium text-gray-700">
+    Full Name <span className="text-red-500">*</span>
+    <input
+      type="text"
+      placeholder="Full Name"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      className="w-full rounded-lg border p-3 mt-1"
+    />
+  </label>
 
-  <input
-    type="number"
-    placeholder="Age"
-    value={age}
-    onChange={(e) => setAge(e.target.value)}
-    className="w-full rounded-lg border p-3"
-  />
+  <label className="block text-sm font-medium text-gray-700">
+    Age <span className="text-red-500">*</span>
+    <input
+      type="number"
+      placeholder="Age"
+      value={age}
+      onChange={(e) => setAge(e.target.value)}
+      className="w-full rounded-lg border p-3 mt-1"
+    />
+  </label>
 
-  <select
-    value={gender}
-    onChange={(e) => setGender(e.target.value)}
-    className="w-full rounded-lg border p-3"
-  >
-    <option value="">Select Gender</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other</option>
-    <option value="Prefer not to say">Prefer not to say</option>
-  </select>
+  <label className="block text-sm font-medium text-gray-700">
+    Gender <span className="text-red-500">*</span>
+    <select
+      value={gender}
+      onChange={(e) => setGender(e.target.value)}
+      className="w-full rounded-lg border p-3 mt-1"
+    >
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+      <option value="Prefer not to say">Prefer not to say</option>
+    </select>
+  </label>
 
-  <input
-    type="text"
-    placeholder="City"
-    value={city}
-    onChange={(e) => setCity(e.target.value)}
-    className="w-full rounded-lg border p-3"
-  />
+  <label className="block text-sm font-medium text-gray-700">
+    City <span className="text-red-500">*</span>
+    <input
+      type="text"
+      placeholder="City"
+      value={city}
+      onChange={(e) => setCity(e.target.value)}
+      className="w-full rounded-lg border p-3 mt-1"
+    />
+  </label>
+
+  <label className="block text-sm font-medium text-gray-700">
+    Phone Number (Optional)
+    <input
+      type="tel"
+      placeholder="Phone Number"
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+      className="w-full rounded-lg border p-3 mt-1"
+    />
+  </label>
 </div>
+
 
 
 <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6">
