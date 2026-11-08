@@ -236,6 +236,7 @@ const SelfAssessmentPage = () => {
 const [age, setAge] = useState("");
 const [gender, setGender] = useState("");
 const [city, setCity] = useState("");
+const [phone, setPhone] = useState("");
   const [selectedAssessment, setSelectedAssessment] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -327,6 +328,7 @@ const saveAssessment = async () => {
           age: age ? parseInt(age, 10) : null,
           gender: gender,
           city: city,
+          phone: phone,
           answers: answers,
           score: result.score,
           result_level: result.level,
@@ -723,4 +725,7 @@ const saveAssessment = async () => {
 };
 
 export default SelfAssessmentPage;
+
+
+
 
