@@ -601,7 +601,7 @@ const saveAssessment = async () => {
     disabled={!saveConsent || saving}
     className="w-full bg-teal-600 text-white py-3 rounded-xl font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
   >
-    {saving ? "Saving..." : "Save My Results"}
+    {saving ? "Saving..." : saveMessage.includes("saved successfully") ? "Saved ✓" : "Save My Results"}
   </button>
 
   {saveMessage && (
@@ -723,3 +723,4 @@ const saveAssessment = async () => {
 };
 
 export default SelfAssessmentPage;
+
