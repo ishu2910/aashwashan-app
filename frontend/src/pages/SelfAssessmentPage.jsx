@@ -621,7 +621,7 @@ const saveAssessment = async () => {
                   <span>Take Another Assessment</span>
                 </button>
                 <Link
-                  to="/team"
+                  to="/#therapists"
                   className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-600 text-white rounded-xl hover:shadow-lg transition-all"
                 >
                   <span>Talk to a Therapist</span>

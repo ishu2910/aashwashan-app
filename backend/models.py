@@ -166,7 +166,7 @@ class SelfAssessment(Base):
     score = Column(Integer, nullable=False)
     result_level = Column(String(100), nullable=False)
     result_message = Column(Text)
-        name = Column(Text, nullable=True)
+    name = Column(Text, nullable=True)
     age = Column(Integer, nullable=True)
     gender = Column(Text, nullable=True)
     city = Column(Text, nullable=True)

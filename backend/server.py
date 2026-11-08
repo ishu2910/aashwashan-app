@@ -782,18 +782,18 @@ async def save_assessment(
 ):
     try:
         
-assessment = SelfAssessment(
-    assessment_type=payload.assessment_type,
-    answers=json.dumps(payload.answers),
-    score=payload.score,
-    result_level=payload.result_level,
-    result_message=payload.result_message,
-    name=payload.name,
-    age=payload.age,
-    gender=payload.gender,
-    city=payload.city,
-    user_id=payload.user_id
-)
+        assessment = SelfAssessment(
+            assessment_type=payload.assessment_type,
+            answers=json.dumps(payload.answers),
+            score=payload.score,
+            result_level=payload.result_level,
+            result_message=payload.result_message,
+            name=payload.name,
+            age=payload.age,
+            gender=payload.gender,
+            city=payload.city,
+            user_id=payload.user_id
+        )
 
 
         db.add(assessment)
