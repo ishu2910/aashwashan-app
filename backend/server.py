@@ -776,13 +776,13 @@ async def get_therapist_public_availability(
         for s in slots
     ]
 
+
 @api_router.post("/assessments")
 async def save_assessment(
     payload: AssessmentCreate,
     db: AsyncSession = Depends(get_db)
 ):
     try:
-        
         assessment = SelfAssessment(
             assessment_type=payload.assessment_type,
             answers=json.dumps(payload.answers),
@@ -797,7 +797,6 @@ async def save_assessment(
             user_id=payload.user_id
         )
 
-
         db.add(assessment)
         await db.commit()
         await db.refresh(assessment)
@@ -808,13 +807,14 @@ async def save_assessment(
             "message": "Assessment saved successfully"
         }
 
-        except Exception as e:
+    except Exception as e:
         await db.rollback()
         print(f"ASSESSMENT SAVE ERROR: {repr(e)}")
         raise HTTPException(
             status_code=500,
             detail=str(e)
         )
+
 # ==================== COMMUNITY ROUTES ====================
 
 @community_router.get("/posts")
