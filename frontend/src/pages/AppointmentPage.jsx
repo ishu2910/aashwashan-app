@@ -172,8 +172,7 @@ const response = await api.post(`${API}/appointments`, payload);
 
   <option value="Prakhar Tiwari">Prakhar Tiwari</option>
 
-  <option value="Sonali Mishra">Sonali Mishra</option>
-
+  
   <option value="Anushka">Anushka</option>
 
   <option value="Kanika Dhariwal">Kanika Dhariwal</option>

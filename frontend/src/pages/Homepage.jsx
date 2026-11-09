@@ -2438,14 +2438,12 @@ data-aos="fade-up"
 
           <p className="text-xs text-teal-700 font-semibold mt-1">
             {
-              selectedTherapist.name === "Prakhar Tiwari"
-                ? "500+ Sessions Conducted"
-                : selectedTherapist.name === "Sonali Mishra"
-                ? "800+ Sessions Conducted"
-                : selectedTherapist.name === "Kanika Dhariwal"
-                ? "200+ Sessions Conducted"
-                : "250+ Sessions Conducted"
-            }
+  selectedTherapist.name === "Prakhar Tiwari"
+    ? "500+ Sessions Conducted"
+    : selectedTherapist.name === "Kanika Dhariwal"
+    ? "200+ Sessions Conducted"
+    : "800+ Sessions Conducted"
+}
           </p>
         </div>
       </div>

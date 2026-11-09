@@ -94,22 +94,9 @@ sessions: 500,
     credentials: "Member, American Psychological Association (APA)",
     awards: ["Fellowship of IMHRC", "Best Leader Recognition NSS (2022-2025)"]
   },
+  
   {
     id: 2,
-    name: "Sonali Mishra",
-    role: "Counselling Psychologist",
-    specialization: "Behavioral Therapy & Wellness",
-    skills: ["Stress Management", "Relationship Issues", "Self-Esteem", "Anxiety"],
-    experience: "3+ years",
-sessions: 800,
-    price45: "1299",
-    price60: null,
-    image: "https://customer-assets.emergentagent.com/job_e346c176-86b9-4c64-8688-a2f0bf5fe171/artifacts/s1p9da79_Untitled%20design%20%281%29.png",
-    bio: "Sonali is passionate about helping adults manage behavioral challenges and build healthier life patterns. She creates a safe, supportive space for clients to explore their emotions and develop coping strategies.",
-    education: "M.A. in Clinical Psychology"
-  },
-  {
-    id: 3,
     name: "Anushka",
     role: "Child & Teen Specialist",
     specialization: "Relationship & Grief Counseling",
@@ -123,7 +110,7 @@ sessions: 800,
     education: "M.A. in Psychology"
   },
 {
-  id: 4,
+  id: 3,
   name: "Kanika Dhariwal",
   role: "Mental Wellness Coach",
   experience: "200+ Coaching Sessions",
