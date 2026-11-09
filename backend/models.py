@@ -170,5 +170,6 @@ class SelfAssessment(Base):
     age = Column(Integer, nullable=True)
     gender = Column(Text, nullable=True)
     city = Column(Text, nullable=True)
+    phone = Column(Text, nullable=True)
     user_id = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)

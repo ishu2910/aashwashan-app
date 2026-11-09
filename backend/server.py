@@ -280,6 +280,7 @@ class AssessmentCreate(BaseModel):
     age: Optional[int] = None
     gender: Optional[str] = None
     city: Optional[str] = None
+    phone: Optional[str] = None
     user_id: Optional[str] = None 
 # ==================== HELPER FUNCTIONS ====================
 
@@ -792,6 +793,7 @@ async def save_assessment(
             age=payload.age,
             gender=payload.gender,
             city=payload.city,
+            phone=payload.phone,
             user_id=payload.user_id
         )
 
