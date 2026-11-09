@@ -808,11 +808,12 @@ async def save_assessment(
             "message": "Assessment saved successfully"
         }
 
-    except Exception as e:
+        except Exception as e:
         await db.rollback()
+        print(f"ASSESSMENT SAVE ERROR: {repr(e)}")
         raise HTTPException(
             status_code=500,
-            detail="Unable to save assessment"
+            detail=str(e)
         )
 # ==================== COMMUNITY ROUTES ====================
 
