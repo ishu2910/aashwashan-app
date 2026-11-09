@@ -1067,18 +1067,41 @@ async def get_status_checks():
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
     return status_checks
 
+
 @api_router.post("/appointments", response_model=Appointment)
-async def create_appointment(request: AppointmentRequest):
+async def create_appointment(
+    request: AppointmentRequest,
+    db: AsyncSession = Depends(get_db)
+):
     try:
         appointment = Appointment(**request.model_dump())
-        doc = appointment.model_dump()
-        doc['created_at'] = doc['created_at'].isoformat()
 
+        # Save to MongoDB (existing behavior)
+        doc = appointment.model_dump()
+        doc["created_at"] = doc["created_at"].isoformat()
         await mongo_db.appointments.insert_one(doc)
 
+        # Save to Supabase/PostgreSQL
+        db_appointment = AppointmentRequestModel(
+            client_name=request.name,
+            client_email=str(request.email),
+            client_phone=request.phone,
+            therapist_name=request.service or "Any Available",
+            therapist_id=None,
+            service=request.service,
+            session_mode="Online",
+            appointment_date=datetime.strptime(request.date, "%Y-%m-%d").date(),
+            appointment_time=request.time,
+            message=request.message,
+            status="Pending"
+        )
+        db.add(db_appointment)
+        await db.commit()
+
+        # Existing email
         email_sent = send_appointment_email(request.model_dump())
 
-        # Send WhatsApp booking confirmation if phone provided
+        # Existing WhatsApp
         if request.phone:
             try:
                 whatsapp_service.send_booking_confirmation(
@@ -1094,12 +1117,16 @@ async def create_appointment(request: AppointmentRequest):
             except Exception as wa_error:
                 logger.error(f"WhatsApp error: {str(wa_error)}")
 
-        logger.info(f"Appointment created for {request.name} - Email sent: {email_sent}")
+        logger.info(
+            f"Appointment created for {request.name} - Email sent: {email_sent}"
+        )
         return appointment
 
     except Exception as e:
+        await db.rollback()
         logger.error(f"Error creating appointment: {str(e)}")
         raise
+
 
 # New endpoint for appointment requests (sends email to care@aashwashan.com)
 class AppointmentRequestData(BaseModel):
