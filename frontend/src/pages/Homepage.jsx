@@ -620,10 +620,7 @@ data-aos-delay={idx * 120}
                 <p className="text-gray-500 text-base sm:text-lg max-w-xl mx-auto">
                   Book a session with a therapist who understands your journey. Online, private, and at your pace.
                 </p>
-                <div className="mt-4 inline-flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-semibold border border-green-200">
-                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                  Free first session available with selected therapists
-                </div>
+                
               </div>
 
               {/* Therapist Cards */}
@@ -711,15 +708,7 @@ transition-all duration-500"
       From ₹{member.price45 || "999"}
     </span>
 
-    {member.name === "Prakhar Tiwari" || member.name === "Kanika Dhariwal" ? (
-      <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm">
-        🎁 1st Session Free
-      </span>
-    ) : (
-      <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sm">
-        💵 1st Session Paid
-      </span>
-    )}
+    
     <button
   onClick={() => navigate(`/therapists/${member.id}`)}
   className="animated-cta px-6 py-3 w-full"
@@ -2409,10 +2398,7 @@ data-aos="fade-up"
         {team.map((member) => (
     <option key={member.id} value={member.name}>
       {member.name} • {member.role}
-      {(member.name === "Prakhar Tiwari" ||
-        member.name === "Kanika Dhariwal")
-        ? " 🎁 First Session FREE"
-        : ""}
+      
     </option>
   ))}
       </select>
@@ -2474,17 +2460,7 @@ data-aos="fade-up"
                   </div>
                 </div>
 
-              {selectedTherapist &&
-  (selectedTherapist.name === "Prakhar Tiwari" ||
-    selectedTherapist.name === "Kanika Dhariwal") && (
-    <div className="rounded-xl bg-green-50 border border-green-200 p-4">
-      <p className="text-green-700 font-semibold text-sm">
-        🎁 Great news! Your first session with{" "}
-        {selectedTherapist.name.split(" ")[0]} is FREE.
-      </p>
-    </div>
-  )}
-
+              
                 {/* Price Summary */}
                 {selectedSessionDuration && (
                   <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-4 border border-teal-100" data-testid="price-summary">
@@ -2565,11 +2541,7 @@ data-aos="fade-up"
     ? `Book with ${selectedTherapist.name.split(" ")[0]}`
     : "Book My Session"}
                 </button>
-                <div className="rounded-xl bg-blue-50 border border-blue-200 p-3">
-    <p className="text-center text-sm font-medium text-blue-700">
-      💙 No payment required today. We'll confirm everything before your session.
-    </p>
-  </div>
+                
                 <p className="text-xs text-gray-500 text-center">
                   Our team will contact you within 24 hours to confirm your session.
                 </p>

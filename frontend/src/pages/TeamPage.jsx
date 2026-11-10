@@ -190,8 +190,8 @@ const TeamPage = () => {
           {/* Simple message */}
           <div className="max-w-4xl mx-auto mt-10 text-center">
             <div className="bg-green-50 border border-green-200 rounded-2xl p-6 sm:p-8">
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Your 1st session is free.</h3>
-              <p className="text-gray-600 text-sm sm:text-base">No payment needed. Just pick a therapist, choose a time, and start your journey. All sessions are online.</p>
+              
+              
             </div>
           </div>
         </div>

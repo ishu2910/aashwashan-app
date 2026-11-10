@@ -81,6 +81,7 @@ export const team = [
   {
     id: 1,
     name: "Prakhar Tiwari",
+    linkedin: "https://www.linkedin.com/in/prakhar-tiwari-a38553364/",
     role: "Counselling Psychologist",
     specialization: "Counseling & Mental Health Support",
     skills: ["Empathy", "Grief", "Active Listening", "Career Problems"],
@@ -112,6 +113,7 @@ sessions: 800,
 {
   id: 3,
   name: "Kanika Dhariwal",
+  linkedin: "https://www.linkedin.com/in/kanika-dhariwal-308999407/",
   role: "Mental Wellness Coach",
   experience: "200+ Coaching Sessions",
   image: "https://res.cloudinary.com/qqjn11uq/image/upload/v1783939898/Kanika_image_m6bjan.jpg",

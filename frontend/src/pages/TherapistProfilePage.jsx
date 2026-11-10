@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { team } from "../data/mockData";
-import { BadgeCheck, ArrowLeft, Star } from "lucide-react";
+import { BadgeCheck, ArrowLeft, Star, Linkedin } from "lucide-react";
 
 const availabilityData = {
   1: {
@@ -70,33 +70,49 @@ const TherapistProfilePage = () => {
 
           <div className="grid md:grid-cols-[280px_1fr]">
 
-            <div className="w-full md:w-[280px] md:h-[360px]">
-              <img
-                src={therapist.image}
-                alt={therapist.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <div className="flex justify-center items-start bg-gradient-to-br from-teal-50 to-cyan-50 p-8 md:p-10">
+  <div className="w-56 h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
+    <img
+      src={therapist.image}
+      alt={therapist.name}
+      className="w-full h-full object-cover"
+    />
+  </div>
+</div>
 
-            <div className="p-7 md:p-10">
+            <div className="p-6 md:p-10 lg:p-12">
 
-              <div className="flex items-center gap-2">
-                <h1 className="text-3xl font-bold text-gray-900">
-                  {therapist.name}
-                </h1>
+              <div className="flex items-center justify-between gap-3">
+  <div className="flex items-center gap-2">
+    <h1 className="text-3xl font-bold text-gray-900">
+      {therapist.name}
+    </h1>
 
-                <BadgeCheck className="w-6 h-6 text-teal-500" />
-              </div>
+    <BadgeCheck className="w-6 h-6 text-teal-500 shrink-0" />
+  </div>
+
+  {therapist.linkedin && (
+    <a
+      href={therapist.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="LinkedIn Profile"
+      className="text-[#0A66C2] hover:scale-110 transition-transform shrink-0"
+    >
+      <Linkedin size={30} />
+    </a>
+  )}
+</div>
 
               <p className="mt-2 text-gray-500">
                 {therapist.role}
               </p>
-              <div className="mt-4">
-  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+              <div className="mt-5">
+  <p className="text-sm font-medium text-gray-500">
     Specialization
   </p>
 
-  <p className="mt-1 text-base font-semibold text-teal-700">
+  <p className="mt-1 text-xl font-semibold text-gray-900">
     {therapist.specialization}
   </p>
 </div>
@@ -178,7 +194,7 @@ const TherapistProfilePage = () => {
     About
   </h2>
 
-  <p className="text-gray-600 leading-7">
+  <p className="text-gray-600 leading-8 text-base">
     {therapist.bio}
   </p>
   {therapist.education && (
@@ -187,7 +203,7 @@ const TherapistProfilePage = () => {
       Education
     </h3>
 
-    <p className="text-gray-600 leading-relaxed">
+    <p className="text-gray-600 leading-7 text-base">
       {therapist.education}
     </p>
   </div>
@@ -199,7 +215,7 @@ const TherapistProfilePage = () => {
       Credentials
     </h3>
 
-    <p className="text-gray-600 leading-relaxed">
+    <p className="text-gray-600 leading-7 text-base">
       {therapist.credentials}
     </p>
   </div>
@@ -215,7 +231,7 @@ const TherapistProfilePage = () => {
       {therapist.awards.map((award, index) => (
         <span
           key={index}
-          className="rounded-full bg-amber-50 border border-amber-100 px-3 py-2 text-sm text-gray-700"
+          className="rounded-xl bg-amber-50 border border-amber-100 px-4 py-3 text-sm text-gray-700"
         >
           {award}
         </span>
@@ -233,7 +249,7 @@ const TherapistProfilePage = () => {
       {therapist.skills?.map((skill, index) => (
         <span
           key={index}
-          className="rounded-full bg-gray-50 border border-gray-200 px-3 py-2 text-sm text-gray-700"
+          className="rounded-xl bg-white border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 shadow-sm hover:border-teal-200 transition-colors"
         >
           {skill}
         </span>
@@ -245,7 +261,7 @@ const TherapistProfilePage = () => {
                 onClick={() => {
                   navigate(`/?therapist=${therapist.id}#therapists`);
                 }}
-                className="mt-8 w-full rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl"
+                className="mt-8 w-full rounded-xl bg-teal-600 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-teal-700 hover:shadow-lg"
               >
                 Book Session
               </button>
