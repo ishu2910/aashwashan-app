@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from "../api";
@@ -42,9 +42,9 @@ const AdminDashboardPage = () => {
     if (user && isAdmin()) {
       fetchData();
     }
-  }, [user]);
+  }, [user, isAdmin, fetchData]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const headers = getAuthHeader();
       
@@ -66,7 +66,7 @@ const AdminDashboardPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getAuthHeader]);
 
   const handleLogout = () => {
     logout();

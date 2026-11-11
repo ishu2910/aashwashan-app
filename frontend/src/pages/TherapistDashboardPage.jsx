@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from "../api";
@@ -48,9 +48,9 @@ const TherapistDashboardPage = () => {
     if (user && isTherapist()) {
       fetchData();
     }
-  }, [user]);
+  }, [user, isTherapist, fetchData]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const headers = getAuthHeader();
       
@@ -82,7 +82,7 @@ const TherapistDashboardPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getAuthHeader]);
 
   const handleLogout = () => {
     logout();

@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Send, User, Shield, Clock } from 'lucide-react';
 import SEO from "../components/SEO";
@@ -43,10 +43,10 @@ useEffect(() => {
     });
   }
 
-}, []);
+}, [fetchPosts]);
 
 // 📥 Fetch posts
-const fetchPosts = async () => {
+const fetchPosts = useCallback(async () => {
 try {
 const { data, error } = await supabase
 .from("community_posts")
@@ -70,7 +70,7 @@ setTrendingPosts(sorted.slice(0, 3));
 
 setIsLoading(false);
 
-};
+}, [fetchComments]);
 
 // 🕒 Time format
 const formatTimestamp = (dateString) => {
