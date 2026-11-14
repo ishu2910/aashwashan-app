@@ -49,7 +49,17 @@ const AppointmentPage = () => {
   therapist_name: formData.therapist
 };
 
-const response = await api.post(`${API}/appointments`, payload);
+const response = await api.post(`${API}/appointments/request`, {
+  name: formData.name,
+  email: formData.email,
+  phone: formData.phone,
+  therapist_name: formData.therapist || "Any Available",
+  date: formData.date,
+  time: formData.time,
+  message: formData.message,
+  sessionDuration: formData.service || "45 minutes",
+  price: 999
+});
       
       toast({
         title: "Appointment Requested!",
