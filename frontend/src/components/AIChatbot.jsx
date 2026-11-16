@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, Minimize2, Maximize2, RefreshCw } from 'lucide-react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 const API = "https://aashwashan-app-1.onrender.com/api";
@@ -27,6 +28,7 @@ const SaathiIcon = ({ className = "w-6 h-6" }) => (
 
 const AIChatbot = () => {
   // Closed by default, auto-open on desktop after mount
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
 
@@ -99,7 +101,9 @@ const AIChatbot = () => {
       });
       const botMsg = { id: Date.now() + 1, type: 'bot', text: res.data.response };
       if (messageCount >= 3) {
-        botMsg.quickActions = [{ label: "Book a Session", action: "I'd like to book a therapy session" }];
+        botMsg.quickActions = [
+  { label: "Book a Session", action: "BOOK_APPOINTMENT" }
+];
       }
       setMessages(prev => [...prev, botMsg]);
     } catch (err) {
@@ -113,7 +117,18 @@ const AIChatbot = () => {
     }
   };
 
-  const handleQuickAction = (action) => handleSend(action);
+  const handleQuickAction = (action) => {
+  if (action === "BOOK_APPOINTMENT") {
+    setIsOpen(false);
+    navigate("/");
+setTimeout(() => {
+  document.querySelector('[data-testid="book-session-hero-btn"]')?.click();
+}, 300);
+    return;
+  }
+
+  handleSend(action);
+};
   const handleKeyPress = (e) => { if (e.key === 'Enter') handleSend(); };
   const resetChat = () => {
     setSessionId(null);

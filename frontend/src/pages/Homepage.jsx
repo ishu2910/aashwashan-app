@@ -456,11 +456,11 @@
   return (
     <>
       <SEO
-    title="Aashwashan | Online Therapy & Counselling with Licensed Psychologists"
-    description="Connect with experienced psychologists through secure online therapy sessions. Aashwashan provides compassionate support for anxiety, depression, stress, relationships, and emotional wellbeing across India."
-    keywords="online therapy India, online psychologist, counselling psychologist, anxiety therapy, depression counselling, relationship counselling, mental health support"
-    url="https://aashwashan.com/"
-  />
+  title="Online Therapy & Counselling in India | Aashwashan"
+  description="Book online therapy and counselling sessions with experienced psychologists at Aashwashan. Get professional support for stress, anxiety, relationships and emotional wellbeing."
+  keywords="online therapy India, online counselling India, psychologist online, counselling psychologist, anxiety counselling, relationship counselling, mental wellness"
+  url="https://aashwashan.com/"
+/>
       <div className="overflow-hidden">      {/* HERO SECTION: How are you Feeling Today? - With Rotating Background Images */}
         <section className="relative min-h-[70vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden">
           {/* Rotating Background Images */}

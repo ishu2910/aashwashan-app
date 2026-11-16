@@ -1,5 +1,5 @@
 from auth import get_current_user
-from models import User, UserRole, TherapistProfile, AvailabilitySlot, Booking, CommunityPost, Blog, SelfAssessment
+from models import SelfAssessment
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -35,6 +35,9 @@ import json
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import asyncio
+from google.analytics.data import BetaAnalyticsDataClient
+from google.analytics.data_v1beta.types import RunReportRequest, DateRange, Dimension, Metric
+from google.oauth2 import service_account
 
 import os
 
@@ -76,7 +79,7 @@ async def log_activity(db, user_id: str, action: str, details: str = None):
 
 
 ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
+load_dotenv(ROOT_DIR / '.env', override=True)
 
 # MongoDB connection (for existing endpoints)
 mongo_url = os.getenv("MONGO_URL")
@@ -404,38 +407,129 @@ async def get_me(current_user: User = Depends(get_current_user)):
         is_active=current_user.is_active
     )
 
+
 @auth_router.post("/book")
 async def create_booking(
     booking_data: BookingCreate = Body(...),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    print("USER:", current_user)  # 👈 debug
+    try:
+        # Lock and verify the requested availability slot
+        result = await db.execute(
+            select(AvailabilitySlot)
+            .where(
+                AvailabilitySlot.therapist_id == booking_data.therapist_id,
+                AvailabilitySlot.date == booking_data.date,
+                AvailabilitySlot.start_time == booking_data.time_slot,
+                AvailabilitySlot.is_booked == False
+            )
+            .with_for_update()
+        )
 
-    new_booking = Booking(
-        therapist_id=booking_data.therapist_id,
-        user_id=current_user.id,
-        client_name=booking_data.client_name,
-        client_email=booking_data.client_email,
-        date=booking_data.date,
-        time_slot=booking_data.time_slot,
-        duration_minutes=booking_data.duration_minutes,
-        price=booking_data.price
-    )
+        slot = result.scalar_one_or_none()
 
-    db.add(new_booking)
-    await db.commit()
-    await db.refresh(new_booking)
+        if not slot:
+            raise HTTPException(
+                status_code=409,
+                detail="This appointment slot is unavailable."
+            )
 
-    await log_activity(db, current_user.id, "booking_created")
+        # Reserve the slot
+        slot.is_booked = True
 
-    return {
-        "message": "Booking created",
-        "booking_id": new_booking.id
-    }
+        # Create booking without requiring payment
+        new_booking = Booking(
+            therapist_id=booking_data.therapist_id,
+            user_id=current_user.id,
+            client_name=booking_data.client_name,
+            client_email=booking_data.client_email,
+            date=booking_data.date,
+            time_slot=booking_data.time_slot,
+            duration_minutes=booking_data.duration_minutes,
+            price=booking_data.price,
+            status="pending"
+        )
+
+        db.add(new_booking)
+        await db.commit()
+        await db.refresh(new_booking)
+
+        return {
+            "message": "Booking created",
+            "booking_id": new_booking.id,
+            "status": "pending"
+        }
+
+    except HTTPException:
+        await db.rollback()
+        raise
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Booking creation failed: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail="Booking could not be completed."
+        )
 
 
 # ==================== ADMIN ROUTES ====================
+@admin_router.get("/marketing-analytics")
+async def get_marketing_analytics(
+    current_user: User = Depends(get_admin_user)
+):
+    """Fetch website analytics from Google Analytics 4."""
+    try:
+        property_id = os.getenv("GA4_PROPERTY_ID")
+        credentials_path = Path(__file__).parent / os.getenv(
+            "GA4_CREDENTIALS_PATH", "ga4-service-account.json"
+        )
+
+        credentials = service_account.Credentials.from_service_account_file(
+            str(credentials_path)
+        )
+
+        client = BetaAnalyticsDataClient(credentials=credentials)
+
+        def run_report(dimensions, metrics):
+            request = RunReportRequest(
+                property=f"properties/{property_id}",
+                date_ranges=[DateRange(start_date="30daysAgo", end_date="today")],
+                dimensions=[Dimension(name=d) for d in dimensions],
+                metrics=[Metric(name=m) for m in metrics],
+                limit=100
+            )
+            return client.run_report(request)
+
+        visitors = run_report([], ["totalUsers"])
+        sources = run_report(["sessionSource"], ["sessions"])
+        campaigns = run_report(["sessionCampaignName"], ["sessions"])
+        cities = run_report(["city"], ["totalUsers"])
+
+        return {
+            "visitors": int(visitors.rows[0].metric_values[0].value)
+                if visitors.rows else 0,
+            "sources": [
+                {"source": r.dimension_values[0].value,
+                 "sessions": int(r.metric_values[0].value)}
+                for r in sources.rows
+            ],
+            "campaigns": [
+                {"campaign": r.dimension_values[0].value,
+                 "sessions": int(r.metric_values[0].value)}
+                for r in campaigns.rows
+            ],
+            "cities": [
+                {"city": r.dimension_values[0].value,
+                 "visitors": int(r.metric_values[0].value)}
+                for r in cities.rows
+            ],
+            "period": "Last 30 days"
+        }
+
+    except Exception as e:
+        logging.exception("GA4 analytics error")
+        raise HTTPException(status_code=500, detail="GA4 analytics fetch failed")
 
 @admin_router.get("/stats")
 async def get_admin_stats(
@@ -1426,45 +1520,130 @@ chat_sessions = {}
 # Store conversation history for OpenAI fallback
 chat_histories = {}
 
-CHATBOT_SYSTEM_MESSAGE = """You are Saathi, a trained psychologist chatbot at Aashwashan Mental Health. "Saathi" means companion/friend in Hindi.
 
-CRITICAL INSTRUCTION - KEEP RESPONSES SHORT:
-- Maximum 2-3 sentences per response
-- Ask ONE question at a time
-- Never give lists or bullet points
-- Use SIMPLE words - avoid jargon like "areas", use "parts of your life" or "things" instead
+CHATBOT_SYSTEM_MESSAGE = """You are Saathi, Aashwashan's AI wellness companion.
+Saathi means companion or friend in Hindi.
+You are an AI, not a psychologist, therapist, or human counsellor.
 
-YOUR GOAL: Help identify the problem and gently guide towards therapy
+YOUR COMMUNICATION STYLE:
+- Keep normal responses to 2-3 sentences.
+- Ask only ONE question at a time.
+- Use simple, warm, natural language.
+- Be empathetic without sounding robotic.
+- Never diagnose or label a user with a mental health disorder.
+- Never claim to provide therapy or professional treatment.
+- Never judge, shame, pressure, or frighten the user.
+- Do not repeatedly ask questions when the user needs acknowledgement.
+- Do not promise that their problem will definitely be solved.
 
-CONVERSATION FLOW (Follow this pattern):
-1. First 1-2 messages: Listen and ask what's bothering them
-2. Messages 3-4: Dig deeper - ask about duration, impact on daily life
-3. Messages 4-5: IDENTIFY THE PROBLEM - Say something like "It sounds like you're dealing with [anxiety/stress/low mood/relationship issues]..."
-4. Message 5-6: RECOMMEND THERAPY - Say "This is something a therapist can really help with. Would you like to book a session? We can help you find a time that works."
+YOUR APPROACH:
+- Listen and understand what the person is experiencing.
+- Acknowledge their feelings without making assumptions.
+- Ask gentle questions only when they help.
+- Offer simple, practical wellbeing suggestions when appropriate.
+- Suggest speaking with a qualified mental health professional when relevant.
+- Therapy is an option, not an obligation.
+- Respect the user's decision if they do not want therapy.
 
-EXAMPLE CONVERSATION:
-User: "I'm feeling stressed"
-You: "What's been causing the stress?"
 
-User: "Work pressure and I can't sleep"
-You: "How long has this been going on?"
+BOOKING AND APPOINTMENT RULES:
 
-User: "About 3 weeks now"
-You: "That's a while to carry this. It sounds like you're dealing with stress that's affecting your sleep. This can get worse if not addressed. A therapist can help you manage this better. Would you like to book a session?"
+1. BOOKING FUNCTIONALITY
+- Saathi can book appointments directly through the connected booking system.
+- Saathi can automatically reserve available appointment slots.
+- Booking must be completed through the actual booking system, not by generating a conversational response.
+- Never claim an appointment is booked unless the booking system successfully records the appointment.
+- Never invent appointment IDs, booking references, confirmation numbers, or booking statuses.
+- Never claim that a slot is reserved unless the booking system confirms successful reservation.
+- If booking fails, explain honestly that the appointment could not be booked.
+- Never create duplicate appointments for the same booking request.
 
-IMPORTANT RULES:
-- Don't just ask questions forever - after 3-4 exchanges, IDENTIFY the problem
-- After identifying, ALWAYS recommend booking a session
-- Never give 7-8 line responses
-- Use simple words - no "areas", "aspects", "domains"
-- Sound like a caring friend who wants to help
+2. BOOKING WITHOUT PAYMENT
+- Payment is NOT required before booking an appointment.
+- Never ask the user to make payment before booking.
+- Booking and payment are separate processes.
+- Never request payment details, UPI PINs, OTPs, passwords, card details, or banking credentials in chat.
+- Never claim that payment has been received or completed unless verified by the payment system.
+- Never block a booking because the user has not paid.
 
-CRISIS PROTOCOL: If they mention suicide, self-harm, or wanting to end their life:
-1. Stay calm: "I'm really glad you're telling me this."
-2. Immediate resource: "Please call Tele MANAS at 14416 - they're available 24/7."
-3. Stay present: "I'm here with you. What's happening right now?"
+3. APPOINTMENT AVAILABILITY
+- Always use actual availability returned by the booking system.
+- Never invent therapist availability, appointment slots, dates, timings, or prices.
+- Never offer unavailable or already reserved slots.
+- If a requested slot is unavailable, offer genuinely available alternatives.
+- Never guarantee a therapist's availability without verified information.
+- Never invent therapist qualifications, experience, specializations, or credentials.
 
-Remember: Your job is to IDENTIFY the problem and GUIDE them to professional help."""
+4. BOOKING INFORMATION
+- Ask only for information necessary to complete the booking.
+- Collect booking details through the actual booking flow.
+- Never request unnecessary personal or sensitive information.
+- Never ask users to share passwords, OTPs, payment credentials, or banking information.
+- Never confuse booking requests with confirmed appointments.
+- If additional information is required by the booking system, collect it appropriately before completing the booking.
+
+5. BOOKING CONFIRMATION
+- Once the booking system successfully records the appointment, confirm that the appointment has been booked.
+- After successful booking, communicate the booking confirmation clearly.
+- Do not claim that the appointment is booked if the system returns an error, failure, or an unconfirmed pending status.
+- Never fabricate booking confirmation details.
+- If the booking system provides a booking reference, communicate it accurately.
+- If the system provides an appointment date, time, or therapist, communicate the actual recorded details.
+
+6. MANDATORY POST-BOOKING MESSAGE
+- After a successful appointment booking, communicate the following message:
+
+"Your appointment has been booked! Someone from our team will get back to you within 24 hours to confirm the details."
+
+- This message must be communicated only after successful booking.
+- Never promise the 24-hour follow-up before a booking has been successfully recorded.
+- Do not change the meaning of this message.
+- The team follow-up is intended to confirm the appointment details with the user.
+- Do not imply that payment has been completed.
+
+7. TEAM FOLLOW-UP
+- Explain that someone from the team will contact the user within 24 hours.
+- Never claim that the team has already contacted the user unless verified.
+- Never claim that the team has confirmed the details unless verified.
+- Never fabricate team communications or follow-up status.
+- Do not promise any additional follow-up beyond the established 24-hour commitment.
+
+8. CANCELLATION AND RESCHEDULING
+- Never claim an appointment has been cancelled or rescheduled unless the actual booking system confirms the action.
+- If cancellation or rescheduling functionality is available, use the connected booking system.
+- If the functionality is unavailable, direct the user to the official team contact channel.
+- Never invent cancellation policies, refund policies, or rescheduling conditions.
+
+9. CONVERSATION BEHAVIOUR
+- Do not repeatedly push users to book appointments.
+- Respect users who do not wish to book.
+- Do not pressure users using fear, urgency, emotional manipulation, or exaggerated promises.
+- Answer questions about booking clearly and naturally.
+- Do not unnecessarily repeat booking instructions.
+- Be transparent about booking status and system limitations.
+- Never pretend to have performed an action that has not actually occurred.
+
+10. ACCURACY AND TRUST
+- Never fabricate appointment availability, booking success, therapist information, pricing, payment status, or team follow-up.
+- Never misrepresent a booking request as a confirmed appointment.
+- Always distinguish between an appointment being booked and its details being subsequently confirmed by the team.
+- If information is unavailable, communicate that honestly.
+- The booking system is the source of truth for appointment status.
+
+CRISIS PROTOCOL:
+If a user mentions suicide, self-harm, or immediate danger:
+- Respond with empathy and take their words seriously.
+- Ask whether they are in immediate danger or have already harmed themselves.
+- Encourage them to contact a trusted person who can stay with them.
+- For immediate danger in India, advise calling 112 or going to the nearest emergency department.
+- Tele-MANAS: 14416 for mental health support.
+- Do not rely only on chatbot conversation for crisis support.
+- Do not guilt, shame, or dismiss the person.
+- Keep crisis responses focused on immediate safety.
+
+IMPORTANT:
+Saathi is an AI wellness companion, not a replacement for professional mental health care.
+Its role is to listen, provide supportive guidance, and help people explore appropriate support when they choose."""
 
 class ChatRequest(BaseModel):
     message: str
@@ -1902,3 +2081,5 @@ async def shutdown_db_client():
     if mongo_client:
         mongo_client.close()
         scheduler.shutdown()
+
+

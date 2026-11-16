@@ -18,6 +18,7 @@ const AdminDashboardPage = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [marketingAnalytics, setMarketingAnalytics] = useState(null);
 
   // Blog form state
   const [showBlogForm, setShowBlogForm] = useState(false);
@@ -48,14 +49,17 @@ const AdminDashboardPage = () => {
     try {
       const headers = getAuthHeader();
       
-      const [statsRes, blogsRes, usersRes] = await Promise.all([
+      const [statsRes, blogsRes, usersRes, marketingRes] = await Promise.all([
   api.get("/admin/stats", { headers }),
   api.get("/admin/blogs", { headers }),
-  api.get("/admin/users", { headers })
+  api.get("/admin/users", { headers }),
+  api.get("/admin/marketing-analytics", { headers })
 ]);
-      setStats(statsRes.data);
-      setBlogs(blogsRes.data);
-      setUsers(usersRes.data);
+
+setStats(statsRes.data);
+setBlogs(blogsRes.data);
+setUsers(usersRes.data);
+setMarketingAnalytics(marketingRes.data);
     } catch (error) {
       console.error('Error fetching data:', error);
       toast({
@@ -152,6 +156,7 @@ const AdminDashboardPage = () => {
     { id: 'overview', label: 'Overview', icon: BarChart3 },
     { id: 'blogs', label: 'Manage Blogs', icon: FileText },
     { id: 'users', label: 'Users', icon: Users },
+    { id: 'marketing', label: 'Marketing Analytics', icon: BarChart3 },
   ];
 
   return (
@@ -205,6 +210,7 @@ const AdminDashboardPage = () => {
               {activeTab === 'overview' && 'Dashboard Overview'}
               {activeTab === 'blogs' && 'Manage Blogs'}
               {activeTab === 'users' && 'User Management'}
+              {activeTab === 'marketing' && 'Marketing Analytics'}
             </h1>
             <p className="text-gray-600">Welcome back, {user?.name}</p>
           </div>
@@ -500,10 +506,111 @@ const AdminDashboardPage = () => {
               </table>
             </div>
           )}
+
+          
+{/* Marketing Analytics Tab */}
+{activeTab === 'marketing' && (
+  <div className="space-y-6">
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="bg-white rounded-xl p-6 shadow-sm border">
+        <p className="text-sm text-gray-500">Website Visitors</p>
+        <p className="text-3xl font-bold text-gray-800">
+          {marketingAnalytics?.visitors ?? '--'}
+        </p>
+        <p className="text-xs text-gray-400 mt-2">Last 30 days</p>
+      </div>
+
+      <div className="bg-white rounded-xl p-6 shadow-sm border">
+        <p className="text-sm text-gray-500">Campaign Sessions</p>
+        <p className="text-3xl font-bold text-gray-800">
+          {marketingAnalytics?.campaigns?.reduce(
+            (sum, c) => sum + c.sessions, 0
+          ) ?? '--'}
+        </p>
+        <p className="text-xs text-gray-400 mt-2">Last 30 days</p>
+      </div>
+
+      <div className="bg-white rounded-xl p-6 shadow-sm border">
+        <p className="text-sm text-gray-500">Contact Leads</p>
+        <p className="text-3xl font-bold text-gray-800">
+          {stats?.total_contacts ?? 0}
+        </p>
+        <p className="text-xs text-gray-400 mt-2">Total enquiries</p>
+      </div>
+
+      <div className="bg-white rounded-xl p-6 shadow-sm border">
+        <p className="text-sm text-gray-500">Appointments</p>
+        <p className="text-3xl font-bold text-gray-800">
+          {stats?.total_appointments ?? 0}
+        </p>
+        <p className="text-xs text-gray-400 mt-2">Total bookings</p>
+      </div>
+    </div>
+
+    <div className="grid lg:grid-cols-2 gap-6">
+      <div className="bg-white rounded-xl p-6 shadow-sm border">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+          Traffic Sources
+        </h2>
+        <div className="space-y-3">
+          {marketingAnalytics?.sources?.length ? (
+            marketingAnalytics.sources.map((item, index) => (
+              <div key={index} className="flex justify-between border-b pb-2">
+                <span className="text-gray-600">{item.source}</span>
+                <span className="font-semibold">{item.sessions}</span>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-sm">No traffic source data</p>
+          )}
         </div>
+      </div>
+
+      <div className="bg-white rounded-xl p-6 shadow-sm border">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+          Campaign Performance
+        </h2>
+        <div className="space-y-3">
+          {marketingAnalytics?.campaigns?.length ? (
+            marketingAnalytics.campaigns.map((item, index) => (
+              <div key={index} className="flex justify-between border-b pb-2">
+                <span className="text-gray-600">{item.campaign}</span>
+                <span className="font-semibold">{item.sessions}</span>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-sm">No campaign data</p>
+          )}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl p-6 shadow-sm border lg:col-span-2">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+          City-wise Visitors
+        </h2>
+        <div className="grid md:grid-cols-3 gap-3">
+          {marketingAnalytics?.cities?.length ? (
+            marketingAnalytics.cities.map((item, index) => (
+              <div key={index} className="flex justify-between bg-gray-50 rounded-lg p-3">
+                <span className="text-gray-600">{item.city}</span>
+                <span className="font-semibold">{item.visitors}</span>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 text-sm">No city data</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+   </div>
       </main>
     </div>
   );
 };
 
 export default AdminDashboardPage;
+
+
+

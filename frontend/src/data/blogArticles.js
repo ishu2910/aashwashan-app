@@ -587,11 +587,13 @@ export const mentalHealthArticles = [
 ];
 
 export const newsCategories = [
-  { name: "All Updates", count: 53 },
-  { name: "Research & Studies", count: 18 },
-  { name: "Policy & Budget", count: 11 },
-  { name: "Healthcare News", count: 13 },
-  { name: "Workplace Wellness", count: 5 },
-  { name: "Self-Care", count: 3 },
-  { name: "Trends", count: 3 }
+  { name: "All Updates", count: mentalHealthArticles.length },
+  ...Array.from(
+    new Set(mentalHealthArticles.map(article => article.category))
+  ).map(category => ({
+    name: category,
+    count: mentalHealthArticles.filter(
+      article => article.category === category
+    ).length
+  }))
 ];

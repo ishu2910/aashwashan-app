@@ -1,7 +1,8 @@
 # /app/backend/models.py
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import Column, String, Text, DateTime, Boolean, Integer, ForeignKey, Enum as SQLEnum
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, String, Date, Text, DateTime, Boolean, Integer, ForeignKey, Enum as SQLEnum
 from sqlalchemy.orm import relationship
 from database import Base
 import enum
@@ -127,3 +128,40 @@ class Blog(Base):
     
     # Relationships
     author = relationship('User', back_populates='blogs')
+
+class SelfAssessment(Base):
+    __tablename__ = "self_assessments"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    assessment_type = Column(String(50), nullable=False, index=True)
+    answers = Column(Text, nullable=False)
+    score = Column(Integer, nullable=False)
+    result_level = Column(String(100), nullable=False)
+    result_message = Column(Text)
+    name = Column(Text, nullable=True)
+    age = Column(Integer, nullable=True)
+    gender = Column(Text, nullable=True)
+    city = Column(Text, nullable=True)
+    phone = Column(Text, nullable=True)
+    user_id = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
+
+class AppointmentRequestModel(Base):
+    __tablename__ = "appointment_requests"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    client_name = Column(String, nullable=False)
+    client_email = Column(String)
+    client_phone = Column(String)
+    therapist_name = Column(String)
+    therapist_id = Column(String)
+    service = Column(String)
+    session_mode = Column(String)
+    appointment_date = Column(Date)
+    appointment_time = Column(String)
+    message = Column(Text)
+    status = Column(String, default="Pending")
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+
+
+from sqlalchemy.dialects.postgresql import UUID

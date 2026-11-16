@@ -77,18 +77,18 @@ const Navbar = () => {
 
       {/* Main Navigation */}
       <nav className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white'}`}>
-        <div className="container mx-auto px-10 lg:px-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-3">
-            {/* Logo with Name */}
-            <Link to="/" className="flex items-center group">
-  <div className="h-[110px] w-[150px] flex items-center justify-center shrink-0">
-    <img
-      src="https://res.cloudinary.com/qqjn11uq/image/upload/v1790353722/logo_5_otnlud.png"
-      alt="Aashwashan"
-      className="w-full h-full object-contain"
-    />
-  </div>
+            
+{/* Logo with Name */}
+<Link to="/" className="flex items-center shrink-0 group">
+  <img
+    src="https://res.cloudinary.com/qqjn11uq/image/upload/v1790353722/logo_5_otnlud.png"
+    alt="Aashwashan"
+    className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+  />
 </Link>
+
 
             {/* Desktop Menu */}
             <div className="hidden lg:flex items-center space-x-8">
@@ -135,7 +135,7 @@ after:ease-out hover:after:w-full ${isActive('/join-team') ? 'text-teal-600 afte
             {/* CTA Button - Changed to Take Assessment */}
             <Link 
               to="/self-assessment" 
-              className="animated-cta hidden lg:flex items-center space-x-2 px-6 py-3 font-medium group"
+              className="hidden lg:inline-flex items-center gap-2 rounded-full bg-teal-600 px-5 py-3 text-white font-semibold shadow-md transition-all duration-300 hover:bg-teal-700 hover:shadow-lg hover:-translate-y-0.5"
             >
               <ClipboardCheck className="w-5 h-5 group-hover:animate-bounce" />
               <span>Take Assessment</span>
@@ -179,7 +179,7 @@ after:ease-out hover:after:w-full ${isActive('/join-team') ? 'text-teal-600 afte
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-gray-700 hover:text-teal-600">
                 Contact Us
               </Link>
-              <Link to="/self-assessment" onClick={() => setIsMobileMenuOpen(false)} className="animated-cta flex items-center justify-center space-x-2 w-full px-6 py-3">
+              <Link to="/self-assessment" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-center gap-2 w-full rounded-xl bg-teal-600 px-6 py-3 text-white font-semibold shadow-md transition-all duration-300 hover:bg-teal-700">
                 <ClipboardCheck className="w-5 h-5" />
                 <span>Take Assessment</span>
               </Link>

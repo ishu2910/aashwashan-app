@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowLeft, ExternalLink, Share2 } from 'lucide-react';
 import axios from 'axios';
 import { mentalHealthArticles } from '../data/blogArticles';
+import SEO from '../components/SEO';
 
 const API_URL = "https://aashwashan-app-1.onrender.com";
 
@@ -97,7 +98,39 @@ const SingleBlog = () => {
     : relatedArticles;
 
   return (
-    <div className="min-h-screen bg-white" data-testid="single-blog-page">
+    <>
+      <SEO
+  title={`${article.title} | Aashwashan`}
+  description={article.excerpt}
+  keywords={`${article.category}, mental health, Aashwashan`}
+  url={`https://aashwashan.com/blog/${slug}`}
+  image={article.image}
+  articleSchema={{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    image: [article.image],
+    datePublished: article.date,
+    author: {
+      "@type": "Organization",
+      name: article.source || "Aashwashan",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Aashwashan",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://res.cloudinary.com/qqjn11uq/image/upload/v1784209957/logo_h9mmmb.jpg",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://aashwashan.com/blog/${slug}`,
+    },
+  }}
+/>
+      <div className="min-h-screen bg-white" data-testid="single-blog-page">
       {/* Hero / Header */}
       <section className="bg-gradient-to-br from-teal-50 via-white to-cyan-50 pt-8 pb-12">
         <div className="container mx-auto px-4">
@@ -261,6 +294,7 @@ const SingleBlog = () => {
         </section>
       )}
     </div>
+      </>
   );
 };
 

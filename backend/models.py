@@ -157,6 +157,7 @@ class AppointmentRequestModel(Base):
     created_at = Column(DateTime(timezone=True), default=utc_now)
 
     
+
 class SelfAssessment(Base):
     __tablename__ = "self_assessments"
 
@@ -173,3 +174,4 @@ class SelfAssessment(Base):
     phone = Column(Text, nullable=True)
     user_id = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
+
