@@ -284,7 +284,7 @@ class AssessmentCreate(BaseModel):
     gender: Optional[str] = None
     city: Optional[str] = None
     phone: Optional[str] = None
-    user_id: Optional[str] = None 
+    user_id: Optional[str] = None
 # ==================== HELPER FUNCTIONS ====================
 
 def generate_jitsi_meeting_link(appointment_id: str) -> str:
@@ -339,14 +339,14 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.email == user_data.email))
     if result.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Email already registered")
-    
+
     # Determine role
     role = UserRole.USER
     if user_data.role == "admin":
         role = UserRole.ADMIN
     elif user_data.role == "therapist":
         role = UserRole.THERAPIST
-    
+
     # Create user
     user = User(
         email=user_data.email,
@@ -357,12 +357,12 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     db.add(user)
     await db.commit()
     await db.refresh(user)
-    
+
     # Create access token
     access_token = create_access_token(data={"sub": user.id, "role": role.value})
-    
+
     logger.info(f"User registered: {user.email} with role {role.value}")
-    
+
     return Token(
         access_token=access_token,
         token_type="bearer",
@@ -374,15 +374,15 @@ async def login(credentials: UserLogin, db: AsyncSession = Depends(get_db)):
     """Login user"""
     result = await db.execute(select(User).where(User.email == credentials.email))
     user = result.scalar_one_or_none()
-    
+
     if not user or not verify_password(credentials.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid email or password")
-    
+
     if not user.is_active:
         raise HTTPException(status_code=403, detail="Account is disabled")
-    
+
     access_token = create_access_token(data={"sub": user.id, "role": user.role.value})
-    
+
     logger.info(f"User logged in: {user.email}")
 
     try:
@@ -540,21 +540,21 @@ async def get_admin_stats(
     # Count users by role
     users_result = await db.execute(select(User))
     users = users_result.scalars().all()
-    
+
     therapists_count = len([u for u in users if u.role == UserRole.THERAPIST])
     users_count = len([u for u in users if u.role == UserRole.USER])
-    
+
     # Count posts and blogs
     posts_result = await db.execute(select(CommunityPostModel))
     posts_count = len(posts_result.scalars().all())
-    
+
     blogs_result = await db.execute(select(Blog).where(Blog.is_published == True))
     blogs_count = len(blogs_result.scalars().all())
-    
+
     # Get MongoDB stats
     appointments_count = await mongo_db.appointments.count_documents({})
     contacts_count = await mongo_db.contacts.count_documents({})
-    
+
     return {
         "total_users": users_count,
         "total_therapists": therapists_count,
@@ -572,7 +572,7 @@ async def get_all_users(
     """Get all users (admin only)"""
     result = await db.execute(select(User).order_by(User.created_at.desc()))
     users = result.scalars().all()
-    
+
     return [
         {
             "id": u.id,
@@ -597,7 +597,7 @@ async def create_therapist_account(
     result = await db.execute(select(User).where(User.email == user_data.email))
     if result.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Email already registered")
-    
+
     # Create user with therapist role
     user = User(
         email=user_data.email,
@@ -608,7 +608,7 @@ async def create_therapist_account(
     db.add(user)
     await db.commit()
     await db.refresh(user)
-    
+
     # Create therapist profile
     profile = TherapistProfile(
         user_id=user.id,
@@ -620,9 +620,9 @@ async def create_therapist_account(
     )
     db.add(profile)
     await db.commit()
-    
+
     logger.info(f"Therapist account created: {user.email}")
-    
+
     return {"message": "Therapist account created", "user_id": user.id}
 
 
@@ -638,10 +638,10 @@ async def get_therapist_profile(
         select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
     )
     profile = result.scalar_one_or_none()
-    
+
     if not profile:
         raise HTTPException(status_code=404, detail="Therapist profile not found")
-    
+
     return TherapistProfileResponse(
         id=profile.id,
         user_id=profile.user_id,
@@ -701,17 +701,17 @@ async def get_therapist_availability(
         select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
     )
     profile = result.scalar_one_or_none()
-    
+
     if not profile:
         raise HTTPException(status_code=404, detail="Therapist profile not found")
-    
+
     result = await db.execute(
         select(AvailabilitySlot)
         .where(AvailabilitySlot.therapist_id == profile.id)
         .order_by(AvailabilitySlot.date)
     )
     slots = result.scalars().all()
-    
+
     return [
         AvailabilitySlotResponse(
             id=s.id,
@@ -735,10 +735,10 @@ async def add_availability_slot(
         select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
     )
     profile = result.scalar_one_or_none()
-    
+
     if not profile:
         raise HTTPException(status_code=404, detail="Therapist profile not found")
-    
+
     slot = AvailabilitySlot(
         therapist_id=profile.id,
         date=datetime.strptime(slot_data.date, "%Y-%m-%d").replace(tzinfo=timezone.utc),
@@ -748,7 +748,7 @@ async def add_availability_slot(
     db.add(slot)
     await db.commit()
     await db.refresh(slot)
-    
+
     return {"message": "Availability slot added", "id": slot.id}
 
 @therapist_router.delete("/availability/{slot_id}")
@@ -762,10 +762,10 @@ async def delete_availability_slot(
         select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
     )
     profile = result.scalar_one_or_none()
-    
+
     if not profile:
         raise HTTPException(status_code=404, detail="Therapist profile not found")
-    
+
     result = await db.execute(
         select(AvailabilitySlot).where(
             AvailabilitySlot.id == slot_id,
@@ -773,16 +773,16 @@ async def delete_availability_slot(
         )
     )
     slot = result.scalar_one_or_none()
-    
+
     if not slot:
         raise HTTPException(status_code=404, detail="Slot not found")
-    
+
     if slot.is_booked:
         raise HTTPException(status_code=400, detail="Cannot delete booked slot")
-    
+
     await db.delete(slot)
     await db.commit()
-    
+
     return {"message": "Slot deleted"}
 
 
@@ -797,7 +797,7 @@ async def get_public_therapists(db: AsyncSession = Depends(get_db)):
         .where(TherapistProfile.is_available == True)
     )
     therapists = result.all()
-    
+
     return [
         {
             "id": profile.id,
@@ -815,7 +815,7 @@ import requests
 import os
 
 def send_email(name, email, phone, message):
-    
+
     print("BREVO KEY:", os.getenv("BREVO_API_KEY"))
     url = "https://api.brevo.com/v3/smtp/email"
 
@@ -839,7 +839,7 @@ def send_email(name, email, phone, message):
     }
 
     response = requests.post(url, json=data, headers=headers)
-    
+
     print("EMAIL RESPONSE:", response.status_code)
     print("EMAIL BODY:", response.text)
 
@@ -859,7 +859,7 @@ async def get_therapist_public_availability(
         .order_by(AvailabilitySlot.date)
     )
     slots = result.scalars().all()
-    
+
     return [
         {
             "id": s.id,
@@ -920,15 +920,15 @@ async def get_community_posts(
 ):
     """Get community posts (public read)"""
     query = select(CommunityPostModel, User).join(User, CommunityPostModel.author_id == User.id)
-    
+
     if category:
         query = query.where(CommunityPostModel.category == category)
-    
+
     query = query.where(CommunityPostModel.is_published == True).order_by(CommunityPostModel.created_at.desc()).offset(skip).limit(limit)
-    
+
     result = await db.execute(query)
     posts = result.all()
-    
+
     return [
         CommunityPostResponse(
             id=post.id,
@@ -961,9 +961,9 @@ async def create_community_post(
     db.add(post)
     await db.commit()
     await db.refresh(post)
-    
+
     logger.info(f"Community post created by {current_user.email}")
-    
+
     await log_activity(db, current_user.id, "post_created")
 
     return {"message": "Post created", "id": post.id}
@@ -980,15 +980,15 @@ async def get_blogs(
 ):
     """Get published blogs (public)"""
     query = select(Blog, User).join(User, Blog.author_id == User.id).where(Blog.is_published == True)
-    
+
     if category:
         query = query.where(Blog.category == category)
-    
+
     query = query.order_by(Blog.published_at.desc()).offset(skip).limit(limit)
-    
+
     result = await db.execute(query)
     blogs = result.all()
-    
+
     return [
         {
             "id": blog.id,
@@ -1014,16 +1014,16 @@ async def get_blog_by_slug(slug: str, db: AsyncSession = Depends(get_db)):
         .where(Blog.slug == slug, Blog.is_published == True)
     )
     row = result.first()
-    
+
     if not row:
         raise HTTPException(status_code=404, detail="Blog not found")
-    
+
     blog, user = row
-    
+
     # Increment view count
     blog.views_count += 1
     await db.commit()
-    
+
     return {
         "id": blog.id,
         "author_name": user.name,
@@ -1049,7 +1049,7 @@ async def get_admin_blogs(
         select(Blog).order_by(Blog.created_at.desc())
     )
     blogs = result.scalars().all()
-    
+
     return [
         {
             "id": b.id,
@@ -1085,9 +1085,9 @@ async def create_blog(
     db.add(blog)
     await db.commit()
     await db.refresh(blog)
-    
+
     logger.info(f"Blog created: {blog.title}")
-    
+
     return {"message": "Blog created", "id": blog.id, "slug": blog.slug}
 
 @admin_router.put("/blogs/{blog_id}")
@@ -1100,23 +1100,23 @@ async def update_blog(
     """Update blog (admin only)"""
     result = await db.execute(select(Blog).where(Blog.id == blog_id))
     blog = result.scalar_one_or_none()
-    
+
     if not blog:
         raise HTTPException(status_code=404, detail="Blog not found")
-    
+
     blog.title = blog_data.title
     blog.content = blog_data.content
     blog.excerpt = blog_data.excerpt
     blog.featured_image = blog_data.featured_image
     blog.category = blog_data.category
     blog.tags = json.dumps(blog_data.tags)
-    
+
     if blog_data.is_published and not blog.is_published:
         blog.published_at = datetime.now(timezone.utc)
     blog.is_published = blog_data.is_published
-    
+
     await db.commit()
-    
+
     return {"message": "Blog updated"}
 
 @admin_router.delete("/blogs/{blog_id}")
@@ -1128,13 +1128,13 @@ async def delete_blog(
     """Delete blog (admin only)"""
     result = await db.execute(select(Blog).where(Blog.id == blog_id))
     blog = result.scalar_one_or_none()
-    
+
     if not blog:
         raise HTTPException(status_code=404, detail="Blog not found")
-    
+
     await db.delete(blog)
     await db.commit()
-    
+
     return {"message": "Blog deleted"}
 
 
@@ -1259,7 +1259,7 @@ async def request_appointment(
         db.add(appointment)
         await db.commit()
         await db.refresh(appointment)
-        
+
         # Send email notification to care@aashwashan.com
         email_body = f"""
         New Appointment Request - Aashwashan
@@ -1283,13 +1283,13 @@ async def request_appointment(
           Please contact the patient within 24 hours to confirm the session.
            Reply to: {request.email}
              """
-        
+
         # Log the request (email sending will be handled by email_service when configured)
         logger.info(f"Appointment request received from {request.name} ({request.email})")
         logger.info(f"Email body to be sent to care@aashwashan.com:\n{email_body}")
 
-       
-        
+
+
         # Try to send email via email_service if configured
         try:
             send_appointment_email({
@@ -1305,7 +1305,7 @@ async def request_appointment(
             })
         except Exception as email_error:
             logger.warning(f"Email service error (request still saved): {str(email_error)}")
-        
+
         return {
             "success": True,
             "message": "Your appointment request has been submitted. Our team will contact you within 24 hours.",
@@ -1316,13 +1316,27 @@ async def request_appointment(
         raise HTTPException(status_code=500, detail="Failed to process appointment request")
 
 @api_router.get("/appointments", response_model=List[Appointment])
-async def get_appointments():
-    appointments = await mongo_db.appointments.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
-    for appointment in appointments:
-        if isinstance(appointment['created_at'], str):
-            appointment['created_at'] = datetime.fromisoformat(appointment['created_at'])
-    return appointments
+async def get_appointments(
+    current_user: User = Depends(get_admin_user)
+):
+    if mongo_db is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Appointment database unavailable"
+        )
 
+    appointments = await mongo_db.appointments.find(
+        {},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(1000)
+
+    for appointment in appointments:
+        if isinstance(appointment.get("created_at"), str):
+            appointment["created_at"] = datetime.fromisoformat(
+                appointment["created_at"]
+            )
+
+    return appointments
 @api_router.post("/contact")
 async def submit_contact(request: ContactRequest):
     try:
@@ -1351,7 +1365,7 @@ async def create_razorpay_order(request: CreateOrderRequest):
                 "mock": True,
                 "message": "Razorpay not configured. Using mock payment for testing."
             }
-        
+
         order_data = {
             "amount": request.amount,
             "currency": "INR",
@@ -1362,9 +1376,9 @@ async def create_razorpay_order(request: CreateOrderRequest):
                 "customer_email": request.customer_email
             }
         }
-        
+
         order = razorpay_client.order.create(data=order_data)
-        
+
         order_doc = {
             "order_id": order["id"],
             "appointment_id": request.appointment_id,
@@ -1377,9 +1391,9 @@ async def create_razorpay_order(request: CreateOrderRequest):
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         await mongo_db.payment_orders.insert_one(order_doc)
-        
+
         logger.info(f"Razorpay order created: {order['id']}")
-        
+
         return {
             "order_id": order["id"],
             "amount": order["amount"],
@@ -1387,7 +1401,7 @@ async def create_razorpay_order(request: CreateOrderRequest):
             "key_id": RAZORPAY_KEY_ID,
             "mock": False
         }
-        
+
     except Exception as e:
         logger.error(f"Error creating Razorpay order: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -1398,7 +1412,7 @@ async def verify_razorpay_payment(request: VerifyPaymentRequest):
         if not razorpay_client:
             logger.warning("Razorpay not configured - mock payment verification")
             meeting_link = generate_jitsi_meeting_link(request.appointment_id)
-            
+
             await mongo_db.appointments.update_one(
                 {"id": request.appointment_id},
                 {
@@ -1410,28 +1424,28 @@ async def verify_razorpay_payment(request: VerifyPaymentRequest):
                     }
                 }
             )
-            
+
             return {
                 "success": True,
                 "message": "Mock payment verified successfully",
                 "meeting_link": meeting_link,
                 "mock": True
             }
-        
+
         params_dict = {
             'razorpay_order_id': request.razorpay_order_id,
             'razorpay_payment_id': request.razorpay_payment_id,
             'razorpay_signature': request.razorpay_signature
         }
-        
+
         try:
             razorpay_client.utility.verify_payment_signature(params_dict)
         except Exception as sig_error:
             logger.error(f"Payment signature verification failed: {str(sig_error)}")
             raise HTTPException(status_code=400, detail="Payment verification failed")
-        
+
         meeting_link = generate_jitsi_meeting_link(request.appointment_id)
-        
+
         await mongo_db.payment_orders.update_one(
             {"order_id": request.razorpay_order_id},
             {
@@ -1442,7 +1456,7 @@ async def verify_razorpay_payment(request: VerifyPaymentRequest):
                 }
             }
         )
-        
+
         await mongo_db.appointments.update_one(
             {"id": request.appointment_id},
             {
@@ -1456,16 +1470,16 @@ async def verify_razorpay_payment(request: VerifyPaymentRequest):
                 }
             }
         )
-        
+
         logger.info(f"Payment verified for appointment: {request.appointment_id}")
-        
+
         return {
             "success": True,
             "message": "Payment verified successfully",
             "meeting_link": meeting_link,
             "mock": False
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
@@ -1661,13 +1675,13 @@ async def _chat_openai_fallback(session_id: str, message: str, api_key: str) -> 
         chat_histories[session_id] = [
             {"role": "system", "content": CHATBOT_SYSTEM_MESSAGE}
         ]
-    
+
     chat_histories[session_id].append({"role": "user", "content": message})
-    
+
     # Keep only last 20 messages + system to avoid token overflow
     if len(chat_histories[session_id]) > 21:
         chat_histories[session_id] = [chat_histories[session_id][0]] + chat_histories[session_id][-20:]
-    
+
     client = AsyncOpenAI(api_key=api_key)
     response = await client.chat.completions.create(
         model="gpt-4o-mini",
@@ -1675,7 +1689,7 @@ async def _chat_openai_fallback(session_id: str, message: str, api_key: str) -> 
         max_tokens=300,
         temperature=0.7
     )
-    
+
     assistant_msg = response.choices[0].message.content
     chat_histories[session_id].append({"role": "assistant", "content": assistant_msg})
     return assistant_msg
@@ -1687,7 +1701,7 @@ async def chat_with_bot(request: ChatRequest):
         api_key = os.getenv('OPENAI_API_KEY')
         if not api_key:
             raise HTTPException(status_code=500, detail="Chatbot not configured - OPENAI_API_KEY missing")
-        
+
         if _USE_EMERGENT:
             # Primary: Use emergentintegrations (Emergent platform)
             if request.session_id not in chat_sessions:
@@ -1696,14 +1710,14 @@ async def chat_with_bot(request: ChatRequest):
                     session_id=request.session_id,
                     system_message=CHATBOT_SYSTEM_MESSAGE
                 ).with_model("openai", "gpt-4o-mini")
-            
+
             chat = chat_sessions[request.session_id]
             user_message = UserMessage(text=request.message)
             response = await chat.send_message(user_message)
         else:
             # Fallback: Use OpenAI SDK directly
             response = await _chat_openai_fallback(request.session_id, request.message, api_key)
-        
+
         return ChatResponse(
             response=response,
             session_id=request.session_id
@@ -1834,7 +1848,7 @@ class BookingRequest(BaseModel):
 
 @app.post("/api/book-session")
 async def book_session(data: BookingRequest):
-    
+
     send_email(data.name, data.email, data.phone, data.message)
 
     return {"status": "success"}
@@ -1850,7 +1864,7 @@ async def book_session(data: BookingRequest):
 async def send_whatsapp_message(request: WhatsAppMessageRequest):
       return {"msg": "working"}
 
-# include routers  
+# include routers
 app.include_router(api_router)
 app.include_router(auth_router, prefix="/api/auth")
 app.include_router(admin_router)
@@ -1904,23 +1918,23 @@ EVENING_MESSAGES = [
 async def generate_ai_wellness_message(time_of_day: str, user_name: str = "friend") -> str:
     """Generate a personalized wellness message using AI"""
     import random
-    
+
     if time_of_day == "morning":
         templates = MORNING_MESSAGES
     elif time_of_day == "afternoon":
         templates = AFTERNOON_MESSAGES
     else:
         templates = EVENING_MESSAGES
-    
+
     # Try to use AI for personalized message
     try:
         emergent_key = os.getenv('OPENAI_API_KEY')
         if emergent_key:
-            prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}. 
+            prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}.
             Target audience: Young adults (18-30) who are silent overthinkers.
             Keep it short (2-3 sentences), caring, and non-preachy.
             Don't use emojis. Sound like a supportive friend."""
-            
+
             if _USE_EMERGENT:
                 chat = LlmChat(api_key=emergent_key, session_id=f"wellness-{time_of_day}",
                               system_message="You generate wellness messages.").with_model("openai", "gpt-4o-mini")
@@ -1936,22 +1950,22 @@ async def generate_ai_wellness_message(time_of_day: str, user_name: str = "frien
                 return response.choices[0].message.content
     except Exception as e:
         logger.warning(f"AI message generation failed, using template: {str(e)}")
-    
+
     # Fallback to templates
     return random.choice(templates)
 
 async def send_daily_wellness_messages(time_of_day: str):
     """Send wellness messages to all registered users"""
     logger.info(f"Starting {time_of_day} wellness message job...")
-    
+
     try:
         # Get all users with phone numbers who opted in for daily messages
         users = await mongo_db.wellness_subscribers.find({"opted_in": True}).to_list(1000)
-        
+
         for user in users:
             try:
                 message = await generate_ai_wellness_message(time_of_day, user.get("name", "friend"))
-                
+
                 # Send via WhatsApp if configured
                # if user.get("phone") and whatsapp_service.client:
                 #    whatsapp_service.send_message(
@@ -1961,7 +1975,7 @@ async def send_daily_wellness_messages(time_of_day: str):
                     #logger.info(f"Sent {time_of_day} message to {user.get('name', 'user')}")
             except Exception as e:
                 logger.error(f"Failed to send message to user {user.get('id')}: {str(e)}")
-        
+
         logger.info(f"Completed {time_of_day} wellness message job. Sent to {len(users)} users.")
     except Exception as e:
         logger.error(f"Daily wellness message job failed: {str(e)}")
@@ -1981,7 +1995,7 @@ async def subscribe_wellness_messages(subscription: WellnessSubscription):
         phone = subscription.phone.replace(" ", "").replace("-", "")
         if not phone.startswith("+"):
             phone = "+91" + phone if not phone.startswith("91") else "+" + phone
-        
+
         doc = {
             "id": str(uuid.uuid4()),
             "name": subscription.name,
@@ -1991,14 +2005,14 @@ async def subscribe_wellness_messages(subscription: WellnessSubscription):
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": datetime.now(timezone.utc).isoformat()
         }
-        
+
         # Upsert based on phone number
         await mongo_db.wellness_subscribers.update_one(
             {"phone": phone},
             {"$set": doc},
             upsert=True
         )
-        
+
         return {
             "success": True,
             "message": "You're now subscribed to daily wellness check-ins!" if subscription.opted_in else "You've unsubscribed from daily messages."
@@ -2014,12 +2028,12 @@ async def unsubscribe_wellness_messages(phone: str):
         phone = phone.replace(" ", "").replace("-", "")
         if not phone.startswith("+"):
             phone = "+91" + phone if not phone.startswith("91") else "+" + phone
-        
+
         await mongo_db.wellness_subscribers.update_one(
             {"phone": phone},
             {"$set": {"opted_in": False, "updated_at": datetime.now(timezone.utc).isoformat()}}
         )
-        
+
         return {"success": True, "message": "You've been unsubscribed from daily wellness messages."}
     except Exception as e:
         logger.error(f"Wellness unsubscribe error: {str(e)}")
@@ -2030,13 +2044,13 @@ async def test_wellness_message(time_of_day: str):
     """Test endpoint to generate a wellness message"""
     if time_of_day not in ["morning", "afternoon", "evening"]:
         raise HTTPException(status_code=400, detail="time_of_day must be morning, afternoon, or evening")
-    
+
     message = await generate_ai_wellness_message(time_of_day)
     return {"time_of_day": time_of_day, "message": message}
 
 # Schedule daily wellness messages (IST timezone = UTC+5:30)
 # Morning: 8 AM IST = 2:30 AM UTC
-# Afternoon: 2 PM IST = 8:30 AM UTC  
+# Afternoon: 2 PM IST = 8:30 AM UTC
 # Evening: 5 PM IST = 11:30 AM UTC
 
 def start_scheduler():
@@ -2049,7 +2063,7 @@ def start_scheduler():
             id="morning_wellness",
             replace_existing=True
         )
-        
+
         # Afternoon message at 2 PM IST (8:30 AM UTC)
         scheduler.add_job(
             lambda: asyncio.create_task(send_daily_wellness_messages("afternoon")),
@@ -2057,7 +2071,7 @@ def start_scheduler():
             id="afternoon_wellness",
             replace_existing=True
         )
-        
+
         # Evening message at 5 PM IST (11:30 AM UTC)
         scheduler.add_job(
             lambda: asyncio.create_task(send_daily_wellness_messages("evening")),
@@ -2065,7 +2079,7 @@ def start_scheduler():
             id="evening_wellness",
             replace_existing=True
         )
-        
+
         scheduler.start()
         logger.info("AI Daily Wellness Scheduler started - Messages scheduled for 8 AM, 2 PM, and 5 PM IST")
     except Exception as e:
