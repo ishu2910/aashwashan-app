@@ -340,12 +340,8 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     if result.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    # Determine role
+    # Public registration must always create a regular user
     role = UserRole.USER
-    if user_data.role == "admin":
-        role = UserRole.ADMIN
-    elif user_data.role == "therapist":
-        role = UserRole.THERAPIST
 
     # Create user
     user = User(
