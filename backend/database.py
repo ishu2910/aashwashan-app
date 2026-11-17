@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import declarative_base
 
 # Load environment variables
-load_dotenv(Path(__file__).parent / 'backend' / '.env')
+load_dotenv(Path(__file__).parent / '.env')
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if not DATABASE_URL:

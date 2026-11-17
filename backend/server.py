@@ -6,9 +6,8 @@ load_dotenv()
 from fastapi import FastAPI, APIRouter, HTTPException, Depends, Body
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text
+from sqlalchemy import text, func
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 import os
@@ -43,7 +42,7 @@ import os
 
 
 # Import Supabase database and models
-from database import get_db, engine, Base
+from database import get_db, engine, Base, AsyncSessionLocal
 from models import (
     User,
     Booking,
@@ -53,6 +52,11 @@ from models import (
     AvailabilitySlot,
     CommunityPost as CommunityPostModel,
     Blog,
+    ContactModel,
+    StatusCheckModel,
+    PaymentOrder,
+    LegacyCommunityPost,
+    WellnessSubscriber,
 )
 from auth import (
     UserCreate, UserLogin, Token, UserResponse,
@@ -80,15 +84,6 @@ async def log_activity(db, user_id: str, action: str, details: str = None):
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env', override=True)
-
-# MongoDB connection (for existing endpoints)
-mongo_url = os.getenv("MONGO_URL")
-mongo_db = None
-mongo_client = None
-
-if mongo_url:
-    mongo_client = AsyncIOMotorClient(mongo_url)
-    mongo_db = mongo_client[os.getenv("DB_NAME", "test")]
 
 # Razorpay configuration (test keys for development)
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_placeholder')
@@ -547,9 +542,12 @@ async def get_admin_stats(
     blogs_result = await db.execute(select(Blog).where(Blog.is_published == True))
     blogs_count = len(blogs_result.scalars().all())
 
-    # Get MongoDB stats
-    appointments_count = await mongo_db.appointments.count_documents({})
-    contacts_count = await mongo_db.contacts.count_documents({})
+    appointments_count = (
+        await db.execute(select(func.count()).select_from(AppointmentRequestModel))
+    ).scalar_one()
+    contacts_count = (
+        await db.execute(select(func.count()).select_from(ContactModel))
+    ).scalar_one()
 
     return {
         "total_users": users_count,
@@ -1134,28 +1132,44 @@ async def delete_blog(
     return {"message": "Blog deleted"}
 
 
-# ==================== EXISTING MONGODB ROUTES ====================
+# ==================== EXISTING API ROUTES ====================
 
 @api_router.get("/")
 async def root():
     return {"message": "Aashwashan API v2.0"}
 
 @api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
-    doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
-    await mongo_db.status_checks.insert_one(doc)
-    return status_obj
+async def create_status_check(
+    input: StatusCheckCreate,
+    db: AsyncSession = Depends(get_db)
+):
+    record = StatusCheckModel(client_name=input.client_name)
+    db.add(record)
+    await db.commit()
+    await db.refresh(record)
+    return StatusCheck(
+        id=str(record.id),
+        client_name=record.client_name,
+        timestamp=record.created_at
+    )
+
 
 @api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    status_checks = await mongo_db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    return status_checks
+async def get_status_checks(db: AsyncSession = Depends(get_db)):
+    result = await db.execute(
+        select(StatusCheckModel)
+        .order_by(StatusCheckModel.created_at.desc())
+        .limit(1000)
+    )
+    records = result.scalars().all()
+    return [
+        StatusCheck(
+            id=str(record.id),
+            client_name=record.client_name,
+            timestamp=record.created_at
+        )
+        for record in records
+    ]
 
 
 @api_router.post("/appointments", response_model=Appointment)
@@ -1165,11 +1179,6 @@ async def create_appointment(
 ):
     try:
         appointment = Appointment(**request.model_dump())
-
-        # Save to MongoDB (existing behavior)
-        doc = appointment.model_dump()
-        doc["created_at"] = doc["created_at"].isoformat()
-        await mongo_db.appointments.insert_one(doc)
 
         # Save to Supabase/PostgreSQL
         db_appointment = AppointmentRequestModel(
@@ -1313,42 +1322,61 @@ async def request_appointment(
 
 @api_router.get("/appointments", response_model=List[Appointment])
 async def get_appointments(
-    current_user: User = Depends(get_admin_user)
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
 ):
-    if mongo_db is None:
-        raise HTTPException(
-            status_code=503,
-            detail="Appointment database unavailable"
+    result = await db.execute(
+        select(AppointmentRequestModel)
+        .order_by(AppointmentRequestModel.created_at.desc())
+        .limit(1000)
+    )
+    records = result.scalars().all()
+
+    return [
+        Appointment(
+            id=str(record.id),
+            name=record.client_name,
+            email=record.client_email or "",
+            phone=record.client_phone or "",
+            service=record.service or "",
+            date=record.appointment_date.isoformat() if record.appointment_date else "",
+            time=record.appointment_time or "",
+            message=record.message or "",
+            status=record.status or "pending",
+            created_at=record.created_at
         )
-
-    appointments = await mongo_db.appointments.find(
-        {},
-        {"_id": 0}
-    ).sort("created_at", -1).to_list(1000)
-
-    for appointment in appointments:
-        if isinstance(appointment.get("created_at"), str):
-            appointment["created_at"] = datetime.fromisoformat(
-                appointment["created_at"]
-            )
-
-    return appointments
+        for record in records
+    ]
 @api_router.post("/contact")
-async def submit_contact(request: ContactRequest):
+async def submit_contact(
+    request: ContactRequest,
+    db: AsyncSession = Depends(get_db)
+):
     try:
-        contact = Contact(**request.model_dump())
-        doc = contact.model_dump()
-        doc['created_at'] = doc['created_at'].isoformat()
-        await mongo_db.contacts.insert_one(doc)
+        contact = ContactModel(
+            name=request.name,
+            email=str(request.email),
+            phone=request.phone or "",
+            subject=request.subject,
+            message=request.message
+        )
+        db.add(contact)
+        await db.commit()
+        await db.refresh(contact)
+
         email_sent = send_contact_email(request.model_dump())
         logger.info(f"Contact form submitted by {request.name} - Email sent: {email_sent}")
-        return {"message": "Contact form submitted successfully", "id": contact.id}
+        return {"message": "Contact form submitted successfully", "id": str(contact.id)}
     except Exception as e:
+        await db.rollback()
         logger.error(f"Error submitting contact form: {str(e)}")
         raise
 
 @api_router.post("/create-order")
-async def create_razorpay_order(request: CreateOrderRequest):
+async def create_razorpay_order(
+    request: CreateOrderRequest,
+    db: AsyncSession = Depends(get_db)
+):
     try:
         if not razorpay_client:
             logger.warning("Razorpay not configured - returning mock order")
@@ -1375,18 +1403,18 @@ async def create_razorpay_order(request: CreateOrderRequest):
 
         order = razorpay_client.order.create(data=order_data)
 
-        order_doc = {
-            "order_id": order["id"],
-            "appointment_id": request.appointment_id,
-            "amount": request.amount,
-            "currency": "INR",
-            "status": "created",
-            "customer_name": request.customer_name,
-            "customer_email": request.customer_email,
-            "customer_phone": request.customer_phone,
-            "created_at": datetime.now(timezone.utc).isoformat()
-        }
-        await mongo_db.payment_orders.insert_one(order_doc)
+        order_record = PaymentOrder(
+            order_id=order["id"],
+            appointment_id=request.appointment_id,
+            amount=request.amount,
+            currency="INR",
+            status="created",
+            customer_name=request.customer_name,
+            customer_email=str(request.customer_email),
+            customer_phone=request.customer_phone
+        )
+        db.add(order_record)
+        await db.commit()
 
         logger.info(f"Razorpay order created: {order['id']}")
 
@@ -1399,27 +1427,38 @@ async def create_razorpay_order(request: CreateOrderRequest):
         }
 
     except Exception as e:
+        await db.rollback()
         logger.error(f"Error creating Razorpay order: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @api_router.post("/verify-payment")
-async def verify_razorpay_payment(request: VerifyPaymentRequest):
+async def verify_razorpay_payment(
+    request: VerifyPaymentRequest,
+    db: AsyncSession = Depends(get_db)
+):
     try:
+        appointment_uuid = uuid.UUID(request.appointment_id)
+        appointment_result = await db.execute(
+            select(AppointmentRequestModel).where(
+                AppointmentRequestModel.id == appointment_uuid
+            )
+        )
+        appointment = appointment_result.scalar_one_or_none()
+
+        if not appointment:
+            raise HTTPException(status_code=404, detail="Appointment not found")
+
         if not razorpay_client:
             logger.warning("Razorpay not configured - mock payment verification")
             meeting_link = generate_jitsi_meeting_link(request.appointment_id)
 
-            await mongo_db.appointments.update_one(
-                {"id": request.appointment_id},
-                {
-                    "$set": {
-                        "status": "confirmed",
-                        "payment_status": "mock_paid",
-                        "meeting_link": meeting_link,
-                        "payment_verified_at": datetime.now(timezone.utc).isoformat()
-                    }
-                }
-            )
+            appointment.status = "Confirmed"
+            appointment.payment_status = "mock_paid"
+            appointment.meeting_link = meeting_link
+            appointment.payment_verified_at = datetime.now(timezone.utc)
+
+            await db.commit()
 
             return {
                 "success": True,
@@ -1440,32 +1479,31 @@ async def verify_razorpay_payment(request: VerifyPaymentRequest):
             logger.error(f"Payment signature verification failed: {str(sig_error)}")
             raise HTTPException(status_code=400, detail="Payment verification failed")
 
+        payment_result = await db.execute(
+            select(PaymentOrder).where(
+                PaymentOrder.order_id == request.razorpay_order_id
+            )
+        )
+        payment_order = payment_result.scalar_one_or_none()
+
+        if not payment_order:
+            raise HTTPException(status_code=404, detail="Payment order not found")
+
         meeting_link = generate_jitsi_meeting_link(request.appointment_id)
+        now = datetime.now(timezone.utc)
 
-        await mongo_db.payment_orders.update_one(
-            {"order_id": request.razorpay_order_id},
-            {
-                "$set": {
-                    "status": "paid",
-                    "payment_id": request.razorpay_payment_id,
-                    "verified_at": datetime.now(timezone.utc).isoformat()
-                }
-            }
-        )
+        payment_order.status = "paid"
+        payment_order.payment_id = request.razorpay_payment_id
+        payment_order.verified_at = now
 
-        await mongo_db.appointments.update_one(
-            {"id": request.appointment_id},
-            {
-                "$set": {
-                    "status": "confirmed",
-                    "payment_status": "paid",
-                    "payment_id": request.razorpay_payment_id,
-                    "order_id": request.razorpay_order_id,
-                    "meeting_link": meeting_link,
-                    "payment_verified_at": datetime.now(timezone.utc).isoformat()
-                }
-            }
-        )
+        appointment.status = "Confirmed"
+        appointment.payment_status = "paid"
+        appointment.payment_id = request.razorpay_payment_id
+        appointment.order_id = request.razorpay_order_id
+        appointment.meeting_link = meeting_link
+        appointment.payment_verified_at = now
+
+        await db.commit()
 
         logger.info(f"Payment verified for appointment: {request.appointment_id}")
 
@@ -1477,33 +1515,63 @@ async def verify_razorpay_payment(request: VerifyPaymentRequest):
         }
 
     except HTTPException:
+        await db.rollback()
         raise
     except Exception as e:
+        await db.rollback()
         logger.error(f"Error verifying payment: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# Legacy community posts endpoint (MongoDB)
+
+# Legacy community posts endpoint (PostgreSQL)
 @api_router.post("/community-posts")
-async def create_legacy_community_post(request: dict):
+async def create_legacy_community_post(
+    request: dict,
+    db: AsyncSession = Depends(get_db)
+):
     try:
-        post = {
-            "id": str(uuid.uuid4()),
-            "category": request.get("category", "General"),
-            "content": request.get("content", ""),
-            "created_at": datetime.now(timezone.utc).isoformat()
-        }
-        await mongo_db.community_posts.insert_one(post)
-        logger.info(f"Legacy community post created: {post['id']}")
-        return {"message": "Post created successfully", "id": post["id"]}
+        post = LegacyCommunityPost(
+            id=str(uuid.uuid4()),
+            category=request.get("category", "General"),
+            content=request.get("content", ""),
+            created_at=datetime.now(timezone.utc)
+        )
+        db.add(post)
+        await db.commit()
+        logger.info(f"Legacy community post created: {post.id}")
+        return {"message": "Post created successfully", "id": post.id}
     except Exception as e:
+        await db.rollback()
         logger.error(f"Error creating community post: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @api_router.get("/community-posts")
-async def get_legacy_community_posts(limit: int = 50, skip: int = 0):
+async def get_legacy_community_posts(
+    limit: int = 50,
+    skip: int = 0,
+    db: AsyncSession = Depends(get_db)
+):
     try:
-        posts = await mongo_db.community_posts.find({}, {"_id": 0}).sort("created_at", -1).skip(skip).limit(limit).to_list(limit)
-        return {"posts": posts, "count": len(posts)}
+        result = await db.execute(
+            select(LegacyCommunityPost)
+            .order_by(LegacyCommunityPost.created_at.desc())
+            .offset(skip)
+            .limit(limit)
+        )
+        posts = result.scalars().all()
+        return {
+            "posts": [
+                {
+                    "id": post.id,
+                    "category": post.category,
+                    "content": post.content,
+                    "created_at": post.created_at.isoformat()
+                }
+                for post in posts
+            ],
+            "count": len(posts)
+        }
     except Exception as e:
         logger.error(f"Error fetching community posts: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -1955,8 +2023,14 @@ async def send_daily_wellness_messages(time_of_day: str):
     logger.info(f"Starting {time_of_day} wellness message job...")
 
     try:
-        # Get all users with phone numbers who opted in for daily messages
-        users = await mongo_db.wellness_subscribers.find({"opted_in": True}).to_list(1000)
+        # Get all subscribers who opted in for daily messages
+        async with AsyncSessionLocal() as db:
+            result = await db.execute(
+                select(WellnessSubscriber)
+                .where(WellnessSubscriber.opted_in == True)
+                .limit(1000)
+            )
+            users = result.scalars().all()
 
         for user in users:
             try:
@@ -1984,56 +2058,75 @@ class WellnessSubscription(BaseModel):
     opted_in: bool = True
 
 @api_router.post("/wellness/subscribe")
-async def subscribe_wellness_messages(subscription: WellnessSubscription):
+async def subscribe_wellness_messages(
+    subscription: WellnessSubscription,
+    db: AsyncSession = Depends(get_db)
+):
     """Subscribe to daily AI wellness messages"""
     try:
-        # Clean phone number
         phone = subscription.phone.replace(" ", "").replace("-", "")
         if not phone.startswith("+"):
             phone = "+91" + phone if not phone.startswith("91") else "+" + phone
 
-        doc = {
-            "id": str(uuid.uuid4()),
-            "name": subscription.name,
-            "phone": phone,
-            "email": subscription.email,
-            "opted_in": subscription.opted_in,
-            "created_at": datetime.now(timezone.utc).isoformat(),
-            "updated_at": datetime.now(timezone.utc).isoformat()
-        }
-
-        # Upsert based on phone number
-        await mongo_db.wellness_subscribers.update_one(
-            {"phone": phone},
-            {"$set": doc},
-            upsert=True
+        result = await db.execute(
+            select(WellnessSubscriber).where(WellnessSubscriber.phone == phone)
         )
+        subscriber = result.scalar_one_or_none()
+        now = datetime.now(timezone.utc)
+
+        if subscriber:
+            subscriber.name = subscription.name
+            subscriber.opted_in = subscription.opted_in
+            subscriber.updated_at = now
+        else:
+            subscriber = WellnessSubscriber(
+                name=subscription.name,
+                phone=phone,
+                opted_in=subscription.opted_in,
+                created_at=now,
+                updated_at=now
+            )
+            db.add(subscriber)
+
+        await db.commit()
 
         return {
             "success": True,
             "message": "You're now subscribed to daily wellness check-ins!" if subscription.opted_in else "You've unsubscribed from daily messages."
         }
     except Exception as e:
+        await db.rollback()
         logger.error(f"Wellness subscription error: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to update subscription")
 
+
 @api_router.post("/wellness/unsubscribe")
-async def unsubscribe_wellness_messages(phone: str):
+async def unsubscribe_wellness_messages(
+    phone: str,
+    db: AsyncSession = Depends(get_db)
+):
     """Unsubscribe from daily AI wellness messages"""
     try:
         phone = phone.replace(" ", "").replace("-", "")
         if not phone.startswith("+"):
             phone = "+91" + phone if not phone.startswith("91") else "+" + phone
 
-        await mongo_db.wellness_subscribers.update_one(
-            {"phone": phone},
-            {"$set": {"opted_in": False, "updated_at": datetime.now(timezone.utc).isoformat()}}
+        result = await db.execute(
+            select(WellnessSubscriber).where(WellnessSubscriber.phone == phone)
         )
+        subscriber = result.scalar_one_or_none()
+
+        if subscriber:
+            subscriber.opted_in = False
+            subscriber.updated_at = datetime.now(timezone.utc)
+            await db.commit()
 
         return {"success": True, "message": "You've been unsubscribed from daily wellness messages."}
     except Exception as e:
+        await db.rollback()
         logger.error(f"Wellness unsubscribe error: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to unsubscribe")
+
 
 @api_router.get("/wellness/test-message/{time_of_day}")
 async def test_wellness_message(time_of_day: str):
@@ -2088,8 +2181,6 @@ async def startup_event():
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    if mongo_client:
-        mongo_client.close()
-        scheduler.shutdown()
+    scheduler.shutdown()
 
 

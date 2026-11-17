@@ -154,6 +154,12 @@ class AppointmentRequestModel(Base):
 
     status = Column(String, default="Pending")
 
+    payment_status = Column(String, nullable=True)
+    payment_id = Column(String, nullable=True)
+    order_id = Column(String, nullable=True)
+    meeting_link = Column(String, nullable=True)
+    payment_verified_at = Column(DateTime(timezone=True), nullable=True)
+
     created_at = Column(DateTime(timezone=True), default=utc_now)
 
     
@@ -175,3 +181,60 @@ class SelfAssessment(Base):
     user_id = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), default=utc_now, nullable=False)
 
+
+
+class ContactModel(Base):
+    __tablename__ = "contacts"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    name = Column(String, nullable=True)
+    email = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
+    subject = Column(String, nullable=True)
+    message = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+
+
+class PaymentOrder(Base):
+    __tablename__ = "payment_orders"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    order_id = Column(String, unique=True, nullable=False, index=True)
+    appointment_id = Column(String, nullable=True, index=True)
+    amount = Column(Integer, nullable=False)
+    currency = Column(String, default="INR")
+    status = Column(String, default="created")
+    payment_id = Column(String, nullable=True)
+    customer_name = Column(String, nullable=True)
+    customer_email = Column(String, nullable=True)
+    customer_phone = Column(String, nullable=True)
+    verified_at = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+
+
+class LegacyCommunityPost(Base):
+    __tablename__ = "legacy_community_posts"
+
+    id = Column(String, primary_key=True)
+    category = Column(String, nullable=True)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+
+
+class WellnessSubscriber(Base):
+    __tablename__ = "wellness_subscribers"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    phone = Column(String, unique=True, nullable=False, index=True)
+    name = Column(String, nullable=True)
+    opted_in = Column(Boolean, default=True)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
+    updated_at = Column(DateTime(timezone=True), default=utc_now, onupdate=utc_now)
+
+
+class StatusCheckModel(Base):
+    __tablename__ = "status_checks"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    client_name = Column(String, nullable=True)
+    created_at = Column(DateTime(timezone=True), default=utc_now)
