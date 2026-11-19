@@ -98,6 +98,21 @@
       });
     }, []);
 
+
+React.useEffect(() => {
+  if (window.location.hash === '#therapists') {
+    const timer = setTimeout(() => {
+      document.getElementById('therapists')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }
+}, []);
+
+
    React.useEffect(() => {
   if (storyOpen) {
     document.body.style.overflow = "hidden";
