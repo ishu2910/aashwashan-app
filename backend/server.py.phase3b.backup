@@ -1,0 +1,2162 @@
+from auth import get_current_user
+from models import SelfAssessment
+
+from dotenv import load_dotenv
+load_dotenv()
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Body
+from dotenv import load_dotenv
+from starlette.middleware.cors import CORSMiddleware
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import text, func
+from sqlalchemy import select
+from sqlalchemy.orm import selectinload
+import os
+import logging
+from pathlib import Path
+from pydantic import BaseModel, Field, ConfigDict, EmailStr
+class BookingCreate(BaseModel):
+    therapist_id: str
+    client_name: str
+    client_email: str
+    date: datetime
+    time_slot: str
+    duration_minutes: int
+    price: int
+
+
+from typing import List, Optional
+import uuid
+from datetime import datetime, timezone
+from email_service import send_appointment_email, send_contact_email
+from whatsapp_service import whatsapp_service
+import razorpay
+import json
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+import asyncio
+from google.analytics.data import BetaAnalyticsDataClient
+from google.analytics.data_v1beta.types import RunReportRequest, DateRange, Dimension, Metric
+from google.oauth2 import service_account
+
+import os
+
+
+# Import Supabase database and models
+from database import get_db, engine, Base
+from models import (
+    User,
+    Booking,
+    AppointmentRequestModel,
+    UserRole,
+    TherapistProfile,
+    AvailabilitySlot,
+    CommunityPost as CommunityPostModel,
+    Blog,
+    ContactModel,
+    StatusCheckModel,
+    PaymentOrder,
+    LegacyCommunityPost,
+)
+from auth import (
+    UserCreate, UserLogin, Token, UserResponse,
+    hash_password, verify_password, create_access_token,
+    get_current_user, get_admin_user, get_therapist_user
+)
+
+async def log_activity(db, user_id: str, action: str, details: str = None):
+    from sqlalchemy import text
+
+    await db.execute(
+        text("""
+            INSERT INTO user_activity (id, user_id, action, details)
+            VALUES (gen_random_uuid(), :user_id, :action, :details)
+        """),
+        {
+            "user_id": user_id,
+            "action": action,
+            "details": details
+        }
+    )
+    await db.commit()
+
+
+
+ROOT_DIR = Path(__file__).parent
+load_dotenv(ROOT_DIR / '.env', override=True)
+
+# Razorpay configuration (test keys for development)
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', 'rzp_test_placeholder')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', 'placeholder_secret')
+
+# Initialize Razorpay client only if keys are configured
+razorpay_client = None
+if RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET and 'placeholder' not in RAZORPAY_KEY_ID:
+    razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
+
+# Create the main app
+app = FastAPI(title="Aashwashan API", version="2.0")
+
+async def log_activity(db: AsyncSession, user_id, action, metadata=None):
+    await db.execute(
+        text("""
+            INSERT INTO user_activity (user_id, action, metadata)
+            VALUES (:user_id, :action, :metadata)
+        """),
+        {
+            "user_id": user_id,
+            "action": action,
+            "metadata": json.dumps(metadata or {})   # 👈 FIX
+        }
+    )
+    await db.commit()
+
+# Create routers
+api_router = APIRouter(prefix="/api")
+auth_router = APIRouter(prefix="/api/auth", tags=["Authentication"])
+admin_router = APIRouter(prefix="/api/admin", tags=["Admin"])
+therapist_router = APIRouter(prefix="/api/therapist", tags=["Therapist"])
+community_router = APIRouter(prefix="/api/community", tags=["Community"])
+blog_router = APIRouter(prefix="/api/blogs", tags=["Blogs"])
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+
+# ==================== PYDANTIC MODELS ====================
+
+class StatusCheck(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    client_name: str
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class StatusCheckCreate(BaseModel):
+    client_name: str
+
+class AppointmentRequest(BaseModel):
+    name: str
+    email: EmailStr
+    phone: str
+    service: str = ""
+    date: str
+    time: str
+    message: Optional[str] = ""
+
+class Appointment(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: EmailStr
+    phone: str
+    service: str = ""
+    date: str
+    time: str
+    message: Optional[str] = ""
+    status: str = "pending"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class ContactRequest(BaseModel):
+    name: str
+    email: EmailStr
+    phone: Optional[str] = ""
+    subject: str
+    message: str
+
+class Contact(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: EmailStr
+    phone: Optional[str] = ""
+    subject: str
+    message: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class CreateOrderRequest(BaseModel):
+    amount: int
+    appointment_id: str
+    customer_name: str
+    customer_email: EmailStr
+    customer_phone: str
+
+class VerifyPaymentRequest(BaseModel):
+    razorpay_order_id: str
+    razorpay_payment_id: str
+    razorpay_signature: str
+    appointment_id: str
+
+# Supabase-based models
+class TherapistProfileCreate(BaseModel):
+    specialization: Optional[str] = ""
+    bio: Optional[str] = ""
+    experience_years: Optional[int] = 0
+    skills: Optional[List[str]] = []
+    image_url: Optional[str] = ""
+
+class TherapistProfileResponse(BaseModel):
+    id: str
+    user_id: str
+    name: str
+    email: str
+    specialization: Optional[str]
+    bio: Optional[str]
+    experience_years: int
+    skills: List[str]
+    image_url: Optional[str]
+    is_available: bool
+
+class AvailabilitySlotCreate(BaseModel):
+    date: str  # Format: "2024-01-15"
+    start_time: str  # Format: "09:00"
+    end_time: str  # Format: "10:00"
+
+class AvailabilitySlotResponse(BaseModel):
+    id: str
+    therapist_id: str
+    date: str
+    start_time: str
+    end_time: str
+    is_booked: bool
+
+class CommunityPostCreate(BaseModel):
+    title: str
+    content: str
+    category: Optional[str] = "General"
+    is_anonymous: Optional[bool] = False
+
+class CommunityPostResponse(BaseModel):
+    id: str
+    author_name: str
+    title: str
+    content: str
+    category: str
+    is_anonymous: bool
+    likes_count: int
+    comments_count: int
+    created_at: str
+
+class BlogCreate(BaseModel):
+    title: str
+    content: str
+    excerpt: Optional[str] = ""
+    featured_image: Optional[str] = ""
+    category: Optional[str] = "General"
+    tags: Optional[List[str]] = []
+    is_published: Optional[bool] = False
+
+class BlogResponse(BaseModel):
+    id: str
+    author_name: str
+    title: str
+    slug: str
+    content: str
+    excerpt: Optional[str]
+    featured_image: Optional[str]
+    category: str
+    tags: List[str]
+    is_published: bool
+    views_count: int
+    created_at: str
+    published_at: Optional[str]
+
+class TherapistCreate(BaseModel):
+    specialization: str
+    experience_years: int
+
+class AssessmentCreate(BaseModel):
+    assessment_type: str
+    answers: dict
+    score: int
+    result_level: str
+    result_message: Optional[str] = None
+    name: Optional[str] = None
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    city: Optional[str] = None
+    phone: Optional[str] = None
+    user_id: Optional[str] = None
+# ==================== HELPER FUNCTIONS ====================
+
+def generate_jitsi_meeting_link(appointment_id: str) -> str:
+    room_name = f"aashwashan-session-{appointment_id[:8]}-{uuid.uuid4().hex[:8]}"
+    return f"https://meet.jit.si/{room_name}"
+
+def generate_slug(title: str) -> str:
+    import re
+    slug = title.lower().strip()
+    slug = re.sub(r'[^\w\s-]', '', slug)
+    slug = re.sub(r'[\s_-]+', '-', slug)
+    slug = slug.strip('-')
+    return f"{slug}-{uuid.uuid4().hex[:8]}"
+
+
+# ==================== AUTHENTICATION ROUTES ====================
+
+@therapist_router.post("/profile")
+async def create_profile(
+    data: TherapistCreate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    # 🔥 CHECK if already exists
+    result = await db.execute(
+        select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
+    )
+    existing = result.scalar_one_or_none()
+
+    if existing:
+        raise HTTPException(status_code=400, detail="Profile already exists")
+
+    # CREATE
+    new_profile = TherapistProfile(
+        id=str(uuid.uuid4()),
+        user_id=current_user.id,
+        specialization=data.specialization,
+        experience_years=data.experience_years,
+        is_available=True
+    )
+
+    db.add(new_profile)
+    await db.commit()
+    await db.refresh(new_profile)
+
+    return {"message": "Profile created"}
+
+@auth_router.post("/register", response_model=Token)
+async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
+    """Register a new user"""
+    # Check if email already exists
+    result = await db.execute(select(User).where(User.email == user_data.email))
+    if result.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    # Public registration must always create a regular user
+    role = UserRole.USER
+
+    # Create user
+    user = User(
+        email=user_data.email,
+        password_hash=hash_password(user_data.password),
+        name=user_data.name,
+        role=role
+    )
+    db.add(user)
+    await db.commit()
+    await db.refresh(user)
+
+    # Create access token
+    access_token = create_access_token(data={"sub": user.id, "role": role.value})
+
+    logger.info(f"User registered: {user.email} with role {role.value}")
+
+    return Token(
+        access_token=access_token,
+        token_type="bearer",
+        user={"id": user.id, "email": user.email, "name": user.name, "role": role.value}
+    )
+
+@auth_router.post("/login", response_model=Token)
+async def login(credentials: UserLogin, db: AsyncSession = Depends(get_db)):
+    """Login user"""
+    result = await db.execute(select(User).where(User.email == credentials.email))
+    user = result.scalar_one_or_none()
+
+    if not user or not verify_password(credentials.password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+
+    if not user.is_active:
+        raise HTTPException(status_code=403, detail="Account is disabled")
+
+    access_token = create_access_token(data={"sub": user.id, "role": user.role.value})
+
+    logger.info(f"User logged in: {user.email}")
+
+    try:
+        await log_activity(db, user.id, "login")
+    except Exception as e:
+        logger.error(f"log_activity failed: {str(e)}")
+
+    return Token(
+        access_token=access_token,
+        token_type="bearer",
+        user={"id": user.id, "email": user.email, "name": user.name, "role": user.role.value}
+    )
+
+@auth_router.get("/me", response_model=UserResponse)
+async def get_me(current_user: User = Depends(get_current_user)):
+    """Get current user info"""
+    return UserResponse(
+        id=current_user.id,
+        email=current_user.email,
+        name=current_user.name,
+        role=current_user.role.value,
+        is_active=current_user.is_active
+    )
+
+
+@auth_router.post("/book")
+async def create_booking(
+    booking_data: BookingCreate = Body(...),
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        # Lock and verify the requested availability slot
+        result = await db.execute(
+            select(AvailabilitySlot)
+            .where(
+                AvailabilitySlot.therapist_id == booking_data.therapist_id,
+                AvailabilitySlot.date == booking_data.date,
+                AvailabilitySlot.start_time == booking_data.time_slot,
+                AvailabilitySlot.is_booked == False
+            )
+            .with_for_update()
+        )
+
+        slot = result.scalar_one_or_none()
+
+        if not slot:
+            raise HTTPException(
+                status_code=409,
+                detail="This appointment slot is unavailable."
+            )
+
+        # Reserve the slot
+        slot.is_booked = True
+
+        # Create booking without requiring payment
+        new_booking = Booking(
+            therapist_id=booking_data.therapist_id,
+            user_id=current_user.id,
+            client_name=booking_data.client_name,
+            client_email=booking_data.client_email,
+            date=booking_data.date,
+            time_slot=booking_data.time_slot,
+            duration_minutes=booking_data.duration_minutes,
+            price=booking_data.price,
+            status="pending"
+        )
+
+        db.add(new_booking)
+        await db.commit()
+        await db.refresh(new_booking)
+
+        return {
+            "message": "Booking created",
+            "booking_id": new_booking.id,
+            "status": "pending"
+        }
+
+    except HTTPException:
+        await db.rollback()
+        raise
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Booking creation failed: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail="Booking could not be completed."
+        )
+
+
+# ==================== ADMIN ROUTES ====================
+@admin_router.get("/marketing-analytics")
+async def get_marketing_analytics(
+    current_user: User = Depends(get_admin_user)
+):
+    """Fetch website analytics from Google Analytics 4."""
+    try:
+        property_id = os.getenv("GA4_PROPERTY_ID")
+        credentials_path = Path(__file__).parent / os.getenv(
+            "GA4_CREDENTIALS_PATH", "ga4-service-account.json"
+        )
+
+        credentials = service_account.Credentials.from_service_account_file(
+            str(credentials_path)
+        )
+
+        client = BetaAnalyticsDataClient(credentials=credentials)
+
+        def run_report(dimensions, metrics):
+            request = RunReportRequest(
+                property=f"properties/{property_id}",
+                date_ranges=[DateRange(start_date="30daysAgo", end_date="today")],
+                dimensions=[Dimension(name=d) for d in dimensions],
+                metrics=[Metric(name=m) for m in metrics],
+                limit=100
+            )
+            return client.run_report(request)
+
+        visitors = run_report([], ["totalUsers"])
+        sources = run_report(["sessionSource"], ["sessions"])
+        campaigns = run_report(["sessionCampaignName"], ["sessions"])
+        cities = run_report(["city"], ["totalUsers"])
+
+        return {
+            "visitors": int(visitors.rows[0].metric_values[0].value)
+                if visitors.rows else 0,
+            "sources": [
+                {"source": r.dimension_values[0].value,
+                 "sessions": int(r.metric_values[0].value)}
+                for r in sources.rows
+            ],
+            "campaigns": [
+                {"campaign": r.dimension_values[0].value,
+                 "sessions": int(r.metric_values[0].value)}
+                for r in campaigns.rows
+            ],
+            "cities": [
+                {"city": r.dimension_values[0].value,
+                 "visitors": int(r.metric_values[0].value)}
+                for r in cities.rows
+            ],
+            "period": "Last 30 days"
+        }
+
+    except Exception as e:
+        logging.exception("GA4 analytics error")
+        raise HTTPException(status_code=500, detail="GA4 analytics fetch failed")
+
+@admin_router.get("/stats")
+async def get_admin_stats(
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get admin dashboard statistics"""
+    # Count users by role
+    users_result = await db.execute(select(User))
+    users = users_result.scalars().all()
+
+    therapists_count = len([u for u in users if u.role == UserRole.THERAPIST])
+    users_count = len([u for u in users if u.role == UserRole.USER])
+
+    # Count posts and blogs
+    posts_result = await db.execute(select(CommunityPostModel))
+    posts_count = len(posts_result.scalars().all())
+
+    blogs_result = await db.execute(select(Blog).where(Blog.is_published == True))
+    blogs_count = len(blogs_result.scalars().all())
+
+    appointments_count = (
+        await db.execute(select(func.count()).select_from(AppointmentRequestModel))
+    ).scalar_one()
+    contacts_count = (
+        await db.execute(select(func.count()).select_from(ContactModel))
+    ).scalar_one()
+
+    return {
+        "total_users": users_count,
+        "total_therapists": therapists_count,
+        "total_appointments": appointments_count,
+        "total_contacts": contacts_count,
+        "total_posts": posts_count,
+        "total_blogs": blogs_count
+    }
+
+@admin_router.get("/users")
+async def get_all_users(
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get all users (admin only)"""
+    result = await db.execute(select(User).order_by(User.created_at.desc()))
+    users = result.scalars().all()
+
+    return [
+        {
+            "id": u.id,
+            "email": u.email,
+            "name": u.name,
+            "role": u.role.value,
+            "is_active": u.is_active,
+            "created_at": u.created_at.isoformat() if u.created_at else None
+        }
+        for u in users
+    ]
+
+@admin_router.post("/therapists")
+async def create_therapist_account(
+    user_data: UserCreate,
+    profile_data: TherapistProfileCreate,
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Create a new therapist account (admin only)"""
+    # Check if email exists
+    result = await db.execute(select(User).where(User.email == user_data.email))
+    if result.scalar_one_or_none():
+        raise HTTPException(status_code=400, detail="Email already registered")
+
+    # Create user with therapist role
+    user = User(
+        email=user_data.email,
+        password_hash=hash_password(user_data.password),
+        name=user_data.name,
+        role=UserRole.THERAPIST
+    )
+    db.add(user)
+    await db.commit()
+    await db.refresh(user)
+
+    # Create therapist profile
+    profile = TherapistProfile(
+        user_id=user.id,
+        specialization=profile_data.specialization,
+        bio=profile_data.bio,
+        experience_years=profile_data.experience_years,
+        skills=json.dumps(profile_data.skills),
+        image_url=profile_data.image_url
+    )
+    db.add(profile)
+    await db.commit()
+
+    logger.info(f"Therapist account created: {user.email}")
+
+    return {"message": "Therapist account created", "user_id": user.id}
+
+
+# ==================== THERAPIST ROUTES ====================
+
+@therapist_router.get("/profile")
+async def get_therapist_profile(
+    current_user: User = Depends(get_therapist_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get current therapist's profile"""
+    result = await db.execute(
+        select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
+    )
+    profile = result.scalar_one_or_none()
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Therapist profile not found")
+
+    return TherapistProfileResponse(
+        id=profile.id,
+        user_id=profile.user_id,
+        name=current_user.name,
+        email=current_user.email,
+        specialization=profile.specialization,
+        bio=profile.bio,
+        experience_years=profile.experience_years,
+        skills=json.loads(profile.skills) if profile.skills else [],
+        image_url=profile.image_url,
+        is_available=profile.is_available
+    )
+
+@therapist_router.put("/profile")
+async def update_therapist_profile(
+    profile_data: TherapistProfileCreate,
+    current_user: User = Depends(get_current_user),  # 👈 safer
+    db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(TherapistProfile).where(
+            TherapistProfile.user_id == current_user.id
+        )
+    )
+    profile = result.scalar_one_or_none()
+
+    # 🔥 CREATE IF NOT EXISTS
+    if not profile:
+        profile = TherapistProfile(
+            id=str(uuid.uuid4()),
+            user_id=current_user.id
+        )
+        db.add(profile)
+
+    # 🔥 UPDATE
+    profile.specialization = profile_data.specialization
+    profile.bio = profile_data.bio
+    profile.experience_years = profile_data.experience_years
+    profile.skills = json.dumps(profile_data.skills) if profile_data.skills else None
+    profile.image_url = profile_data.image_url
+
+    await db.commit()
+    await db.refresh(profile)   # 👈 IMPORTANT
+
+    return {
+        "message": "Profile updated successfully",
+        "profile_id": profile.id
+    }
+
+@therapist_router.get("/availability")
+async def get_therapist_availability(
+    current_user: User = Depends(get_therapist_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get therapist's availability slots"""
+    result = await db.execute(
+        select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
+    )
+    profile = result.scalar_one_or_none()
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Therapist profile not found")
+
+    result = await db.execute(
+        select(AvailabilitySlot)
+        .where(AvailabilitySlot.therapist_id == profile.id)
+        .order_by(AvailabilitySlot.date)
+    )
+    slots = result.scalars().all()
+
+    return [
+        AvailabilitySlotResponse(
+            id=s.id,
+            therapist_id=s.therapist_id,
+            date=s.date.strftime("%Y-%m-%d") if s.date else "",
+            start_time=s.start_time,
+            end_time=s.end_time,
+            is_booked=s.is_booked
+        )
+        for s in slots
+    ]
+
+@therapist_router.post("/availability")
+async def add_availability_slot(
+    slot_data: AvailabilitySlotCreate,
+    current_user: User = Depends(get_therapist_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Add availability slot"""
+    result = await db.execute(
+        select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
+    )
+    profile = result.scalar_one_or_none()
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Therapist profile not found")
+
+    slot = AvailabilitySlot(
+        therapist_id=profile.id,
+        date=datetime.strptime(slot_data.date, "%Y-%m-%d").replace(tzinfo=timezone.utc),
+        start_time=slot_data.start_time,
+        end_time=slot_data.end_time
+    )
+    db.add(slot)
+    await db.commit()
+    await db.refresh(slot)
+
+    return {"message": "Availability slot added", "id": slot.id}
+
+@therapist_router.delete("/availability/{slot_id}")
+async def delete_availability_slot(
+    slot_id: str,
+    current_user: User = Depends(get_therapist_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Delete availability slot"""
+    result = await db.execute(
+        select(TherapistProfile).where(TherapistProfile.user_id == current_user.id)
+    )
+    profile = result.scalar_one_or_none()
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Therapist profile not found")
+
+    result = await db.execute(
+        select(AvailabilitySlot).where(
+            AvailabilitySlot.id == slot_id,
+            AvailabilitySlot.therapist_id == profile.id
+        )
+    )
+    slot = result.scalar_one_or_none()
+
+    if not slot:
+        raise HTTPException(status_code=404, detail="Slot not found")
+
+    if slot.is_booked:
+        raise HTTPException(status_code=400, detail="Cannot delete booked slot")
+
+    await db.delete(slot)
+    await db.commit()
+
+    return {"message": "Slot deleted"}
+
+
+# ==================== PUBLIC THERAPIST ROUTES ====================
+
+@api_router.get("/therapists")
+async def get_public_therapists(db: AsyncSession = Depends(get_db)):
+    """Get list of available therapists (public)"""
+    result = await db.execute(
+        select(TherapistProfile, User)
+        .join(User, TherapistProfile.user_id == User.id)
+        .where(TherapistProfile.is_available == True)
+    )
+    therapists = result.all()
+
+    return [
+        {
+            "id": profile.id,
+            "name": user.name,
+            "specialization": profile.specialization,
+            "bio": profile.bio,
+            "experience_years": profile.experience_years,
+            "skills": json.loads(profile.skills) if profile.skills else [],
+            "image_url": profile.image_url
+        }
+        for profile, user in therapists
+    ]
+
+import requests
+import os
+
+def send_email(name, email, phone, message):
+
+    print("BREVO KEY:", os.getenv("BREVO_API_KEY"))
+    url = "https://api.brevo.com/v3/smtp/email"
+
+    headers = {
+        "accept": "application/json",
+        "api-key": os.getenv("BREVO_API_KEY"),
+        "content-type": "application/json"
+    }
+
+    data = {
+        "sender": {"email": "care@aashwashan.com"},
+        "to": [{"email": "care@aashwashan.com"}],
+        "subject": "New Session Booking 🚀",
+        "htmlContent": f"""
+        <h2>New Booking Received</h2>
+        <p><b>Name:</b> {name}</p>
+        <p><b>Email:</b> {email}</p>
+        <p><b>Phone:</b> {phone}</p>
+        <p><b>Message:</b> {message}</p>
+        """
+    }
+
+    response = requests.post(url, json=data, headers=headers)
+
+    print("EMAIL RESPONSE:", response.status_code)
+    print("EMAIL BODY:", response.text)
+
+@api_router.get("/therapists/{therapist_id}/availability")
+async def get_therapist_public_availability(
+    therapist_id: str,
+    db: AsyncSession = Depends(get_db)
+):
+    """Get therapist's available slots (public)"""
+    result = await db.execute(
+        select(AvailabilitySlot)
+        .where(
+            AvailabilitySlot.therapist_id == therapist_id,
+            AvailabilitySlot.is_booked == False,
+            AvailabilitySlot.date >= datetime.now(timezone.utc)
+        )
+        .order_by(AvailabilitySlot.date)
+    )
+    slots = result.scalars().all()
+
+    return [
+        {
+            "id": s.id,
+            "date": s.date.strftime("%Y-%m-%d") if s.date else "",
+            "start_time": s.start_time,
+            "end_time": s.end_time
+        }
+        for s in slots
+    ]
+
+
+@api_router.post("/assessments")
+async def save_assessment(
+    payload: AssessmentCreate,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        assessment = SelfAssessment(
+            assessment_type=payload.assessment_type,
+            answers=json.dumps(payload.answers),
+            score=payload.score,
+            result_level=payload.result_level,
+            result_message=payload.result_message,
+            name=payload.name,
+            age=payload.age,
+            gender=payload.gender,
+            city=payload.city,
+            phone=payload.phone,
+            user_id=payload.user_id
+        )
+
+        db.add(assessment)
+        await db.commit()
+        await db.refresh(assessment)
+
+        return {
+            "success": True,
+            "id": assessment.id,
+            "message": "Assessment saved successfully"
+        }
+
+    except Exception as e:
+        await db.rollback()
+        print(f"ASSESSMENT SAVE ERROR: {repr(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+# ==================== COMMUNITY ROUTES ====================
+
+@community_router.get("/posts")
+async def get_community_posts(
+    limit: int = 50,
+    skip: int = 0,
+    category: Optional[str] = None,
+    db: AsyncSession = Depends(get_db)
+):
+    """Get community posts (public read)"""
+    query = select(CommunityPostModel, User).join(User, CommunityPostModel.author_id == User.id)
+
+    if category:
+        query = query.where(CommunityPostModel.category == category)
+
+    query = query.where(CommunityPostModel.is_published == True).order_by(CommunityPostModel.created_at.desc()).offset(skip).limit(limit)
+
+    result = await db.execute(query)
+    posts = result.all()
+
+    return [
+        CommunityPostResponse(
+            id=post.id,
+            author_name="Anonymous" if post.is_anonymous else user.name,
+            title=post.title,
+            content=post.content,
+            category=post.category or "General",
+            is_anonymous=post.is_anonymous,
+            likes_count=post.likes_count,
+            comments_count=post.comments_count,
+            created_at=post.created_at.isoformat() if post.created_at else ""
+        )
+        for post, user in posts
+    ]
+
+@community_router.post("/posts")
+async def create_community_post(
+    post_data: CommunityPostCreate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Create community post (authenticated users only)"""
+    post = CommunityPostModel(
+        author_id=current_user.id,
+        title=post_data.title,
+        content=post_data.content,
+        category=post_data.category,
+        is_anonymous=post_data.is_anonymous
+    )
+    db.add(post)
+    await db.commit()
+    await db.refresh(post)
+
+    logger.info(f"Community post created by {current_user.email}")
+
+    await log_activity(db, current_user.id, "post_created")
+
+    return {"message": "Post created", "id": post.id}
+
+
+# ==================== BLOG ROUTES ====================
+
+@blog_router.get("")
+async def get_blogs(
+    limit: int = 20,
+    skip: int = 0,
+    category: Optional[str] = None,
+    db: AsyncSession = Depends(get_db)
+):
+    """Get published blogs (public)"""
+    query = select(Blog, User).join(User, Blog.author_id == User.id).where(Blog.is_published == True)
+
+    if category:
+        query = query.where(Blog.category == category)
+
+    query = query.order_by(Blog.published_at.desc()).offset(skip).limit(limit)
+
+    result = await db.execute(query)
+    blogs = result.all()
+
+    return [
+        {
+            "id": blog.id,
+            "author_name": user.name,
+            "title": blog.title,
+            "slug": blog.slug,
+            "excerpt": blog.excerpt,
+            "featured_image": blog.featured_image,
+            "category": blog.category,
+            "tags": json.loads(blog.tags) if blog.tags else [],
+            "views_count": blog.views_count,
+            "published_at": blog.published_at.isoformat() if blog.published_at else None
+        }
+        for blog, user in blogs
+    ]
+
+@blog_router.get("/{slug}")
+async def get_blog_by_slug(slug: str, db: AsyncSession = Depends(get_db)):
+    """Get single blog by slug"""
+    result = await db.execute(
+        select(Blog, User)
+        .join(User, Blog.author_id == User.id)
+        .where(Blog.slug == slug, Blog.is_published == True)
+    )
+    row = result.first()
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Blog not found")
+
+    blog, user = row
+
+    # Increment view count
+    blog.views_count += 1
+    await db.commit()
+
+    return {
+        "id": blog.id,
+        "author_name": user.name,
+        "title": blog.title,
+        "slug": blog.slug,
+        "content": blog.content,
+        "excerpt": blog.excerpt,
+        "featured_image": blog.featured_image,
+        "category": blog.category,
+        "tags": json.loads(blog.tags) if blog.tags else [],
+        "views_count": blog.views_count,
+        "created_at": blog.created_at.isoformat() if blog.created_at else None,
+        "published_at": blog.published_at.isoformat() if blog.published_at else None
+    }
+
+@admin_router.get("/blogs")
+async def get_admin_blogs(
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get all blogs (admin)"""
+    result = await db.execute(
+        select(Blog).order_by(Blog.created_at.desc())
+    )
+    blogs = result.scalars().all()
+
+    return [
+        {
+            "id": b.id,
+            "title": b.title,
+            "slug": b.slug,
+            "category": b.category,
+            "is_published": b.is_published,
+            "views_count": b.views_count,
+            "created_at": b.created_at.isoformat() if b.created_at else None
+        }
+        for b in blogs
+    ]
+
+@admin_router.post("/blogs")
+async def create_blog(
+    blog_data: BlogCreate,
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Create blog (admin only)"""
+    blog = Blog(
+        author_id=current_user.id,
+        title=blog_data.title,
+        slug=generate_slug(blog_data.title),
+        content=blog_data.content,
+        excerpt=blog_data.excerpt,
+        featured_image=blog_data.featured_image,
+        category=blog_data.category,
+        tags=json.dumps(blog_data.tags),
+        is_published=blog_data.is_published,
+        published_at=datetime.now(timezone.utc) if blog_data.is_published else None
+    )
+    db.add(blog)
+    await db.commit()
+    await db.refresh(blog)
+
+    logger.info(f"Blog created: {blog.title}")
+
+    return {"message": "Blog created", "id": blog.id, "slug": blog.slug}
+
+@admin_router.put("/blogs/{blog_id}")
+async def update_blog(
+    blog_id: str,
+    blog_data: BlogCreate,
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Update blog (admin only)"""
+    result = await db.execute(select(Blog).where(Blog.id == blog_id))
+    blog = result.scalar_one_or_none()
+
+    if not blog:
+        raise HTTPException(status_code=404, detail="Blog not found")
+
+    blog.title = blog_data.title
+    blog.content = blog_data.content
+    blog.excerpt = blog_data.excerpt
+    blog.featured_image = blog_data.featured_image
+    blog.category = blog_data.category
+    blog.tags = json.dumps(blog_data.tags)
+
+    if blog_data.is_published and not blog.is_published:
+        blog.published_at = datetime.now(timezone.utc)
+    blog.is_published = blog_data.is_published
+
+    await db.commit()
+
+    return {"message": "Blog updated"}
+
+@admin_router.delete("/blogs/{blog_id}")
+async def delete_blog(
+    blog_id: str,
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Delete blog (admin only)"""
+    result = await db.execute(select(Blog).where(Blog.id == blog_id))
+    blog = result.scalar_one_or_none()
+
+    if not blog:
+        raise HTTPException(status_code=404, detail="Blog not found")
+
+    await db.delete(blog)
+    await db.commit()
+
+    return {"message": "Blog deleted"}
+
+
+# ==================== EXISTING MONGODB ROUTES ====================
+
+@api_router.get("/")
+async def root():
+    return {"message": "Aashwashan API v2.0"}
+
+@api_router.post("/status", response_model=StatusCheck)
+async def create_status_check(
+    input: StatusCheckCreate,
+    db: AsyncSession = Depends(get_db)
+):
+    record = StatusCheckModel(client_name=input.client_name)
+    db.add(record)
+    await db.commit()
+    await db.refresh(record)
+    return StatusCheck(
+        id=str(record.id),
+        client_name=record.client_name,
+        timestamp=record.created_at
+    )
+
+
+@api_router.get("/status", response_model=List[StatusCheck])
+async def get_status_checks(db: AsyncSession = Depends(get_db)):
+    result = await db.execute(
+        select(StatusCheckModel)
+        .order_by(StatusCheckModel.created_at.desc())
+        .limit(1000)
+    )
+    records = result.scalars().all()
+    return [
+        StatusCheck(
+            id=str(record.id),
+            client_name=record.client_name,
+            timestamp=record.created_at
+        )
+        for record in records
+    ]
+
+
+@api_router.post("/appointments", response_model=Appointment)
+async def create_appointment(
+    request: AppointmentRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        appointment = Appointment(**request.model_dump())
+
+        # Save to Supabase/PostgreSQL
+        db_appointment = AppointmentRequestModel(
+            client_name=request.name,
+            client_email=str(request.email),
+            client_phone=request.phone,
+            therapist_name=request.service or "Any Available",
+            therapist_id=None,
+            service=request.service,
+            session_mode="Online",
+            appointment_date=datetime.strptime(request.date, "%Y-%m-%d").date(),
+            appointment_time=request.time,
+            message=request.message,
+            status="Pending"
+        )
+        db.add(db_appointment)
+        await db.commit()
+
+        # Existing email
+        email_sent = send_appointment_email(request.model_dump())
+
+        # Existing WhatsApp
+        if request.phone:
+            try:
+                whatsapp_service.send_booking_confirmation(
+                    to_phone=request.phone,
+                    user_name=request.name,
+                    therapist_name=request.service or "Our Therapist",
+                    date=request.date,
+                    time=request.time,
+                    duration=request.service or "45 minutes",
+                    meeting_link=None
+                )
+                logger.info(f"WhatsApp booking confirmation sent to {request.phone}")
+            except Exception as wa_error:
+                logger.error(f"WhatsApp error: {str(wa_error)}")
+
+        logger.info(
+            f"Appointment created for {request.name} - Email sent: {email_sent}"
+        )
+        return appointment
+
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Error creating appointment: {str(e)}")
+        raise
+
+
+# New endpoint for appointment requests (sends email to care@aashwashan.com)
+class AppointmentRequestData(BaseModel):
+    name: str
+    email: str
+    phone: str
+    date: str
+    time: str
+    message: Optional[str] = ""
+    sessionDuration: Optional[str] = "45 minutes"
+    price: Optional[int] = 999
+    therapist_name: Optional[str] = "Any Available"
+
+@api_router.post("/appointments/request")
+async def request_appointment(
+    request: AppointmentRequestData,
+    db: AsyncSession = Depends(get_db),
+):
+    """Submit appointment request - sends email to care@aashwashan.com"""
+    try:
+        # Store the request in database
+        appointment = AppointmentRequestModel(
+    client_name=request.name,
+    client_email=request.email,
+    client_phone=request.phone,
+    therapist_name=request.therapist_name,
+    therapist_id=None,
+    service=request.sessionDuration,
+    session_mode="Online",
+    appointment_date=datetime.strptime(request.date, "%Y-%m-%d").date(),
+    appointment_time=request.time,
+    message=request.message,
+    status="Pending",
+)
+
+        db.add(appointment)
+        await db.commit()
+        await db.refresh(appointment)
+
+        # Send email notification to care@aashwashan.com
+        email_body = f"""
+        New Appointment Request - Aashwashan
+
+        Patient Details:
+        - Name: {request.name}
+        - Email: {request.email}
+        - Phone: {request.phone}
+
+        Session Details:
+        - Preferred Therapist: {request.therapist_name}
+        - Date: {request.date}
+        - Time: {request.time}
+        - Duration: {request.sessionDuration}
+        - Price: ₹{request.price}
+
+         Message from Patient:
+         {request.message or 'No additional message'}
+
+         ---
+          Please contact the patient within 24 hours to confirm the session.
+           Reply to: {request.email}
+             """
+
+        # Log the request (email sending will be handled by email_service when configured)
+        logger.info(f"Appointment request received from {request.name} ({request.email})")
+        logger.info(f"Email body to be sent to care@aashwashan.com:\n{email_body}")
+
+
+
+        # Try to send email via email_service if configured
+        try:
+            send_appointment_email({
+                "name": request.name,
+                "email": request.email,
+                "phone": request.phone,
+                "date": request.date,
+                "time": request.time,
+                "service": request.sessionDuration,
+                "message": request.message,
+                "therapist_name": request.therapist_name,
+                "price": request.price
+            })
+        except Exception as email_error:
+            logger.warning(f"Email service error (request still saved): {str(email_error)}")
+
+        return {
+            "success": True,
+            "message": "Your appointment request has been submitted. Our team will contact you within 24 hours.",
+            "request_id": appointment.id
+        }
+    except Exception as e:
+        logger.error(f"Error processing appointment request: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to process appointment request")
+
+@api_router.get("/appointments", response_model=List[Appointment])
+async def get_appointments(
+    current_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(AppointmentRequestModel)
+        .order_by(AppointmentRequestModel.created_at.desc())
+        .limit(1000)
+    )
+    records = result.scalars().all()
+
+    return [
+        Appointment(
+            id=str(record.id),
+            name=record.client_name,
+            email=record.client_email or "",
+            phone=record.client_phone or "",
+            service=record.service or "",
+            date=record.appointment_date.isoformat() if record.appointment_date else "",
+            time=record.appointment_time or "",
+            message=record.message or "",
+            status=record.status or "pending",
+            created_at=record.created_at
+        )
+        for record in records
+    ]
+@api_router.post("/contact")
+async def submit_contact(
+    request: ContactRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        contact = ContactModel(
+            name=request.name,
+            email=str(request.email),
+            phone=request.phone or "",
+            subject=request.subject,
+            message=request.message
+        )
+        db.add(contact)
+        await db.commit()
+        await db.refresh(contact)
+
+        email_sent = send_contact_email(request.model_dump())
+        logger.info(f"Contact form submitted by {request.name} - Email sent: {email_sent}")
+        return {"message": "Contact form submitted successfully", "id": str(contact.id)}
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Error submitting contact form: {str(e)}")
+        raise
+
+@api_router.post("/create-order")
+async def create_razorpay_order(
+    request: CreateOrderRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        if not razorpay_client:
+            logger.warning("Razorpay not configured - returning mock order")
+            mock_order_id = f"order_mock_{uuid.uuid4().hex[:16]}"
+            return {
+                "order_id": mock_order_id,
+                "amount": request.amount,
+                "currency": "INR",
+                "key_id": "rzp_test_mock",
+                "mock": True,
+                "message": "Razorpay not configured. Using mock payment for testing."
+            }
+
+        order_data = {
+            "amount": request.amount,
+            "currency": "INR",
+            "receipt": f"receipt_{request.appointment_id}",
+            "notes": {
+                "appointment_id": request.appointment_id,
+                "customer_name": request.customer_name,
+                "customer_email": request.customer_email
+            }
+        }
+
+        order = razorpay_client.order.create(data=order_data)
+
+        order_record = PaymentOrder(
+            order_id=order["id"],
+            appointment_id=request.appointment_id,
+            amount=request.amount,
+            currency="INR",
+            status="created",
+            customer_name=request.customer_name,
+            customer_email=str(request.customer_email),
+            customer_phone=request.customer_phone
+        )
+        db.add(order_record)
+        await db.commit()
+
+        logger.info(f"Razorpay order created: {order['id']}")
+
+        return {
+            "order_id": order["id"],
+            "amount": order["amount"],
+            "currency": order["currency"],
+            "key_id": RAZORPAY_KEY_ID,
+            "mock": False
+        }
+
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Error creating Razorpay order: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/verify-payment")
+async def verify_razorpay_payment(
+    request: VerifyPaymentRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        appointment_uuid = uuid.UUID(request.appointment_id)
+        appointment_result = await db.execute(
+            select(AppointmentRequestModel).where(
+                AppointmentRequestModel.id == appointment_uuid
+            )
+        )
+        appointment = appointment_result.scalar_one_or_none()
+
+        if not appointment:
+            raise HTTPException(status_code=404, detail="Appointment not found")
+
+        if not razorpay_client:
+            logger.warning("Razorpay not configured - mock payment verification")
+            meeting_link = generate_jitsi_meeting_link(request.appointment_id)
+
+            appointment.status = "Confirmed"
+            appointment.payment_status = "mock_paid"
+            appointment.meeting_link = meeting_link
+            appointment.payment_verified_at = datetime.now(timezone.utc)
+
+            await db.commit()
+
+            return {
+                "success": True,
+                "message": "Mock payment verified successfully",
+                "meeting_link": meeting_link,
+                "mock": True
+            }
+
+        params_dict = {
+            'razorpay_order_id': request.razorpay_order_id,
+            'razorpay_payment_id': request.razorpay_payment_id,
+            'razorpay_signature': request.razorpay_signature
+        }
+
+        try:
+            razorpay_client.utility.verify_payment_signature(params_dict)
+        except Exception as sig_error:
+            logger.error(f"Payment signature verification failed: {str(sig_error)}")
+            raise HTTPException(status_code=400, detail="Payment verification failed")
+
+        payment_result = await db.execute(
+            select(PaymentOrder).where(
+                PaymentOrder.order_id == request.razorpay_order_id
+            )
+        )
+        payment_order = payment_result.scalar_one_or_none()
+
+        if not payment_order:
+            raise HTTPException(status_code=404, detail="Payment order not found")
+
+        meeting_link = generate_jitsi_meeting_link(request.appointment_id)
+        now = datetime.now(timezone.utc)
+
+        payment_order.status = "paid"
+        payment_order.payment_id = request.razorpay_payment_id
+        payment_order.verified_at = now
+
+        appointment.status = "Confirmed"
+        appointment.payment_status = "paid"
+        appointment.payment_id = request.razorpay_payment_id
+        appointment.order_id = request.razorpay_order_id
+        appointment.meeting_link = meeting_link
+        appointment.payment_verified_at = now
+
+        await db.commit()
+
+        logger.info(f"Payment verified for appointment: {request.appointment_id}")
+
+        return {
+            "success": True,
+            "message": "Payment verified successfully",
+            "meeting_link": meeting_link,
+            "mock": False
+        }
+
+    except HTTPException:
+        await db.rollback()
+        raise
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Error verifying payment: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Legacy community posts endpoint (PostgreSQL)
+@api_router.post("/community-posts")
+async def create_legacy_community_post(
+    request: dict,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        post = LegacyCommunityPost(
+            id=str(uuid.uuid4()),
+            category=request.get("category", "General"),
+            content=request.get("content", ""),
+            created_at=datetime.now(timezone.utc)
+        )
+        db.add(post)
+        await db.commit()
+        logger.info(f"Legacy community post created: {post.id}")
+        return {"message": "Post created successfully", "id": post.id}
+    except Exception as e:
+        await db.rollback()
+        logger.error(f"Error creating community post: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/community-posts")
+async def get_legacy_community_posts(
+    limit: int = 50,
+    skip: int = 0,
+    db: AsyncSession = Depends(get_db)
+):
+    try:
+        result = await db.execute(
+            select(LegacyCommunityPost)
+            .order_by(LegacyCommunityPost.created_at.desc())
+            .offset(skip)
+            .limit(limit)
+        )
+        posts = result.scalars().all()
+        return {
+            "posts": [
+                {
+                    "id": post.id,
+                    "category": post.category,
+                    "content": post.content,
+                    "created_at": post.created_at.isoformat()
+                }
+                for post in posts
+            ],
+            "count": len(posts)
+        }
+    except Exception as e:
+        logger.error(f"Error fetching community posts: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ==================== AI CHATBOT ====================
+
+# Try emergentintegrations first (available on Emergent platform)
+# Falls back to OpenAI SDK for external deployments (Vercel, local)
+_USE_EMERGENT = False
+try:
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    _USE_EMERGENT = True
+    logger.info("Using emergentintegrations for AI chatbot")
+except ImportError:
+    logger.info("emergentintegrations not available, using OpenAI SDK fallback")
+    try:
+        from openai import AsyncOpenAI
+    except ImportError:
+        logger.warning("Neither emergentintegrations nor openai SDK available - chatbot disabled")
+
+# Store chat sessions in memory
+chat_sessions = {}
+# Store conversation history for OpenAI fallback
+chat_histories = {}
+
+
+CHATBOT_SYSTEM_MESSAGE = """You are Saathi, Aashwashan's AI wellness companion.
+Saathi means companion or friend in Hindi.
+You are an AI, not a psychologist, therapist, or human counsellor.
+
+YOUR COMMUNICATION STYLE:
+- Keep normal responses to 2-3 sentences.
+- Ask only ONE question at a time.
+- Use simple, warm, natural language.
+- Be empathetic without sounding robotic.
+- Never diagnose or label a user with a mental health disorder.
+- Never claim to provide therapy or professional treatment.
+- Never judge, shame, pressure, or frighten the user.
+- Do not repeatedly ask questions when the user needs acknowledgement.
+- Do not promise that their problem will definitely be solved.
+
+YOUR APPROACH:
+- Listen and understand what the person is experiencing.
+- Acknowledge their feelings without making assumptions.
+- Ask gentle questions only when they help.
+- Offer simple, practical wellbeing suggestions when appropriate.
+- Suggest speaking with a qualified mental health professional when relevant.
+- Therapy is an option, not an obligation.
+- Respect the user's decision if they do not want therapy.
+
+
+BOOKING AND APPOINTMENT RULES:
+
+1. BOOKING FUNCTIONALITY
+- Saathi can book appointments directly through the connected booking system.
+- Saathi can automatically reserve available appointment slots.
+- Booking must be completed through the actual booking system, not by generating a conversational response.
+- Never claim an appointment is booked unless the booking system successfully records the appointment.
+- Never invent appointment IDs, booking references, confirmation numbers, or booking statuses.
+- Never claim that a slot is reserved unless the booking system confirms successful reservation.
+- If booking fails, explain honestly that the appointment could not be booked.
+- Never create duplicate appointments for the same booking request.
+
+2. BOOKING WITHOUT PAYMENT
+- Payment is NOT required before booking an appointment.
+- Never ask the user to make payment before booking.
+- Booking and payment are separate processes.
+- Never request payment details, UPI PINs, OTPs, passwords, card details, or banking credentials in chat.
+- Never claim that payment has been received or completed unless verified by the payment system.
+- Never block a booking because the user has not paid.
+
+3. APPOINTMENT AVAILABILITY
+- Always use actual availability returned by the booking system.
+- Never invent therapist availability, appointment slots, dates, timings, or prices.
+- Never offer unavailable or already reserved slots.
+- If a requested slot is unavailable, offer genuinely available alternatives.
+- Never guarantee a therapist's availability without verified information.
+- Never invent therapist qualifications, experience, specializations, or credentials.
+
+4. BOOKING INFORMATION
+- Ask only for information necessary to complete the booking.
+- Collect booking details through the actual booking flow.
+- Never request unnecessary personal or sensitive information.
+- Never ask users to share passwords, OTPs, payment credentials, or banking information.
+- Never confuse booking requests with confirmed appointments.
+- If additional information is required by the booking system, collect it appropriately before completing the booking.
+
+5. BOOKING CONFIRMATION
+- Once the booking system successfully records the appointment, confirm that the appointment has been booked.
+- After successful booking, communicate the booking confirmation clearly.
+- Do not claim that the appointment is booked if the system returns an error, failure, or an unconfirmed pending status.
+- Never fabricate booking confirmation details.
+- If the booking system provides a booking reference, communicate it accurately.
+- If the system provides an appointment date, time, or therapist, communicate the actual recorded details.
+
+6. MANDATORY POST-BOOKING MESSAGE
+- After a successful appointment booking, communicate the following message:
+
+"Your appointment has been booked! Someone from our team will get back to you within 24 hours to confirm the details."
+
+- This message must be communicated only after successful booking.
+- Never promise the 24-hour follow-up before a booking has been successfully recorded.
+- Do not change the meaning of this message.
+- The team follow-up is intended to confirm the appointment details with the user.
+- Do not imply that payment has been completed.
+
+7. TEAM FOLLOW-UP
+- Explain that someone from the team will contact the user within 24 hours.
+- Never claim that the team has already contacted the user unless verified.
+- Never claim that the team has confirmed the details unless verified.
+- Never fabricate team communications or follow-up status.
+- Do not promise any additional follow-up beyond the established 24-hour commitment.
+
+8. CANCELLATION AND RESCHEDULING
+- Never claim an appointment has been cancelled or rescheduled unless the actual booking system confirms the action.
+- If cancellation or rescheduling functionality is available, use the connected booking system.
+- If the functionality is unavailable, direct the user to the official team contact channel.
+- Never invent cancellation policies, refund policies, or rescheduling conditions.
+
+9. CONVERSATION BEHAVIOUR
+- Do not repeatedly push users to book appointments.
+- Respect users who do not wish to book.
+- Do not pressure users using fear, urgency, emotional manipulation, or exaggerated promises.
+- Answer questions about booking clearly and naturally.
+- Do not unnecessarily repeat booking instructions.
+- Be transparent about booking status and system limitations.
+- Never pretend to have performed an action that has not actually occurred.
+
+10. ACCURACY AND TRUST
+- Never fabricate appointment availability, booking success, therapist information, pricing, payment status, or team follow-up.
+- Never misrepresent a booking request as a confirmed appointment.
+- Always distinguish between an appointment being booked and its details being subsequently confirmed by the team.
+- If information is unavailable, communicate that honestly.
+- The booking system is the source of truth for appointment status.
+
+CRISIS PROTOCOL:
+If a user mentions suicide, self-harm, or immediate danger:
+- Respond with empathy and take their words seriously.
+- Ask whether they are in immediate danger or have already harmed themselves.
+- Encourage them to contact a trusted person who can stay with them.
+- For immediate danger in India, advise calling 112 or going to the nearest emergency department.
+- Tele-MANAS: 14416 for mental health support.
+- Do not rely only on chatbot conversation for crisis support.
+- Do not guilt, shame, or dismiss the person.
+- Keep crisis responses focused on immediate safety.
+
+IMPORTANT:
+Saathi is an AI wellness companion, not a replacement for professional mental health care.
+Its role is to listen, provide supportive guidance, and help people explore appropriate support when they choose."""
+
+class ChatRequest(BaseModel):
+    message: str
+    session_id: str
+
+class ChatResponse(BaseModel):
+    response: str
+    session_id: str
+
+chatbot_router = APIRouter(prefix="/api/chatbot", tags=["Chatbot"])
+
+async def _chat_openai_fallback(session_id: str, message: str, api_key: str) -> str:
+    """Fallback chat using OpenAI SDK directly with the Emergent LLM key"""
+    if session_id not in chat_histories:
+        chat_histories[session_id] = [
+            {"role": "system", "content": CHATBOT_SYSTEM_MESSAGE}
+        ]
+
+    chat_histories[session_id].append({"role": "user", "content": message})
+
+    # Keep only last 20 messages + system to avoid token overflow
+    if len(chat_histories[session_id]) > 21:
+        chat_histories[session_id] = [chat_histories[session_id][0]] + chat_histories[session_id][-20:]
+
+    client = AsyncOpenAI(api_key=api_key)
+    response = await client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=chat_histories[session_id],
+        max_tokens=300,
+        temperature=0.7
+    )
+
+    assistant_msg = response.choices[0].message.content
+    chat_histories[session_id].append({"role": "assistant", "content": assistant_msg})
+    return assistant_msg
+
+@chatbot_router.post("/chat", response_model=ChatResponse)
+async def chat_with_bot(request: ChatRequest):
+    """Chat with the AI wellness companion"""
+    try:
+        api_key = os.getenv('OPENAI_API_KEY')
+        if not api_key:
+            raise HTTPException(status_code=500, detail="Chatbot not configured - OPENAI_API_KEY missing")
+
+        if _USE_EMERGENT:
+            # Primary: Use emergentintegrations (Emergent platform)
+            if request.session_id not in chat_sessions:
+                chat_sessions[request.session_id] = LlmChat(
+                    api_key=api_key,
+                    session_id=request.session_id,
+                    system_message=CHATBOT_SYSTEM_MESSAGE
+                ).with_model("openai", "gpt-4o-mini")
+
+            chat = chat_sessions[request.session_id]
+            user_message = UserMessage(text=request.message)
+            response = await chat.send_message(user_message)
+        else:
+            # Fallback: Use OpenAI SDK directly
+            response = await _chat_openai_fallback(request.session_id, request.message, api_key)
+
+        return ChatResponse(
+            response=response,
+            session_id=request.session_id
+        )
+    except Exception as e:
+        logger.error(f"Chatbot error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
+
+@chatbot_router.post("/new-session")
+async def create_new_session():
+    """Create a new chat session"""
+    session_id = str(uuid.uuid4())
+    return {"session_id": session_id}
+
+# ==================== WHATSAPP ROUTES ====================
+whatsapp_router = APIRouter(prefix="/api/whatsapp", tags=["WhatsApp"])
+
+class WhatsAppMessageRequest(BaseModel):
+    to_phone: str
+    message_type: str
+    user_name: str = "there"
+    therapist_name: Optional[str] = None
+    date: Optional[str] = None
+    time: Optional[str] = None
+    duration: Optional[str] = None
+    meeting_link: Optional[str] = None
+    profession: Optional[str] = None
+    recommendations: Optional[str] = None
+
+@whatsapp_router.post("/send")
+async def send_whatsapp_message(request: WhatsAppMessageRequest):
+    try:
+        result = None
+
+        if request.message_type == "welcome":
+            result = whatsapp_service.send_welcome_message(request.to_phone, request.user_name)
+
+        elif request.message_type == "booking":
+            result = whatsapp_service.send_booking_confirmation(
+                request.to_phone,
+                request.user_name,
+                request.therapist_name or "Our Therapist",
+                request.date or "TBD",
+                request.time or "TBD",
+                request.duration or "45 minutes",
+                request.meeting_link
+            )
+
+        elif request.message_type == "reminder":
+            result = whatsapp_service.send_session_reminder(
+                request.to_phone,
+                request.user_name,
+                request.therapist_name or "Our Therapist",
+                request.time or "TBD",
+                request.meeting_link
+            )
+
+        elif request.message_type == "followup":
+            result = whatsapp_service.send_post_session_followup(
+                request.to_phone,
+                request.user_name,
+                request.therapist_name or "Our Therapist"
+            )
+
+        elif request.message_type == "checkin":
+            result = whatsapp_service.send_next_day_checkin(
+                request.to_phone,
+                request.user_name,
+                request.recommendations
+            )
+
+        elif request.message_type == "morning":
+            result = whatsapp_service.send_morning_motivation(
+                request.to_phone,
+                request.user_name,
+                request.profession
+            )
+
+        elif request.message_type == "afternoon":
+            result = whatsapp_service.send_afternoon_checkin(
+                request.to_phone,
+                request.user_name
+            )
+
+        elif request.message_type == "evening":
+            result = whatsapp_service.send_evening_reflection(
+                request.to_phone,
+                request.user_name
+            )
+
+        else:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unknown message type: {request.message_type}"
+            )
+
+        return result
+
+    except Exception as e:
+        logger.error(f"WhatsApp send error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@whatsapp_router.post("/webhook")
+async def whatsapp_webhook(request: dict):
+    try:
+        from_number = request.get('From', '').replace('whatsapp:', '')
+        body = request.get('Body', '').strip()
+
+        logger.info(f"Incoming WhatsApp from {from_number}: {body}")
+
+        if body.lower() in ['hi', 'hello', 'hey', 'start', 'help']:
+            whatsapp_service.send_welcome_message(from_number)
+
+        return {"status": "received"}
+
+    except Exception as e:
+        logger.error(f"WhatsApp webhook error: {str(e)}")
+        return {"status": "error", "message": str(e)}
+
+
+from pydantic import BaseModel
+
+class BookingRequest(BaseModel):
+    name: str
+    email: str
+    phone: str
+    message: str
+
+@app.post("/api/book-session")
+async def book_session(data: BookingRequest):
+
+    send_email(data.name, data.email, data.phone, data.message)
+
+    return {"status": "success"}
+
+
+# ==================== INCLUDE ALL ROUTERS ====================
+
+
+# -------- define routers --------
+
+
+@whatsapp_router.post("/send")
+async def send_whatsapp_message(request: WhatsAppMessageRequest):
+      return {"msg": "working"}
+
+# include routers
+app.include_router(api_router)
+app.include_router(auth_router, prefix="/api/auth")
+app.include_router(admin_router)
+app.include_router(therapist_router)
+app.include_router(community_router)
+app.include_router(blog_router)
+app.include_router(chatbot_router)
+app.include_router(whatsapp_router)
+
+
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ==================== AI DAILY MESSAGING SYSTEM ====================
+
+# Initialize scheduler
+scheduler = AsyncIOScheduler()
+
+# Daily wellness message templates
+MORNING_MESSAGES = [
+    "Good morning! Remember, every new day is a fresh start. How are you feeling today?",
+    "Rise and shine! Take a moment to set a positive intention for today. You've got this!",
+    "Good morning! Your mental health matters. Take 3 deep breaths and start your day mindfully.",
+    "Hello! A new day means new possibilities. What small thing can you do for yourself today?",
+    "Morning! Remember: it's okay to take things one step at a time. You're doing great."
+]
+
+AFTERNOON_MESSAGES = [
+    "Hey there! Just checking in. Remember to take a break and stretch. How's your day going?",
+    "Afternoon reminder: You're doing better than you think. Take a moment to appreciate yourself.",
+    "Hi! Have you taken a break today? Even 5 minutes of rest can make a difference.",
+    "Checking in! Remember to hydrate and take a moment for yourself. You matter.",
+    "Afternoon hello! It's okay if today isn't perfect. Every small effort counts."
+]
+
+EVENING_MESSAGES = [
+    "Good evening! As the day winds down, reflect on one thing that went well today.",
+    "Evening check-in: You made it through another day. That's something to be proud of.",
+    "Hi! Before sleep, try to let go of today's worries. Tomorrow is a new opportunity.",
+    "Good evening! Remember, rest is productive too. Take care of yourself tonight.",
+    "End of day reminder: You're worthy of peace and rest. Sleep well!"
+]
+
+async def generate_ai_wellness_message(time_of_day: str, user_name: str = "friend") -> str:
+    """Generate a personalized wellness message using AI"""
+    import random
+
+    if time_of_day == "morning":
+        templates = MORNING_MESSAGES
+    elif time_of_day == "afternoon":
+        templates = AFTERNOON_MESSAGES
+    else:
+        templates = EVENING_MESSAGES
+
+    # Try to use AI for personalized message
+    try:
+        emergent_key = os.getenv('OPENAI_API_KEY')
+        if emergent_key:
+            prompt = f"""Generate a warm, empathetic wellness check-in message for {time_of_day}.
+            Target audience: Young adults (18-30) who are silent overthinkers.
+            Keep it short (2-3 sentences), caring, and non-preachy.
+            Don't use emojis. Sound like a supportive friend."""
+
+            if _USE_EMERGENT:
+                chat = LlmChat(api_key=emergent_key, session_id=f"wellness-{time_of_day}",
+                              system_message="You generate wellness messages.").with_model("openai", "gpt-4o-mini")
+                response = await chat.send_message(UserMessage(text=prompt))
+                return response
+            else:
+                client = AsyncOpenAI(api_key=emergent_key)
+                response = await client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[{"role": "user", "content": prompt}],
+                    max_tokens=150
+                )
+                return response.choices[0].message.content
+    except Exception as e:
+        logger.warning(f"AI message generation failed, using template: {str(e)}")
+
+    # Fallback to templates
+    return random.choice(templates)
+
+async def send_daily_wellness_messages(time_of_day: str):
+    """Send wellness messages to all registered users"""
+    logger.info(f"Starting {time_of_day} wellness message job...")
+
+    try:
+        # Get all users with phone numbers who opted in for daily messages
+        users = await mongo_db.wellness_subscribers.find({"opted_in": True}).to_list(1000)
+
+        for user in users:
+            try:
+                message = await generate_ai_wellness_message(time_of_day, user.get("name", "friend"))
+
+                # Send via WhatsApp if configured
+               # if user.get("phone") and whatsapp_service.client:
+                #    whatsapp_service.send_message(
+               #         to_phone=user["phone"],
+              #          message=message
+                    #)
+                    #logger.info(f"Sent {time_of_day} message to {user.get('name', 'user')}")
+            except Exception as e:
+                logger.error(f"Failed to send message to user {user.get('id')}: {str(e)}")
+
+        logger.info(f"Completed {time_of_day} wellness message job. Sent to {len(users)} users.")
+    except Exception as e:
+        logger.error(f"Daily wellness message job failed: {str(e)}")
+
+# API endpoint to subscribe/unsubscribe from daily messages
+class WellnessSubscription(BaseModel):
+    name: str
+    phone: str
+    email: Optional[str] = None
+    opted_in: bool = True
+
+@api_router.post("/wellness/subscribe")
+async def subscribe_wellness_messages(subscription: WellnessSubscription):
+    """Subscribe to daily AI wellness messages"""
+    try:
+        # Clean phone number
+        phone = subscription.phone.replace(" ", "").replace("-", "")
+        if not phone.startswith("+"):
+            phone = "+91" + phone if not phone.startswith("91") else "+" + phone
+
+        doc = {
+            "id": str(uuid.uuid4()),
+            "name": subscription.name,
+            "phone": phone,
+            "email": subscription.email,
+            "opted_in": subscription.opted_in,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+
+        # Upsert based on phone number
+        await mongo_db.wellness_subscribers.update_one(
+            {"phone": phone},
+            {"$set": doc},
+            upsert=True
+        )
+
+        return {
+            "success": True,
+            "message": "You're now subscribed to daily wellness check-ins!" if subscription.opted_in else "You've unsubscribed from daily messages."
+        }
+    except Exception as e:
+        logger.error(f"Wellness subscription error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to update subscription")
+
+@api_router.post("/wellness/unsubscribe")
+async def unsubscribe_wellness_messages(phone: str):
+    """Unsubscribe from daily AI wellness messages"""
+    try:
+        phone = phone.replace(" ", "").replace("-", "")
+        if not phone.startswith("+"):
+            phone = "+91" + phone if not phone.startswith("91") else "+" + phone
+
+        await mongo_db.wellness_subscribers.update_one(
+            {"phone": phone},
+            {"$set": {"opted_in": False, "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+
+        return {"success": True, "message": "You've been unsubscribed from daily wellness messages."}
+    except Exception as e:
+        logger.error(f"Wellness unsubscribe error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to unsubscribe")
+
+@api_router.get("/wellness/test-message/{time_of_day}")
+async def test_wellness_message(time_of_day: str):
+    """Test endpoint to generate a wellness message"""
+    if time_of_day not in ["morning", "afternoon", "evening"]:
+        raise HTTPException(status_code=400, detail="time_of_day must be morning, afternoon, or evening")
+
+    message = await generate_ai_wellness_message(time_of_day)
+    return {"time_of_day": time_of_day, "message": message}
+
+# Schedule daily wellness messages (IST timezone = UTC+5:30)
+# Morning: 8 AM IST = 2:30 AM UTC
+# Afternoon: 2 PM IST = 8:30 AM UTC
+# Evening: 5 PM IST = 11:30 AM UTC
+
+def start_scheduler():
+    """Start the scheduler with daily jobs"""
+    try:
+        # Morning message at 8 AM IST (2:30 AM UTC)
+        scheduler.add_job(
+            lambda: asyncio.create_task(send_daily_wellness_messages("morning")),
+            CronTrigger(hour=2, minute=30),
+            id="morning_wellness",
+            replace_existing=True
+        )
+
+        # Afternoon message at 2 PM IST (8:30 AM UTC)
+        scheduler.add_job(
+            lambda: asyncio.create_task(send_daily_wellness_messages("afternoon")),
+            CronTrigger(hour=8, minute=30),
+            id="afternoon_wellness",
+            replace_existing=True
+        )
+
+        # Evening message at 5 PM IST (11:30 AM UTC)
+        scheduler.add_job(
+            lambda: asyncio.create_task(send_daily_wellness_messages("evening")),
+            CronTrigger(hour=11, minute=30),
+            id="evening_wellness",
+            replace_existing=True
+        )
+
+        scheduler.start()
+        logger.info("AI Daily Wellness Scheduler started - Messages scheduled for 8 AM, 2 PM, and 5 PM IST")
+    except Exception as e:
+        logger.error(f"Failed to start scheduler: {str(e)}")
+
+@app.on_event("startup")
+async def startup_event():
+    """Start scheduler on app startup"""
+    start_scheduler()
+
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    if mongo_client:
+        mongo_client.close()
+        scheduler.shutdown()
+
+
