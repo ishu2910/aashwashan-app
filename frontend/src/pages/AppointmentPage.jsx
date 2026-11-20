@@ -60,6 +60,13 @@ const response = await api.post(`${API}/appointments/request`, {
   sessionDuration: formData.service || "45 minutes",
   price: 999
 });
+
+// Google Ads conversion tracking
+if (typeof window.gtag === 'function') {
+  window.gtag('event', 'conversion', {
+    send_to: 'AW-18582630853/ciuPCJzL6bodEMXj8ZxF'
+  });
+}
       
       toast({
         title: "Appointment Requested!",

@@ -242,6 +242,13 @@ React.useEffect(() => {
       try {
         // Send appointment request via email to care@aashwashan.com
         await axios.post(`${API}/appointments/request`, appointmentData);
+
+        // Google Ads conversion tracking
+if (typeof window.gtag === 'function') {
+  window.gtag('event', 'conversion', {
+    send_to: 'AW-18582630853/ciuPCJzL6bodEMXj8ZxF'
+  });
+}
         
         closeModal();
         setBookingComplete(true);
