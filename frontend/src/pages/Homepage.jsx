@@ -250,6 +250,16 @@ if (typeof window.gtag === 'function') {
   });
 }
         
+// GA4 booking success tracking
+if (typeof window.gtag === 'function') {
+  window.gtag('event', 'booking_success', {
+    therapist_name: appointmentData.therapist_name,
+    session_duration: appointmentData.sessionDuration,
+    value: appointmentData.price,
+    currency: 'INR'
+  });
+}
+
         closeModal();
         setBookingComplete(true);
         toast({
